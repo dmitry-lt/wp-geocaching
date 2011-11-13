@@ -73,6 +73,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Cache.cs" />
+    <Compile Include="Model\CacheParser.cs" />
     <Compile Include="Model\GeocahingSuApiManager .cs" />
     <Compile Include="Model\IApiManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

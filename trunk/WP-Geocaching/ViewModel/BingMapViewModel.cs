@@ -19,9 +19,10 @@ namespace WP_Geocaching.ViewModel
 {
     public class BingMapViewModel
     {
-        public BingMapViewModel()
+        private IApiManager apiManager;
+        public BingMapViewModel(IApiManager apiManager)
         {
-
+            this.apiManager = apiManager;
         }       
     }
 }

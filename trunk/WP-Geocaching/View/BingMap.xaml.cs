@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.ViewModel;
+using WP_Geocaching.Model;
 
 namespace WP_Geocaching.View
 {
@@ -19,7 +20,7 @@ namespace WP_Geocaching.View
         public BingMap()
         {
             InitializeComponent();
-            this.DataContext = new BingMapViewModel();
+            this.DataContext = new BingMapViewModel(new GeocahingSuApiManager());
         }
     }
 }
