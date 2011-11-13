@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Device.Location;
+using System.Collections.Generic;
 
 namespace WP_Geocaching.Model
 {
@@ -22,7 +23,7 @@ namespace WP_Geocaching.Model
         private string name;
         private int type;
         private int subtype;
-        private int cClass;
+        private List<int> cClass;
 
         public int Id
         {
@@ -78,8 +79,8 @@ namespace WP_Geocaching.Model
             {
                 this.subtype = value;
             }
-        }       
-        public int CClass
+        }
+        public List<int> CClass
         {
             get
             {

@@ -8,7 +8,7 @@ namespace WP_Geocaching.Model
     /// <summary>
     /// Interacts with the external API
     /// </summary>
-    interface IApiManager
+    public interface IApiManager
     {
         /// <summary>
         /// ToDo: return CacheList

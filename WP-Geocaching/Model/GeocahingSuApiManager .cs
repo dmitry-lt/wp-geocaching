@@ -9,6 +9,11 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Threading;
+using System.Xml;
+using System.Xml.Linq;
+using System.Collections.Generic;
+using System.Device.Location;
 
 namespace WP_Geocaching.Model
 {
@@ -18,8 +23,8 @@ namespace WP_Geocaching.Model
     public class GeocahingSuApiManager : IApiManager
     {
         private WebClient client;
+        List<Cache> cacheList;
         private int id;
-        private string result;
 
         public GeocahingSuApiManager()
         {
@@ -34,6 +39,7 @@ namespace WP_Geocaching.Model
             string sUrl = "http://www.geocaching.su/pages/1031.ajax.php?lngmax=" + lngmax +
                 "&lngmin=" + lgnmin + "&latmax=" + latmax + "&latmin=" + latmin + "&id=" + this.id;
             client_DownloadStringAsync(sUrl);
+
         }
 
         private void client_DownloadStringAsync(string url)
@@ -43,7 +49,12 @@ namespace WP_Geocaching.Model
 
         private void client_DownloadStringCompleted(object sender,  DownloadStringCompletedEventArgs e)
         {
-                this.result = e.Result;
+            if (e.Error == null)
+            {
+                XElement caches = XElement.Parse(e.Result);
+                CacheParser parser = new CacheParser();
+                this.cacheList = parser.Parse(caches);
+            }
         }
     }
 }
