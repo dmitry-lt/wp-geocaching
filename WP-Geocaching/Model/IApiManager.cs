@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
 
 namespace WP_Geocaching.Model
 {
@@ -10,6 +11,8 @@ namespace WP_Geocaching.Model
     /// </summary>
     public interface IApiManager
     {
+        WebClient Client {get; set;}
+        Action<List<Cache>> SetPushpinsOnMap { get; set; }
         /// <summary>
         /// ToDo: return CacheList
         /// </summary>
