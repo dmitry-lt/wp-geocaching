@@ -20,7 +20,7 @@ namespace WP_Geocaching.View
         public BingMap()
         {
             InitializeComponent();
-            this.DataContext = new BingMapViewModel(new GeocahingSuApiManager());
+            this.DataContext = new BingMapViewModel(new GeocahingSuApiManager());            
         }
     }
 }

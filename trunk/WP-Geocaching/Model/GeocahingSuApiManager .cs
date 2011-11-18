@@ -18,42 +18,52 @@ using System.Device.Location;
 namespace WP_Geocaching.Model
 {
     /// <summary>
-    /// IApiManager Implementation for Geocaching.su
+    /// IApiManager implementation for Geocaching.su
     /// </summary>
     public class GeocahingSuApiManager : IApiManager
     {
+        private Action<List<Cache>> setPushpinsOnMap;
         private WebClient client;
-        List<Cache> cacheList;
         private int id;
-
+        
+        public Action<List<Cache>> SetPushpinsOnMap
+        {
+            get
+            {
+                return this.setPushpinsOnMap;
+            }
+            set
+            {
+                this.setPushpinsOnMap = value;
+            }
+        }
+      
         public GeocahingSuApiManager()
         {
             Random random = new Random();
             this.id = random.Next(100000000);
             this.client = new WebClient();
-            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);       
+            this.client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);
         }
 
         public void GetCacheList(double lngmax, double lgnmin, double latmax, double latmin)
         {
-            string sUrl = "http://www.geocaching.su/pages/1031.ajax.php?lngmax=" + lngmax +
-                "&lngmin=" + lgnmin + "&latmax=" + latmax + "&latmin=" + latmin + "&id=" + this.id;
-            client_DownloadStringAsync(sUrl);
-
+            string sUrl = "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax=" + lngmax +
+                "&lngmin=" + lgnmin + "&latmax=" + latmax + "&latmin=" + latmin + "&id=" + this.id
+                + "&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
+            client.DownloadStringAsync(new Uri(sUrl));
         }
 
-        private void client_DownloadStringAsync(string url)
-        {
-            client.DownloadStringAsync(new Uri(url));
-        }
-
-        private void client_DownloadStringCompleted(object sender,  DownloadStringCompletedEventArgs e)
+        private void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.Error == null)
             {
                 XElement caches = XElement.Parse(e.Result);
                 CacheParser parser = new CacheParser();
-                this.cacheList = parser.Parse(caches);
+                if (SetPushpinsOnMap != null)
+                {
+                    SetPushpinsOnMap(parser.Parse(caches));
+                }
             }
         }
     }
