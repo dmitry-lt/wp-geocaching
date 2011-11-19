@@ -78,10 +78,9 @@ namespace WP_Geocaching.ViewModel
             this.apiManager = apiManager;
             this.CachePushpinList = new ObservableCollection<CachePushpin>();
             this.CacheList = new List<Cache>();
-            this.apiManager.SetPushpinsOnMap = SetPushpinsOnMap;
         }
 
-        void SetPushpinsOnMap(List<Cache> caches)
+        void ProcessCacheList(List<Cache> caches)
         {
             this.CacheList.AddRange(caches);
             foreach (Cache p in this.CacheList)

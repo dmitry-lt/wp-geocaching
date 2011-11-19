@@ -11,11 +11,7 @@ namespace WP_Geocaching.Model
     /// </summary>
     public interface IApiManager
     {
-        WebClient Client {get; set;}
-        Action<List<Cache>> SetPushpinsOnMap { get; set; }
-        /// <summary>
-        /// ToDo: return CacheList
-        /// </summary>
-        void GetCacheList(double lngmax, double lgnmin, double latmax, double latmin);
+        Action<List<Cache>> ProcessCacheList { get; set; }
+        void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lgnmin, double latmax, double latmin);
     }
 }
