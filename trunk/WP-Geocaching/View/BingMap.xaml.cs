@@ -17,10 +17,18 @@ namespace WP_Geocaching.View
 {
     public partial class BingMap : PhoneApplicationPage
     {
+        BingMapViewModel bingMapViewModel;
         public BingMap()
         {
             InitializeComponent();
-            this.DataContext = new BingMapViewModel(new GeocahingSuApiManager());            
+            this.bingMapViewModel = new BingMapViewModel(new GeocahingSuApiManager());
+            this.DataContext = this.bingMapViewModel;
+        }
+
+        private void Map_ViewChangeStart(object sender, Microsoft.Phone.Controls.Maps.MapEventArgs e)
+        {
+           var map = sender as Microsoft.Phone.Controls.Maps.Map;
+           this.bingMapViewModel.BoundingRectangle = map.BoundingRectangle;
         }
     }
 }

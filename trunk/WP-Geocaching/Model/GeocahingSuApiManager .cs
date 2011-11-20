@@ -23,7 +23,6 @@ namespace WP_Geocaching.Model
     public class GeocahingSuApiManager : IApiManager
     {
         private Action<List<Cache>> processCacheList;
-        private WebClient client;
         private int id;
 
         public Action<List<Cache>> ProcessCacheList
@@ -41,17 +40,17 @@ namespace WP_Geocaching.Model
         public GeocahingSuApiManager()
         {
             Random random = new Random();
-            this.id = random.Next(100000000);
-            this.client = new WebClient();
-            this.client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);            
+            this.id = random.Next(100000000);           
         }
 
         public void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lgnmin, double latmax, double latmin)
         {
+            this.processCacheList = ProcessCacheList;
             string sUrl = "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax=" + lngmax +
                 "&lngmin=" + lgnmin + "&latmax=" + latmax + "&latmin=" + latmin + "&id=" + this.id
                 + "&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
-            this.processCacheList = ProcessCacheList;          
+            WebClient client = new WebClient();
+            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);                 
             client.DownloadStringAsync(new Uri(sUrl));
         }
 

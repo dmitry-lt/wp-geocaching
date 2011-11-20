@@ -72,6 +72,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\BingMapManager.cs" />
     <Compile Include="Model\Cache.cs" />
     <Compile Include="Model\CacheParser.cs" />
     <Compile Include="Model\CachePushpin.cs" />
