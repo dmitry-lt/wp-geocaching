@@ -33,12 +33,14 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"/>
+        
         <Microsoft_Phone_Controls_Maps:Map x:Name="Map" 
                                            Margin="12,0,12,8" 
                                            Grid.Row="1" 
                                            Center="{Binding MapCenter}" 
                                            ZoomLevel="{Binding Zoom}"
-        CredentialsProvider ="AvLbzLZIOMHh3dDKm0l2Fak-Fpqpvv9t-YTbFir44CdP5QNXTTcj1GbDaLZMP_jr">
+                                           ViewChangeStart="Map_ViewChangeStart"
+                                           CredentialsProvider ="AvLbzLZIOMHh3dDKm0l2Fak-Fpqpvv9t-YTbFir44CdP5QNXTTcj1GbDaLZMP_jr">
             <Microsoft_Phone_Controls_Maps:MapLayer>
                 <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpinList, Mode=TwoWay}">
                     <Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
@@ -47,10 +49,11 @@
                         </DataTemplate>
                     </Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                 </Microsoft_Phone_Controls_Maps:MapItemsControl>
+                
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>
     </Grid>
- 
+
     <!--Sample code showing usage of ApplicationBar-->
     <!--<phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">

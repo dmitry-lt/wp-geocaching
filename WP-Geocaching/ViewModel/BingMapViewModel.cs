@@ -17,17 +17,19 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Collections.ObjectModel;
+using Microsoft.Phone.Controls.Maps;
 
 namespace WP_Geocaching.ViewModel
 {
     public class BingMapViewModel
     {
         private int zoom;
-        public GeoCoordinate mapCenter;
+        private GeoCoordinate mapCenter;
         private IApiManager apiManager;
-        private ObservableCollection<CachePushpin> cachePushpinList;      
+        private ObservableCollection<CachePushpin> cachePushpinList;
         private List<Cache> cacheList;
-       
+        private LocationRect boundingRectangle;
+
         public int Zoom
         {
             get
@@ -72,9 +74,23 @@ namespace WP_Geocaching.ViewModel
                 this.cacheList = value;
             }
         }
+        public LocationRect BoundingRectangle
+        {
+            get
+            {
+                return this.boundingRectangle;
+            }
+            set
+            {
+                this.boundingRectangle = value;
+                this.GetPushpins();
+            }
+        }
 
         public BingMapViewModel(IApiManager apiManager)
         {
+            this.MapCenter = BingMapManager.DefaulMapCenter;
+            this.Zoom = BingMapManager.DefaultZoom;
             this.apiManager = apiManager;
             this.CachePushpinList = new ObservableCollection<CachePushpin>();
             this.CacheList = new List<Cache>();
@@ -90,6 +106,12 @@ namespace WP_Geocaching.ViewModel
                 pushpin.Name = p.Id.ToString();
                 this.CachePushpinList.Add(pushpin);
             }
+        }
+
+        private void GetPushpins()
+        {
+            this.apiManager.GetCacheList(ProcessCacheList,  BoundingRectangle.East, 
+                BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
     }
 }
