@@ -25,7 +25,7 @@ namespace WP_Geocaching.View
             this.DataContext = this.bingMapViewModel;
         }
 
-        private void Map_ViewChangeStart(object sender, Microsoft.Phone.Controls.Maps.MapEventArgs e)
+        private void Map_ViewChangeEnd(object sender, Microsoft.Phone.Controls.Maps.MapEventArgs e)
         {
            var map = sender as Microsoft.Phone.Controls.Maps.Map;
            this.bingMapViewModel.BoundingRectangle = map.BoundingRectangle;
