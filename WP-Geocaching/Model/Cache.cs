@@ -16,7 +16,7 @@ namespace WP_Geocaching.Model
     /// <summary>
     /// Contains information about the Cache
     /// </summary>
-    public class Cache
+    public class Cache : IEquatable<Cache>
     {
         private int id;
         private GeoCoordinate location;
@@ -92,5 +92,9 @@ namespace WP_Geocaching.Model
             }
         }
 
+        public bool Equals(Cache cache)
+        {
+            return this.Id == cache.Id;
+        }
     }
 }

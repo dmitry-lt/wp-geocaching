@@ -26,7 +26,7 @@ namespace WP_Geocaching.ViewModel
         private int zoom;
         private GeoCoordinate mapCenter;
         private IApiManager apiManager;
-        private ObservableCollection<CachePushpin> cachePushpinList;
+        private ObservableCollection<CachePushpin> cachePushpinCollection;
         private List<Cache> cacheList;
         private LocationRect boundingRectangle;
 
@@ -52,15 +52,15 @@ namespace WP_Geocaching.ViewModel
                 this.mapCenter = value;
             }
         }
-        public ObservableCollection<CachePushpin> CachePushpinList
+        public ObservableCollection<CachePushpin> CachePushpinCollection
         {
             get
             {
-                return this.cachePushpinList;
+                return this.cachePushpinCollection;
             }
             set
             {
-                this.cachePushpinList = value;
+                this.cachePushpinCollection = value;
             }
         }
         public List<Cache> CacheList
@@ -92,19 +92,32 @@ namespace WP_Geocaching.ViewModel
             this.MapCenter = BingMapManager.DefaulMapCenter;
             this.Zoom = BingMapManager.DefaultZoom;
             this.apiManager = apiManager;
-            this.CachePushpinList = new ObservableCollection<CachePushpin>();
+            this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
             this.CacheList = new List<Cache>();
         }
 
         void ProcessCacheList(List<Cache> caches)
         {
-            this.CacheList.AddRange(caches);
+            foreach (Cache p in caches)
+            {
+                if (!this.CacheList.Contains(p))
+                {
+                    this.CacheList.Add(p);
+                }
+            }
+            this.CachePushpinCollection.Clear();
             foreach (Cache p in this.CacheList)
             {
-                CachePushpin pushpin = new CachePushpin();
-                pushpin.Location = p.Location;
-                pushpin.Name = p.Id.ToString();
-                this.CachePushpinList.Add(pushpin);
+                if ((p.Location.Latitude <= BoundingRectangle.North) &&
+                    (p.Location.Latitude >= BoundingRectangle.South) &&
+                    (p.Location.Longitude <= BoundingRectangle.East) &&
+                    (p.Location.Longitude >= BoundingRectangle.West))
+                {
+                    CachePushpin pushpin = new CachePushpin();
+                    pushpin.Location = p.Location;
+                    pushpin.Name = p.Id.ToString();
+                    this.CachePushpinCollection.Add(pushpin);
+                }
             }
         }
 

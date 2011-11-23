@@ -43,11 +43,11 @@ namespace WP_Geocaching.Model
             this.id = random.Next(100000000);           
         }
 
-        public void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lgnmin, double latmax, double latmin)
+        public void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lngmin, double latmax, double latmin)
         {
             this.processCacheList = ProcessCacheList;
             string sUrl = "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax=" + lngmax +
-                "&lngmin=" + lgnmin + "&latmax=" + latmax + "&latmin=" + latmin + "&id=" + this.id
+                "&lngmin=" + lngmin + "&latmax=" + latmax + "&latmin=" + latmin + "&id=" + this.id
                 + "&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
             WebClient client = new WebClient();
             client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);                 
