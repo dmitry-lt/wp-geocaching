@@ -12,6 +12,9 @@ using System.Device.Location;
 
 namespace WP_Geocaching.Model
 {
+    /// <summary>
+    /// Contains information for BingMap
+    /// </summary>
     public static class BingMapManager
     {
         public static GeoCoordinate DefaulMapCenter = new GeoCoordinate(59.879904, 29.828674);

@@ -25,13 +25,15 @@ namespace WP_Geocaching.Model
             List<Cache> cacheList = new List<Cache>();
             foreach (XElement p in caches.Elements("c"))
             {
-                Cache cache = new Cache();
-                cache.Id = Convert.ToInt32(p.Element("id").Value);
-                cache.Location = new GeoCoordinate(Convert.ToDouble(p.Element("la").Value), Convert.ToDouble(p.Element("ln").Value));
-                cache.Name = p.Element("n").Value;
-                cache.Subtype = Convert.ToInt32(p.Element("st").Value);
-                cache.Type = Convert.ToInt32(p.Element("ct").Value);
-                cache.CClass = this.getCClassList(p.Element("cc").Value);
+                Cache cache = new Cache
+                {
+                    Id = Convert.ToInt32(p.Element("id").Value),
+                    Location = new GeoCoordinate(Convert.ToDouble(p.Element("la").Value), Convert.ToDouble(p.Element("ln").Value)),
+                    Name = p.Element("n").Value,
+                    Subtype = Convert.ToInt32(p.Element("st").Value),
+                    Type = Convert.ToInt32(p.Element("ct").Value),
+                    CClass = this.getCClassList(p.Element("cc").Value)
+                };
                 cacheList.Add(cache);
             }
             return cacheList;
@@ -54,8 +56,8 @@ namespace WP_Geocaching.Model
                     {
                         cClass.Add(Convert.ToInt32(curCClass));
                     }
-                }             
-            }           
+                }
+            }
             return cClass;
         }
     }
