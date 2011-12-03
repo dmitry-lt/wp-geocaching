@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Microsoft_Phone_Controls_Maps="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps" 
     x:Class="WP_Geocaching.View.BingMap"
+    xmlns:c="clr-namespace:WP_Geocaching.Model"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -20,10 +21,26 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
         <Grid.Resources>
-            <DataTemplate x:Name="PushpinItemTemplate">
-                <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}" Name="{Binding Name}" Content="C"/>
-            </DataTemplate>
+            <Style x:Key="PushpinStyle" TargetType="Microsoft_Phone_Controls_Maps:Pushpin">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <ContentPresenter Width="32"
+                                        Height="37"
+                                        RenderTransformOrigin="0.5,0.5">
+                                <ContentPresenter.RenderTransform>
+                                    <CompositeTransform TranslateX="-12"
+                                                TranslateY="5"/>
+                                </ContentPresenter.RenderTransform>
+                            </ContentPresenter>
+                            
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <c:IconConverter x:Key="IconConverter" x:Name="IconConverter"/>
         </Grid.Resources>
 
         <!--TitlePanel contains the name of the application and page title-->
@@ -33,7 +50,7 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"/>
-        
+
         <Microsoft_Phone_Controls_Maps:Map x:Name="Map" 
                                            Margin="12,0,12,8" 
                                            Grid.Row="1" 
@@ -45,11 +62,12 @@
                 <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpinCollection, Mode=TwoWay}">
                     <Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}"/>
+                            <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}" Style="{StaticResource PushpinStyle}">
+                                <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}" Width="32" Height="37"/>
+                            </Microsoft_Phone_Controls_Maps:Pushpin>
                         </DataTemplate>
                     </Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                 </Microsoft_Phone_Controls_Maps:MapItemsControl>
-                
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>
     </Grid>

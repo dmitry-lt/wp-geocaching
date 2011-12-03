@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Device.Location;
+using System.ComponentModel;
 
 namespace WP_Geocaching.Model
 {
@@ -16,6 +17,7 @@ namespace WP_Geocaching.Model
     {
         private GeoCoordinate location;
         private string name;
+        private Uri iconUri;
         private EventHandler<GestureEventArgs> tap;
 
         public GeoCoordinate Location
@@ -49,6 +51,17 @@ namespace WP_Geocaching.Model
             set
             {
                 this.tap = value;
+            }
+        }
+        public Uri IconUri
+        {
+            get
+            {
+                return this.iconUri;
+            }
+            set
+            {
+                this.iconUri = value;
             }
         }
 
