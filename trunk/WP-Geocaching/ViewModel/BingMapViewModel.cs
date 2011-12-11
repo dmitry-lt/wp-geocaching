@@ -89,8 +89,9 @@ namespace WP_Geocaching.ViewModel
 
         public BingMapViewModel(IApiManager apiManager)
         {
-            this.MapCenter = BingMapManager.DefaulMapCenter;
-            this.Zoom = BingMapManager.DefaultZoom;
+            BingMapManager manager = new BingMapManager();
+            this.MapCenter = manager.DefaulMapCenter;
+            this.Zoom = manager.DefaultZoom;
             this.apiManager = apiManager;
             this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
             this.CacheList = new List<Cache>();

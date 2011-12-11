@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 using System.Device.Location;
 using System.ComponentModel;
 
-namespace WP_Geocaching.Model
+namespace WP_Geocaching.ViewModel
 {
     public class CachePushpin
     {

@@ -34,8 +34,7 @@
                                     <CompositeTransform TranslateX="-12"
                                                 TranslateY="5"/>
                                 </ContentPresenter.RenderTransform>
-                            </ContentPresenter>
-                            
+                            </ContentPresenter>                           
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>

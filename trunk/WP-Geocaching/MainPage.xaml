@@ -28,7 +28,11 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <HyperlinkButton Content="Выбрать тайник" Margin="101,64,96,0" Height="50" VerticalAlignment="Top" NavigateUri="//View/BingMap.xaml" FontSize="32"/>
+            <HyperlinkButton 
+                Content="{Binding Path=LocalizedResources.ChooseCache, 
+                Source={StaticResource LocalizedStrings}}" 
+                Margin="101,64,96,0" Height="50" VerticalAlignment="Top" 
+                NavigateUri="//View/BingMap.xaml" FontSize="32"/>
         </Grid>
     </Grid>
  

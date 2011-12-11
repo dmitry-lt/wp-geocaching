@@ -7,6 +7,7 @@
 
     <!--Application Resources-->
     <Application.Resources>
+        <local:LocalizedStrings xmlns:local="clr-namespace:WP_Geocaching.Resources.Localization" x:Key="LocalizedStrings" />
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

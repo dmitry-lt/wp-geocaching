@@ -12,6 +12,7 @@ using WP_Geocaching.Model;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Device.Location;
+using System.Globalization;
 
 namespace WP_Geocaching.Model
 {
@@ -28,7 +29,8 @@ namespace WP_Geocaching.Model
                 Cache cache = new Cache
                 {
                     Id = Convert.ToInt32(p.Element("id").Value),
-                    Location = new GeoCoordinate(Convert.ToDouble(p.Element("la").Value), Convert.ToDouble(p.Element("ln").Value)),
+                    Location = new GeoCoordinate(Convert.ToDouble(p.Element("la").Value, CultureInfo.InvariantCulture), 
+                        Convert.ToDouble(p.Element("ln").Value, CultureInfo.InvariantCulture)),
                     Name = p.Element("n").Value,
                     Subtype = Convert.ToInt32(p.Element("st").Value),
                     Type = Convert.ToInt32(p.Element("ct").Value),
