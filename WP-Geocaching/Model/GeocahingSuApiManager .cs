@@ -22,20 +22,7 @@ namespace WP_Geocaching.Model
     /// </summary>
     public class GeocahingSuApiManager : IApiManager
     {
-        private Action<List<Cache>> processCacheList;
         private int id;
-
-        public Action<List<Cache>> ProcessCacheList
-        {
-            get
-            {
-                return this.processCacheList;
-            }
-            set
-            {
-                this.processCacheList = value;
-            }
-        }
 
         public GeocahingSuApiManager()
         {
@@ -45,26 +32,23 @@ namespace WP_Geocaching.Model
 
         public void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lngmin, double latmax, double latmin)
         {
-            this.processCacheList = ProcessCacheList;
             string sUrl = "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax=" + lngmax +
                 "&lngmin=" + lngmin + "&latmax=" + latmax + "&latmin=" + latmin + "&id=" + this.id
                 + "&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
             WebClient client = new WebClient();
-            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);                 
-            client.DownloadStringAsync(new Uri(sUrl));
-        }
-
-        private void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (e.Error == null)
+            client.DownloadStringCompleted += (sender, e) =>
             {
-                XElement caches = XElement.Parse(e.Result);
-                CacheParser parser = new CacheParser();
-                if (ProcessCacheList != null)
+                if (e.Error == null)
                 {
-                    ProcessCacheList(parser.Parse(caches));
+                    XElement caches = XElement.Parse(e.Result);
+                    CacheParser parser = new CacheParser();
+                    if (ProcessCacheList != null)
+                    {
+                        ProcessCacheList(parser.Parse(caches));
+                    }
                 }
-            }
+            };                
+            client.DownloadStringAsync(new Uri(sUrl));
         }
     }
 }
