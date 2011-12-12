@@ -12,12 +12,14 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
+using Microsoft.Phone.Controls.Maps;
 
 namespace WP_Geocaching.View
 {
     public partial class BingMap : PhoneApplicationPage
     {
         BingMapViewModel bingMapViewModel;
+        NavigationManager manager = new NavigationManager();
         public BingMap()
         {
             InitializeComponent();
@@ -29,6 +31,12 @@ namespace WP_Geocaching.View
         {
            var map = sender as Microsoft.Phone.Controls.Maps.Map;
            this.bingMapViewModel.BoundingRectangle = map.BoundingRectangle;
+        }
+
+        private void Pushpin_Tap(object sender, GestureEventArgs e)
+        {
+            Pushpin pin = sender as Pushpin;
+            manager.NavigateToDetails((string)pin.Tag);
         }
     }
 }
