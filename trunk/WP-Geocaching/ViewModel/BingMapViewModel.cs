@@ -114,10 +114,10 @@ namespace WP_Geocaching.ViewModel
                     (p.Location.Longitude <= BoundingRectangle.East) &&
                     (p.Location.Longitude >= BoundingRectangle.West))
                 {
-                    CachePushpin pushpin = new CachePushpin
+                    CachePushpin pushpin = new CachePushpin()
                     {
                         Location = p.Location,
-                        Name = p.Id.ToString(),
+                        CacheId = p.Id.ToString(),
                         IconUri = new Uri(p.Type.ToString() + p.Subtype.ToString(), UriKind.Relative),
                     };
                     this.CachePushpinCollection.Add(pushpin);

@@ -10,15 +10,15 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Device.Location;
 using System.ComponentModel;
+using WP_Geocaching.Model;
 
 namespace WP_Geocaching.ViewModel
 {
     public class CachePushpin
     {
         private GeoCoordinate location;
-        private string name;
+        private string cacheId;
         private Uri iconUri;
-        private EventHandler<GestureEventArgs> tap;
 
         public GeoCoordinate Location
         {
@@ -31,26 +31,15 @@ namespace WP_Geocaching.ViewModel
                 this.location = value;
             }
         }
-        public string Name
+        public string CacheId
         {
             get
             {
-                return this.name;
+                return this.cacheId;
             }
             set
             {
-                this.name = value;
-            }
-        }
-        public EventHandler<GestureEventArgs> Tap
-        {
-            get
-            {
-                return this.tap;
-            }
-            set
-            {
-                this.tap = value;
+                this.cacheId = value;
             }
         }
         public Uri IconUri
@@ -66,14 +55,6 @@ namespace WP_Geocaching.ViewModel
         }
 
         public CachePushpin()
-        {
-            this.Tap = this.ShowDetails;
-        }
-
-        /// <summary>
-        /// ToDo: naviggates to cache details page
-        /// </summary>
-        private void ShowDetails(object sender, GestureEventArgs e)
         {
         }
     }

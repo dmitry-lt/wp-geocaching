@@ -61,7 +61,11 @@
                 <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpinCollection, Mode=TwoWay}">
                     <Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}" Style="{StaticResource PushpinStyle}">
+                            <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}"
+                                                                   Tap="Pushpin_Tap"
+                                                                   Style="{StaticResource PushpinStyle}"
+                                                                   Tag="{Binding CacheId}"
+                                                                   >
                                 <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}" Width="32" Height="37"/>
                             </Microsoft_Phone_Controls_Maps:Pushpin>
                         </DataTemplate>
