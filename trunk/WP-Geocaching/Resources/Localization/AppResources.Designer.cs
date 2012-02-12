@@ -61,11 +61,38 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GEOCACHING.
+        /// </summary>
+        public static string ApplicationTitle {
+            get {
+                return ResourceManager.GetString("ApplicationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose a cache.
         /// </summary>
         public static string ChooseCache {
             get {
                 return ResourceManager.GetString("ChooseCache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to cache details.
+        /// </summary>
+        public static string PageTitleDetails {
+            get {
+                return ResourceManager.GetString("PageTitleDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to main menu.
+        /// </summary>
+        public static string PageTitleMainPage {
+            get {
+                return ResourceManager.GetString("PageTitleMainPage", resourceCulture);
             }
         }
     }

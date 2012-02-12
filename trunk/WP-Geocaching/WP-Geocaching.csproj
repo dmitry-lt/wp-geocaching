@@ -151,6 +151,7 @@
     <Content Include="Resources\Icons\ic_cache_custom_traditional_valid.png" />
     <Content Include="Resources\Icons\ic_cache_custom_virtual_not_confirmed.png" />
     <Content Include="Resources\Icons\ic_cache_custom_virtual_not_valid.png" />
+    <Content Include="Resources\Icons\ic_cache_custom_virtual_valid.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>

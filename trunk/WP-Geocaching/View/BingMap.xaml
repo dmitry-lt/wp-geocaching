@@ -27,12 +27,10 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate>
-                            <ContentPresenter Width="32"
-                                        Height="37"
-                                        RenderTransformOrigin="0.5,0.5">
+                            <ContentPresenter Width="48">
                                 <ContentPresenter.RenderTransform>
-                                    <CompositeTransform TranslateX="-12"
-                                                TranslateY="5"/>
+                                    <CompositeTransform TranslateX="-23"
+                                                TranslateY="2"/>
                                 </ContentPresenter.RenderTransform>
                             </ContentPresenter>                           
                         </ControlTemplate>
@@ -44,7 +42,8 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="GEOCACHING" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
+                Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -66,7 +65,7 @@
                                                                    Style="{StaticResource PushpinStyle}"
                                                                    Tag="{Binding CacheId}"
                                                                    >
-                                <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}" Width="32" Height="37"/>
+                                <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}"/>
                             </Microsoft_Phone_Controls_Maps:Pushpin>
                         </DataTemplate>
                     </Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>

@@ -117,7 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>ГЕОКЭШИНГ</value>
+  </data>
   <data name="ChooseCache" xml:space="preserve">
     <value>Выбрать тайник</value>
+  </data>
+  <data name="PageTitleDetails" xml:space="preserve">
+    <value>детали тайника</value>
+  </data>
+  <data name="PageTitleMainPage" xml:space="preserve">
+    <value>главное меню</value>
   </data>
 </root>

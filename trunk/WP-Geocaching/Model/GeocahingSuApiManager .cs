@@ -14,6 +14,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Globalization;
 
 namespace WP_Geocaching.Model
 {
@@ -32,8 +33,11 @@ namespace WP_Geocaching.Model
 
         public void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lngmin, double latmax, double latmin)
         {
-            string sUrl = "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax=" + lngmax +
-                "&lngmin=" + lngmin + "&latmax=" + latmax + "&latmin=" + latmin + "&id=" + this.id
+            string sUrl = "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax=" + 
+                Convert.ToString(lngmax, CultureInfo.InvariantCulture) + "&lngmin=" 
+                + Convert.ToString(lngmin, CultureInfo.InvariantCulture) + "&latmax=" 
+                + Convert.ToString(latmax, CultureInfo.InvariantCulture) + "&latmin=" 
+                + Convert.ToString(latmin, CultureInfo.InvariantCulture) + "&id=" + this.id
                 + "&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
             WebClient client = new WebClient();
             client.DownloadStringCompleted += (sender, e) =>
