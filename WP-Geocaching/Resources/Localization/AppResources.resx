@@ -117,7 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>GEOCACHING</value>
+  </data>
   <data name="ChooseCache" xml:space="preserve">
     <value>Choose a cache</value>
+  </data>
+  <data name="PageTitleDetails" xml:space="preserve">
+    <value>cache details</value>
+  </data>
+  <data name="PageTitleMainPage" xml:space="preserve">
+    <value>main menu</value>
   </data>
 </root>
