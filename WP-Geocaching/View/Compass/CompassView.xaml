@@ -10,6 +10,8 @@
     d:DesignHeight="480" d:DesignWidth="480">
     
     <Grid x:Name="LayoutRoot" Loaded="LayoutRoot_Loaded" Unloaded="LayoutRoot_Unloaded">
-        <Line x:Name="compassLine" X1="240" Y1="200" X2="240" Y2="0" Stroke="Green" StrokeThickness="4"></Line>
+        <Canvas x:Name="ContentPanelCanvas" Grid.Row="1" Background="Transparent"  Margin="0,0,0,0">
+            <Line x:Name="compassLine" X1="240" Y1="200" X2="240" Y2="0" Stroke="Green" StrokeThickness="4"></Line>
+        </Canvas>
     </Grid>
 </UserControl>
