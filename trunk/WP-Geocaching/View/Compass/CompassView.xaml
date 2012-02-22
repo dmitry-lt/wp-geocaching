@@ -9,7 +9,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
     
-    <Grid x:Name="LayoutRoot">
-
+    <Grid x:Name="LayoutRoot" Loaded="LayoutRoot_Loaded" Unloaded="LayoutRoot_Unloaded" LostFocus="LayoutRoot_LostFocus">
+        <Line x:Name="compassLine" X1="240" Y1="200" X2="240" Y2="0" Stroke="Green" StrokeThickness="4"></Line>
     </Grid>
 </UserControl>
