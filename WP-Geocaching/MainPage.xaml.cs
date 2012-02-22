@@ -20,5 +20,15 @@ namespace WP_Geocaching
         {
             InitializeComponent();
         }
+
+        private void ChooseCache_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/BingMap.xaml", UriKind.Relative));
+        }
+
+        private void ChooseCompass_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/Compass/CompassPage.xaml", UriKind.Relative));
+        }
     }
 }

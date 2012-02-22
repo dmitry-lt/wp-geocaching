@@ -30,14 +30,23 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <HyperlinkButton
-                Content="{Binding Path=LocalizedResources.ChooseCache, 
-                Source={StaticResource LocalizedStrings}}" 
-                Margin="101,64,96,0" Height="50" VerticalAlignment="Top" 
-                NavigateUri="//View/BingMap.xaml" FontSize="32"/>
+            <Button Content="{Binding Path=LocalizedResources.ChooseCache, Source={StaticResource LocalizedStrings}}" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Top" 
+                    Width="340" 
+                    Margin="0,80,0,0" 
+                    FontSize="32" 
+                    Click="ChooseCache_Click" />
+            <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=LocalizedResources.ChooseCompass}"  
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Top" 
+                    Width="340" 
+                    Margin="0,160,0,0" 
+                    FontSize="32" 
+                    Click="ChooseCompass_Click" />
         </Grid>
     </Grid>
- 
+
     <!--Sample code showing usage of ApplicationBar-->
     <!--<phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">

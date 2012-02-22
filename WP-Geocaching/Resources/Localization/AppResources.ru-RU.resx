@@ -123,6 +123,12 @@
   <data name="ChooseCache" xml:space="preserve">
     <value>Выбрать тайник</value>
   </data>
+  <data name="ChooseCompass" xml:space="preserve">
+    <value>Выбрать компас</value>
+  </data>
+  <data name="PageTitleCompass" xml:space="preserve">
+    <value>компасс</value>
+  </data>
   <data name="PageTitleDetails" xml:space="preserve">
     <value>детали тайника</value>
   </data>
