@@ -74,7 +74,7 @@
     <Compile Include="Model\INavigationManager.cs" />
     <Compile Include="Model\LogManager.cs" />
     <Compile Include="Model\NavigationManager.cs" />
-    <Compile Include="Model\CompassManager.cs" />
+    <Compile Include="Model\SmoothCompassManager.cs" />
     <Compile Include="Model\utils\CompassHelper.cs" />
     <Compile Include="Resources\Localization\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
