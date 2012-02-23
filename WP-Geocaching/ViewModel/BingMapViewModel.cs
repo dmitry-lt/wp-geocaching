@@ -27,7 +27,6 @@ namespace WP_Geocaching.ViewModel
         private GeoCoordinate mapCenter;
         private IApiManager apiManager;
         private ObservableCollection<CachePushpin> cachePushpinCollection;
-        private List<Cache> cacheList;
         private LocationRect boundingRectangle;
 
         public int Zoom
@@ -63,17 +62,7 @@ namespace WP_Geocaching.ViewModel
                 this.cachePushpinCollection = value;
             }
         }
-        public List<Cache> CacheList
-        {
-            get
-            {
-                return this.cacheList;
-            }
-            set
-            {
-                this.cacheList = value;
-            }
-        }
+        
         public LocationRect BoundingRectangle
         {
             get
@@ -94,20 +83,19 @@ namespace WP_Geocaching.ViewModel
             this.Zoom = manager.DefaultZoom;
             this.apiManager = apiManager;
             this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
-            this.CacheList = new List<Cache>();
         }
 
         void ProcessCacheList(List<Cache> caches)
         {
             foreach (Cache p in caches)
             {
-                if (!this.CacheList.Contains(p))
+                if (!this.apiManager.CacheList.Contains(p))
                 {
-                    this.CacheList.Add(p);
+                    this.apiManager.CacheList.Add(p);
                 }
             }
             this.CachePushpinCollection.Clear();
-            foreach (Cache p in this.CacheList)
+            foreach (Cache p in this.apiManager.CacheList)
             {
                 if ((p.Location.Latitude <= BoundingRectangle.North) &&
                     (p.Location.Latitude >= BoundingRectangle.South) &&
