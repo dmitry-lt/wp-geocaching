@@ -19,14 +19,14 @@ namespace WP_Geocaching.View.Compass
 
     public partial class CompassView : UserControl, ICompassView
     {
-        private CompassManager compassManager; 
+        private SmoothCompassManager _smoothCompassManager; 
         private double needleDirection;
 
 
         public CompassView()
         {
             InitializeComponent();  
-            compassManager = new CompassManager(this);
+            _smoothCompassManager = new SmoothCompassManager(this);
         }        
 
         public void SetDirection(double direction)
@@ -48,7 +48,7 @@ namespace WP_Geocaching.View.Compass
         private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
         {
             LogManager.Log("LayoutRoot_Loaded");
-            compassManager.Start();        
+            _smoothCompassManager.Start();        
         }
 
         //TODO: don't called on win-button click
@@ -57,7 +57,7 @@ namespace WP_Geocaching.View.Compass
             LogManager.Log("LayoutRoot_Unloaded");
            
             // Stop data acquisition from the compass.
-            compassManager.Stop();         
+            _smoothCompassManager.Stop();         
         }
 
     }
