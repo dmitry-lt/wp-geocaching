@@ -23,12 +23,39 @@ namespace WP_Geocaching.Model
     /// </summary>
     public class GeocahingSuApiManager : IApiManager
     {
+        private static GeocahingSuApiManager instance;
         private int id;
+        private List<Cache> cacheList;
 
-        public GeocahingSuApiManager()
+        public List<Cache> CacheList
+        {
+            get
+            {
+                return this.cacheList;
+            }
+            set
+            {
+                this.cacheList = value;
+            }
+        }
+
+        private GeocahingSuApiManager()
         {
             Random random = new Random();
-            this.id = random.Next(100000000);           
+            this.id = random.Next(100000000);
+            this.CacheList = new List<Cache>();
+        }
+
+        public static GeocahingSuApiManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GeocahingSuApiManager();
+                }
+                return instance;
+            }
         }
 
         public void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lngmin, double latmax, double latmin)
