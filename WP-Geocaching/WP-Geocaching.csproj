@@ -55,6 +55,7 @@
     <Reference Include="Microsoft.Phone.Controls.Maps" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
+    <Reference Include="system.data.linq" />
     <Reference Include="System.Device" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Servicemodel" />
@@ -71,6 +72,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\DataBase\CacheClass.cs" />
+    <Compile Include="Model\DataBase\CacheContext.cs" />
+    <Compile Include="Model\DataBase\CacheDataBase.cs" />
     <Compile Include="Model\INavigationManager.cs" />
     <Compile Include="Model\LogManager.cs" />
     <Compile Include="Model\NavigationManager.cs" />
@@ -99,6 +103,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Localization\LocalizedStrings.cs" />
     <Compile Include="ViewModel\BingMapViewModel.cs" />
+    <Compile Include="ViewModel\DetailsViewModel.cs" />
     <Compile Include="View\BingMap.xaml.cs">
       <DependentUpon>BingMap.xaml</DependentUpon>
     </Compile>
@@ -150,6 +155,7 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\appbar.favs.addto.rest.png" />
     <Content Include="Resources\Icons\ic_cache_custom_competition_not_confirmed.png" />
     <Content Include="Resources\Icons\ic_cache_custom_competition_not_valid.png" />
     <Content Include="Resources\Icons\ic_cache_custom_competition_valid.png" />
