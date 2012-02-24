@@ -1,33 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using Microsoft.Xna.Framework;
 
 namespace WP_Geocaching.View.Compass
 {
-    using Microsoft.Devices.Sensors;
-    using System.Windows.Threading;
-    using WP_Geocaching.Model;
+    using Model; //TODO: MVVM!?
 
     public partial class CompassView : UserControl, ICompassView
     {
-        private SmoothCompassManager _smoothCompassManager; 
+        private const int NeedleLength = 200;
+        private readonly SmoothCompassManager smoothCompassManager;
         private double needleDirection;
-
 
         public CompassView()
         {
-            InitializeComponent();  
-            _smoothCompassManager = new SmoothCompassManager(this);
-        }        
+            InitializeComponent();
+            smoothCompassManager = new SmoothCompassManager(this);
+        }
 
         public void SetDirection(double direction)
         {
@@ -35,29 +25,34 @@ namespace WP_Geocaching.View.Compass
             DrawCompass();
         }
 
+        private DateTime time;
         private void DrawCompass()
         {
             // Update the line objects to graphically display the headings
-            double centerX = LayoutRoot.ActualWidth / 2.0;
-            double centerY = LayoutRoot.ActualHeight / 2.0;
+            double centerX = CompassRose.ActualWidth / 2.0;
+            double centerY = CompassRose.ActualHeight / 2.0;
 
-            compassLine.X2 = centerX - centerY * Math.Sin(MathHelper.ToRadians((float)needleDirection));
-            compassLine.Y2 = centerY - centerY * Math.Cos(MathHelper.ToRadians((float)needleDirection));
+            CacheNiddle.X2 = centerX - NeedleLength * Math.Sin(MathHelper.ToRadians((float)needleDirection));
+            CacheNiddle.Y2 = centerY - NeedleLength * Math.Cos(MathHelper.ToRadians((float)needleDirection));
+
+            CompassRoseRotating.Angle = -needleDirection;
+            FpsTextBox.Text = "" + 1000 / (DateTime.Now - time).Milliseconds;
+            time = DateTime.Now;
         }
 
-        private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
+        private void LayoutRootLoaded(object sender, RoutedEventArgs e)
         {
             LogManager.Log("LayoutRoot_Loaded");
-            _smoothCompassManager.Start();        
+            smoothCompassManager.Start();
         }
 
         //TODO: don't called on win-button click
-        private void LayoutRoot_Unloaded(object sender, RoutedEventArgs e)
+        private void LayoutRootUnloaded(object sender, RoutedEventArgs e)
         {
             LogManager.Log("LayoutRoot_Unloaded");
-           
+
             // Stop data acquisition from the compass.
-            _smoothCompassManager.Stop();         
+            smoothCompassManager.Stop();
         }
 
     }

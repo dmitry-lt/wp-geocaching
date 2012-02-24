@@ -172,6 +172,7 @@
     <Content Include="Resources\Icons\ic_cache_custom_virtual_not_confirmed.png" />
     <Content Include="Resources\Icons\ic_cache_custom_virtual_not_valid.png" />
     <Content Include="Resources\Icons\ic_cache_custom_virtual_valid.png" />
+    <Resource Include="Resources\Images\compass_rose_white.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
