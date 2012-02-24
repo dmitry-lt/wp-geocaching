@@ -8,10 +8,21 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
-    
-    <Grid x:Name="LayoutRoot" Loaded="LayoutRoot_Loaded" Unloaded="LayoutRoot_Unloaded">
-        <Canvas x:Name="ContentPanelCanvas" Grid.Row="1" Background="Transparent"  Margin="0,0,0,0">
-            <Line x:Name="compassLine" X1="240" Y1="200" X2="240" Y2="0" Stroke="Green" StrokeThickness="4"></Line>
-        </Canvas>
+
+    <Grid x:Name="LayoutRoot" Loaded="LayoutRootLoaded" Unloaded="LayoutRootUnloaded">
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Fps: "></TextBlock>
+                <TextBlock x:Name="FpsTextBox"></TextBlock>
+            </StackPanel>
+            <Canvas x:Name="ContentPanelCanvas" Background="Transparent">
+                <Image x:Name="CompassRose" Stretch="None" Width="480" Height="480" Source="../../Resources/Images/compass_rose_white.png" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image.RenderTransform>
+                        <RotateTransform x:Name="CompassRoseRotating" Angle="0" CenterX="240" CenterY="240" />
+                    </Image.RenderTransform>
+                </Image>
+                <Line x:Name="CacheNiddle" X1="240" Y1="240" X2="240" Y2="40" Stroke="Green" StrokeThickness="5"></Line>
+            </Canvas>
+        </StackPanel>
     </Grid>
 </UserControl>

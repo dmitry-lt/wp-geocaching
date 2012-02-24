@@ -8,22 +8,22 @@ namespace WP_Geocaching.Model
 {
     public class SmoothCompassManager
     {
-        private const int LongSleep = 120;
-        private const int DefaultSleep = 40;
+        private const int LongSleep = 60;
+        private const int DefaultSleep = 20;
 
         private const float ArrivedEps = 0.65f;
         private const float LeavedEps = 2.5f;
         private const float SpeedEps = 0.55f;
 
-        private ICompassView compassView;
-        private Compass compass;
-        private DispatcherTimer timer;
+        private readonly ICompassView compassView;
+        private readonly Compass compass;
+        private readonly DispatcherTimer timer;
 
         private double goalDirection;
         private double needleDirection;
         private double speed;
 
-        private bool isArrived = false; // The needle has not arrived the goalDirection
+        private bool isArrived; // The needle has not arrived the goalDirection
 
 
         public SmoothCompassManager(ICompassView compassView)
@@ -38,18 +38,16 @@ namespace WP_Geocaching.Model
             {
                 // Initialize the timer and add Tick event handler, but don't start it yet.
                 timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(DefaultSleep) };
-                timer.Tick += new EventHandler(TimerTick);
+                timer.Tick += TimerTick;
 
                 // Instantiate the compass.
                 compass = new Compass { TimeBetweenUpdates = TimeSpan.FromMilliseconds(DefaultSleep) };
-                compass.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<CompassReading>>(CompassCurrentValueChanged);
+                compass.CurrentValueChanged += CompassCurrentValueChanged;
             }
         }
 
         private void TimerTick(object sender, EventArgs e)
         {
-            double currentDirection = goalDirection;
-
             if (IsNeedPainting())
             {
                 isArrived = false;
@@ -85,18 +83,16 @@ namespace WP_Geocaching.Model
 
         }
 
-        private double averageDirection; //TODO: is it need
-
         private void CompassCurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)
         {
             double newDirection = e.SensorReading.TrueHeading;
-            double difference = newDirection - averageDirection;
+            double difference = newDirection - goalDirection;
             difference = CompassHelper.normalizeAngle(difference);
 
-            newDirection = averageDirection + difference / 4; // TODO extract constant
+            newDirection = goalDirection + difference / 4; // TODO extract constant
             newDirection = CompassHelper.normalizeAngle(newDirection);
 
-            goalDirection = averageDirection = newDirection;
+            goalDirection = newDirection;
         }
 
 
