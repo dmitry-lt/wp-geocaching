@@ -80,7 +80,8 @@
     <Compile Include="Model\LogManager.cs" />
     <Compile Include="Model\NavigationManager.cs" />
     <Compile Include="Model\SmoothCompassManager.cs" />
-    <Compile Include="Model\utils\CompassHelper.cs" />
+    <Compile Include="Model\Utils\CompassHelper.cs" />
+    <Compile Include="Model\Utils\CP1251Encoding.cs" />
     <Compile Include="Resources\Localization\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
