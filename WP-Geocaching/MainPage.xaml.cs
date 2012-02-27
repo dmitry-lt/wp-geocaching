@@ -30,5 +30,10 @@ namespace WP_Geocaching
         {
             NavigationService.Navigate(new Uri("/View/Compass/CompassPage.xaml", UriKind.Relative));
         }
+
+        private void Favorites_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/Favorites.xaml", UriKind.Relative));
+        }
     }
 }

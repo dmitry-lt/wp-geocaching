@@ -15,6 +15,7 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Globalization;
+using MSPToolkit.Encodings;
 
 namespace WP_Geocaching.Model
 {
@@ -67,6 +68,7 @@ namespace WP_Geocaching.Model
                 + Convert.ToString(latmin, CultureInfo.InvariantCulture) + "&id=" + this.id
                 + "&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
             WebClient client = new WebClient();
+            client.Encoding = BaseSingleByteEncoding.GetEncoding(1251);
             client.DownloadStringCompleted += (sender, e) =>
             {
                 if (e.Error == null)

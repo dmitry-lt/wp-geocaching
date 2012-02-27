@@ -126,11 +126,17 @@
   <data name="ChooseCompass" xml:space="preserve">
     <value>Выбрать компас</value>
   </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>Избранное</value>
+  </data>
   <data name="PageTitleCompass" xml:space="preserve">
     <value>компасс</value>
   </data>
   <data name="PageTitleDetails" xml:space="preserve">
     <value>детали тайника</value>
+  </data>
+  <data name="PageTitleFavorites" xml:space="preserve">
+    <value>избранное</value>
   </data>
   <data name="PageTitleMainPage" xml:space="preserve">
     <value>главное меню</value>

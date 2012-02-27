@@ -51,8 +51,19 @@ namespace WP_Geocaching.Model.DataBase
                     db.Caches.InsertOnSubmit(newItem);
                     db.SubmitChanges();
                 }
+            }          
+        }
+
+        public List<CacheClass> GetCacheList()
+        {
+            var cacheList = new List<CacheClass>();
+            using (var db = new CacheContext(ConnectionString))
+            {
+                var query = from e in db.Caches
+                            select e;
+                cacheList = query.ToList();
             }
-            
+            return cacheList;
         }
     }
 }
