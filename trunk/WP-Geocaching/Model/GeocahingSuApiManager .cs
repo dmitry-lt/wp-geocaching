@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -16,6 +17,7 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Globalization;
 using MSPToolkit.Encodings;
+using WP_Geocaching.Model.Utils;
 
 namespace WP_Geocaching.Model
 {
@@ -25,6 +27,8 @@ namespace WP_Geocaching.Model
     public class GeocahingSuApiManager : IApiManager
     {
         private static GeocahingSuApiManager instance;
+        private static readonly Encoding CP1251Encoding = new CP1251Encoding();
+        private const string InfoUrl = "http://pda.geocaching.su/cache.php?cid={0}";
         private int id;
         private List<Cache> cacheList;
 
@@ -61,10 +65,10 @@ namespace WP_Geocaching.Model
 
         public void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lngmin, double latmax, double latmin)
         {
-            string sUrl = "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax=" + 
-                Convert.ToString(lngmax, CultureInfo.InvariantCulture) + "&lngmin=" 
-                + Convert.ToString(lngmin, CultureInfo.InvariantCulture) + "&latmax=" 
-                + Convert.ToString(latmax, CultureInfo.InvariantCulture) + "&latmin=" 
+            string sUrl = "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax=" +
+                Convert.ToString(lngmax, CultureInfo.InvariantCulture) + "&lngmin="
+                + Convert.ToString(lngmin, CultureInfo.InvariantCulture) + "&latmax="
+                + Convert.ToString(latmax, CultureInfo.InvariantCulture) + "&latmin="
                 + Convert.ToString(latmin, CultureInfo.InvariantCulture) + "&id=" + this.id
                 + "&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
             WebClient client = new WebClient();
@@ -80,8 +84,25 @@ namespace WP_Geocaching.Model
                         ProcessCacheList(parser.Parse(caches));
                     }
                 }
-            };                
+            };
             client.DownloadStringAsync(new Uri(sUrl));
+        }
+
+        public void GetCacheInfo(Action<string> ProcessCacheInfo, int cacheId)
+        {
+            WebClient webClient = new WebClient();
+
+            webClient.DownloadStringCompleted += (sender, e) =>
+                {
+                    if (e.Error == null && ProcessCacheInfo != null)
+                    {
+                        ProcessCacheInfo(e.Result);
+                    }
+                };
+
+            webClient.AllowReadStreamBuffering = true;
+            webClient.Encoding = CP1251Encoding;
+            webClient.DownloadStringAsync(new Uri(String.Format(InfoUrl, cacheId), UriKind.Absolute));
         }
     }
 }
