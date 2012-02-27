@@ -146,6 +146,26 @@ namespace WP_Geocaching.Model.Utils
                      : GetCharsWithoutFallback(bytes, byteIndex, byteCount, chars, charIndex);
         }
 
+        public override string GetString(byte[] bytes, int index, int count)
+        {
+            return ConvertExtendedASCII(this.GetChars(bytes, index, count));
+        }
+
+        private static string ConvertExtendedASCII(char[] text)
+        {
+            var answer = new StringBuilder();
+
+            foreach (char c in text)
+            {
+                if (System.Convert.ToInt32(c) > 127)
+                    answer.Append("&#" + System.Convert.ToInt32(c) + ";");
+                else
+                    answer.Append(c);
+            }
+
+            return answer.ToString();
+        }
+
 
         private int GetCharsWithFallback(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
         {
