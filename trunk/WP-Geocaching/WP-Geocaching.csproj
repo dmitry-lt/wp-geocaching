@@ -55,6 +55,7 @@
     <Reference Include="Microsoft.Phone.Controls.Maps" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
+    <Reference Include="MSPToolkit, Version=1.1.29.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="system.data.linq" />
     <Reference Include="System.Device" />
     <Reference Include="System.Runtime.Serialization" />
@@ -104,6 +105,7 @@
     <Compile Include="Resources\Localization\LocalizedStrings.cs" />
     <Compile Include="ViewModel\BingMapViewModel.cs" />
     <Compile Include="ViewModel\DetailsViewModel.cs" />
+    <Compile Include="ViewModel\FavoritesViewModel.cs" />
     <Compile Include="View\BingMap.xaml.cs">
       <DependentUpon>BingMap.xaml</DependentUpon>
     </Compile>
@@ -116,6 +118,9 @@
     <Compile Include="Model\ICompassView.cs" />
     <Compile Include="View\Details.xaml.cs">
       <DependentUpon>Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Favorites.xaml.cs">
+      <DependentUpon>Favorites.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +148,10 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Favorites.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
@@ -155,6 +164,7 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Libs\MSPToolkit.dll" />
     <Content Include="Resources\Images\appbar.favs.addto.rest.png" />
     <Content Include="Resources\Icons\ic_cache_custom_competition_not_confirmed.png" />
     <Content Include="Resources\Icons\ic_cache_custom_competition_not_valid.png" />
