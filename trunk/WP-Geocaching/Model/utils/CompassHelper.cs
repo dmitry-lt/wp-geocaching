@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace WP_Geocaching.Model.utils
+namespace WP_Geocaching.Model.Utils
 {
     public class CompassHelper
     {
@@ -17,10 +17,10 @@ namespace WP_Geocaching.Model.utils
         public static double CalculateNormalDifference(double lastDirection, double currentDirection)
         {
             double difference = currentDirection - lastDirection;
-            return normalizeAngle(difference);
+            return NormalizeAngle(difference);
         }
 
-        public static double normalizeAngle(double angle)
+        public static double NormalizeAngle(double angle)
         {
             angle %= 360;
             if (angle < -180)

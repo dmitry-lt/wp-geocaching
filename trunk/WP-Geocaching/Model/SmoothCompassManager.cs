@@ -1,7 +1,7 @@
 ﻿using System;
 using WP_Geocaching.View.Compass;
 using Microsoft.Devices.Sensors;
-using WP_Geocaching.Model.utils;
+using WP_Geocaching.Model.Utils;
 using System.Windows.Threading;
 
 namespace WP_Geocaching.Model
@@ -87,10 +87,10 @@ namespace WP_Geocaching.Model
         {
             double newDirection = e.SensorReading.TrueHeading;
             double difference = newDirection - goalDirection;
-            difference = CompassHelper.normalizeAngle(difference);
+            difference = CompassHelper.NormalizeAngle(difference);
 
             newDirection = goalDirection + difference / 4; // TODO extract constant
-            newDirection = CompassHelper.normalizeAngle(newDirection);
+            newDirection = CompassHelper.NormalizeAngle(newDirection);
 
             goalDirection = newDirection;
         }
