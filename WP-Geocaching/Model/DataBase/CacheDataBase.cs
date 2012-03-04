@@ -59,15 +59,11 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-                foreach (DbCacheItem p in db.Caches)
-                {
-                    if ((p.Id == id) && (p.Details == null))
-                    {
-                        p.Details = details;
-                        db.SubmitChanges();
-                        break;
-                    }
-                }
+                var query = from e in db.Caches
+                            where (e.Id == id)
+                            select e;
+                query.FirstOrDefault().Details = details;
+                db.SubmitChanges();
             }
         }
 

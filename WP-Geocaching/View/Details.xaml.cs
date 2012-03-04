@@ -43,7 +43,7 @@ namespace WP_Geocaching
             DbCacheItem item = db.GetCache(cacheId);
             if ((item != null) && (item.Details != null))
             {
-                ProcessCacheInfo(item.Details);
+                Browser.NavigateToString(item.Details);
             }
             else       
             {
