@@ -18,7 +18,7 @@ namespace WP_Geocaching.Model.DataBase
 {
     public class CacheDataBase
     {
-        const string ConnectionString = "Data Source=isostore:/DataBase.sdf";
+        public const string ConnectionString = "Data Source=isostore:/DataBase.sdf";
 
         public CacheDataBase()
         {
@@ -26,13 +26,13 @@ namespace WP_Geocaching.Model.DataBase
             {
                 if (!db.DatabaseExists())
                 {
-                    db.CreateDatabase();
+                    db.CreateDatabase();                   
                     db.SubmitChanges();
                 }
             }
         }
 
-        public void AddNewItem(Cache cache)
+        public void AddNewItem(Cache cache, string details)
         {
             using (var db = new CacheContext(ConnectionString))
             {
@@ -43,7 +43,8 @@ namespace WP_Geocaching.Model.DataBase
                     Latitude = cache.Location.Latitude,
                     Longitude = cache.Location.Longitude,
                     Type = cache.Type,
-                    Subtype = cache.Subtype
+                    Subtype = cache.Subtype,
+                    Details = details
                 };
 
                 if (!db.Caches.Contains(newItem))
@@ -52,6 +53,22 @@ namespace WP_Geocaching.Model.DataBase
                     db.SubmitChanges();
                 }
             }          
+        }
+
+        public void AddDetailsInItem(String details, int Id)
+        {
+            using (CacheContext db = new CacheContext(ConnectionString))
+            {
+                foreach (CacheClass p in db.Caches)
+                {
+                    if ((p.Id == Id)&&(p.Details == null))
+                    {                       
+                        p.Details = details;
+                        db.SubmitChanges();
+						break;
+                    }
+                }
+            }
         }
 
         public List<CacheClass> GetCacheList()
@@ -64,6 +81,22 @@ namespace WP_Geocaching.Model.DataBase
                 cacheList = query.ToList();
             }
             return cacheList;
+        }
+
+        public CacheClass GetItem(int id)
+        {
+            var cacheList = new List<CacheClass>();
+            using (var db = new CacheContext(ConnectionString))
+            {
+                var query = from e in db.Caches where (e.Id == id)
+                            select e;
+                cacheList = query.ToList();
+            }
+            if (cacheList.Count == 0)
+            {
+                return null;
+            }
+            return cacheList[0];
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Collections.Generic;
 using WP_Geocaching.Model.DataBase;
+using WP_Geocaching.Model;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -47,12 +48,18 @@ namespace WP_Geocaching.ViewModel
         { 
             CacheDataBase db = new CacheDataBase();
             this.dataSource = db.GetCacheList();
+            PropertyChanged += ShowDetails;
         }
 
         private void OnPropertyChanged(string propertyName)
         {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ShowDetails(object sender, PropertyChangedEventArgs e)
+        {
+            NavigationManager.Instance.NavigateToDetails(SelectedCache.Id.ToString());
         }
     }
 }
