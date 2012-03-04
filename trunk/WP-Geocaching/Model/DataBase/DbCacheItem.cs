@@ -15,7 +15,7 @@ using System.Collections.Generic;
 namespace WP_Geocaching.Model.DataBase
 {
     [Table]
-    public class CacheClass
+    public class DbCacheItem
     {
         [Column(IsPrimaryKey = true)]
         public int Id { get; set; }

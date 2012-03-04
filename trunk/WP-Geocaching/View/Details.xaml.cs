@@ -40,7 +40,7 @@ namespace WP_Geocaching
                     break;
                 }
             }
-            CacheClass item = db.GetItem(cacheId);
+            DbCacheItem item = db.GetCache(cacheId);
             if ((item != null) && (item.Details != null))
             {
                 ProcessCacheInfo(item.Details);
@@ -54,16 +54,16 @@ namespace WP_Geocaching
         private void ProcessCacheInfo(string info)
         {
             context = info;
-            if (db.GetItem(detailsViewModel.Cache.Id) != null)
+            if (db.GetCache(detailsViewModel.Cache.Id) != null)
             {
-                db.AddDetailsInItem(info, detailsViewModel.Cache.Id);
+                db.UpdateCacheInfo(info, detailsViewModel.Cache.Id);
             }
             Browser.NavigateToString(info);
         }
 
         private void AddToFavoritesButton_Click(object sender, EventArgs e)
         {
-            db.AddNewItem(detailsViewModel.Cache, context);
+            db.AddCache(detailsViewModel.Cache, context);
         }
     }
 }

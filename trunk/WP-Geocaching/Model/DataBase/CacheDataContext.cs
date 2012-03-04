@@ -13,17 +13,15 @@ using System.Data.Linq.Mapping;
 
 namespace WP_Geocaching.Model.DataBase
 {
-    public class CacheContext : DataContext
+    public class CacheDataContext : DataContext
     {
-        public CacheContext(string sConnectionString)
-            : base(sConnectionString)
-        { }
+        public CacheDataContext(string sConnectionString) : base(sConnectionString) { }
 
-        public Table<CacheClass> Caches
+        public Table<DbCacheItem> Caches
         {
             get
             {
-                return this.GetTable<CacheClass>();
+                return this.GetTable<DbCacheItem>();
             }
         }
     }

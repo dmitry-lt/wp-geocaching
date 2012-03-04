@@ -22,7 +22,7 @@ namespace WP_Geocaching.Model.DataBase
 
         public CacheDataBase()
         {
-            using (CacheContext db = new CacheContext(ConnectionString))
+            using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
                 if (!db.DatabaseExists())
                 {
@@ -32,11 +32,11 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        public void AddNewItem(Cache cache, string details)
+        public void AddCache(Cache cache, string details)
         {
-            using (var db = new CacheContext(ConnectionString))
+            using (var db = new CacheDataContext(ConnectionString))
             {
-                CacheClass newItem = new CacheClass()
+                DbCacheItem newItem = new DbCacheItem()
                 {
                     Id = cache.Id,
                     Name = cache.Name,
@@ -55,26 +55,26 @@ namespace WP_Geocaching.Model.DataBase
             }          
         }
 
-        public void AddDetailsInItem(String details, int Id)
+        public void UpdateCacheInfo(String details, int id)
         {
-            using (CacheContext db = new CacheContext(ConnectionString))
+            using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-                foreach (CacheClass p in db.Caches)
+                foreach (DbCacheItem p in db.Caches)
                 {
-                    if ((p.Id == Id)&&(p.Details == null))
-                    {                       
+                    if ((p.Id == id) && (p.Details == null))
+                    {
                         p.Details = details;
                         db.SubmitChanges();
-						break;
+                        break;
                     }
                 }
             }
         }
 
-        public List<CacheClass> GetCacheList()
+        public List<DbCacheItem> GetCacheList()
         {
-            var cacheList = new List<CacheClass>();
-            using (var db = new CacheContext(ConnectionString))
+            var cacheList = new List<DbCacheItem>();
+            using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = from e in db.Caches
                             select e;
@@ -83,20 +83,15 @@ namespace WP_Geocaching.Model.DataBase
             return cacheList;
         }
 
-        public CacheClass GetItem(int id)
+        public DbCacheItem GetCache(int id)
         {
-            var cacheList = new List<CacheClass>();
-            using (var db = new CacheContext(ConnectionString))
+            using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = from e in db.Caches where (e.Id == id)
+                var query = from e in db.Caches
+                            where (e.Id == id)
                             select e;
-                cacheList = query.ToList();
+                return query.FirstOrDefault();
             }
-            if (cacheList.Count == 0)
-            {
-                return null;
-            }
-            return cacheList[0];
         }
     }
 }
