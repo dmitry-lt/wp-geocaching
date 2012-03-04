@@ -20,17 +20,17 @@ namespace WP_Geocaching.ViewModel
     public class FavoritesViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private CacheClass selectedCache;
-        private List<CacheClass> dataSource;
+        private DbCacheItem selectedCache;
+        private List<DbCacheItem> dataSource;
 
-        public List<CacheClass> DataSource
+        public List<DbCacheItem> DataSource
         {
             get
             {
                 return this.dataSource;
             }
         }
-        public CacheClass SelectedCache
+        public DbCacheItem SelectedCache
         {
             get { return selectedCache; }
             set

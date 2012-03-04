@@ -72,8 +72,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\DataBase\CacheClass.cs" />
-    <Compile Include="Model\DataBase\CacheContext.cs" />
+    <Compile Include="Model\DataBase\DbCacheItem.cs" />
+    <Compile Include="Model\DataBase\CacheDataContext.cs" />
     <Compile Include="Model\DataBase\CacheDataBase.cs" />
     <Compile Include="Model\INavigationManager.cs" />
     <Compile Include="Model\LogManager.cs" />
