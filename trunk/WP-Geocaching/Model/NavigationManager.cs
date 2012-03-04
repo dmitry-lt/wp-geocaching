@@ -14,6 +14,22 @@ namespace WP_Geocaching.Model
 {
     public class NavigationManager : INavigationManager
     {
+        private static NavigationManager instance;
+
+        public static NavigationManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new NavigationManager();
+                }
+                return instance;
+            }
+        }
+
+        private NavigationManager() { }
+
         public void Navigate(string uri)
         {
             this.Navigate(uri, null);

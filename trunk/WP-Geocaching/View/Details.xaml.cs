@@ -10,17 +10,22 @@ namespace WP_Geocaching
 {
     public partial class Details : PhoneApplicationPage
     {
-        DetailsViewModel detailsViewModel;
+        private DetailsViewModel detailsViewModel;
+        private string context;
+        private CacheDataBase db;
 
         public Details()
         {
             InitializeComponent();
             this.detailsViewModel = new DetailsViewModel();
             this.DataContext = detailsViewModel;
+            context = null;
+            this.db = new CacheDataBase();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            context = null;
             int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
             Cache cache = new Cache()
                 {
@@ -35,18 +40,30 @@ namespace WP_Geocaching
                     break;
                 }
             }
-            GeocahingSuApiManager.Instance.GetCacheInfo(ProcessCacheInfo, cacheId);
+            CacheClass item = db.GetItem(cacheId);
+            if ((item != null) && (item.Details != null))
+            {
+                ProcessCacheInfo(item.Details);
+            }
+            else       
+            {
+                GeocahingSuApiManager.Instance.GetCacheInfo(ProcessCacheInfo, cacheId);
+            }
         }
 
         private void ProcessCacheInfo(string info)
         {
+            context = info;
+            if (db.GetItem(detailsViewModel.Cache.Id) != null)
+            {
+                db.AddDetailsInItem(info, detailsViewModel.Cache.Id);
+            }
             Browser.NavigateToString(info);
         }
 
-        private void ApplicationBarIconButton_Click(object sender, EventArgs e)
+        private void AddToFavoritesButton_Click(object sender, EventArgs e)
         {
-            CacheDataBase db = new CacheDataBase();
-            db.AddNewItem(detailsViewModel.Cache);
+            db.AddNewItem(detailsViewModel.Cache, context);
         }
     }
 }

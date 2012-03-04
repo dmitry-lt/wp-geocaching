@@ -19,7 +19,6 @@ namespace WP_Geocaching.View
     public partial class BingMap : PhoneApplicationPage
     {
         BingMapViewModel bingMapViewModel;
-        NavigationManager manager = new NavigationManager();
         public BingMap()
         {
             InitializeComponent();
@@ -36,7 +35,7 @@ namespace WP_Geocaching.View
         private void Pushpin_Tap(object sender, GestureEventArgs e)
         {
             Pushpin pin = sender as Pushpin;
-            manager.NavigateToDetails((string)pin.Tag);
+            NavigationManager.Instance.NavigateToDetails((string)pin.Tag);
         }
     }
 }

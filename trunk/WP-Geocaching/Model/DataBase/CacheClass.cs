@@ -26,8 +26,10 @@ namespace WP_Geocaching.Model.DataBase
         [Column()]
         public double Longitude { get; set; }
         [Column()]
-        public int Type;
+        public int Type { get; set; }
         [Column()]
-        public int Subtype;
+        public int Subtype { get; set; }
+        [Column(DbType = "NTEXT")]
+        public string Details { get; set; }
     }
 }
