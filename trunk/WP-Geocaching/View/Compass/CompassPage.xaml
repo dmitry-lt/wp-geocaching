@@ -31,7 +31,7 @@
 
         <!--ContentPanel – поместите здесь дополнительное содержимое-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Grid.Column="0">
-            <views:CompassView x:Name="CompassView"/>
+            <views:CompassView x:Name="CompassView" Loaded="LayoutRootLoaded" Unloaded="LayoutRootUnloaded"/>
         </Grid>
     </Grid>
 
