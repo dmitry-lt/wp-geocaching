@@ -39,8 +39,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     selectedCache = value;
-                    NavigationManager.Instance.NavigateToDetails(SelectedCache.Id.ToString());
-                    //OnPropertyChanged(value.Id.ToString());
+                    OnPropertyChanged(value.Id.ToString());
                 }
             }
         }
