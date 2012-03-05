@@ -37,6 +37,9 @@
             <shell:ApplicationBarIconButton IconUri="Resources/Images/appbar.favs.addto.rest.png" 
                                             Text="add to fav" 
                                             Click="AddToFavoritesButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="Resources/Images/appbar.feature.search.rest.png" 
+                                            Text="search"
+                                            Click="SearchCacheButton_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

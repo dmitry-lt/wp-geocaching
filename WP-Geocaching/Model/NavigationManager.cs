@@ -54,5 +54,9 @@ namespace WP_Geocaching.Model
         {
             this.Navigate("//View/Details.xaml", CurrentId);
         }
+        public void NavigateToSearchBingMap(string CurrentId)
+        {
+            this.Navigate("//View/SearchBingMap.xaml", CurrentId);
+        }
     }
 }
