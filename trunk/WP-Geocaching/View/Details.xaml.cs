@@ -27,19 +27,7 @@ namespace WP_Geocaching
         {
             context = null;
             int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
-            Cache cache = new Cache()
-                {
-                    Id = cacheId
-                };
-
-            foreach (Cache p in GeocahingSuApiManager.Instance.CacheList)
-            {
-                if (p.Equals(cache))
-                {
-                    detailsViewModel.Cache = p;
-                    break;
-                }
-            }
+            detailsViewModel.Cache = GeocahingSuApiManager.Instance.GetCachebyId(cacheId);
             DbCacheItem item = db.GetCache(cacheId);
             if ((item != null) && (item.Details != null))
             {
@@ -64,6 +52,12 @@ namespace WP_Geocaching
         private void AddToFavoritesButton_Click(object sender, EventArgs e)
         {
             db.AddCache(detailsViewModel.Cache, context);
+        }
+
+        private void SearchCacheButton_Click(object sender, EventArgs e)
+        {
+            db.AddCache(detailsViewModel.Cache, context);
+            NavigationManager.Instance.NavigateToSearchBingMap(detailsViewModel.Cache.Id.ToString());
         }
     }
 }

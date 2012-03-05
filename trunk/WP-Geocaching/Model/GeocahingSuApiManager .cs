@@ -103,5 +103,17 @@ namespace WP_Geocaching.Model
             webClient.Encoding = CP1251Encoding;
             webClient.DownloadStringAsync(new Uri(String.Format(InfoUrl, cacheId), UriKind.Absolute));
         }
+
+        public Cache GetCachebyId(int id)
+        {
+            foreach (Cache p in GeocahingSuApiManager.Instance.CacheList)
+            {
+                if (p.Id == id)
+                {
+                    return p;
+                }
+            }
+            return null;
+        }
     }
 }

@@ -107,6 +107,7 @@
     <Compile Include="ViewModel\CompassPageViewModal.cs" />
     <Compile Include="ViewModel\DetailsViewModel.cs" />
     <Compile Include="ViewModel\FavoritesViewModel.cs" />
+    <Compile Include="ViewModel\SearchBingMapViewModel.cs" />
     <Compile Include="View\BingMap.xaml.cs">
       <DependentUpon>BingMap.xaml</DependentUpon>
     </Compile>
@@ -122,6 +123,9 @@
     </Compile>
     <Compile Include="View\Favorites.xaml.cs">
       <DependentUpon>Favorites.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SearchBingMap.xaml.cs">
+      <DependentUpon>SearchBingMap.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +154,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Favorites.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SearchBingMap.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -189,6 +197,7 @@
     <Content Include="Resources\Icons\ic_cache_custom_virtual_not_valid.png" />
     <Content Include="Resources\Icons\ic_cache_custom_virtual_valid.png" />
     <Resource Include="Resources\Images\compass_rose_white.png" />
+    <Content Include="Resources\Images\appbar.feature.search.rest.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
