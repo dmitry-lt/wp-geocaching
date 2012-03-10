@@ -62,13 +62,13 @@
                             <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}"
                                                                    Tap="Pushpin_Tap"
                                                                    Style="{StaticResource PushpinStyle}"
-                                                                   Tag="{Binding CacheId}"
-                                                                   >
+                                                                   Tag="{Binding CacheId}">
                                 <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}"/>
                             </Microsoft_Phone_Controls_Maps:Pushpin>
                         </DataTemplate>
                     </Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                 </Microsoft_Phone_Controls_Maps:MapItemsControl>
+                <Microsoft_Phone_Controls_Maps:MapPolyline Locations="{Binding Locations, Mode=TwoWay}" Stroke="Black" StrokeThickness="4" Opacity="0.8"/>
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>
     </Grid>
