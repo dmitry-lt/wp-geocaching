@@ -16,6 +16,7 @@ namespace WP_Geocaching.Model
 {
     public class IconConverter : IValueConverter
     {
+        private const string IconUri = "/Resources/Icons/ic_cache_custom_{0}_{1}.png";
         public static string[] types = new string[]{
             "",
             "traditional",
@@ -41,9 +42,20 @@ namespace WP_Geocaching.Model
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
+            if (value == null)
+            {
+                return null;
+            }
+
             string st = value.ToString();
-            Uri convertedUri = new Uri("/Resources/Icons/ic_cache_custom_" + types[System.Convert.ToInt32(st[0].ToString())] +
-                "_" + subtypes[System.Convert.ToInt32(st[1].ToString())] + ".png", UriKind.Relative);
+            if (st.Equals("arrow"))
+            {
+                return new Uri("/Resources/Icons/ic_arrow.png", UriKind.Relative);
+            }
+
+            String sUri = String.Format(IconUri, types[System.Convert.ToInt32(st[0].ToString())],
+                subtypes[System.Convert.ToInt32(st[1].ToString())]);
+            Uri convertedUri = new Uri(sUri, UriKind.Relative);
             return convertedUri;
         }
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
