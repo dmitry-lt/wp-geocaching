@@ -37,6 +37,7 @@ namespace WP_Geocaching.ViewModel
         private ObservableCollection<CachePushpin> cachePushpinCollection;
         private Cache cache;
         private Action<LocationRect> setView;
+        private LocationCollection locations;
 
         public int Zoom
         {
@@ -88,6 +89,7 @@ namespace WP_Geocaching.ViewModel
                                 IconUri = new Uri(cache.Type.ToString() + cache.Subtype.ToString(), UriKind.Relative),
                             };
                     CachePushpinCollection.Add(pushpin);
+                    Locations.Add(pushpin.Location);
                 }
             }
         }
@@ -102,6 +104,17 @@ namespace WP_Geocaching.ViewModel
                 this.cachePushpinCollection = value;
             }
         }
+        public LocationCollection Locations
+        {
+            get
+            {
+                return this.locations;
+            }
+            set
+            {
+                this.locations = value;
+            }
+        }
 
         public SearchBingMapViewModel(IApiManager apiManager, Action<LocationRect> setView)
         {
@@ -114,6 +127,7 @@ namespace WP_Geocaching.ViewModel
             this.southeast = new GeoCoordinate(90, -180);            
             this.zoom = manager.DefaultZoom;            
             this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
+            this.Locations = new LocationCollection();
             this.CachePushpinCollection.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(collectionChanged);
                        
             CachePushpin pin = new CachePushpin();
@@ -121,6 +135,7 @@ namespace WP_Geocaching.ViewModel
             pin.IconUri = new Uri("arrow", UriKind.Relative);
             pin.Location = manager.DefaulMapCenter;
             CachePushpinCollection.Add(pin);
+            Locations.Add(pin.Location);
 
             this.watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
             this.watcher.MovementThreshold = 20;
@@ -137,6 +152,9 @@ namespace WP_Geocaching.ViewModel
             pin.Location = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
             CachePushpinCollection.RemoveAt(0);
             CachePushpinCollection.Insert(0, pin);
+
+            Locations.RemoveAt(0);
+            Locations.Insert(0, pin.Location);
 
             if ((isFirst) && (cachePushpinCollection.Count == 2))
             {
