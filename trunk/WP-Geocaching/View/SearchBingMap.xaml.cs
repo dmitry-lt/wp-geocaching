@@ -23,20 +23,29 @@ namespace WP_Geocaching.View
         public SearchBingMap()
         {
             InitializeComponent();
-            this.searchBingMapViewModel = new SearchBingMapViewModel(GeocahingSuApiManager.Instance);
+            this.searchBingMapViewModel = new SearchBingMapViewModel(GeocahingSuApiManager.Instance, this.Map.SetView);
             this.DataContext = this.searchBingMapViewModel;
         }
 
         private void Pushpin_Tap(object sender, GestureEventArgs e)
         {
             Pushpin pin = sender as Pushpin;
-            NavigationManager.Instance.NavigateToDetails((string)pin.Tag);
+            string id = (string)pin.Tag;
+            if (!id.Equals("-1"))
+            {
+                NavigationManager.Instance.NavigateToDetails((string)pin.Tag);
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
             searchBingMapViewModel.Cache = GeocahingSuApiManager.Instance.GetCachebyId(cacheId);
+        }
+
+        private void SetAll_Click(object sender, EventArgs e)
+        {
+            searchBingMapViewModel.SetViewAll();
         }
     }
 }

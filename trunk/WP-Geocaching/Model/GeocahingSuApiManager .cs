@@ -28,6 +28,8 @@ namespace WP_Geocaching.Model
         private static GeocahingSuApiManager instance;
         private static readonly Encoding CP1251Encoding = new CP1251Encoding();
         private const string InfoUrl = "http://pda.geocaching.su/cache.php?cid={0}";
+        private const string DownloadUrl =
+            "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax={0}&lngmin={1}&latmax={2}&latmin={3}&id={4}&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
         private int id;
         private List<Cache> cacheList;
 
@@ -64,12 +66,8 @@ namespace WP_Geocaching.Model
 
         public void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lngmin, double latmax, double latmin)
         {
-            string sUrl = "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax=" +
-                Convert.ToString(lngmax, CultureInfo.InvariantCulture) + "&lngmin="
-                + Convert.ToString(lngmin, CultureInfo.InvariantCulture) + "&latmax="
-                + Convert.ToString(latmax, CultureInfo.InvariantCulture) + "&latmin="
-                + Convert.ToString(latmin, CultureInfo.InvariantCulture) + "&id=" + this.id
-                + "&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
+
+            string sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, lngmax, lngmin, latmax, latmin, this.id);
             WebClient client = new WebClient();
             client.Encoding = CP1251Encoding;
             client.DownloadStringCompleted += (sender, e) =>

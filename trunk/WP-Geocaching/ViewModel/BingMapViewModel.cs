@@ -85,7 +85,7 @@ namespace WP_Geocaching.ViewModel
             this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
         }
 
-        void ProcessCacheList(List<Cache> caches)
+        private void ProcessCacheList(List<Cache> caches)
         {
             foreach (Cache p in caches)
             {
