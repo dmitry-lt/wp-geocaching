@@ -76,15 +76,38 @@ namespace WP_Geocaching.Model
                 {
                     XElement caches = XElement.Parse(e.Result);
                     CacheParser parser = new CacheParser();
+                    List<Cache> downloadedCaches = parser.Parse(caches);
+
+                    foreach (Cache p in downloadedCaches)
+                    {
+                        if (!this.cacheList.Contains(p))
+                        {
+                            this.cacheList.Add(p);
+                        }
+                    }
+
                     if (ProcessCacheList != null)
                     {
-                        ProcessCacheList(parser.Parse(caches));
+                     ProcessCacheList(FilterCacheList(lngmax, lngmin, latmax, latmin));
                     }
                 }
             };
             client.DownloadStringAsync(new Uri(sUrl));
         }
 
+        private List<Cache> FilterCacheList(double lngmax, double lngmin, double latmax, double latmin)
+        {
+            List<Cache> filteredListCache = new List<Cache>();
+            foreach (Cache p in this.cacheList)
+            {            
+                if (((p.Location.Latitude <= latmax) && (p.Location.Latitude  >= latmin) &&
+                    (p.Location.Longitude <= lngmax) && (p.Location.Longitude >= lngmin)))
+                {
+                    filteredListCache.Add(p);
+                }
+            }
+            return filteredListCache;
+        }
         public void GetCacheInfo(Action<string> ProcessCacheInfo, int cacheId)
         {
             WebClient webClient = new WebClient();

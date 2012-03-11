@@ -14,5 +14,6 @@ namespace WP_Geocaching.Model
         List<Cache> CacheList { get; set; }
         Cache GetCachebyId(int id);
         void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lgnmin, double latmax, double latmin);
+
     }
 }

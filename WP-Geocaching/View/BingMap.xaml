@@ -13,7 +13,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -45,7 +45,6 @@
             <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
                 Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
-
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"/>
 
@@ -57,7 +56,7 @@
                                            ViewChangeEnd="Map_ViewChangeEnd"
                                            CredentialsProvider ="AvLbzLZIOMHh3dDKm0l2Fak-Fpqpvv9t-YTbFir44CdP5QNXTTcj1GbDaLZMP_jr">
             <Microsoft_Phone_Controls_Maps:MapLayer>
-                <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpinCollection, Mode=TwoWay}">
+                <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpinCollection, Mode=TwoWay}" Margin="0">
                     <Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}"
@@ -70,10 +69,19 @@
                         </DataTemplate>
                     </Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                 </Microsoft_Phone_Controls_Maps:MapItemsControl>
+                <TextBlock x:Name="OverflowMessage" 
+                           Text="{Binding Path=LocalizedResources.OverflowMessage, 
+                           Source={StaticResource LocalizedStrings}}" 
+                           Height="216"
+                           Width="450" 
+                           Visibility="{Binding MessageIsVisible}" 
+                           Foreground="Black" 
+                           FontSize="30" 
+                           Margin="0,0,0,450" />
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>
     </Grid>
-
+    
     <!--Sample code showing usage of ApplicationBar-->
     <!--<phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">

@@ -21,13 +21,35 @@ using Microsoft.Phone.Controls.Maps;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class BingMapViewModel
+    public class BingMapViewModel : INotifyPropertyChanged
     {
         private int zoom;
+        private const int maxCountOfCache = 50;
         private GeoCoordinate mapCenter;
         private IApiManager apiManager;
         private ObservableCollection<CachePushpin> cachePushpinCollection;
         private LocationRect boundingRectangle;
+        /*Сообщение,указывающее на большое количество тайников на экране*/
+        private String messageIsVisible = "Collapsed";
+        public event PropertyChangedEventHandler PropertyChanged;
+        
+        public BingMapViewModel(IApiManager apiManager)
+        {
+            BingMapManager manager = new BingMapManager();
+            this.MapCenter = manager.DefaulMapCenter;
+            this.Zoom = manager.DefaultZoom;
+            this.apiManager = apiManager;
+            this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
+        }
+       
+        public String MessageIsVisible 
+        {
+            get 
+            {
+                return this.messageIsVisible;
+            }
+          
+        }
 
         public int Zoom
         {
@@ -40,6 +62,7 @@ namespace WP_Geocaching.ViewModel
                 this.zoom = value;
             }
         }
+
         public GeoCoordinate MapCenter
         {
             get
@@ -51,6 +74,7 @@ namespace WP_Geocaching.ViewModel
                 this.mapCenter = value;
             }
         }
+
         public ObservableCollection<CachePushpin> CachePushpinCollection
         {
             get
@@ -76,31 +100,22 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public BingMapViewModel(IApiManager apiManager)
-        {
-            BingMapManager manager = new BingMapManager();
-            this.MapCenter = manager.DefaulMapCenter;
-            this.Zoom = manager.DefaultZoom;
-            this.apiManager = apiManager;
-            this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
-        }
-
         private void ProcessCacheList(List<Cache> caches)
         {
-            foreach (Cache p in caches)
-            {
-                if (!this.apiManager.CacheList.Contains(p))
-                {
-                    this.apiManager.CacheList.Add(p);
-                }
-            }
-            this.CachePushpinCollection.Clear();
-            foreach (Cache p in this.apiManager.CacheList)
-            {
-                if ((p.Location.Latitude <= BoundingRectangle.North) &&
-                    (p.Location.Latitude >= BoundingRectangle.South) &&
-                    (p.Location.Longitude <= BoundingRectangle.East) &&
-                    (p.Location.Longitude >= BoundingRectangle.West))
+
+           this.CachePushpinCollection.Clear();
+
+           if (caches.Count >= maxCountOfCache){
+
+               if (messageIsVisible.Equals("Collapsed"))
+               {
+                 messageIsVisible = "Visible";
+                 NotifyPropertyChanged("MessageIsVisible");
+               }
+           }
+           else{
+
+                foreach (Cache p in caches)
                 {
                     CachePushpin pushpin = new CachePushpin()
                     {
@@ -108,15 +123,32 @@ namespace WP_Geocaching.ViewModel
                         CacheId = p.Id.ToString(),
                         IconUri = new Uri(p.Type.ToString() + p.Subtype.ToString(), UriKind.Relative),
                     };
+
                     this.CachePushpinCollection.Add(pushpin);
+                } 
+               
+                if (messageIsVisible.Equals("Visible"))
+                {
+                   messageIsVisible = "Collapsed";
+                   NotifyPropertyChanged("MessageIsVisible");
                 }
-            }
+           }
+           
         }
 
         private void GetPushpins()
         {
             this.apiManager.GetCacheList(ProcessCacheList,  BoundingRectangle.East, 
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
+        }
+
+
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }
