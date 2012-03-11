@@ -129,6 +129,9 @@
   <data name="Favorites" xml:space="preserve">
     <value>Избранное</value>
   </data>
+  <data name="OverflowMessage" xml:space="preserve">
+    <value>Слишком много тайников на экране. Увеличьте масштаб.</value>
+  </data>
   <data name="PageTitleCompass" xml:space="preserve">
     <value>компасс</value>
   </data>

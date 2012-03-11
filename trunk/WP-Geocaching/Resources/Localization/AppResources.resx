@@ -129,6 +129,9 @@
   <data name="Favorites" xml:space="preserve">
     <value>Favorites</value>
   </data>
+  <data name="OverflowMessage" xml:space="preserve">
+    <value>It is too much caches on the screen! Zoom in.</value>
+  </data>
   <data name="PageTitleCompass" xml:space="preserve">
     <value>compass</value>
   </data>

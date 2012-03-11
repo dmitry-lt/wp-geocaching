@@ -18,7 +18,7 @@ namespace WP_Geocaching.Model
     public class BingMapManager
     {
         private GeoCoordinate defaulMapCenter = new GeoCoordinate(59.879904, 29.828674);
-        private int defaultZoom = 13;
+        private int defaultZoom = 10;
 
         public GeoCoordinate DefaulMapCenter
         {
