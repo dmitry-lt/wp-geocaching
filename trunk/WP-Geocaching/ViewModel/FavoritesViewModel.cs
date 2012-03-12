@@ -21,9 +21,9 @@ namespace WP_Geocaching.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private DbCacheItem selectedCache;
-        private List<DbCacheItem> dataSource;
+        private List<FavoriteClass> dataSource;
 
-        public List<DbCacheItem> DataSource
+        public List<FavoriteClass> DataSource
         {
             get
             {
@@ -46,9 +46,20 @@ namespace WP_Geocaching.ViewModel
 
         public FavoritesViewModel()
         { 
-            CacheDataBase db = new CacheDataBase();
-            this.dataSource = db.GetCacheList();
             PropertyChanged += ShowDetails;
+            this.dataSource = GetDataSource();          
+        }
+
+        private List<FavoriteClass> GetDataSource()
+        {
+            CacheDataBase db = new CacheDataBase();
+            List<DbCacheItem> dbCacheList = db.GetCacheList();
+            List<FavoriteClass> dataSource = new List<FavoriteClass>();
+            foreach (DbCacheItem c in dbCacheList)
+            {
+                dataSource.Add(new FavoriteClass(c));
+            }
+            return dataSource;
         }
 
         private void OnPropertyChanged(string propertyName)

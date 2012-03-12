@@ -9,10 +9,8 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Data;
-using System.Collections.Generic;
-using System.Xml.Linq;
 
-namespace WP_Geocaching.Model
+namespace WP_Geocaching.Model.Converters
 {
     public class IconConverter : IValueConverter
     {
