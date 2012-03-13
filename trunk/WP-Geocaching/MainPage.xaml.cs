@@ -33,7 +33,7 @@ namespace WP_Geocaching
 
         private void Favorites_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/View/Favorites.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/View/Favorites/FavoritesPage.xaml", UriKind.Relative));
         }
     }
 }

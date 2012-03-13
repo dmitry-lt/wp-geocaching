@@ -39,14 +39,17 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     selectedCache = value;
-                    OnPropertyChanged(value.Id.ToString());
+                    OnPropertyChanged("SelectedCache");
+                    if (value != null)
+                    {
+                        ShowDetails(value.Id.ToString());
+                    }
                 }
             }
         }
 
         public FavoritesViewModel()
         { 
-            PropertyChanged += ShowDetails;
             this.dataSource = GetDataSource();          
         }
 
@@ -68,9 +71,10 @@ namespace WP_Geocaching.ViewModel
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ShowDetails(object sender, PropertyChangedEventArgs e)
+        private void ShowDetails(string cacheId)
         {
-            NavigationManager.Instance.NavigateToDetails(SelectedCache.Id.ToString());
+            NavigationManager.Instance.NavigateToDetails(cacheId);
+            SelectedCache = null;
         }
     }
 }

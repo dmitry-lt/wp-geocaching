@@ -124,8 +124,11 @@
     <Compile Include="View\Details.xaml.cs">
       <DependentUpon>Details.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Favorites.xaml.cs">
-      <DependentUpon>Favorites.xaml</DependentUpon>
+    <Compile Include="View\Favorites\FavoriteItem.xaml.cs">
+      <DependentUpon>FavoriteItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Favorites\FavoritesPage.xaml.cs">
+      <DependentUpon>FavoritesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SearchBingMap.xaml.cs">
       <DependentUpon>SearchBingMap.xaml</DependentUpon>
@@ -156,7 +159,11 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Favorites.xaml">
+    <Page Include="View\Favorites\FavoriteItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Favorites\FavoritesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
