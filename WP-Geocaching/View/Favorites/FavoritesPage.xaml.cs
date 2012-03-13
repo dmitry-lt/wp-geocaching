@@ -12,11 +12,11 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.ViewModel;
 
-namespace WP_Geocaching.View
+namespace WP_Geocaching.View.Favorites
 {
-    public partial class Favorites : PhoneApplicationPage
+    public partial class FavoritesPage : PhoneApplicationPage
     {
-        public Favorites()
+        public FavoritesPage()
         {
             InitializeComponent();
             this.DataContext = new FavoritesViewModel();
