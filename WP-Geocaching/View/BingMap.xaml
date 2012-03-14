@@ -13,7 +13,8 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded">
+    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded" Title="" OpacityMask="{x:Null}">
+    
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -69,18 +70,22 @@
                         </DataTemplate>
                     </Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                 </Microsoft_Phone_Controls_Maps:MapItemsControl>
-                <TextBlock x:Name="OverflowMessage" 
+
+                <Border Background="#35000000"
+                        VerticalAlignment="Top" 
+                        Visibility="{Binding MessageIsVisible}">
+                        <TextBlock x:Name="OverflowMessage" 
                            Text="{Binding Path=LocalizedResources.OverflowMessage, 
                            Source={StaticResource LocalizedStrings}}" 
-                           Height="216"
-                           Width="450" 
-                           Visibility="{Binding MessageIsVisible}" 
-                           Foreground="Black" 
-                           FontSize="30" 
-                           Margin="0,0,0,450" />
+                           TextWrapping="Wrap"
+                           FontSize="25" 
+                           FontFamily="Calibri"
+                           Foreground="#FF00004E" 
+                           Margin="35,0,0,0" />
+                </Border>
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>
-    </Grid>
+   </Grid>
     
     <!--Sample code showing usage of ApplicationBar-->
     <!--<phone:PhoneApplicationPage.ApplicationBar>
