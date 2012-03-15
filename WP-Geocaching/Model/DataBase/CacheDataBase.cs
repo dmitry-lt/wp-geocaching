@@ -34,25 +34,29 @@ namespace WP_Geocaching.Model.DataBase
 
         public void AddCache(Cache cache, string details)
         {
-            using (var db = new CacheDataContext(ConnectionString))
+            if (cache != null)
             {
-                DbCacheItem newItem = new DbCacheItem()
+                using (var db = new CacheDataContext(ConnectionString))
                 {
-                    Id = cache.Id,
-                    Name = cache.Name,
-                    Latitude = cache.Location.Latitude,
-                    Longitude = cache.Location.Longitude,
-                    Type = cache.Type,
-                    Subtype = cache.Subtype,
-                    Details = details
-                };
+                    DbCacheItem newItem = new DbCacheItem()
+                    {
+                        Id = cache.Id,
+                        Name = cache.Name,
+                        Latitude = cache.Location.Latitude,
+                        Longitude = cache.Location.Longitude,
+                        Type = cache.Type,
+                        Subtype = cache.Subtype,
+                        Details = details
+                    };
 
-                if (!db.Caches.Contains(newItem))
-                {
-                    db.Caches.InsertOnSubmit(newItem);
-                    db.SubmitChanges();
+
+                    if (!db.Caches.Contains(newItem))
+                    {
+                        db.Caches.InsertOnSubmit(newItem);
+                        db.SubmitChanges();
+                    }
                 }
-            }          
+            }
         }
 
         public void UpdateCacheInfo(String details, int id)
