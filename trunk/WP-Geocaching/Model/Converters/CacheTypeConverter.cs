@@ -9,21 +9,22 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Data;
+using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.Model.Converters
 {
     public class CacheTypeConverter : IValueConverter
     {
         public static string[] types = new string[]{
-            "",
-            "Традиционный",
-            "Пошаговый традиционный", 
-            "Виртуальный", 
-            "Событие", 
-            "Веб-камера", 
-            "Экстрим", 
-            "Пошаговый виртуальный", 
-            "Конкурс"
+            null,
+            CacheTypeResources.traditional,
+            CacheTypeResources.step_by_step_traditional, 
+            CacheTypeResources.cVirtual, 
+            CacheTypeResources.cEvent, 
+            CacheTypeResources.camera, 
+            CacheTypeResources.extreme, 
+            CacheTypeResources.step_by_step_virtual, 
+            CacheTypeResources.competition
         };
 
         public object Convert(object value, Type targetType, object parameter,

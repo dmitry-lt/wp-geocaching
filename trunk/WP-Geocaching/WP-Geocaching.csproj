@@ -99,6 +99,16 @@
     <Compile Include="Model\BingMapManager.cs" />
     <Compile Include="Model\Cache.cs" />
     <Compile Include="Model\CacheParser.cs" />
+    <Compile Include="Resources\Localization\CacheSubtypeResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CacheSubtypeResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Localization\CacheTypeResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CacheTypeResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\CachePushpin.cs" />
     <Compile Include="Model\GeocahingSuApiManager .cs" />
     <Compile Include="Model\IApiManager.cs" />
@@ -221,6 +231,16 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.ru-RU.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\CacheSubtypeResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CacheSubtypeResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\CacheSubtypeResources.ru-RU.resx" />
+    <EmbeddedResource Include="Resources\Localization\CacheTypeResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CacheTypeResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\CacheTypeResources.ru-RU.resx" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
