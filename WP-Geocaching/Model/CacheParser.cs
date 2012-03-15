@@ -32,8 +32,8 @@ namespace WP_Geocaching.Model
                     Location = new GeoCoordinate(Convert.ToDouble(p.Element("la").Value, CultureInfo.InvariantCulture), 
                         Convert.ToDouble(p.Element("ln").Value, CultureInfo.InvariantCulture)),
                     Name = p.Element("n").Value,
-                    Subtype = Convert.ToInt32(p.Element("st").Value),
-                    Type = Convert.ToInt32(p.Element("ct").Value),
+                    Subtype = (Cache.Subtypes)Convert.ToInt32(p.Element("st").Value),
+                    Type = (Cache.Types)Convert.ToInt32(p.Element("ct").Value),
                     CClass = this.getCClassList(p.Element("cc").Value)
                 };
                 cacheList.Add(cache);

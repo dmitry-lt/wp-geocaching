@@ -83,11 +83,11 @@ namespace WP_Geocaching.ViewModel
                 if (cache != null)
                 {
                     CachePushpin pushpin = new CachePushpin()
-                            {
-                                Location = cache.Location,
-                                CacheId = cache.Id.ToString(),
-                                IconUri = new Uri(cache.Type.ToString() + cache.Subtype.ToString(), UriKind.Relative),
-                            };
+                    {
+                        Location = cache.Location,
+                        CacheId = cache.Id.ToString(),
+                        IconUri = new Enum[2] { cache.Type, cache.Subtype }
+                    };
                     CachePushpinCollection.Add(pushpin);
                     Locations.Add(pushpin.Location);
                 }
@@ -132,7 +132,8 @@ namespace WP_Geocaching.ViewModel
                        
             CachePushpin pin = new CachePushpin();
             pin.CacheId = "-1";
-            pin.IconUri = new Uri("arrow", UriKind.Relative);
+            //pin.IconUri = new Uri("arrow", UriKind.Relative);
+            pin.IconUri = new Enum[1] { null };
             pin.Location = manager.DefaulMapCenter;
             CachePushpinCollection.Add(pin);
             Locations.Add(pin.Location);
@@ -148,7 +149,7 @@ namespace WP_Geocaching.ViewModel
         {         
             CachePushpin pin = new CachePushpin();
             pin.CacheId = "-1";
-            pin.IconUri = new Uri("arrow", UriKind.Relative);
+            pin.IconUri = new Enum[1] { null };
             pin.Location = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
             CachePushpinCollection.RemoveAt(0);
             CachePushpinCollection.Insert(0, pin);

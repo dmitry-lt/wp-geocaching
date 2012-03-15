@@ -18,7 +18,7 @@ namespace WP_Geocaching.ViewModel
     {
         private GeoCoordinate location;
         private string cacheId;
-        private Uri iconUri;
+        private Enum[] iconUri;
 
         public GeoCoordinate Location
         {
@@ -42,7 +42,7 @@ namespace WP_Geocaching.ViewModel
                 this.cacheId = value;
             }
         }
-        public Uri IconUri
+        public Enum[] IconUri
         {
             get
             {

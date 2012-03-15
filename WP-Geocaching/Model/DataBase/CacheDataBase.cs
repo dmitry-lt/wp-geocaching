@@ -44,8 +44,8 @@ namespace WP_Geocaching.Model.DataBase
                         Name = cache.Name,
                         Latitude = cache.Location.Latitude,
                         Longitude = cache.Location.Longitude,
-                        Type = cache.Type,
-                        Subtype = cache.Subtype,
+                        Type = (int)cache.Type,
+                        Subtype = (int)cache.Subtype,
                         Details = details
                     };
 

@@ -121,7 +121,7 @@ namespace WP_Geocaching.ViewModel
                     {
                         Location = p.Location,
                         CacheId = p.Id.ToString(),
-                        IconUri = new Uri(p.Type.ToString() + p.Subtype.ToString(), UriKind.Relative),
+                        IconUri = new Enum[2] { p.Type, p.Subtype }
                     };
 
                     this.CachePushpinCollection.Add(pushpin);
