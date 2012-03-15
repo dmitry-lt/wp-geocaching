@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Globalization;
 using WP_Geocaching.Model.Utils;
+using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.Model
 {
@@ -134,7 +135,8 @@ namespace WP_Geocaching.Model
                     return p;
                 }
             }
-            return null;
+            CacheDataBase db = new CacheDataBase();
+            return new Cache(db.GetCache(id));
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Device.Location;
 using System.Collections.Generic;
+using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.Model
 {
@@ -91,6 +92,17 @@ namespace WP_Geocaching.Model
                 this.cClass = value;
             }
         }
+
+        public Cache(DbCacheItem item)
+        {
+            this.Id = item.Id;
+            this.Location = new GeoCoordinate(item.Latitude, item.Longitude);
+            this.Name = item.Name;
+            this.Subtype = item.Subtype;
+            this.Type = item.Type;
+        }
+
+        public Cache() { }
 
         public bool Equals(Cache cache)
         {
