@@ -19,11 +19,30 @@ namespace WP_Geocaching.Model
     /// </summary>
     public class Cache : IEquatable<Cache>
     {
+        public enum Subtypes: int
+        {
+            Valid = 1,
+            NotConfirmed = 2,
+            NotValid = 3
+        }
+
+        public enum Types : int
+        {
+            Traditional = 1,
+            StepbyStepTraditional = 2, 
+            Virtual = 3, 
+            Event = 4, 
+            Camera = 5, 
+            Extreme = 6, 
+            StepbyStepVirtual = 7, 
+            Competition = 8
+        }
+
         private int id;
         private GeoCoordinate location;
         private string name;
-        private int type;
-        private int subtype;
+        private Types type;
+        private Subtypes subtype;
         private List<int> cClass;
 
         public int Id
@@ -58,8 +77,8 @@ namespace WP_Geocaching.Model
             {
                 this.name = value;
             }
-        }      
-        public int Type
+        }
+        public Types Type
         {
             get
             {
@@ -69,8 +88,8 @@ namespace WP_Geocaching.Model
             {
                 this.type = value;
             }
-        }       
-        public int Subtype
+        }
+        public Subtypes Subtype
         {
             get
             {
@@ -98,8 +117,8 @@ namespace WP_Geocaching.Model
             this.Id = item.Id;
             this.Location = new GeoCoordinate(item.Latitude, item.Longitude);
             this.Name = item.Name;
-            this.Subtype = item.Subtype;
-            this.Type = item.Type;
+            this.Subtype = (Subtypes)item.Subtype;
+            this.Type = (Types)item.Type;
         }
 
         public Cache() { }

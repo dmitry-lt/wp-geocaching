@@ -15,13 +15,6 @@ namespace WP_Geocaching.Model.Converters
 {
     public class CacheSubtypeConverter : IValueConverter
     {
-        public static string[] subtypes = new string[]{
-            null, 
-            CacheSubtypeResources.valid, 
-            CacheSubtypeResources.not_confirmed, 
-            CacheSubtypeResources.not_valid
-        };
-
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
@@ -30,8 +23,16 @@ namespace WP_Geocaching.Model.Converters
                 return null;
             }
 
-            string st = subtypes[System.Convert.ToInt32(value)];
-            return st;
+            switch ((Cache.Subtypes)value)
+            {
+                case Cache.Subtypes.NotConfirmed:
+                    return CacheSubtypeResources.not_confirmed;
+                case Cache.Subtypes.NotValid:
+                    return CacheSubtypeResources.not_valid;
+                case Cache.Subtypes.Valid:
+                    return CacheSubtypeResources.valid;                      
+            }
+            return null;
         }
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

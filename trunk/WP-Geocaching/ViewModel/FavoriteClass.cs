@@ -9,12 +9,24 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using WP_Geocaching.Model.DataBase;
+using WP_Geocaching.Model;
 
 namespace WP_Geocaching.ViewModel
 {
     public class FavoriteClass : DbCacheItem
     {
-        public Uri IconUri { get; set; }
+        private Enum[] iconUri;
+        public Enum[] IconUri
+        {
+            get
+            {
+                return this.iconUri;
+            }
+            set
+            {
+                this.iconUri = value;
+            }
+        }
         public FavoriteClass(DbCacheItem item)
         {
             this.Id = item.Id;
@@ -24,7 +36,7 @@ namespace WP_Geocaching.ViewModel
             this.Subtype = item.Subtype;
             this.Type = item.Type;
             this.Details = item.Details;
-            this.IconUri = new Uri((item.Type.ToString() + item.Subtype.ToString()), UriKind.Relative);
+            this.IconUri = new Enum[2]{(Cache.Types)item.Type, (Cache.Subtypes)item.Subtype};
         }
     }
 }

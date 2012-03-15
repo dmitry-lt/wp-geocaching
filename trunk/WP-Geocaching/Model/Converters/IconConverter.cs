@@ -15,27 +15,6 @@ namespace WP_Geocaching.Model.Converters
     public class IconConverter : IValueConverter
     {
         private const string IconUri = "/Resources/Icons/ic_cache_custom_{0}_{1}.png";
-        public static string[] types = new string[]{
-            "",
-            "traditional",
-            "step_by_step_traditional", 
-            "virtual", 
-            "event", 
-            "camera", 
-            "extreme", 
-            "step_by_step_virtual", 
-            "competition"
-        };
-
-        /// <summary>
-        /// Values of Cache.Subtype
-        /// </summary>
-        public static string[] subtypes = new string[]{
-            "", 
-            "valid", 
-            "not_confirmed", 
-            "not_valid"
-        };
 
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
@@ -45,16 +24,122 @@ namespace WP_Geocaching.Model.Converters
                 return null;
             }
 
-            string st = value.ToString();
-            if (st.Equals("arrow"))
+            Enum[] iconIdentifier = value as Enum[];
+            //arrow addition will be changed
+            if (iconIdentifier[0] == null)
             {
                 return new Uri("/Resources/Icons/ic_arrow.png", UriKind.Relative);
             }
-
-            String sUri = String.Format(IconUri, types[System.Convert.ToInt32(st[0].ToString())],
-                subtypes[System.Convert.ToInt32(st[1].ToString())]);
-            Uri convertedUri = new Uri(sUri, UriKind.Relative);
-            return convertedUri;
+            Cache.Types type = (Cache.Types)iconIdentifier[0];
+            Cache.Subtypes subtype = (Cache.Subtypes)iconIdentifier[1];
+            switch (type)
+            {
+                case Cache.Types.Traditional:
+                    {
+                        switch (subtype)
+                        {
+                            case Cache.Subtypes.NotConfirmed:
+                                return new Uri(String.Format(IconUri, "traditional", "not_confirmed"), UriKind.Relative);
+                            case Cache.Subtypes.NotValid:
+                                return new Uri(String.Format(IconUri, "traditional", "not_valid"), UriKind.Relative);
+                            case Cache.Subtypes.Valid:
+                                return new Uri(String.Format(IconUri, "traditional", "valid"), UriKind.Relative);
+                        }
+                        break;
+                    }
+                case Cache.Types.StepbyStepTraditional:
+                    {
+                        switch (subtype)
+                        {
+                            case Cache.Subtypes.NotConfirmed:
+                                return new Uri(String.Format(IconUri, "step_by_step_traditional", "not_confirmed"), UriKind.Relative);
+                            case Cache.Subtypes.NotValid:
+                                return new Uri(String.Format(IconUri, "step_by_step_traditional", "not_valid"), UriKind.Relative);
+                            case Cache.Subtypes.Valid:
+                                return new Uri(String.Format(IconUri, "step_by_step_traditional", "valid"), UriKind.Relative);
+                        }
+                        break;
+                    }
+                case Cache.Types.Virtual:
+                    {
+                        switch (subtype)
+                        {
+                            case Cache.Subtypes.NotConfirmed:
+                                return new Uri(String.Format(IconUri, "virtual", "not_confirmed"), UriKind.Relative);
+                            case Cache.Subtypes.NotValid:
+                                return new Uri(String.Format(IconUri, "virtual", "not_valid"), UriKind.Relative);
+                            case Cache.Subtypes.Valid:
+                                return new Uri(String.Format(IconUri, "virtual", "valid"), UriKind.Relative);
+                        }
+                        break;
+                    }
+                case Cache.Types.Event:
+                    {
+                        switch (subtype)
+                        {
+                            case Cache.Subtypes.NotConfirmed:
+                                return new Uri(String.Format(IconUri, "event", "not_confirmed"), UriKind.Relative);
+                            case Cache.Subtypes.NotValid:
+                                return new Uri(String.Format(IconUri, "event", "not_valid"), UriKind.Relative);
+                            case Cache.Subtypes.Valid:
+                                return new Uri(String.Format(IconUri, "event", "valid"), UriKind.Relative);
+                        }
+                        break;
+                    }
+                case Cache.Types.Camera:
+                    {
+                        switch (subtype)
+                        {
+                            case Cache.Subtypes.NotConfirmed:
+                                return new Uri(String.Format(IconUri, "camera", "not_confirmed"), UriKind.Relative);
+                            case Cache.Subtypes.NotValid:
+                                return new Uri(String.Format(IconUri, "camera", "not_valid"), UriKind.Relative);
+                            case Cache.Subtypes.Valid:
+                                return new Uri(String.Format(IconUri, "camera", "valid"), UriKind.Relative);
+                        }
+                        break;
+                    }
+                case Cache.Types.Extreme:
+                    {
+                        switch (subtype)
+                        {
+                            case Cache.Subtypes.NotConfirmed:
+                                return new Uri(String.Format(IconUri, "extreme", "not_confirmed"), UriKind.Relative);
+                            case Cache.Subtypes.NotValid:
+                                return new Uri(String.Format(IconUri, "extreme", "not_valid"), UriKind.Relative);
+                            case Cache.Subtypes.Valid:
+                                return new Uri(String.Format(IconUri, "extreme", "valid"), UriKind.Relative);
+                        }
+                        break;
+                    }
+                case Cache.Types.StepbyStepVirtual:
+                    {
+                        switch (subtype)
+                        {
+                            case Cache.Subtypes.NotConfirmed:
+                                return new Uri(String.Format(IconUri, "step_by_step_virtual", "not_confirmed"), UriKind.Relative);
+                            case Cache.Subtypes.NotValid:
+                                return new Uri(String.Format(IconUri, "step_by_step_virtual", "not_valid"), UriKind.Relative);
+                            case Cache.Subtypes.Valid:
+                                return new Uri(String.Format(IconUri, "step_by_step_virtual", "valid"), UriKind.Relative);
+                        }
+                        break;
+                    }
+                case Cache.Types.Competition:
+                    {
+                        switch (subtype)
+                        {
+                            case Cache.Subtypes.NotConfirmed:
+                                return new Uri(String.Format(IconUri, "competition", "not_confirmed"), UriKind.Relative);
+                            case Cache.Subtypes.NotValid:
+                                return new Uri(String.Format(IconUri, "competition", "not_valid"), UriKind.Relative);
+                            case Cache.Subtypes.Valid:
+                                return new Uri(String.Format(IconUri, "competition", "valid"), UriKind.Relative);
+                        }
+                        break;
+                    }
+            }
+            return null;
         }
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
