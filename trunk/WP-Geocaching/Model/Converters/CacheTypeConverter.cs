@@ -18,10 +18,10 @@ namespace WP_Geocaching.Model.Converters
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
-            //if (value == null)
-            //{
-            //    return null;
-            //}
+            if (value == null)
+            {
+                return null;
+            }
 
             switch ((Cache.Types)value)
             {

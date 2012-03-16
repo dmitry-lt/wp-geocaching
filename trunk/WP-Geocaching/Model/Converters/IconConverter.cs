@@ -25,11 +25,6 @@ namespace WP_Geocaching.Model.Converters
             }
 
             Enum[] iconIdentifier = value as Enum[];
-            //arrow addition will be changed
-            if (iconIdentifier[0] == null)
-            {
-                return new Uri("/Resources/Icons/ic_arrow.png", UriKind.Relative);
-            }
             Cache.Types type = (Cache.Types)iconIdentifier[0];
             Cache.Subtypes subtype = (Cache.Subtypes)iconIdentifier[1];
             switch (type)
