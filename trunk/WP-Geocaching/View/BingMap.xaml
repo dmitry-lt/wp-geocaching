@@ -30,8 +30,8 @@
                         <ControlTemplate>
                             <ContentPresenter Width="48">
                                 <ContentPresenter.RenderTransform>
-                                    <CompositeTransform TranslateX="-23"
-                                                TranslateY="2"/>
+                                    <CompositeTransform TranslateX="-24"
+                                                TranslateY="3"/>
                                 </ContentPresenter.RenderTransform>
                             </ContentPresenter>                           
                         </ControlTemplate>
