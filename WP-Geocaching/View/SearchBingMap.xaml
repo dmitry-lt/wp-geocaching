@@ -29,8 +29,22 @@
                         <ControlTemplate>
                             <ContentPresenter Width="48">
                                 <ContentPresenter.RenderTransform>
-                                    <CompositeTransform TranslateX="-23"
-                                                TranslateY="2"/>
+                                    <CompositeTransform TranslateX="-24"
+                                                TranslateY="3"/>
+                                </ContentPresenter.RenderTransform>
+                            </ContentPresenter>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ArrowStyle" TargetType="Microsoft_Phone_Controls_Maps:Pushpin">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <ContentPresenter Width="48">
+                                <ContentPresenter.RenderTransform>
+                                    <CompositeTransform TranslateX="-24"
+                                                TranslateY="17"/>
                                 </ContentPresenter.RenderTransform>
                             </ContentPresenter>
                         </ControlTemplate>
@@ -56,6 +70,9 @@
                                            ZoomLevel="{Binding Zoom, Mode=TwoWay}"
                                            CredentialsProvider ="AvLbzLZIOMHh3dDKm0l2Fak-Fpqpvv9t-YTbFir44CdP5QNXTTcj1GbDaLZMP_jr">
             <Microsoft_Phone_Controls_Maps:MapLayer>
+
+                <Microsoft_Phone_Controls_Maps:MapPolyline Locations="{Binding Locations, Mode=TwoWay}" Stroke="Black" StrokeThickness="4" Opacity="0.8"/>
+
                 <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpinCollection, Mode=TwoWay}">
                     <Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -70,12 +87,11 @@
                 </Microsoft_Phone_Controls_Maps:MapItemsControl>
 
                 <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding CurrentLocation, Mode=TwoWay}"
-                                                                   Style="{StaticResource PushpinStyle}"
+                                                                   Style="{StaticResource ArrowStyle}"
                                                                    >
                     <Image Source="/Resources/Icons/ic_arrow.png" />
                 </Microsoft_Phone_Controls_Maps:Pushpin>
 
-                <Microsoft_Phone_Controls_Maps:MapPolyline Locations="{Binding Locations, Mode=TwoWay}" Stroke="Black" StrokeThickness="4" Opacity="0.8"/>
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>
     </Grid>
