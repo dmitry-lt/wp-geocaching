@@ -68,6 +68,13 @@
                         </DataTemplate>
                     </Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                 </Microsoft_Phone_Controls_Maps:MapItemsControl>
+
+                <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding CurrentLocation, Mode=TwoWay}"
+                                                                   Style="{StaticResource PushpinStyle}"
+                                                                   >
+                    <Image Source="/Resources/Icons/ic_arrow.png" />
+                </Microsoft_Phone_Controls_Maps:Pushpin>
+
                 <Microsoft_Phone_Controls_Maps:MapPolyline Locations="{Binding Locations, Mode=TwoWay}" Stroke="Black" StrokeThickness="4" Opacity="0.8"/>
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>

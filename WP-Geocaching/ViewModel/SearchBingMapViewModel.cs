@@ -38,6 +38,7 @@ namespace WP_Geocaching.ViewModel
         private Cache cache;
         private Action<LocationRect> setView;
         private LocationCollection locations;
+        private GeoCoordinate currentLocation;
 
         public int Zoom
         {
@@ -115,6 +116,24 @@ namespace WP_Geocaching.ViewModel
                 this.locations = value;
             }
         }
+        public GeoCoordinate CurrentLocation
+        {
+            get
+            {
+                return this.currentLocation;
+            }
+            set
+            {
+                bool changed = currentLocation != value;
+                if (changed)
+                {
+                    Locations.Remove(currentLocation);
+                    Locations.Add(value);
+                    currentLocation = value;
+                    OnPropertyChanged("CurrentLocation");
+                }
+            }
+        }
 
         public SearchBingMapViewModel(IApiManager apiManager, Action<LocationRect> setView)
         {
@@ -129,14 +148,6 @@ namespace WP_Geocaching.ViewModel
             this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
             this.Locations = new LocationCollection();
             this.CachePushpinCollection.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(collectionChanged);
-                       
-            CachePushpin pin = new CachePushpin();
-            pin.CacheId = "-1";
-            //pin.IconUri = new Uri("arrow", UriKind.Relative);
-            pin.IconUri = new Enum[1] { null };
-            pin.Location = manager.DefaulMapCenter;
-            CachePushpinCollection.Add(pin);
-            Locations.Add(pin.Location);
 
             this.watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
             this.watcher.MovementThreshold = 20;
@@ -146,18 +157,10 @@ namespace WP_Geocaching.ViewModel
         }
 
         private void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
-        {         
-            CachePushpin pin = new CachePushpin();
-            pin.CacheId = "-1";
-            pin.IconUri = new Enum[1] { null };
-            pin.Location = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
-            CachePushpinCollection.RemoveAt(0);
-            CachePushpinCollection.Insert(0, pin);
+        {
+            this.CurrentLocation = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
 
-            Locations.RemoveAt(0);
-            Locations.Insert(0, pin.Location);
-
-            if ((isFirst) && (cachePushpinCollection.Count == 2))
+            if ((isFirst) && (cachePushpinCollection.Count != 0))
             {
                 SetViewAll();
                 isFirst = false;
@@ -171,10 +174,7 @@ namespace WP_Geocaching.ViewModel
                 for (int i = 0; i < e.NewItems.Count; i++)
                 {
                     CachePushpin pin = e.NewItems[i] as CachePushpin;
-                    if (!pin.Equals(cachePushpinCollection[0]))
-                    {
-                        refreshToSetData(pin.Location, northwest, southeast);
-                    }
+                    refreshToSetData(pin.Location, northwest, southeast);
                 }
             }           
         }
@@ -183,7 +183,7 @@ namespace WP_Geocaching.ViewModel
         {
             GeoCoordinate northwest = new GeoCoordinate(this.northwest.Latitude, this.northwest.Longitude);
             GeoCoordinate southeast = new GeoCoordinate(this.southeast.Latitude, this.southeast.Longitude);
-            refreshToSetData(cachePushpinCollection[0].Location, northwest, southeast);
+            refreshToSetData(CurrentLocation, northwest, southeast);
             this.setView(new LocationRect(northwest.Latitude, northwest.Longitude, southeast.Latitude, southeast.Longitude));
         }
 
