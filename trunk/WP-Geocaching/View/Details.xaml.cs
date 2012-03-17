@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 using System.Windows.Navigation;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
+using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching
 {
@@ -28,6 +30,7 @@ namespace WP_Geocaching
             context = null;
             int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
             detailsViewModel.Cache = GeocahingSuApiManager.Instance.GetCachebyId(cacheId);
+            SetFavoriteButton(); 
             DbCacheItem item = db.GetCache(cacheId);
             if ((item != null) && (item.Details != null))
             {
@@ -49,15 +52,50 @@ namespace WP_Geocaching
             Browser.NavigateToString(info);
         }
 
-        private void AddToFavoritesButton_Click(object sender, EventArgs e)
-        {
-            db.AddCache(detailsViewModel.Cache, context);
-        }
-
         private void SearchCacheButton_Click(object sender, EventArgs e)
         {
             db.AddCache(detailsViewModel.Cache, context);
             NavigationManager.Instance.NavigateToSearchBingMap(detailsViewModel.Cache.Id.ToString());
+        }
+
+        private void SetFavoriteButton()
+        {
+            if (db.GetCache(detailsViewModel.Cache.Id) == null)
+            {
+                this.ApplicationBar.Buttons.Add(GetAddButton());
+            }
+            else
+            {
+                this.ApplicationBar.Buttons.Add(GetDelButton());
+            }
+        }
+
+        private ApplicationBarIconButton GetAddButton()
+        {
+            ApplicationBarIconButton addButton = new ApplicationBarIconButton();
+            addButton.IconUri = new Uri("Resources/Images/appbar.favs.addto.rest.png", UriKind.Relative);
+            addButton.Click += (sender, e) =>
+            {
+                db.AddCache(detailsViewModel.Cache, context);
+                this.ApplicationBar.Buttons.Remove(sender);
+                this.ApplicationBar.Buttons.Add(GetDelButton());
+            };
+            addButton.Text = AppResources.AddFavoritesButton;
+            return addButton;
+        }
+
+        private ApplicationBarIconButton GetDelButton()
+        {
+            ApplicationBarIconButton delButton = new ApplicationBarIconButton();
+            delButton.IconUri = new Uri("Resources/Images/appbar.favs.deletefrom.rest.png", UriKind.Relative);
+            delButton.Click += (sender, e) =>
+            {
+                db.DeleteCache(detailsViewModel.Cache.Id);
+                this.ApplicationBar.Buttons.Remove(sender);
+                this.ApplicationBar.Buttons.Add(GetAddButton());
+            };
+            delButton.Text = AppResources.DeleteFavoritesButton;
+            return delButton;
         }
     }
 }

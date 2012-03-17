@@ -29,7 +29,7 @@ namespace WP_Geocaching.Model.DataBase
         public int Type { get; set; }
         [Column()]
         public int Subtype { get; set; }
-        [Column(DbType = "NTEXT")]
+        [Column(DbType = "NTEXT", UpdateCheck = UpdateCheck.WhenChanged)]
         public string Details { get; set; }
     }
 }

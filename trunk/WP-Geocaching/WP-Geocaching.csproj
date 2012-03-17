@@ -217,6 +217,7 @@
     <Content Include="Resources\Icons\ic_cache_custom_virtual_not_confirmed.png" />
     <Content Include="Resources\Icons\ic_cache_custom_virtual_not_valid.png" />
     <Content Include="Resources\Icons\ic_cache_custom_virtual_valid.png" />
+    <Content Include="Resources\Images\appbar.favs.deletefrom.rest.png" />
     <Content Include="Resources\Images\appbar.refresh.rest.png" />
     <Content Include="Resources\Images\compass_rose_white.png" />
     <Content Include="Resources\Images\appbar.feature.search.rest.png" />
