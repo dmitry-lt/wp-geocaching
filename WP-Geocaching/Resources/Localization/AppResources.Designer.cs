@@ -61,6 +61,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to add.
+        /// </summary>
+        public static string AddFavoritesButton {
+            get {
+                return ResourceManager.GetString("AddFavoritesButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GEOCACHING.
         /// </summary>
         public static string ApplicationTitle {
@@ -84,6 +93,15 @@ namespace WP_Geocaching.Resources.Localization {
         public static string ChooseCompass {
             get {
                 return ResourceManager.GetString("ChooseCompass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delete.
+        /// </summary>
+        public static string DeleteFavoritesButton {
+            get {
+                return ResourceManager.GetString("DeleteFavoritesButton", resourceCulture);
             }
         }
         

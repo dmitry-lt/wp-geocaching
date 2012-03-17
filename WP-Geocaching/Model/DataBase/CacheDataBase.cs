@@ -26,7 +26,7 @@ namespace WP_Geocaching.Model.DataBase
             {
                 if (!db.DatabaseExists())
                 {
-                    db.CreateDatabase();                   
+                    db.CreateDatabase();
                     db.SubmitChanges();
                 }
             }
@@ -67,6 +67,18 @@ namespace WP_Geocaching.Model.DataBase
                             where (e.Id == id)
                             select e;
                 query.FirstOrDefault().Details = details;
+                db.SubmitChanges();
+            }
+        }
+
+        public void DeleteCache(int id)
+        {
+            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            {
+                var query = from e in db.Caches
+                            where (e.Id == id)
+                            select e;
+                db.Caches.DeleteOnSubmit((DbCacheItem)query.FirstOrDefault());
                 db.SubmitChanges();
             }
         }
