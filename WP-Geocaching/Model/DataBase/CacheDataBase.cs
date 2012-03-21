@@ -59,6 +59,26 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
+        public void AddCheckpoint(int cacheId, string name, double latitude, double longitude)
+        {
+
+                using (var db = new CacheDataContext(ConnectionString))
+                {
+                    DbCheckpointsItem newItem = new DbCheckpointsItem()
+                    {
+                        CacheId = cacheId,
+                        Latitude = latitude,
+                        Longitude = longitude,
+                        Name = name,
+                        Type = (int)Cache.Types.Checkpoint,
+                        Subtype = (int)Cache.Subtypes.ActiveCheckpoint,
+                    };
+                   
+                    db.Checkpoints.InsertOnSubmit(newItem);
+                    db.SubmitChanges();                    
+                }            
+        }
+
         public void UpdateCacheInfo(String details, int id)
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
@@ -103,6 +123,17 @@ namespace WP_Geocaching.Model.DataBase
                             where (e.Id == id)
                             select e;
                 return query.FirstOrDefault();
+            }
+        }
+
+        public List<DbCheckpointsItem> GetCheckpointsbyCacheId(int cacheId)
+        {
+            using (var db = new CacheDataContext(ConnectionString))
+            {
+                var query = from e in db.Checkpoints
+                            where (e.CacheId == cacheId)
+                            select e;
+                return query.ToList();
             }
         }
     }

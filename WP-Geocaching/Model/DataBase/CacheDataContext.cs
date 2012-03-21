@@ -24,5 +24,12 @@ namespace WP_Geocaching.Model.DataBase
                 return this.GetTable<DbCacheItem>();
             }
         }
+        public Table<DbCheckpointsItem> Checkpoints
+        {
+            get
+            {
+                return this.GetTable<DbCheckpointsItem>();
+            }
+        }
     }
 }

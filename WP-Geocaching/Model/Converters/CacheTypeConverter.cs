@@ -41,6 +41,8 @@ namespace WP_Geocaching.Model.Converters
                     return CacheTypeResources.step_by_step_virtual;
                 case Cache.Types.Competition:
                     return CacheTypeResources.competition;
+                case Cache.Types.Checkpoint:
+                    return CacheTypeResources.checkpoint;
             }
             return null;
         }

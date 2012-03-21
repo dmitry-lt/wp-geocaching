@@ -23,7 +23,9 @@ namespace WP_Geocaching.Model
         {
             Valid = 1,
             NotConfirmed = 2,
-            NotValid = 3
+            NotValid = 3,
+            ActiveCheckpoint = 4,
+            NotActiveCheckpoint = 5
         }
 
         public enum Types : int
@@ -35,7 +37,8 @@ namespace WP_Geocaching.Model
             Camera = 5, 
             Extreme = 6, 
             StepbyStepVirtual = 7, 
-            Competition = 8
+            Competition = 8,
+            Checkpoint = 9
         }
 
         private int id;

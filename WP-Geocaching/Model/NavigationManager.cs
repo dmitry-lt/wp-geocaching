@@ -58,5 +58,13 @@ namespace WP_Geocaching.Model
         {
             this.Navigate("//View/SearchBingMap.xaml", CurrentId);
         }
+        public void NavigateToCheckpoints()
+        {
+            this.Navigate("//View/Checkpoints/Checkpoints.xaml");
+        }
+        public void NavigateToCreateCheckpoint()
+        {
+            this.Navigate("//View/Checkpoints/CreateCheckpoint.xaml");
+        }
     }
 }

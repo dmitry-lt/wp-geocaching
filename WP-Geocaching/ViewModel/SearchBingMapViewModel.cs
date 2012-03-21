@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
+using WP_Geocaching.Model.DataBase;
 
 
 namespace WP_Geocaching.ViewModel
@@ -30,7 +31,6 @@ namespace WP_Geocaching.ViewModel
         private GeoCoordinate northwest;
         private GeoCoordinate southeast;
         private GeoCoordinateWatcher watcher;
-        private BingMapManager manager;
         private int zoom;
         private GeoCoordinate mapCenter;
         private IApiManager apiManager;
@@ -83,14 +83,9 @@ namespace WP_Geocaching.ViewModel
                 cache = value;               
                 if (cache != null)
                 {
-                    CachePushpin pushpin = new CachePushpin()
-                    {
-                        Location = cache.Location,
-                        CacheId = cache.Id.ToString(),
-                        IconUri = new Enum[2] { cache.Type, cache.Subtype }
-                    };
-                    CachePushpinCollection.Add(pushpin);
-                    Locations.Add(pushpin.Location);
+                    MapManager.Instance.CacheId = value.Id;
+                    Locations.Add(cache.Location);
+                    UpdateCachePushpins();
                 }
             }
         }
@@ -102,7 +97,12 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                this.cachePushpinCollection = value;
+                bool changed = cachePushpinCollection != value;
+                if (changed)
+                {
+                    cachePushpinCollection = value;
+                    OnPropertyChanged("CachePushpinCollection");
+                }
             }
         }
         public LocationCollection Locations
@@ -137,17 +137,16 @@ namespace WP_Geocaching.ViewModel
 
         public SearchBingMapViewModel(IApiManager apiManager, Action<LocationRect> setView)
         {
-            this.manager = new BingMapManager();
             this.apiManager = apiManager;
             this.setView = setView;
 
             this.isFirst = true;
             this.northwest = new GeoCoordinate(-90, 180);
-            this.southeast = new GeoCoordinate(90, -180);            
-            this.zoom = manager.DefaultZoom;            
+            this.southeast = new GeoCoordinate(90, -180);
+            this.zoom = MapManager.Instance.DefaultZoom;            
             this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
+            
             this.Locations = new LocationCollection();
-            this.CachePushpinCollection.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(collectionChanged);
 
             this.watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
             this.watcher.MovementThreshold = 20;
@@ -167,32 +166,49 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        private void collectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {           
-            if (e.NewItems != null)
+        public void UpdateCachePushpins()
+        {
+            CacheDataBase db = new CacheDataBase();
+            List<DbCheckpointsItem> dbCheckpointsList = db.GetCheckpointsbyCacheId(MapManager.Instance.CacheId);
+            ObservableCollection<CachePushpin> cachePushpins = new ObservableCollection<CachePushpin>();
+            CachePushpin pushpin = new CachePushpin()
             {
-                for (int i = 0; i < e.NewItems.Count; i++)
+                Location = cache.Location,
+                CacheId = cache.Id.ToString(),
+                IconUri = new Enum[2] { cache.Type, cache.Subtype }
+            };
+            cachePushpins.Add(pushpin);
+            foreach (DbCheckpointsItem c in dbCheckpointsList)
+            {
+                CachePushpin pin = new CachePushpin()
                 {
-                    CachePushpin pin = e.NewItems[i] as CachePushpin;
-                    refreshToSetData(pin.Location, northwest, southeast);
-                }
-            }           
+                    Location = new GeoCoordinate(c.Latitude, c.Longitude),
+                    CacheId = "-1",
+                    IconUri = new Enum[2] { (Cache.Types)c.Type, (Cache.Subtypes)c.Subtype }
+                };
+                cachePushpins.Add(pin);
+            }
+            CachePushpinCollection = cachePushpins;
         }
 
         public void SetViewAll()
         {
-            GeoCoordinate northwest = new GeoCoordinate(this.northwest.Latitude, this.northwest.Longitude);
-            GeoCoordinate southeast = new GeoCoordinate(this.southeast.Latitude, this.southeast.Longitude);
+            GeoCoordinate northwest = new GeoCoordinate(-90, 180);
+            GeoCoordinate southeast = new GeoCoordinate(90, -180);
+            foreach (CachePushpin c in cachePushpinCollection)
+            {
+                refreshToSetData(c.Location, northwest, southeast);
+            }
             refreshToSetData(CurrentLocation, northwest, southeast);
             this.setView(new LocationRect(northwest.Latitude, northwest.Longitude, southeast.Latitude, southeast.Longitude));
         }
 
         private void refreshToSetData(GeoCoordinate coordinate, GeoCoordinate northwest, GeoCoordinate southeast)
         {
-            if (coordinate.Latitude > northwest.Latitude) northwest.Latitude = coordinate.Latitude;
-            if (coordinate.Longitude < northwest.Longitude) northwest.Longitude = coordinate.Longitude;
-            if (coordinate.Latitude < southeast.Latitude) southeast.Latitude = coordinate.Latitude;
-            if (coordinate.Longitude > southeast.Longitude) southeast.Longitude = coordinate.Longitude;          
+            northwest.Latitude = Math.Max(coordinate.Latitude, northwest.Latitude);
+            northwest.Longitude = Math.Min(coordinate.Longitude, northwest.Longitude);
+            southeast.Latitude = Math.Min(coordinate.Latitude, southeast.Latitude);
+            southeast.Longitude = Math.Max(coordinate.Longitude, southeast.Longitude);          
         }
 
         private void OnPropertyChanged(string propertyName)

@@ -101,6 +101,9 @@
             <shell:ApplicationBarIconButton IconUri="Resources/Images/appbar.refresh.rest.png" 
                                             Text="set all" 
                                             Click="SetAll_Click"/>
+            <shell:ApplicationBarIconButton IconUri="Resources/Images/appbar.checkpoints.png" 
+                                            Text="Checkpoints" 
+                                            Click="Checkpoints_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

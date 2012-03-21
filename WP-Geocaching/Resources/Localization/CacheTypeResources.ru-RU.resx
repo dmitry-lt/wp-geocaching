@@ -141,4 +141,7 @@
   <data name="traditional" xml:space="preserve">
     <value>Традиционный</value>
   </data>
+  <data name="checkpoint" xml:space="preserve">
+    <value>Контрольная точка</value>
+  </data>
 </root>

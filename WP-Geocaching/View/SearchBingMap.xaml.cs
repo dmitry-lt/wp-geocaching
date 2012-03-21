@@ -39,13 +39,25 @@ namespace WP_Geocaching.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
-            searchBingMapViewModel.Cache = GeocahingSuApiManager.Instance.GetCachebyId(cacheId);
+            if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
+            {
+                int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
+                searchBingMapViewModel.Cache = GeocahingSuApiManager.Instance.GetCachebyId(cacheId);
+            }
+            if (e.NavigationMode == System.Windows.Navigation.NavigationMode.Back)
+            {
+                this.searchBingMapViewModel.UpdateCachePushpins();
+            }
         }
 
         private void SetAll_Click(object sender, EventArgs e)
         {
             searchBingMapViewModel.SetViewAll();
+        }
+
+        private void Checkpoints_Click(object sender, EventArgs e)
+        {
+            NavigationManager.Instance.NavigateToCheckpoints();
         }
     }
 }
