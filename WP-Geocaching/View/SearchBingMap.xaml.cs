@@ -47,6 +47,7 @@ namespace WP_Geocaching.View
             if (e.NavigationMode == System.Windows.Navigation.NavigationMode.Back)
             {
                 this.searchBingMapViewModel.UpdateCachePushpins();
+                searchBingMapViewModel.UpdateLocations();
             }
         }
 

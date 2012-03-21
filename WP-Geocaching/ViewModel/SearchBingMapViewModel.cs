@@ -86,6 +86,7 @@ namespace WP_Geocaching.ViewModel
                     MapManager.Instance.CacheId = value.Id;
                     Locations.Add(cache.Location);
                     UpdateCachePushpins();
+                    UpdateLocations();
                 }
             }
         }
@@ -113,7 +114,12 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                this.locations = value;
+                bool changed = locations != value;
+                if (changed)
+                {
+                    locations = value;
+                    OnPropertyChanged("Locations");
+                }
             }
         }
         public GeoCoordinate CurrentLocation
@@ -189,6 +195,30 @@ namespace WP_Geocaching.ViewModel
                 cachePushpins.Add(pin);
             }
             CachePushpinCollection = cachePushpins;
+        }
+
+        public void UpdateLocations()
+        {
+            LocationCollection locations = new LocationCollection();
+            if (currentLocation != null)
+            {
+                locations.Add(currentLocation);
+            }
+            locations.Add(GetSearchPoint());
+            this.Locations = locations;
+        }
+
+        private GeoCoordinate GetSearchPoint()
+        {
+            foreach (CachePushpin c in CachePushpinCollection)
+            {
+                Cache.Subtypes subtype = (Cache.Subtypes)c.IconUri[1];
+                if ((subtype == Cache.Subtypes.ActiveCheckpoint))
+                {
+                    return c.Location;
+                }
+            }
+            return Cache.Location;
         }
 
         public void SetViewAll()

@@ -31,7 +31,7 @@ namespace WP_Geocaching
             double longitude = Convert.ToDouble(this.Longitude.Text);
             if (IsCorrectData(latitude, longitude))
             {
-                db.AddCheckpoint(MapManager.Instance.CacheId, this.Name.Text, latitude, longitude);
+                db.AddActiveCheckpoint(MapManager.Instance.CacheId, this.Name.Text, latitude, longitude);
                 this.NavigationService.GoBack();
             }
         }
