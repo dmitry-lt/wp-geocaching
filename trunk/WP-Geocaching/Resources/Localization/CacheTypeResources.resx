@@ -141,4 +141,7 @@
   <data name="traditional" xml:space="preserve">
     <value>Traditional</value>
   </data>
+  <data name="checkpoint" xml:space="preserve">
+    <value>Checkpoint</value>
+  </data>
 </root>

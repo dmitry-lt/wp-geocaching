@@ -15,6 +15,7 @@ namespace WP_Geocaching.Model.Converters
     public class IconConverter : IValueConverter
     {
         private const string IconUri = "/Resources/Icons/ic_cache_custom_{0}_{1}.png";
+        private const string CheckpointUri = "/Resources/Icons/ic_checkpoint_{0}.png";
 
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
@@ -130,6 +131,17 @@ namespace WP_Geocaching.Model.Converters
                                 return new Uri(String.Format(IconUri, "competition", "not_valid"), UriKind.Relative);
                             case Cache.Subtypes.Valid:
                                 return new Uri(String.Format(IconUri, "competition", "valid"), UriKind.Relative);
+                        }
+                        break;
+                    }
+                case Cache.Types.Checkpoint:
+                    {
+                        switch (subtype)
+                        {
+                            case Cache.Subtypes.ActiveCheckpoint:
+                                return new Uri(String.Format(CheckpointUri, "active"), UriKind.Relative);
+                            case Cache.Subtypes.NotActiveCheckpoint:
+                                return new Uri(String.Format(CheckpointUri, "not_active"), UriKind.Relative);
                         }
                         break;
                     }

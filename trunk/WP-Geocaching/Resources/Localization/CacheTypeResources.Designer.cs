@@ -79,6 +79,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checkpoint.
+        /// </summary>
+        public static string checkpoint {
+            get {
+                return ResourceManager.GetString("checkpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Competition.
         /// </summary>
         public static string competition {

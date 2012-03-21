@@ -135,11 +135,20 @@
   <data name="Favorites" xml:space="preserve">
     <value>Избранное</value>
   </data>
+  <data name="NewCheckpoint" xml:space="preserve">
+    <value>Контрольная точка</value>
+  </data>
   <data name="OverflowMessage" xml:space="preserve">
     <value>Слишком много тайников на экране. Увеличьте масштаб.</value>
   </data>
+  <data name="PageTitleCheckpoints" xml:space="preserve">
+    <value>контрольные точки</value>
+  </data>
   <data name="PageTitleCompass" xml:space="preserve">
     <value>компасс</value>
+  </data>
+  <data name="PageTitleCreateCheckpoints" xml:space="preserve">
+    <value>Создать контрольную точку</value>
   </data>
   <data name="PageTitleDetails" xml:space="preserve">
     <value>детали тайника</value>

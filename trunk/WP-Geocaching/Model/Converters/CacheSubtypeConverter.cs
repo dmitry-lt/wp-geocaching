@@ -30,7 +30,11 @@ namespace WP_Geocaching.Model.Converters
                 case Cache.Subtypes.NotValid:
                     return CacheSubtypeResources.not_valid;
                 case Cache.Subtypes.Valid:
-                    return CacheSubtypeResources.valid;                      
+                    return CacheSubtypeResources.valid;
+                case Cache.Subtypes.ActiveCheckpoint:
+                    return CacheSubtypeResources.active;
+                case Cache.Subtypes.NotActiveCheckpoint:
+                    return CacheSubtypeResources.active;
             }
             return null;
         }

@@ -14,21 +14,21 @@ using System.Data.Linq.Mapping;
 namespace WP_Geocaching.Model.DataBase
 {
     [Table]
-    public class DbCacheItem
+    public class DbCheckpointsItem
     {
-        [Column(IsPrimaryKey = true)]
-        public int Id { get; set; }
+        [Column(IsPrimaryKey = true, IsDbGenerated = true)]
+        public int CheckpointId { get; set; }
+        [Column()]
+        public int CacheId { get; set; }
         [Column()]
         public string Name { get; set; }
-        [Column()]
-        public double Latitude { get; set; }
-        [Column()]
-        public double Longitude { get; set; }
         [Column()]
         public int Type { get; set; }
         [Column()]
         public int Subtype { get; set; }
-        [Column(DbType = "NTEXT", UpdateCheck = UpdateCheck.WhenChanged)]
-        public string Details { get; set; }
+        [Column()]
+        public double Latitude { get; set; }
+        [Column()]
+        public double Longitude { get; set; }
     }
 }

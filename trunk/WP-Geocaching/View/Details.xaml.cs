@@ -15,6 +15,7 @@ namespace WP_Geocaching
         private DetailsViewModel detailsViewModel;
         private string context;
         private CacheDataBase db;
+        ApplicationBarIconButton favoriteButton;
 
         public Details()
         {
@@ -27,11 +28,21 @@ namespace WP_Geocaching
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            context = null;
             int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
-            detailsViewModel.Cache = GeocahingSuApiManager.Instance.GetCachebyId(cacheId);
-            SetFavoriteButton(); 
-            DbCacheItem item = db.GetCache(cacheId);
+
+            if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
+            {
+                context = null;
+                detailsViewModel.Cache = GeocahingSuApiManager.Instance.GetCachebyId(cacheId);
+                SetFavoriteButton();
+            }
+            else
+            {
+                this.ApplicationBar.Buttons.Remove(favoriteButton);
+                SetFavoriteButton();
+            }
+
+            DbCacheItem item = db.GetCache(detailsViewModel.Cache.Id);
             if ((item != null) && (item.Details != null))
             {
                 Browser.NavigateToString(item.Details);
@@ -62,11 +73,13 @@ namespace WP_Geocaching
         {
             if (db.GetCache(detailsViewModel.Cache.Id) == null)
             {
-                this.ApplicationBar.Buttons.Add(GetAddButton());
+                favoriteButton = GetAddButton();
+                this.ApplicationBar.Buttons.Add(favoriteButton);
             }
             else
             {
-                this.ApplicationBar.Buttons.Add(GetDelButton());
+                favoriteButton = GetDelButton();
+                this.ApplicationBar.Buttons.Add(favoriteButton);
             }
         }
 
@@ -78,7 +91,8 @@ namespace WP_Geocaching
             {
                 db.AddCache(detailsViewModel.Cache, context);
                 this.ApplicationBar.Buttons.Remove(sender);
-                this.ApplicationBar.Buttons.Add(GetDelButton());
+                favoriteButton = GetDelButton();
+                this.ApplicationBar.Buttons.Add(favoriteButton);
             };
             addButton.Text = AppResources.AddFavoritesButton;
             return addButton;
@@ -92,7 +106,8 @@ namespace WP_Geocaching
             {
                 db.DeleteCache(detailsViewModel.Cache.Id);
                 this.ApplicationBar.Buttons.Remove(sender);
-                this.ApplicationBar.Buttons.Add(GetAddButton());
+                favoriteButton = GetAddButton();
+                this.ApplicationBar.Buttons.Add(favoriteButton);
             };
             delButton.Text = AppResources.DeleteFavoritesButton;
             return delButton;
