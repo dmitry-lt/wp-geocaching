@@ -59,24 +59,36 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        public void AddCheckpoint(int cacheId, string name, double latitude, double longitude)
+        public void AddActiveCheckpoint(int cacheId, string name, double latitude, double longitude)
         {
-
-                using (var db = new CacheDataContext(ConnectionString))
+            MakeAllCheckpointsNotActive();
+            using (var db = new CacheDataContext(ConnectionString))
+            {
+                DbCheckpointsItem newItem = new DbCheckpointsItem()
                 {
-                    DbCheckpointsItem newItem = new DbCheckpointsItem()
-                    {
-                        CacheId = cacheId,
-                        Latitude = latitude,
-                        Longitude = longitude,
-                        Name = name,
-                        Type = (int)Cache.Types.Checkpoint,
-                        Subtype = (int)Cache.Subtypes.ActiveCheckpoint,
-                    };
-                   
-                    db.Checkpoints.InsertOnSubmit(newItem);
-                    db.SubmitChanges();                    
-                }            
+                    CacheId = cacheId,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    Name = name,
+                    Type = (int)Cache.Types.Checkpoint,
+                    Subtype = (int)Cache.Subtypes.ActiveCheckpoint,
+                };
+
+                db.Checkpoints.InsertOnSubmit(newItem);
+                db.SubmitChanges();
+            }
+        }
+
+        private void MakeAllCheckpointsNotActive()
+        {
+            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            {
+                foreach (DbCheckpointsItem c in db.Checkpoints)
+                {
+                    c.Subtype = (int)Cache.Subtypes.NotActiveCheckpoint;
+                }
+                db.SubmitChanges();
+            }
         }
 
         public void UpdateCacheInfo(String details, int id)
