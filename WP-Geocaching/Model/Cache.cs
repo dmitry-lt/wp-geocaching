@@ -27,7 +27,6 @@ namespace WP_Geocaching.Model
             ActiveCheckpoint = 4,
             NotActiveCheckpoint = 5
         }
-
         public enum Types : int
         {
             Traditional = 1,

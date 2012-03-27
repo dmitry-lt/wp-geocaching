@@ -21,7 +21,7 @@ namespace WP_Geocaching.ViewModel
         private ListCacheItem selectedCheckpoint;
         private List<ListCacheItem> dataSource;
         private string dialogVisibility;
-        private bool isEnabled;
+        private bool isListEnabled;
         private ChooseorDeleteDialogViewModel dialogContent;
 
         public List<ListCacheItem> DataSource
@@ -65,16 +65,16 @@ namespace WP_Geocaching.ViewModel
                 }
             }
         }
-        public bool IsEnabled
+        public bool IsListEnabled
         {
-            get { return isEnabled; }
+            get { return isListEnabled; }
             set
             {
-                bool changed = isEnabled != value;
+                bool changed = isListEnabled != value;
                 if (changed)
                 {
-                    isEnabled = value;
-                    OnPropertyChanged("IsEnabled");
+                    isListEnabled = value;
+                    OnPropertyChanged("IsListEnabled");
                 }
             }
         }
@@ -95,7 +95,7 @@ namespace WP_Geocaching.ViewModel
         public CheckpointsViewModel()
         {
             DialogVisibility = "Collapsed";
-            IsEnabled = true;
+            IsListEnabled = true;
             UpdateDataSource();          
         }
 
@@ -109,8 +109,14 @@ namespace WP_Geocaching.ViewModel
             {
                 newDataSource.Add(new ListCacheItem(c));
             }
-
             this.DataSource = newDataSource;
+        }
+       
+        public void CloseMakeActiveorDeleteDialogDialog()
+        {
+            DialogVisibility = "Collapsed";
+            IsListEnabled = true;
+            UpdateDataSource();
         }
 
         private void OnPropertyChanged(string propertyName)
@@ -123,13 +129,7 @@ namespace WP_Geocaching.ViewModel
         {
             DialogVisibility = "Visible";
             DialogContent = new ChooseorDeleteDialogViewModel(SelectedCheckpoint, CloseMakeActiveorDeleteDialogDialog);
-            IsEnabled = false;
-        }
-        public void CloseMakeActiveorDeleteDialogDialog()
-        {
-            DialogVisibility = "Collapsed";
-            IsEnabled = true;
-            UpdateDataSource();
+            IsListEnabled = false;
         }
     }
 }

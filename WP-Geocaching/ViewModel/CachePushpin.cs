@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 using System.Device.Location;
 using System.ComponentModel;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -56,6 +57,20 @@ namespace WP_Geocaching.ViewModel
 
         public CachePushpin()
         {
+        }
+
+        public CachePushpin(Cache cache)
+        {
+            Location = cache.Location;
+            CacheId = cache.Id.ToString();
+            IconUri = new Enum[2] { cache.Type, cache.Subtype };
+        }
+
+        public CachePushpin(DbCheckpointsItem item)
+        {
+            Location = new GeoCoordinate(item.Latitude, item.Longitude);
+            CacheId = "-1";
+            IconUri = new Enum[2] { (Cache.Types)item.Type, (Cache.Subtypes)item.Subtype };
         }
     }
 }

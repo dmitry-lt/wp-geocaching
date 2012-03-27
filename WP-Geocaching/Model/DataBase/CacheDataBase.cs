@@ -49,7 +49,6 @@ namespace WP_Geocaching.Model.DataBase
                         Details = details
                     };
 
-
                     if (!db.Caches.Contains(newItem))
                     {
                         db.Caches.InsertOnSubmit(newItem);
@@ -73,7 +72,6 @@ namespace WP_Geocaching.Model.DataBase
                     Type = (int)Cache.Types.Checkpoint,
                     Subtype = (int)Cache.Subtypes.ActiveCheckpoint,
                 };
-
                 db.Checkpoints.InsertOnSubmit(newItem);
                 db.SubmitChanges();
             }
@@ -83,11 +81,7 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-
-                var query = from e in db.Checkpoints
-                            where (e.CacheId == cacheId)
-                                select e;
-
+                var query = GetCheckpointQueryByCacheId(db.Checkpoints, cacheId);
                 foreach (DbCheckpointsItem c in query)
                 {
                     c.Subtype = (int)Cache.Subtypes.NotActiveCheckpoint;
@@ -96,15 +90,12 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        public void MakeCheckpointActive(int checkpointId)
+        public void MakeCheckpointActive(int id)
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
 
-                var query = from e in db.Checkpoints
-                            where (e.CheckpointId == checkpointId)
-                            select e;
-
+                var query = GetCheckpointQueryById(db.Checkpoints, id);
                 DbCheckpointsItem checkpoint = query.FirstOrDefault();
                 if ((checkpoint != null) && (checkpoint.Subtype != (int)Cache.Subtypes.ActiveCheckpoint))
                 {
@@ -124,9 +115,7 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-                var query = from e in db.Caches
-                            where (e.Id == id)
-                            select e;
+                var query = GetCacheQueryById(db.Caches, id);
                 query.FirstOrDefault().Details = details;
                 db.SubmitChanges();
             }
@@ -136,9 +125,7 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-                var query = from e in db.Caches
-                            where (e.Id == id)
-                            select e;
+                var query = GetCacheQueryById(db.Caches, id);
                 db.Caches.DeleteOnSubmit((DbCacheItem)query.FirstOrDefault());
                 db.SubmitChanges();
             }
@@ -149,9 +136,7 @@ namespace WP_Geocaching.Model.DataBase
             var cacheList = new List<DbCacheItem>();
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = from e in db.Caches
-                            select e;
-                cacheList = query.ToList();
+                cacheList = db.Caches.ToList();
             }
             return cacheList;
         }
@@ -160,9 +145,7 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = from e in db.Caches
-                            where (e.Id == id)
-                            select e;
+                var query = GetCacheQueryById(db.Caches, id);
                 return query.FirstOrDefault();
             }
         }
@@ -171,9 +154,7 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = from e in db.Checkpoints
-                            where (e.CacheId == cacheId)
-                            select e;
+                var query = GetCheckpointQueryByCacheId(db.Checkpoints, cacheId);
                 return query.ToList();
             }
         }
@@ -182,9 +163,7 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-                var query = from e in db.Checkpoints
-                            where (e.CheckpointId == id)
-                            select e;
+                var query = GetCheckpointQueryById(db.Checkpoints, id);
                 db.Checkpoints.DeleteOnSubmit((DbCheckpointsItem)query.FirstOrDefault());
                 db.SubmitChanges();
             }
@@ -194,14 +173,34 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-
-                var query = from e in db.Checkpoints
-                            where (e.CacheId == cacheId)
-                            select e;
-
+                var query = GetCheckpointQueryByCacheId(db.Checkpoints, cacheId);
                 db.Checkpoints.DeleteAllOnSubmit(query);
                 db.SubmitChanges();
             }
+        }
+
+        private IQueryable<DbCacheItem> GetCacheQueryById(Table<DbCacheItem> table, int id)
+        {
+            var query = from e in table
+                        where (e.Id == id)
+                        select e;
+            return query;
+        }
+
+        private IQueryable<DbCheckpointsItem> GetCheckpointQueryById(Table<DbCheckpointsItem> table, int id)
+        {
+            var query = from e in table
+                        where (e.Id == id)
+                        select e;
+            return query;
+        }
+
+        private IQueryable<DbCheckpointsItem> GetCheckpointQueryByCacheId(Table<DbCheckpointsItem> table, int cacheId)
+        {
+            var query = from e in table
+                        where (e.CacheId == cacheId)
+                        select e;
+            return query;
         }
     }
 }

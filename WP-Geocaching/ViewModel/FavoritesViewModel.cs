@@ -55,6 +55,11 @@ namespace WP_Geocaching.ViewModel
         public FavoritesViewModel()
         {
             UpdateDataSource();
+        }       
+
+        public void UpdateDataSource()
+        {
+            DataSource = GetDataSource();
         }
 
         private List<ListCacheItem> GetDataSource()
@@ -67,11 +72,6 @@ namespace WP_Geocaching.ViewModel
                 dataSource.Add(new ListCacheItem(c));
             }
             return dataSource;
-        }
-
-        public void UpdateDataSource()
-        {
-            DataSource = GetDataSource();
         }
 
         private void OnPropertyChanged(string propertyName)

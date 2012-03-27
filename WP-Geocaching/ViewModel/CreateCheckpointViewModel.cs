@@ -21,7 +21,6 @@ namespace WP_Geocaching.ViewModel
 
         private string latitude;
         private string longitude;
-
         private string name;
 
         public string Latitude
@@ -49,8 +48,7 @@ namespace WP_Geocaching.ViewModel
                     OnPropertyChanged("Longitude");
                 }
             }
-        }
-       
+        }       
         public string Name
         {
             get { return name; }

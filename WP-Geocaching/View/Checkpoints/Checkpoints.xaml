@@ -37,7 +37,7 @@
                      ItemsSource="{Binding DataSource}"
                      SelectionMode="Single"
                      SelectedItem ="{Binding SelectedCheckpoint, Mode=TwoWay}"
-                     IsEnabled="{Binding IsEnabled}"
+                     IsEnabled="{Binding IsListEnabled}"
                      >
                 <ListBox.ItemTemplate>
                     <DataTemplate x:Name="ItemTemplate">

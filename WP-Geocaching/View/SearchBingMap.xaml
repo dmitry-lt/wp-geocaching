@@ -71,9 +71,9 @@
                                            CredentialsProvider ="AvLbzLZIOMHh3dDKm0l2Fak-Fpqpvv9t-YTbFir44CdP5QNXTTcj1GbDaLZMP_jr">
             <Microsoft_Phone_Controls_Maps:MapLayer>
 
-                <Microsoft_Phone_Controls_Maps:MapPolyline Locations="{Binding Locations, Mode=TwoWay}" Stroke="Black" StrokeThickness="4" Opacity="0.8"/>
+                <Microsoft_Phone_Controls_Maps:MapPolyline Locations="{Binding ConnectingLine, Mode=TwoWay}" Stroke="Black" StrokeThickness="4" Opacity="0.8"/>
 
-                <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpinCollection, Mode=TwoWay}">
+                <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpins, Mode=TwoWay}">
                     <Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}"
