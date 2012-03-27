@@ -112,7 +112,7 @@
       <DependentUpon>CacheTypeResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\CachePushpin.cs" />
-    <Compile Include="Model\GeocahingSuApiManager .cs" />
+    <Compile Include="Model\GeocahingSuApiManager.cs" />
     <Compile Include="Model\IApiManager.cs" />
     <Compile Include="Model\Converters\IconConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
