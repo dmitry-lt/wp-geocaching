@@ -29,28 +29,32 @@ namespace WP_Geocaching.ViewModel
             {
                 return this.dataSource;
             }
+            private set
+            {
+                bool changed = dataSource != value;
+                if (changed)
+                {
+                    dataSource = value;
+                    OnPropertyChanged("DataSource");
+                }
+            }
         }
         public ListCacheItem SelectedCache
         {
             get { return selectedCache; }
             set
             {
-                bool changed = selectedCache != value;
-                if (changed)
+                selectedCache = value;
+                if (value != null)
                 {
-                    selectedCache = value;
-                    OnPropertyChanged("SelectedCache");
-                    if (value != null)
-                    {
-                        ShowDetails(value.Id.ToString());
-                    }
+                    ShowDetails(value.Id.ToString());
                 }
             }
         }
 
         public FavoritesViewModel()
-        { 
-            this.dataSource = GetDataSource();          
+        {
+            UpdateDataSource();
         }
 
         private List<ListCacheItem> GetDataSource()
@@ -65,6 +69,11 @@ namespace WP_Geocaching.ViewModel
             return dataSource;
         }
 
+        public void UpdateDataSource()
+        {
+            DataSource = GetDataSource();
+        }
+
         private void OnPropertyChanged(string propertyName)
         {
             if (this.PropertyChanged != null)
@@ -74,7 +83,6 @@ namespace WP_Geocaching.ViewModel
         private void ShowDetails(string cacheId)
         {
             NavigationManager.Instance.NavigateToDetails(cacheId);
-            SelectedCache = null;
         }
     }
 }

@@ -32,14 +32,12 @@ namespace WP_Geocaching.ViewModel
             }
             private set
             {
-
                 bool changed = dataSource != value;
                 if (changed)
                 {
                     dataSource = value;
                     OnPropertyChanged("DataSource");
-                }
-            
+                }         
             }
         }
         public ListCacheItem SelectedCheckpoint

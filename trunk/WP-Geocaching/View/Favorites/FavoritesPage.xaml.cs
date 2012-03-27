@@ -11,15 +11,27 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.ViewModel;
+using System.Windows.Navigation;
 
 namespace WP_Geocaching.View.Favorites
 {
     public partial class FavoritesPage : PhoneApplicationPage
     {
+        FavoritesViewModel favoritesViewModel;
+
         public FavoritesPage()
         {
             InitializeComponent();
-            this.DataContext = new FavoritesViewModel();
+            favoritesViewModel = new FavoritesViewModel();
+            this.DataContext = favoritesViewModel;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.NavigationMode == System.Windows.Navigation.NavigationMode.Back)
+            {
+                favoritesViewModel.UpdateDataSource();
+            }
         }
     }
 }

@@ -35,7 +35,7 @@
             
             <ListBox Margin="0,0,0,0" 
                      x:Name="List"
-                     ItemsSource="{Binding DataSource}"
+                     ItemsSource="{Binding DataSource, Mode=TwoWay}"
                      SelectionMode="Single"
                      SelectedItem ="{Binding SelectedCache, Mode=TwoWay}"
                      >
