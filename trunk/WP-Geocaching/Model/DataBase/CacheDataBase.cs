@@ -18,7 +18,7 @@ namespace WP_Geocaching.Model.DataBase
 {
     public class CacheDataBase
     {
-        public const string ConnectionString = "Data Source=isostore:/DataBase.sdf";
+        private const string ConnectionString = "Data Source=isostore:/DataBase.sdf";
 
         public CacheDataBase()
         {
@@ -61,7 +61,7 @@ namespace WP_Geocaching.Model.DataBase
 
         public void AddActiveCheckpoint(int cacheId, string name, double latitude, double longitude)
         {
-            MakeAllCheckpointsNotActive();
+            MakeAllCheckpointsNotActive(cacheId);
             using (var db = new CacheDataContext(ConnectionString))
             {
                 DbCheckpointsItem newItem = new DbCheckpointsItem()
@@ -79,16 +79,45 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        private void MakeAllCheckpointsNotActive()
+        private void MakeAllCheckpointsNotActive(int cacheId)
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-                foreach (DbCheckpointsItem c in db.Checkpoints)
+
+                var query = from e in db.Checkpoints
+                            where (e.CacheId == cacheId)
+                                select e;
+
+                foreach (DbCheckpointsItem c in query)
                 {
                     c.Subtype = (int)Cache.Subtypes.NotActiveCheckpoint;
                 }
                 db.SubmitChanges();
             }
+        }
+
+        public void MakeCheckpointActive(int checkpointId)
+        {
+            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            {
+
+                var query = from e in db.Checkpoints
+                            where (e.CheckpointId == checkpointId)
+                            select e;
+
+                DbCheckpointsItem checkpoint = query.FirstOrDefault();
+                if ((checkpoint != null) && (checkpoint.Subtype != (int)Cache.Subtypes.ActiveCheckpoint))
+                {
+                    MakeAllCheckpointsNotActive(checkpoint.CacheId);
+                    checkpoint.Subtype = (int)Cache.Subtypes.ActiveCheckpoint;
+                }
+                db.SubmitChanges();
+            }
+        }
+
+        public void MakeCacheActive(int cacheId)
+        {
+            MakeAllCheckpointsNotActive(cacheId);
         }
 
         public void UpdateCacheInfo(String details, int id)
@@ -146,6 +175,32 @@ namespace WP_Geocaching.Model.DataBase
                             where (e.CacheId == cacheId)
                             select e;
                 return query.ToList();
+            }
+        }
+
+        public void DeleteCheckpoint(int id)
+        {
+            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            {
+                var query = from e in db.Checkpoints
+                            where (e.CheckpointId == id)
+                            select e;
+                db.Checkpoints.DeleteOnSubmit((DbCheckpointsItem)query.FirstOrDefault());
+                db.SubmitChanges();
+            }
+        }
+
+        public void DeleteAllCheckpoints(int cacheId)
+        {
+            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            {
+
+                var query = from e in db.Checkpoints
+                            where (e.CacheId == cacheId)
+                            select e;
+
+                db.Checkpoints.DeleteAllOnSubmit(query);
+                db.SubmitChanges();
             }
         }
     }

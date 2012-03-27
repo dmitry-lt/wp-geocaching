@@ -114,23 +114,24 @@ namespace WP_Geocaching.ViewModel
         }
         public ListCacheItem(DbCacheItem item)
         {
-            this.Id = item.Id;
-            this.Latitude = item.Latitude;
-            this.Longitude = item.Longitude;
-            this.Name = item.Name;
-            this.Subtype = item.Subtype;
-            this.Type = item.Type;
-            this.Details = item.Details;
-            this.IconUri = new Enum[2]{(Cache.Types)item.Type, (Cache.Subtypes)item.Subtype};
+            Id = item.Id;
+            Latitude = item.Latitude;
+            Longitude = item.Longitude;
+            Name = item.Name;
+            Subtype = item.Subtype;
+            Type = item.Type;
+            Details = item.Details;
+            IconUri = new Enum[2]{(Cache.Types)item.Type, (Cache.Subtypes)item.Subtype};
         }
         public ListCacheItem(DbCheckpointsItem item)
         {
-            this.Latitude = item.Latitude;
-            this.Longitude = item.Longitude;
-            this.Name = item.Name;
-            this.Subtype = item.Subtype;
-            this.Type = item.Type;
-            this.IconUri = new Enum[2] { (Cache.Types)item.Type, (Cache.Subtypes)item.Subtype };
+            Id = item.CheckpointId;
+            Latitude = item.Latitude;
+            Longitude = item.Longitude;
+            Name = item.Name;
+            Subtype = item.Subtype;
+            Type = item.Type;
+            IconUri = new Enum[2] { (Cache.Types)item.Type, (Cache.Subtypes)item.Subtype };
         }
     }
 }

@@ -30,13 +30,14 @@ namespace WP_Geocaching.Model
 
         private NavigationManager() { }
 
-        public void Navigate(string uri)
+        private void Navigate(string uri)
         {
             this.Navigate(uri, null);
         }
-        public void Navigate(string uri, string currentId)
+        private void Navigate(string uri, string currentId)
         {
             PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
+            
             if (frame == null)
             {
                 return;
