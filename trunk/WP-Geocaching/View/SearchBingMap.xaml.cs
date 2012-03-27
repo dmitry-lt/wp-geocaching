@@ -42,12 +42,11 @@ namespace WP_Geocaching.View
             if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
             {
                 int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
-                searchBingMapViewModel.Cache = GeocahingSuApiManager.Instance.GetCachebyId(cacheId);
+                searchBingMapViewModel.SoughtCache = GeocahingSuApiManager.Instance.GetCachebyId(cacheId);
             }
             if (e.NavigationMode == System.Windows.Navigation.NavigationMode.Back)
             {
-                this.searchBingMapViewModel.UpdateCachePushpins();
-                searchBingMapViewModel.UpdateLocations();
+                searchBingMapViewModel.UpdateMapChildrens();
             }
         }
 

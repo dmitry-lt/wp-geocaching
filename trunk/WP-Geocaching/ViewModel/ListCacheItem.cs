@@ -112,6 +112,7 @@ namespace WP_Geocaching.ViewModel
                 this.iconUri = value;
             }
         }
+
         public ListCacheItem(DbCacheItem item)
         {
             Id = item.Id;
@@ -125,7 +126,7 @@ namespace WP_Geocaching.ViewModel
         }
         public ListCacheItem(DbCheckpointsItem item)
         {
-            Id = item.CheckpointId;
+            Id = item.Id;
             Latitude = item.Latitude;
             Longitude = item.Longitude;
             Name = item.Name;

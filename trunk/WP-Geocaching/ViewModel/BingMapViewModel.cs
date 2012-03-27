@@ -23,6 +23,8 @@ namespace WP_Geocaching.ViewModel
 {
     public class BingMapViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private int zoom;
         private const int maxCountOfCache = 50;
         private GeoCoordinate mapCenter;
@@ -30,8 +32,7 @@ namespace WP_Geocaching.ViewModel
         private ObservableCollection<CachePushpin> cachePushpinCollection;
         private LocationRect boundingRectangle;
         /*Сообщение,указывающее на большое количество тайников на экране*/
-        private String messageIsVisible = "Collapsed";
-        public event PropertyChangedEventHandler PropertyChanged;
+        private String messageIsVisible = "Collapsed";       
         
         public BingMapViewModel(IApiManager apiManager)
         {
@@ -141,8 +142,7 @@ namespace WP_Geocaching.ViewModel
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
 
-
-        public void NotifyPropertyChanged(string propertyName)
+        private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {

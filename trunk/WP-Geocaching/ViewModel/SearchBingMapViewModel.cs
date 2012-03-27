@@ -27,17 +27,17 @@ namespace WP_Geocaching.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Boolean isFirst;
+        private Boolean isFirstSettingView;
         private GeoCoordinate northwest;
         private GeoCoordinate southeast;
         private GeoCoordinateWatcher watcher;
         private int zoom;
         private GeoCoordinate mapCenter;
         private IApiManager apiManager;
-        private ObservableCollection<CachePushpin> cachePushpinCollection;
-        private Cache cache;
+        private ObservableCollection<CachePushpin> cachePushpins;
+        private Cache soughtCache;
         private Action<LocationRect> setView;
-        private LocationCollection locations;
+        private LocationCollection connectingLine;
         private GeoCoordinate currentLocation;
 
         public int Zoom
@@ -72,53 +72,52 @@ namespace WP_Geocaching.ViewModel
                 }
             }
         }
-        public Cache Cache
+        public Cache SoughtCache
         {
             get
             {
-                return this.cache;
+                return this.soughtCache;
             }
             set
             {
-                cache = value;               
-                if (cache != null)
+                soughtCache = value;               
+                if (soughtCache != null)
                 {
                     MapManager.Instance.CacheId = value.Id;
-                    Locations.Add(cache.Location);
-                    UpdateCachePushpins();
-                    UpdateLocations();
+                    ConnectingLine.Add(soughtCache.Location);
+                    UpdateMapChildrens();
                 }
             }
         }
-        public ObservableCollection<CachePushpin> CachePushpinCollection
+        public ObservableCollection<CachePushpin> CachePushpins
         {
             get
             {
-                return this.cachePushpinCollection;
+                return this.cachePushpins;
             }
             set
             {
-                bool changed = cachePushpinCollection != value;
+                bool changed = cachePushpins != value;
                 if (changed)
                 {
-                    cachePushpinCollection = value;
-                    OnPropertyChanged("CachePushpinCollection");
+                    cachePushpins = value;
+                    OnPropertyChanged("CachePushpins");
                 }
             }
         }
-        public LocationCollection Locations
+        public LocationCollection ConnectingLine
         {
             get
             {
-                return this.locations;
+                return this.connectingLine;
             }
             set
             {
-                bool changed = locations != value;
+                bool changed = connectingLine != value;
                 if (changed)
                 {
-                    locations = value;
-                    OnPropertyChanged("Locations");
+                    connectingLine = value;
+                    OnPropertyChanged("ConnectingLine");
                 }
             }
         }
@@ -133,8 +132,7 @@ namespace WP_Geocaching.ViewModel
                 bool changed = currentLocation != value;
                 if (changed)
                 {
-                    Locations.Remove(currentLocation);
-                    Locations.Add(value);
+                    UpdateCurrentLocationinConectingLine(value);
                     currentLocation = value;
                     OnPropertyChanged("CurrentLocation");
                 }
@@ -146,71 +144,89 @@ namespace WP_Geocaching.ViewModel
             this.apiManager = apiManager;
             this.setView = setView;
 
-            this.isFirst = true;
-            this.northwest = new GeoCoordinate(-90, 180);
-            this.southeast = new GeoCoordinate(90, -180);
-            this.zoom = MapManager.Instance.DefaultZoom;            
-            this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
-            
-            this.Locations = new LocationCollection();
+            isFirstSettingView = true;
+            northwest = new GeoCoordinate(-90, 180);
+            southeast = new GeoCoordinate(90, -180);
+            Zoom = MapManager.Instance.DefaultZoom;            
+            CachePushpins = new ObservableCollection<CachePushpin>();
+            ConnectingLine = new LocationCollection();
 
-            this.watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
-            this.watcher.MovementThreshold = 20;
-            this.watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(watcher_PositionChanged);
-            this.watcher.Start();
+            watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+            watcher.MovementThreshold = 20;
+            watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(watcher_PositionChanged);
+            watcher.Start();
+        }
+        
+        public void UpdateMapChildrens()
+        {
+            UpdateCachePushpins();
+            UpdateConnectingLine();
+        }
 
+        public void SetViewAll()
+        {
+            GeoCoordinate northwest = new GeoCoordinate(-90, 180);
+            GeoCoordinate southeast = new GeoCoordinate(90, -180);
+            foreach (CachePushpin c in cachePushpins)
+            {
+                UpdateToSetData(c.Location, northwest, southeast);
+            }
+            UpdateToSetData(CurrentLocation, northwest, southeast);
+            setView(new LocationRect(northwest.Latitude, northwest.Longitude, southeast.Latitude, southeast.Longitude));
+        }
+
+        private void UpdateToSetData(GeoCoordinate coordinate, GeoCoordinate northwest, GeoCoordinate southeast)
+        {
+            northwest.Latitude = Math.Max(coordinate.Latitude, northwest.Latitude);
+            northwest.Longitude = Math.Min(coordinate.Longitude, northwest.Longitude);
+            southeast.Latitude = Math.Min(coordinate.Latitude, southeast.Latitude);
+            southeast.Longitude = Math.Max(coordinate.Longitude, southeast.Longitude);          
         }
 
         private void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            this.CurrentLocation = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
+            CurrentLocation = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
 
-            if ((isFirst) && (cachePushpinCollection.Count != 0))
+            if ((isFirstSettingView) && (CachePushpins.Count != 0))
             {
                 SetViewAll();
-                isFirst = false;
+                isFirstSettingView = false;
             }
         }
 
-        public void UpdateCachePushpins()
+        private void UpdateCurrentLocationinConectingLine(GeoCoordinate newCurrentLocation)
+        {
+            ConnectingLine.Remove(currentLocation);
+            ConnectingLine.Add(newCurrentLocation);
+        }             
+
+        private void UpdateCachePushpins()
         {
             CacheDataBase db = new CacheDataBase();
             List<DbCheckpointsItem> dbCheckpointsList = db.GetCheckpointsbyCacheId(MapManager.Instance.CacheId);
             ObservableCollection<CachePushpin> cachePushpins = new ObservableCollection<CachePushpin>();
-            CachePushpin pushpin = new CachePushpin()
-            {
-                Location = cache.Location,
-                CacheId = cache.Id.ToString(),
-                IconUri = new Enum[2] { cache.Type, cache.Subtype }
-            };
-            cachePushpins.Add(pushpin);
+            cachePushpins.Add(new CachePushpin(SoughtCache));
             foreach (DbCheckpointsItem c in dbCheckpointsList)
             {
-                CachePushpin pin = new CachePushpin()
-                {
-                    Location = new GeoCoordinate(c.Latitude, c.Longitude),
-                    CacheId = "-1",
-                    IconUri = new Enum[2] { (Cache.Types)c.Type, (Cache.Subtypes)c.Subtype }
-                };
-                cachePushpins.Add(pin);
+                cachePushpins.Add(new CachePushpin(c));
             }
-            CachePushpinCollection = cachePushpins;
+            CachePushpins = cachePushpins;
         }
 
-        public void UpdateLocations()
+        private void UpdateConnectingLine()
         {
-            LocationCollection locations = new LocationCollection();
+            LocationCollection connectingLine = new LocationCollection();
             if (currentLocation != null)
             {
-                locations.Add(currentLocation);
+                connectingLine.Add(currentLocation);
             }
-            locations.Add(GetSearchPoint());
-            this.Locations = locations;
+            connectingLine.Add(GetSoughtPoint());
+            ConnectingLine = connectingLine;
         }
 
-        private GeoCoordinate GetSearchPoint()
+        private GeoCoordinate GetSoughtPoint()
         {
-            foreach (CachePushpin c in CachePushpinCollection)
+            foreach (CachePushpin c in CachePushpins)
             {
                 Cache.Subtypes subtype = (Cache.Subtypes)c.IconUri[1];
                 if ((subtype == Cache.Subtypes.ActiveCheckpoint))
@@ -218,27 +234,7 @@ namespace WP_Geocaching.ViewModel
                     return c.Location;
                 }
             }
-            return Cache.Location;
-        }
-
-        public void SetViewAll()
-        {
-            GeoCoordinate northwest = new GeoCoordinate(-90, 180);
-            GeoCoordinate southeast = new GeoCoordinate(90, -180);
-            foreach (CachePushpin c in cachePushpinCollection)
-            {
-                refreshToSetData(c.Location, northwest, southeast);
-            }
-            refreshToSetData(CurrentLocation, northwest, southeast);
-            this.setView(new LocationRect(northwest.Latitude, northwest.Longitude, southeast.Latitude, southeast.Longitude));
-        }
-
-        private void refreshToSetData(GeoCoordinate coordinate, GeoCoordinate northwest, GeoCoordinate southeast)
-        {
-            northwest.Latitude = Math.Max(coordinate.Latitude, northwest.Latitude);
-            northwest.Longitude = Math.Min(coordinate.Longitude, northwest.Longitude);
-            southeast.Latitude = Math.Min(coordinate.Latitude, southeast.Latitude);
-            southeast.Longitude = Math.Max(coordinate.Longitude, southeast.Longitude);          
+            return SoughtCache.Location;
         }
 
         private void OnPropertyChanged(string propertyName)
