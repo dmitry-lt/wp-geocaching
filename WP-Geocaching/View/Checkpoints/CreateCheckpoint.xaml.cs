@@ -21,7 +21,7 @@ namespace WP_Geocaching
         public CreateCheckpoint()
         {
             InitializeComponent();
-            this.DataContext = new CreateCheckpointViewModel();
+            this.DataContext = new CreateCheckpointViewModel();           
         }
 
         private void SaveButton_Click(object sender, EventArgs e)

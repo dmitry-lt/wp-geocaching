@@ -37,5 +37,17 @@ namespace WP_Geocaching.View.Checkpoints
                 this.checkpointsViewModel.UpdateDataSource();
             }
         }
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            if (checkpointsViewModel.DialogVisibility.Equals("Visible"))
+            {
+                checkpointsViewModel.CloseMakeActiveorDeleteDialogDialog();
+                e.Cancel = true;
+            }
+            else
+            {
+                base.OnBackKeyPress(e);
+            }
+        }        
     }
 }

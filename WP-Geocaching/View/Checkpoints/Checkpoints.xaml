@@ -12,7 +12,8 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    >
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -36,13 +37,15 @@
                      ItemsSource="{Binding DataSource}"
                      SelectionMode="Single"
                      SelectedItem ="{Binding SelectedCheckpoint, Mode=TwoWay}"
+                     IsEnabled="{Binding IsEnabled}"
                      >
                 <ListBox.ItemTemplate>
                     <DataTemplate x:Name="ItemTemplate">
                         <item:CheckpointsItem/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox>
+            </ListBox>          
+            <item:ChooseorDeleteDialogView Visibility="{Binding DialogVisibility}" VerticalAlignment="Center" HorizontalAlignment="Center" />
         </Grid>
     </Grid>
 

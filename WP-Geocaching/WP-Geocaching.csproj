@@ -78,6 +78,7 @@
     <Compile Include="Model\DataBase\CacheDataContext.cs" />
     <Compile Include="Model\DataBase\CacheDataBase.cs" />
     <Compile Include="Model\DataBase\DbCheckpointsItem.cs" />
+    <Compile Include="Model\ButtonCommand.cs" />
     <Compile Include="Model\INavigationManager.cs" />
     <Compile Include="Model\LogManager.cs" />
     <Compile Include="Model\NavigationManager.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="ViewModel\DetailsViewModel.cs" />
     <Compile Include="ViewModel\ListCacheItem.cs" />
     <Compile Include="ViewModel\FavoritesViewModel.cs" />
+    <Compile Include="ViewModel\ChooseorDeleteDialogViewModel.cs" />
     <Compile Include="ViewModel\SearchBingMapViewModel.cs" />
     <Compile Include="View\BingMap.xaml.cs">
       <DependentUpon>BingMap.xaml</DependentUpon>
@@ -132,6 +134,9 @@
     </Compile>
     <Compile Include="View\Checkpoints\CheckpointsItem.xaml.cs">
       <DependentUpon>CheckpointsItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Checkpoints\ChooseorDeleteDialogView.xaml.cs">
+      <DependentUpon>ChooseorDeleteDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Checkpoints\CreateCheckpoint.xaml.cs">
       <DependentUpon>CreateCheckpoint.xaml</DependentUpon>
@@ -176,6 +181,10 @@
     <Page Include="View\Checkpoints\CheckpointsItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Checkpoints\ChooseorDeleteDialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Checkpoints\CreateCheckpoint.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -20,6 +20,9 @@ namespace WP_Geocaching.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
         private ListCacheItem selectedCheckpoint;
         private List<ListCacheItem> dataSource;
+        private string dialogVisibility;
+        private bool isEnabled;
+        private ChooseorDeleteDialogViewModel dialogContent;
 
         public List<ListCacheItem> DataSource
         {
@@ -44,17 +47,57 @@ namespace WP_Geocaching.ViewModel
             get { return selectedCheckpoint; }
             set
             {
-                bool changed = selectedCheckpoint != value;
+                selectedCheckpoint = value;
+                if (value != null)
+                {
+                    ShowMakeActiveorDeleteDialogDialog();
+                }
+            }
+        }
+        public string DialogVisibility
+        {
+            get { return dialogVisibility; }
+            set
+            {
+                bool changed = dialogVisibility != value;
                 if (changed)
                 {
-                    selectedCheckpoint = value;
-                    OnPropertyChanged("SelectedCheckpoint");
+                    dialogVisibility = value;
+                    OnPropertyChanged("DialogVisibility");
+                }
+            }
+        }
+        public bool IsEnabled
+        {
+            get { return isEnabled; }
+            set
+            {
+                bool changed = isEnabled != value;
+                if (changed)
+                {
+                    isEnabled = value;
+                    OnPropertyChanged("IsEnabled");
+                }
+            }
+        }
+        public ChooseorDeleteDialogViewModel DialogContent
+        {
+            get { return dialogContent; }
+            set
+            {
+                bool changed = dialogContent != value;
+                if (changed)
+                {
+                    dialogContent = value;
+                    OnPropertyChanged("DialogContent");
                 }
             }
         }
 
         public CheckpointsViewModel()
-        { 
+        {
+            DialogVisibility = "Collapsed";
+            IsEnabled = true;
             UpdateDataSource();          
         }
 
@@ -68,6 +111,7 @@ namespace WP_Geocaching.ViewModel
             {
                 newDataSource.Add(new ListCacheItem(c));
             }
+
             this.DataSource = newDataSource;
         }
 
@@ -77,6 +121,18 @@ namespace WP_Geocaching.ViewModel
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void ShowMakeActiveorDeleteDialogDialog()
+        {
+            DialogVisibility = "Visible";
+            DialogContent = new ChooseorDeleteDialogViewModel(SelectedCheckpoint, CloseMakeActiveorDeleteDialogDialog);
+            IsEnabled = false;
+        }
+        public void CloseMakeActiveorDeleteDialogDialog()
+        {
+            DialogVisibility = "Collapsed";
+            IsEnabled = true;
+            UpdateDataSource();
+        }
     }
 }
 

@@ -25,20 +25,26 @@
             <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
                 Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock x:Name="PageTitleCreateCheckpoints" Text="{Binding Path=LocalizedResources.PageTitleCreateCheckpoints, 
-                Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+                Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" 
+                       Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <TextBox x:Name="Name" Height="70" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top"/>
+            <TextBox x:Name="Name" Height="70" Margin="0,0,0,0" TextWrapping="Wrap" 
+                     Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top"/>
 
-            <TextBlock Margin="10,70,321,418" Text="Latitude:" FontSize="20"/>
+            <TextBlock Margin="10,70,321,418" Text="{Binding Path=LocalizedResources.Latitude, 
+                Source={StaticResource LocalizedStrings}}" FontSize="20"/>
             <TextBlock Text="°" FontSize="20" Margin="367,70,70,418"/>
-            <TextBox x:Name="Latitude" Text="{Binding Latitude, Mode=TwoWay}" FontSize="20" Margin="122,55,95,418"/>
+            <TextBox x:Name="Latitude" Text="{Binding Latitude, Mode=TwoWay}" 
+                     FontSize="20" Margin="122,55,95,418"/>
 
-            <TextBlock Margin="6,140,340,348" Text="Longitude:" FontSize="20"/>
+            <TextBlock Margin="6,140,340,348" Text="{Binding Path=LocalizedResources.Longitude, 
+                Source={StaticResource LocalizedStrings}}"  FontSize="20"/>
             <TextBlock Text="°" Width="19" FontSize="20" Margin="0,140,70,348" HorizontalAlignment="Right" />
-            <TextBox x:Name="Longitude" Text="{Binding Longitude, Mode=TwoWay}" FontSize="20" Margin="122,125,95,348" />
+            <TextBox x:Name="Longitude" Text="{Binding Longitude, Mode=TwoWay}" 
+                     FontSize="20" Margin="122,125,95,348" />
                     
         </Grid>
     </Grid>

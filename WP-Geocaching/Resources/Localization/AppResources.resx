@@ -123,17 +123,29 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>GEOCACHING</value>
   </data>
+  <data name="Choose" xml:space="preserve">
+    <value>Choose</value>
+  </data>
   <data name="ChooseCache" xml:space="preserve">
     <value>Choose a cache</value>
   </data>
   <data name="ChooseCompass" xml:space="preserve">
     <value>Choose a compass</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="DeleteFavoritesButton" xml:space="preserve">
     <value>delete</value>
   </data>
   <data name="Favorites" xml:space="preserve">
     <value>Favorites</value>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>Latitude:</value>
+  </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>Longitude:</value>
   </data>
   <data name="NewCheckpoint" xml:space="preserve">
     <value>Checkpoint</value>
@@ -158,5 +170,8 @@
   </data>
   <data name="PageTitleMainPage" xml:space="preserve">
     <value>main menu</value>
+  </data>
+  <data name="Subtype" xml:space="preserve">
+    <value>Subtype:</value>
   </data>
 </root>
