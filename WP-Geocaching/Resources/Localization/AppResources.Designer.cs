@@ -106,6 +106,24 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to dd°,mm.mmm.
+        /// </summary>
+        public static string Coordinates {
+            get {
+                return ResourceManager.GetString("Coordinates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dd,dddddd°.
+        /// </summary>
+        public static string DCoordinates {
+            get {
+                return ResourceManager.GetString("DCoordinates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {

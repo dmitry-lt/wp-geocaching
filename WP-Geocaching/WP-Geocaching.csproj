@@ -52,6 +52,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.Devices.Sensors" />
     <Reference Include="Microsoft.Phone" />
+    <Reference Include="Microsoft.Phone.Controls" />
     <Reference Include="Microsoft.Phone.Controls.Maps" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
@@ -85,6 +86,8 @@
     <Compile Include="Model\SmoothCompassManager.cs" />
     <Compile Include="Model\Utils\CompassHelper.cs" />
     <Compile Include="Model\Utils\CP1251Encoding.cs" />
+    <Compile Include="Model\Utils\Sexagesimal.cs" />
+    <Compile Include="Model\Utils\SexagesimalSec.cs" />
     <Compile Include="Resources\Localization\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -138,8 +141,8 @@
     <Compile Include="View\Checkpoints\ChooseorDeleteDialogView.xaml.cs">
       <DependentUpon>ChooseorDeleteDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Checkpoints\CreateCheckpoint.xaml.cs">
-      <DependentUpon>CreateCheckpoint.xaml</DependentUpon>
+    <Compile Include="View\Checkpoints\CreateCheckpointPivot.xaml.cs">
+      <DependentUpon>CreateCheckpointPivot.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Compass\CompassPage.xaml.cs">
       <DependentUpon>CompassPage.xaml</DependentUpon>
@@ -186,8 +189,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Checkpoints\CreateCheckpoint.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="View\Checkpoints\CreateCheckpointPivot.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Compass\CompassPage.xaml">

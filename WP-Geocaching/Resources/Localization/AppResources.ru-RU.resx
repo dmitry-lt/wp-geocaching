@@ -132,6 +132,12 @@
   <data name="ChooseCompass" xml:space="preserve">
     <value>Выбрать компас</value>
   </data>
+  <data name="Coordinates" xml:space="preserve">
+    <value>гг°,мм.ммм</value>
+  </data>
+  <data name="DCoordinates" xml:space="preserve">
+    <value>гг,гггггг°</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Удалить</value>
   </data>

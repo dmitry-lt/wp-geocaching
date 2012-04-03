@@ -1,0 +1,103 @@
+﻿<phone:PhoneApplicationPage 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
+	x:Class="WP_Geocaching.CreateCheckpointPivot"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	SupportedOrientations="Portrait" Orientation="Portrait"
+	shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <!--Pivot Control-->
+        <controls:Pivot x:Name="ApplicationTitle" 
+                        Title="{Binding Path=LocalizedResources.ApplicationTitle, 
+                        Source={StaticResource LocalizedStrings}}">
+
+            <controls:PivotItem>
+                <controls:PivotItem.Header>
+                    <Grid>
+                        <TextBlock FontSize="36" Text="{Binding Path=LocalizedResources.DCoordinates, 
+                Source={StaticResource LocalizedStrings}}" />
+                    </Grid>
+                </controls:PivotItem.Header>
+                <Grid x:Name="ContentPanel1" Grid.Row="1" Margin="12,0,12,0">
+                    <TextBox Height="70" Margin="0,0,0,0" TextWrapping="Wrap" 
+                     Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top"/>
+
+                    <TextBlock Margin="10,70,321,418" Text="{Binding Path=LocalizedResources.Latitude, 
+                Source={StaticResource LocalizedStrings}}" FontSize="20"/>
+                    <TextBlock Text="°" FontSize="20" Margin="185,70,0,418" Width="19" HorizontalAlignment="Left" />
+                    <TextBox Text="{Binding DLatDegrees, Mode=TwoWay}" FontSize="20" Margin="123,54,0,459" Width="68" HorizontalAlignment="Left" Height="70" />
+                    <TextBox FontSize="20" Margin="189,54,109,459" Text="{Binding DLatDegreesFraction, Mode=TwoWay}" Height="70" />
+                    <TextBlock FontSize="20" Margin="318,71,95,467" Text="'" Width="19" Height="45" />
+                    
+                    <TextBlock Margin="10,140,321,348" Text="{Binding Path=LocalizedResources.Longitude, 
+                  Source ={StaticResource LocalizedStrings}}"  FontSize="20" Width="107" />
+                    <TextBlock Text="°" FontSize="20" Margin="185,137,0,400" Width="19" HorizontalAlignment="Left" Height="46" />
+                    <TextBox Text="{Binding DLngDegrees, Mode=TwoWay}" FontSize="20" Margin="123,120,0,393" Width="68" HorizontalAlignment="Left" Height="70" />
+                    <TextBox FontSize="20" Margin="0,120,109,393" Text="{Binding DLngDegreesFraction, Mode=TwoWay}" Width="134" HorizontalAlignment="Right" Height="70" />
+                    <TextBlock FontSize="20" Margin="318,138,95,401" Text="'" Width="19" Height="44" />
+                </Grid>
+            </controls:PivotItem>
+
+            <controls:PivotItem>
+                
+                <controls:PivotItem.Header>
+                    <Grid>
+                        <TextBlock FontSize="36" Text="{Binding Path=LocalizedResources.Coordinates, 
+                Source={StaticResource LocalizedStrings}}" />
+                    </Grid>
+                </controls:PivotItem.Header>
+                
+                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+                    <TextBox Height="70" Margin="0,0,0,0" TextWrapping="Wrap" 
+                     Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top"/>
+
+                    <TextBlock Margin="10,70,321,418" Text="{Binding Path=LocalizedResources.Latitude, 
+                Source={StaticResource LocalizedStrings}}" FontSize="20"/>
+                    <TextBlock Text="°" FontSize="20" Margin="185,70,0,418" Width="19" HorizontalAlignment="Left" />
+                    <TextBox Text="{Binding LatDegrees, Mode=TwoWay}" FontSize="20" Margin="123,54,0,459" Width="68" HorizontalAlignment="Left" Height="70" />
+                    <TextBox FontSize="20" Margin="189,54,180,459" Text="{Binding LatMinutes, Mode=TwoWay}" Height="70" />
+                    <TextBox FontSize="20" Margin="249,55,109,458" Text="{Binding LatMinutesFraction, Mode=TwoWay}" Width="74" Height="70" />
+                    <TextBlock FontSize="20" Margin="248,76,165,469" Text="." Width="19" Height="38" />
+                    <TextBlock FontSize="20" Margin="318,72,95,416" Text="'" Width="19" />
+
+                    <TextBlock Margin="10,140,321,350" Text="{Binding Path=LocalizedResources.Longitude, 
+                  Source ={StaticResource LocalizedStrings}}"  FontSize="20" Width="105" />
+                    <TextBlock Text="°" FontSize="20" Margin="185,139,0,398" Width="19" HorizontalAlignment="Left" Height="46" />
+                    <TextBox Text="{Binding LngDegrees, Mode=TwoWay}" FontSize="20" Margin="123,120,0,393" Width="68" HorizontalAlignment="Left" Height="70" />
+                    <TextBox FontSize="20" Margin="0,120,180,393" Text="{Binding LngMinutes, Mode=TwoWay}" Width="63" HorizontalAlignment="Right" Height="70" />
+                    <TextBox FontSize="20" Margin="249,120,109,393" Text="{Binding LngMinutesFraction, Mode=TwoWay}" Width="74" Height="70" />
+                    <TextBlock FontSize="20" Margin="247,139,166,406" Text="." Width="19" Height="38" />
+                    <TextBlock FontSize="20" Margin="318,140,95,333" Text="'" Width="19" />
+
+                </Grid>
+            </controls:PivotItem>
+
+
+            <!--ToDo-->
+            <!--<controls:PivotItem Header="гг0.мм.сс.ссс">
+                <Grid/>
+            </controls:PivotItem>
+
+            <controls:PivotItem Header="гг0.азимут">
+                <Grid/>
+            </controls:PivotItem>-->
+        </controls:Pivot>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="Resources/Images/appbar.save.rest.png" 
+                                            Text="save"
+                                            Click="SaveButton_Click"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>
