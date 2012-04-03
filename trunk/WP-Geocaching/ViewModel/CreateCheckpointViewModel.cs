@@ -24,6 +24,13 @@ namespace WP_Geocaching.ViewModel
         private string name;
         private GeoCoordinate currentInputPointLocation;
 
+        private string sLatDegrees;
+        private string sLatMinutes;
+        private string sLatSeconds;
+        private string sLngDegrees;
+        private string sLngMinutes;
+        private string sLngSeconds;
+
         private string latDegrees;
         private string latMinutes;
         private string latMinutesFraction;
@@ -41,7 +48,7 @@ namespace WP_Geocaching.ViewModel
             get { return name; }
             set
             {
-                    name = value;               
+                name = value;
             }
         }
         public GeoCoordinate CurrentInputPointLocation
@@ -52,22 +59,78 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        public string SLatDegrees
+        {
+            get { return sLatDegrees; }
+            set
+            {
+                sLatDegrees = value;
+                SexagesimalSecondsChanged();
+            }
+        }
+        public string SLatMinutes
+        {
+            get { return sLatMinutes; }
+            set
+            {
+                sLatMinutes = value;
+                SexagesimalSecondsChanged();
+            }
+        }
+        public string SLatSeconds
+        {
+            get { return sLatSeconds; }
+            set
+            {
+                sLatSeconds = value;
+                SexagesimalSecondsChanged();
+            }
+        }
+        public string SLngDegrees
+        {
+            get { return sLngDegrees; }
+            set
+            {
+                sLngDegrees = value;
+                SexagesimalSecondsChanged();
+
+            }
+        }
+        public string SLngMinutes
+        {
+            get { return sLngMinutes; }
+            set
+            {
+                sLngMinutes = value;
+                SexagesimalSecondsChanged();
+            }
+        }
+        public string SLngSeconds
+        {
+            get { return sLngSeconds; }
+            set
+            {
+                sLngSeconds = value;
+                SexagesimalSecondsChanged();
+            }
+        }
+
         public string LatDegrees
         {
             get { return latDegrees; }
             set
             {
-                   latDegrees = value;
-               SexagesimalChanged();
+                latDegrees = value;
+                SexagesimalChanged();
             }
         }
         public string LatMinutes
         {
             get { return latMinutes; }
             set
-            {            
-                    latMinutes = value;
-                    SexagesimalChanged();               
+            {
+                latMinutes = value;
+                SexagesimalChanged();
             }
         }
         public string LatMinutesFraction
@@ -75,8 +138,8 @@ namespace WP_Geocaching.ViewModel
             get { return latMinutesFraction; }
             set
             {
-                    latMinutesFraction = value;
-                    SexagesimalChanged();
+                latMinutesFraction = value;
+                SexagesimalChanged();
             }
         }
         public string LngDegrees
@@ -84,8 +147,8 @@ namespace WP_Geocaching.ViewModel
             get { return lngDegrees; }
             set
             {
-                    lngDegrees = value;
-                    SexagesimalChanged();
+                lngDegrees = value;
+                SexagesimalChanged();
             }
         }
         public string LngMinutes
@@ -93,8 +156,8 @@ namespace WP_Geocaching.ViewModel
             get { return lngMinutes; }
             set
             {
-                    lngMinutes = value;
-                    SexagesimalChanged();               
+                lngMinutes = value;
+                SexagesimalChanged();
             }
         }
         public string LngMinutesFraction
@@ -102,8 +165,8 @@ namespace WP_Geocaching.ViewModel
             get { return lngMinutesFraction; }
             set
             {
-                    lngMinutesFraction = value;
-                    SexagesimalChanged();
+                lngMinutesFraction = value;
+                SexagesimalChanged();
             }
         }
 
@@ -112,8 +175,8 @@ namespace WP_Geocaching.ViewModel
             get { return dLatDegrees; }
             set
             {
-                    dLatDegrees = value;
-                    DecimalChanged();
+                dLatDegrees = value;
+                DecimalChanged();
             }
         }
         public string DLatDegreesFraction
@@ -121,8 +184,8 @@ namespace WP_Geocaching.ViewModel
             get { return dLatDegreesFraction; }
             set
             {
-                    dLatDegreesFraction = value;
-                    DecimalChanged();
+                dLatDegreesFraction = value;
+                DecimalChanged();
             }
         }
         public string DLngDegrees
@@ -130,8 +193,8 @@ namespace WP_Geocaching.ViewModel
             get { return dLngDegrees; }
             set
             {
-                    dLngDegrees = value;
-                    DecimalChanged();
+                dLngDegrees = value;
+                DecimalChanged();
             }
         }
         public string DLngDegreesFraction
@@ -139,8 +202,8 @@ namespace WP_Geocaching.ViewModel
             get { return dLngDegreesFraction; }
             set
             {
-                    dLngDegreesFraction = value;
-                    DecimalChanged();              
+                dLngDegreesFraction = value;
+                DecimalChanged();
             }
         }
 
@@ -159,15 +222,39 @@ namespace WP_Geocaching.ViewModel
         }
 
         private void updateTextBoxes()
-        {          
+        {
             if (currentInputPointLocation == null)
             {
                 CacheDataBase db = new CacheDataBase();
                 DbCacheItem cacheItem = db.GetCache(MapManager.Instance.CacheId);
-                currentInputPointLocation = new GeoCoordinate (cacheItem.Latitude, cacheItem.Longitude);
+                currentInputPointLocation = new GeoCoordinate(cacheItem.Latitude, cacheItem.Longitude);
             }
             updateDecimal();
             updateSexagesimal();
+            updateSexagesimalSeconds();
+        }
+
+        private void updateSexagesimalSeconds()
+        {
+            double lat = currentInputPointLocation.Latitude;
+            double lng = currentInputPointLocation.Longitude;
+
+            SexagesimalSec sSexagesimal = new SexagesimalSec(lat).roundTo(2);
+            sLatDegrees = sSexagesimal.degrees.ToString();
+            sLatMinutes = sSexagesimal.minutes.ToString();
+            sLatSeconds = sSexagesimal.seconds.ToString();
+
+            sSexagesimal = new SexagesimalSec(lng).roundTo(2);
+            sLngDegrees = sSexagesimal.degrees.ToString();
+            sLngMinutes = sSexagesimal.minutes.ToString();
+            sLngSeconds = sSexagesimal.seconds.ToString();
+
+            OnPropertyChanged("SLatDegrees");
+            OnPropertyChanged("SLatMinutes");
+            OnPropertyChanged("SLatSeconds");
+            OnPropertyChanged("SLngDegrees");
+            OnPropertyChanged("SLngMinutes");
+            OnPropertyChanged("SLngSeconds");
         }
 
         private void updateSexagesimal()
@@ -217,22 +304,47 @@ namespace WP_Geocaching.ViewModel
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public void SexagesimalSecondsChanged()
+        {
+            try
+            {
+                int degreesInt = Convert.ToInt32(sLatDegrees);
+                int minutesInt = Convert.ToInt32(sLatMinutes);
+                double secondsDouble = Convert.ToDouble(sLatSeconds);
+                double latitude = new SexagesimalSec(degreesInt, minutesInt, secondsDouble).toCoordinate();
+
+                degreesInt = Convert.ToInt32(sLngDegrees);
+                minutesInt = Convert.ToInt32(sLngMinutes);
+                secondsDouble = Convert.ToDouble(sLngSeconds);
+                double longitude = new SexagesimalSec(degreesInt, minutesInt, secondsDouble).toCoordinate();
+
+                currentInputPointLocation = new GeoCoordinate(latitude, longitude);
+                updateSexagesimal();
+                updateDecimal();
+            }
+            catch (Exception)
+            {
+                //TODO: Message
+            }
+        }
+
         public void SexagesimalChanged()
         {
             try
             {
                 int degreesInt = Convert.ToInt32(latDegrees);
                 int minutesInt = Convert.ToInt32(latMinutes);
-                double minutesFloat = Convert.ToDouble("." + latMinutesFraction);
-                double latitude = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinate();
+                double minutesDouble = Convert.ToDouble("." + latMinutesFraction);
+                double latitude = new Sexagesimal(degreesInt, (double)minutesInt + minutesDouble).toCoordinate();
 
                 degreesInt = Convert.ToInt32(lngDegrees);
                 minutesInt = Convert.ToInt32(lngMinutes);
-                minutesFloat = Convert.ToDouble("." + lngMinutesFraction);
-                double longitude = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinate();
+                minutesDouble = Convert.ToDouble("." + lngMinutesFraction);
+                double longitude = new Sexagesimal(degreesInt, (double)minutesInt + minutesDouble).toCoordinate();
 
                 currentInputPointLocation = new GeoCoordinate(latitude, longitude);
                 updateDecimal();
+                updateSexagesimalSeconds();
             }
             catch (Exception)
             {
@@ -248,6 +360,7 @@ namespace WP_Geocaching.ViewModel
                 double longitude = (double)(Convert.ToInt32(dLngDegrees) + Convert.ToDouble("." + dLngDegreesFraction));
                 currentInputPointLocation = new GeoCoordinate(latitude, longitude);
                 updateSexagesimal();
+                updateSexagesimalSeconds();
             }
             catch (Exception)
             {

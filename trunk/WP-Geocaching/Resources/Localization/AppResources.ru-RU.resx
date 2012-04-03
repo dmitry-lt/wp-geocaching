@@ -133,7 +133,7 @@
     <value>Выбрать компас</value>
   </data>
   <data name="Coordinates" xml:space="preserve">
-    <value>гг°,мм.ммм</value>
+    <value>гг°,мм.ммм'</value>
   </data>
   <data name="DCoordinates" xml:space="preserve">
     <value>гг,гггггг°</value>
@@ -176,6 +176,9 @@
   </data>
   <data name="PageTitleMainPage" xml:space="preserve">
     <value>главное меню</value>
+  </data>
+  <data name="SCoordinates" xml:space="preserve">
+    <value>гг°,мм'сс.ссс''</value>
   </data>
   <data name="Subtype" xml:space="preserve">
     <value>Подтип:</value>

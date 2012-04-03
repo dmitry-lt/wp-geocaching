@@ -57,7 +57,7 @@
                     </Grid>
                 </controls:PivotItem.Header>
                 
-                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+                <Grid Grid.Row="1" Margin="12,0,12,0">
                     <TextBox Height="70" Margin="0,0,0,0" TextWrapping="Wrap" 
                      Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top"/>
 
@@ -83,12 +83,41 @@
             </controls:PivotItem>
 
 
-            <!--ToDo-->
-            <!--<controls:PivotItem Header="гг0.мм.сс.ссс">
-                <Grid/>
+            
+            <controls:PivotItem>
+                <controls:PivotItem.Header>
+                    <Grid>
+                        <TextBlock FontSize="36" Text="{Binding Path=LocalizedResources.SCoordinates, 
+                Source={StaticResource LocalizedStrings}}" />
+                    </Grid>
+                </controls:PivotItem.Header>
+                <Grid Grid.Row="1" Margin="12,0,12,0">
+                    <TextBox Height="70" Margin="0,0,0,0" TextWrapping="Wrap" 
+                     Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top"/>
+
+                    <TextBlock Margin="10,70,321,418" Text="{Binding Path=LocalizedResources.Latitude, 
+                Source={StaticResource LocalizedStrings}}" FontSize="20"/>
+                    <TextBlock Text="°" FontSize="20" Margin="185,70,0,418" Width="19" HorizontalAlignment="Left" />
+                    <TextBox Text="{Binding SLatDegrees, Mode=TwoWay}" FontSize="20" Margin="123,54,0,459" Width="68" HorizontalAlignment="Left" Height="70" />
+                    <TextBox FontSize="20" Margin="189,54,180,459" Text="{Binding SLatMinutes, Mode=TwoWay}" Height="70" />
+                    <TextBox FontSize="20" Margin="249,55,93,458" Text="{Binding SLatSeconds, Mode=TwoWay}" Width="90" Height="70" />
+                    <TextBlock FontSize="20" Margin="248,76,165,469" Text="'" Width="19" Height="38" />
+                    <TextBlock FontSize="20" Margin="333,72,80,416" Text="''" Width="19" />
+
+                    <TextBlock Margin="10,140,321,350" Text="{Binding Path=LocalizedResources.Longitude, 
+                  Source ={StaticResource LocalizedStrings}}"  FontSize="20" Width="105" />
+                    <TextBlock Text="°" FontSize="20" Margin="185,139,0,398" Width="19" HorizontalAlignment="Left" Height="46" />
+                    <TextBox Text="{Binding SLngDegrees, Mode=TwoWay}" FontSize="20" Margin="123,120,0,393" Width="68" HorizontalAlignment="Left" Height="70" />
+                    <TextBox FontSize="20" Margin="0,120,180,393" Text="{Binding SLngMinutes, Mode=TwoWay}" Width="68" HorizontalAlignment="Right" Height="70" />
+                    <TextBox FontSize="20" Margin="249,120,93,393" Text="{Binding SLngSeconds, Mode=TwoWay}" Width="90" Height="70" />
+                    <TextBlock FontSize="20" Margin="247,139,166,406" Text="'" Width="19" Height="38" />
+                    <TextBlock FontSize="20" Margin="333,140,80,333" Text="''" Width="19" />
+
+                </Grid>
             </controls:PivotItem>
 
-            <controls:PivotItem Header="гг0.азимут">
+            <!--ToDo-->
+            <!--<controls:PivotItem Header="гг0.азимут">
                 <Grid/>
             </controls:PivotItem>-->
         </controls:Pivot>

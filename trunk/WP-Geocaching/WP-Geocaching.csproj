@@ -87,6 +87,7 @@
     <Compile Include="Model\Utils\CompassHelper.cs" />
     <Compile Include="Model\Utils\CP1251Encoding.cs" />
     <Compile Include="Model\Utils\Sexagesimal.cs" />
+    <Compile Include="Model\Utils\SexagesimalSec.cs" />
     <Compile Include="Resources\Localization\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
