@@ -106,7 +106,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to dd°,mm.mmm.
+        ///   Looks up a localized string similar to dd°,mm.mmm&apos;.
         /// </summary>
         public static string Coordinates {
             get {
@@ -237,6 +237,15 @@ namespace WP_Geocaching.Resources.Localization {
         public static string PageTitleMainPage {
             get {
                 return ResourceManager.GetString("PageTitleMainPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dd°,mm&apos;ss.sss&apos;&apos;.
+        /// </summary>
+        public static string SCoordinates {
+            get {
+                return ResourceManager.GetString("SCoordinates", resourceCulture);
             }
         }
         

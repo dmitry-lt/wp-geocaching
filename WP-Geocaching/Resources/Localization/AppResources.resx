@@ -133,7 +133,7 @@
     <value>Choose a compass</value>
   </data>
   <data name="Coordinates" xml:space="preserve">
-    <value>dd°,mm.mmm</value>
+    <value>dd°,mm.mmm'</value>
   </data>
   <data name="DCoordinates" xml:space="preserve">
     <value>dd,dddddd°</value>
@@ -176,6 +176,9 @@
   </data>
   <data name="PageTitleMainPage" xml:space="preserve">
     <value>main menu</value>
+  </data>
+  <data name="SCoordinates" xml:space="preserve">
+    <value>dd°,mm'ss.sss''</value>
   </data>
   <data name="Subtype" xml:space="preserve">
     <value>Subtype:</value>
