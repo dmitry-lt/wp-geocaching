@@ -52,6 +52,7 @@
                 </Setter>
             </Style>
             <c:IconConverter x:Key="IconConverter" x:Name="IconConverter"/>
+            <c:DistanceToPointConverter x:Key="DistanceToPointConverter" x:Name="DistanceToPointConverter"/>
         </Grid.Resources>
 
         <!--TitlePanel contains the name of the application and page title-->
@@ -70,6 +71,16 @@
                                            ZoomLevel="{Binding Zoom, Mode=TwoWay}"
                                            CredentialsProvider ="AvLbzLZIOMHh3dDKm0l2Fak-Fpqpvv9t-YTbFir44CdP5QNXTTcj1GbDaLZMP_jr">
             <Microsoft_Phone_Controls_Maps:MapLayer>
+
+                <Border Background="#35000000"
+                        VerticalAlignment="Top">
+                    <TextBlock Text="{Binding DistanceToSoughtPoint, Mode=TwoWay, Converter={StaticResource DistanceToPointConverter}}" 
+                               TextWrapping="Wrap"
+                               FontSize="25" 
+                               FontFamily="Calibri"
+                               Foreground="#FF00004E" 
+                               Margin="0,0,0,0" />
+                </Border>
 
                 <Microsoft_Phone_Controls_Maps:MapPolyline Locations="{Binding ConnectingLine, Mode=TwoWay}" Stroke="Black" StrokeThickness="4" Opacity="0.8"/>
 

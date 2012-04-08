@@ -75,6 +75,7 @@
     </Compile>
     <Compile Include="Model\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="Model\Converters\CacheTypeConverter.cs" />
+    <Compile Include="Model\Converters\DistanceToPointConverter.cs" />
     <Compile Include="Model\DataBase\DbCacheItem.cs" />
     <Compile Include="Model\DataBase\CacheDataContext.cs" />
     <Compile Include="Model\DataBase\CacheDataBase.cs" />

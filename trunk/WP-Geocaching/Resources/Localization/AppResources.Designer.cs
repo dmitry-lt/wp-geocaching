@@ -151,6 +151,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to km..
+        /// </summary>
+        public static string Kilometres {
+            get {
+                return ResourceManager.GetString("Kilometres", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Latitude:.
         /// </summary>
         public static string Latitude {
@@ -165,6 +174,15 @@ namespace WP_Geocaching.Resources.Localization {
         public static string Longitude {
             get {
                 return ResourceManager.GetString("Longitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to m..
+        /// </summary>
+        public static string Metres {
+            get {
+                return ResourceManager.GetString("Metres", resourceCulture);
             }
         }
         

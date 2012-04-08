@@ -147,11 +147,17 @@
   <data name="Favorites" xml:space="preserve">
     <value>Favorites</value>
   </data>
+  <data name="Kilometres" xml:space="preserve">
+    <value>km.</value>
+  </data>
   <data name="Latitude" xml:space="preserve">
     <value>Latitude:</value>
   </data>
   <data name="Longitude" xml:space="preserve">
     <value>Longitude:</value>
+  </data>
+  <data name="Metres" xml:space="preserve">
+    <value>m.</value>
   </data>
   <data name="NewCheckpoint" xml:space="preserve">
     <value>Checkpoint</value>
