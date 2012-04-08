@@ -39,6 +39,7 @@ namespace WP_Geocaching.ViewModel
         private Action<LocationRect> setView;
         private LocationCollection connectingLine;
         private GeoCoordinate currentLocation;
+        private double distanceToSoughtPoint;
 
         public int Zoom
         {
@@ -132,9 +133,26 @@ namespace WP_Geocaching.ViewModel
                 bool changed = currentLocation != value;
                 if (changed)
                 {
-                    UpdateCurrentLocationinConectingLine(value);
+                    UpdateCurrentLocationInConnectingLine(value);
+                    UpdateConnectingLineLength();
                     currentLocation = value;
                     OnPropertyChanged("CurrentLocation");
+                }
+            }
+        }
+        public double DistanceToSoughtPoint
+        {
+            get
+            {
+                return this.distanceToSoughtPoint;
+            }
+            set
+            {
+                bool changed = distanceToSoughtPoint != value;
+                if (changed)
+                {
+                    distanceToSoughtPoint = value;
+                    OnPropertyChanged("DistanceToSoughtPoint");
                 }
             }
         }
@@ -161,6 +179,7 @@ namespace WP_Geocaching.ViewModel
         {
             UpdateCachePushpins();
             UpdateConnectingLine();
+            UpdateConnectingLineLength();
         }
 
         public void SetViewAll()
@@ -194,7 +213,7 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        private void UpdateCurrentLocationinConectingLine(GeoCoordinate newCurrentLocation)
+        private void UpdateCurrentLocationInConnectingLine(GeoCoordinate newCurrentLocation)
         {
             ConnectingLine.Remove(currentLocation);
             ConnectingLine.Add(newCurrentLocation);
@@ -222,6 +241,14 @@ namespace WP_Geocaching.ViewModel
             }
             connectingLine.Add(GetSoughtPoint());
             ConnectingLine = connectingLine;
+        }
+
+        private void UpdateConnectingLineLength()
+        {
+            if (ConnectingLine.Count == 2)
+            {
+                DistanceToSoughtPoint = ConnectingLine[0].GetDistanceTo(ConnectingLine[1]);
+            }
         }
 
         private GeoCoordinate GetSoughtPoint()
