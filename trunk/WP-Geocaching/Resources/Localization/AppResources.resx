@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddCheckpointButton" xml:space="preserve">
+    <value>add</value>
+  </data>
   <data name="AddFavoritesButton" xml:space="preserve">
     <value>add</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
     <value>GEOCACHING</value>
+  </data>
+  <data name="CheckpointsButton" xml:space="preserve">
+    <value>checkpoints</value>
   </data>
   <data name="Choose" xml:space="preserve">
     <value>Choose</value>
@@ -183,8 +189,17 @@
   <data name="PageTitleMainPage" xml:space="preserve">
     <value>main menu</value>
   </data>
+  <data name="SaveCheckpointButton" xml:space="preserve">
+    <value>save</value>
+  </data>
   <data name="SCoordinates" xml:space="preserve">
     <value>dd°,mm'ss.sss''</value>
+  </data>
+  <data name="SearchButton" xml:space="preserve">
+    <value>search</value>
+  </data>
+  <data name="SetAllButton" xml:space="preserve">
+    <value>set all</value>
   </data>
   <data name="Subtype" xml:space="preserve">
     <value>Subtype:</value>

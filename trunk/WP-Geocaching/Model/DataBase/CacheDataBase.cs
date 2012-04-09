@@ -126,8 +126,12 @@ namespace WP_Geocaching.Model.DataBase
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCacheQueryById(db.Caches, id);
-                db.Caches.DeleteOnSubmit((DbCacheItem)query.FirstOrDefault());
-                db.SubmitChanges();
+                DbCacheItem itemForDeleting = (DbCacheItem)query.FirstOrDefault();
+                if (itemForDeleting != null)
+                {
+                    db.Caches.DeleteOnSubmit(itemForDeleting);
+                    db.SubmitChanges();
+                }
             }
         }
 

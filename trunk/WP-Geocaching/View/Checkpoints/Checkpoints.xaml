@@ -45,15 +45,12 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>          
-            <item:ChooseorDeleteDialogView Visibility="{Binding DialogVisibility}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <item:ChooseOrDeleteDialogView Visibility="{Binding DialogVisibility}" VerticalAlignment="Center" HorizontalAlignment="Center" />
         </Grid>
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="Resources/Images/appbar.add.checkpoint.png" 
-                                            Text="Add Checkpoint"
-                                            Click="AddCheckpoint_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

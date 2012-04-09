@@ -13,25 +13,35 @@ using Microsoft.Phone.Controls;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model;
+using Microsoft.Phone.Shell;
+using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching
 {
     public partial class CreateCheckpointPivot : PhoneApplicationPage
     {
         CreateCheckpointViewModel createCheckpointViewModel;
+
         public CreateCheckpointPivot()
         {
             InitializeComponent();
             createCheckpointViewModel = new CreateCheckpointViewModel();
             this.DataContext = createCheckpointViewModel;
+            SetAddCheckpointButton();
+        }
+
+        private void SetAddCheckpointButton()
+        {
+            ApplicationBarIconButton button = new ApplicationBarIconButton();
+            button.IconUri = new Uri("Resources/Images/appbar.save.rest.png", UriKind.Relative);
+            button.Text = AppResources.SaveCheckpointButton;
+            button.Click += SaveButton_Click;
+            ApplicationBar.Buttons.Add(button);
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            CacheDataBase db = new CacheDataBase();
-            db.AddActiveCheckpoint(MapManager.Instance.CacheId, createCheckpointViewModel.Name, 
-                createCheckpointViewModel.CurrentInputPointLocation.Latitude, 
-                createCheckpointViewModel.CurrentInputPointLocation.Longitude);
+            createCheckpointViewModel.SavePoint();
             this.NavigationService.GoBack();
         }
     }

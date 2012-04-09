@@ -367,5 +367,13 @@ namespace WP_Geocaching.ViewModel
                 //TODO: Message
             }
         }
+
+        public void SavePoint()
+        {
+            CacheDataBase db = new CacheDataBase();
+            db.AddActiveCheckpoint(MapManager.Instance.CacheId, Name,
+                CurrentInputPointLocation.Latitude,
+                CurrentInputPointLocation.Longitude);
+        }
     }
 }

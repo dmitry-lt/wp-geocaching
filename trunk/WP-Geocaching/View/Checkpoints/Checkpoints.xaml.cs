@@ -12,6 +12,8 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.Model;
 using WP_Geocaching.ViewModel;
+using Microsoft.Phone.Shell;
+using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.View.Checkpoints
 {
@@ -23,6 +25,16 @@ namespace WP_Geocaching.View.Checkpoints
             InitializeComponent();
             this.checkpointsViewModel = new CheckpointsViewModel();
             this.DataContext = checkpointsViewModel;
+            SetAddCheckpointButton();
+        }
+
+        private void SetAddCheckpointButton()
+        {
+            ApplicationBarIconButton button = new ApplicationBarIconButton();
+            button.IconUri = new Uri("Resources/Images/appbar.add.checkpoint.png", UriKind.Relative);
+            button.Text = AppResources.AddCheckpointButton;
+            button.Click += AddCheckpoint_Click;
+            ApplicationBar.Buttons.Add(button);
         }
 
         private void AddCheckpoint_Click(object sender, EventArgs e)

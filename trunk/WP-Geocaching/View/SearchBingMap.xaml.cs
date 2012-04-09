@@ -14,6 +14,8 @@ using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using Microsoft.Phone.Controls.Maps;
 using System.Windows.Navigation;
+using Microsoft.Phone.Shell;
+using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.View
 {
@@ -25,6 +27,8 @@ namespace WP_Geocaching.View
             InitializeComponent();
             this.searchBingMapViewModel = new SearchBingMapViewModel(GeocahingSuApiManager.Instance, this.Map.SetView);
             this.DataContext = this.searchBingMapViewModel;
+            SetCheckpointsButton();
+            SetSetAllButton();
         }
 
         private void Pushpin_Tap(object sender, GestureEventArgs e)
@@ -48,6 +52,24 @@ namespace WP_Geocaching.View
             {
                 searchBingMapViewModel.UpdateMapChildrens();
             }
+        }
+
+        private void SetSetAllButton()
+        {
+            ApplicationBarIconButton button = new ApplicationBarIconButton();
+            button.IconUri = new Uri("Resources/Images/appbar.refresh.rest.png", UriKind.Relative);
+            button.Text = AppResources.SetAllButton;
+            button.Click += SetAll_Click;
+            ApplicationBar.Buttons.Add(button);
+        }
+
+        private void SetCheckpointsButton()
+        {
+            ApplicationBarIconButton button = new ApplicationBarIconButton();
+            button.IconUri = new Uri("Resources/Images/appbar.checkpoints.png", UriKind.Relative);
+            button.Text = AppResources.CheckpointsButton;
+            button.Click += Checkpoints_Click;
+            ApplicationBar.Buttons.Add(button);
         }
 
         private void SetAll_Click(object sender, EventArgs e)

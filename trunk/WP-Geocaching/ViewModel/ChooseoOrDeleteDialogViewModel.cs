@@ -14,7 +14,7 @@ using System.ComponentModel;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class ChooseorDeleteDialogViewModel : INotifyPropertyChanged
+    public class ChooseoOrDeleteDialogViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -90,7 +90,7 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public ChooseorDeleteDialogViewModel(ListCacheItem item, Action closeDialog)
+        public ChooseoOrDeleteDialogViewModel(ListCacheItem item, Action closeDialog)
         {
             Subtype = item.Subtype;
             Latitude = item.Latitude;
