@@ -37,13 +37,5 @@ namespace WP_Geocaching.View
             Pushpin pin = sender as Pushpin;
             NavigationManager.Instance.NavigateToDetails((string)pin.Tag);
         }
-
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-       
-       
-
     }
 }

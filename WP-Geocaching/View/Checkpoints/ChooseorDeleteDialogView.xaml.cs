@@ -12,9 +12,9 @@ using System.Windows.Shapes;
 
 namespace WP_Geocaching.View.Checkpoints
 {
-    public partial class ChooseorDeleteDialogView : UserControl
+    public partial class ChooseOrDeleteDialogView : UserControl
     {
-        public ChooseorDeleteDialogView()
+        public ChooseOrDeleteDialogView()
         {
             InitializeComponent();
         }

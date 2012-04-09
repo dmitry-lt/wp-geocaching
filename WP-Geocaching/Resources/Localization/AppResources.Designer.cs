@@ -63,6 +63,15 @@ namespace WP_Geocaching.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to add.
         /// </summary>
+        public static string AddCheckpointButton {
+            get {
+                return ResourceManager.GetString("AddCheckpointButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to add.
+        /// </summary>
         public static string AddFavoritesButton {
             get {
                 return ResourceManager.GetString("AddFavoritesButton", resourceCulture);
@@ -75,6 +84,15 @@ namespace WP_Geocaching.Resources.Localization {
         public static string ApplicationTitle {
             get {
                 return ResourceManager.GetString("ApplicationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to checkpoints.
+        /// </summary>
+        public static string CheckpointsButton {
+            get {
+                return ResourceManager.GetString("CheckpointsButton", resourceCulture);
             }
         }
         
@@ -259,11 +277,38 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to save.
+        /// </summary>
+        public static string SaveCheckpointButton {
+            get {
+                return ResourceManager.GetString("SaveCheckpointButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to dd°,mm&apos;ss.sss&apos;&apos;.
         /// </summary>
         public static string SCoordinates {
             get {
                 return ResourceManager.GetString("SCoordinates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to search.
+        /// </summary>
+        public static string SearchButton {
+            get {
+                return ResourceManager.GetString("SearchButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to set all.
+        /// </summary>
+        public static string SetAllButton {
+            get {
+                return ResourceManager.GetString("SetAllButton", resourceCulture);
             }
         }
         

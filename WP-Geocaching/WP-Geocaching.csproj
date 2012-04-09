@@ -128,7 +128,7 @@
     <Compile Include="ViewModel\DetailsViewModel.cs" />
     <Compile Include="ViewModel\ListCacheItem.cs" />
     <Compile Include="ViewModel\FavoritesViewModel.cs" />
-    <Compile Include="ViewModel\ChooseorDeleteDialogViewModel.cs" />
+    <Compile Include="ViewModel\ChooseoOrDeleteDialogViewModel.cs" />
     <Compile Include="ViewModel\SearchBingMapViewModel.cs" />
     <Compile Include="View\BingMap.xaml.cs">
       <DependentUpon>BingMap.xaml</DependentUpon>
@@ -139,8 +139,8 @@
     <Compile Include="View\Checkpoints\CheckpointsItem.xaml.cs">
       <DependentUpon>CheckpointsItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Checkpoints\ChooseorDeleteDialogView.xaml.cs">
-      <DependentUpon>ChooseorDeleteDialogView.xaml</DependentUpon>
+    <Compile Include="View\Checkpoints\ChooseOrDeleteDialogView.xaml.cs">
+      <DependentUpon>ChooseOrDeleteDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Checkpoints\CreateCheckpointPivot.xaml.cs">
       <DependentUpon>CreateCheckpointPivot.xaml</DependentUpon>
@@ -186,7 +186,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Checkpoints\ChooseorDeleteDialogView.xaml">
+    <Page Include="View\Checkpoints\ChooseOrDeleteDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

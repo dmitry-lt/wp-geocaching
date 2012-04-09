@@ -22,7 +22,7 @@ namespace WP_Geocaching.ViewModel
         private List<ListCacheItem> dataSource;
         private string dialogVisibility;
         private bool isListEnabled;
-        private ChooseorDeleteDialogViewModel dialogContent;
+        private ChooseoOrDeleteDialogViewModel dialogContent;
 
         public List<ListCacheItem> DataSource
         {
@@ -78,7 +78,7 @@ namespace WP_Geocaching.ViewModel
                 }
             }
         }
-        public ChooseorDeleteDialogViewModel DialogContent
+        public ChooseoOrDeleteDialogViewModel DialogContent
         {
             get { return dialogContent; }
             set
@@ -128,7 +128,7 @@ namespace WP_Geocaching.ViewModel
         private void ShowMakeActiveorDeleteDialogDialog()
         {
             DialogVisibility = "Visible";
-            DialogContent = new ChooseorDeleteDialogViewModel(SelectedCheckpoint, CloseMakeActiveorDeleteDialogDialog);
+            DialogContent = new ChooseoOrDeleteDialogViewModel(SelectedCheckpoint, CloseMakeActiveorDeleteDialogDialog);
             IsListEnabled = false;
         }
     }
