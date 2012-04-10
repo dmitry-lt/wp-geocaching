@@ -204,4 +204,10 @@
   <data name="Subtype" xml:space="preserve">
     <value>Subtype:</value>
   </data>
+  <data name="SearchCache" xml:space="preserve">
+    <value>Search a cache</value>
+  </data>
+  <data name="NoSouhgtCacheMessage" xml:space="preserve">
+    <value>Before searching choose a cache, please</value>
+  </data>
 </root>

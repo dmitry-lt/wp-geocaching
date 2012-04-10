@@ -214,6 +214,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Before searching choose a cache, please.
+        /// </summary>
+        public static string NoSouhgtCacheMessage {
+            get {
+                return ResourceManager.GetString("NoSouhgtCacheMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It is too much caches on the screen! Zoom in..
         /// </summary>
         public static string OverflowMessage {
@@ -300,6 +309,15 @@ namespace WP_Geocaching.Resources.Localization {
         public static string SearchButton {
             get {
                 return ResourceManager.GetString("SearchButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search a cache.
+        /// </summary>
+        public static string SearchCache {
+            get {
+                return ResourceManager.GetString("SearchCache", resourceCulture);
             }
         }
         

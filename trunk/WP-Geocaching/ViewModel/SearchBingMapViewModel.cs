@@ -40,6 +40,7 @@ namespace WP_Geocaching.ViewModel
         private LocationCollection connectingLine;
         private GeoCoordinate currentLocation;
         private double distanceToSoughtPoint;
+        Settings settings;
 
         public int Zoom
         {
@@ -87,6 +88,7 @@ namespace WP_Geocaching.ViewModel
                     MapManager.Instance.CacheId = value.Id;
                     ConnectingLine.Add(soughtCache.Location);
                     UpdateMapChildrens();
+                    settings.LastSoughtCacheId = value.Id;
                 }
             }
         }
@@ -136,6 +138,7 @@ namespace WP_Geocaching.ViewModel
                     UpdateCurrentLocationInConnectingLine(value);
                     UpdateConnectingLineLength();
                     currentLocation = value;
+                    settings.LastLocation = value;
                     OnPropertyChanged("CurrentLocation");
                 }
             }
@@ -162,6 +165,7 @@ namespace WP_Geocaching.ViewModel
             this.apiManager = apiManager;
             this.setView = setView;
 
+            settings = new Settings();
             isFirstSettingView = true;
             northwest = new GeoCoordinate(-90, 180);
             southeast = new GeoCoordinate(90, -180);

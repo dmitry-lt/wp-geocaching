@@ -18,8 +18,9 @@ namespace WP_Geocaching.ViewModel
     public class CachePushpin
     {
         private GeoCoordinate location;
-        private string cacheId;
+        private string id;
         private Enum[] iconUri;
+        private ICommand showDetails;
 
         public GeoCoordinate Location
         {
@@ -32,15 +33,15 @@ namespace WP_Geocaching.ViewModel
                 this.location = value;
             }
         }
-        public string CacheId
+        public string Id
         {
             get
             {
-                return this.cacheId;
+                return this.id;
             }
             set
             {
-                this.cacheId = value;
+                this.id = value;
             }
         }
         public Enum[] IconUri
@@ -54,23 +55,37 @@ namespace WP_Geocaching.ViewModel
                 this.iconUri = value;
             }
         }
+        public ICommand ShowDetails
+        {
+            get
+            {
+                return this.showDetails;
+            }
+        }
 
         public CachePushpin()
         {
+            showDetails = new ButtonCommand(DefaultShowDetails);
         }
 
         public CachePushpin(Cache cache)
         {
             Location = cache.Location;
-            CacheId = cache.Id.ToString();
+            Id = cache.Id.ToString();
             IconUri = new Enum[2] { cache.Type, cache.Subtype };
+            showDetails = new ButtonCommand(DefaultShowDetails);
         }
 
         public CachePushpin(DbCheckpointsItem item)
         {
             Location = new GeoCoordinate(item.Latitude, item.Longitude);
-            CacheId = "-1";
+            Id = "-1";
             IconUri = new Enum[2] { (Cache.Types)item.Type, (Cache.Subtypes)item.Subtype };
+        }
+
+        private void DefaultShowDetails(object p)
+        {
+            NavigationManager.Instance.NavigateToDetails(id);
         }
     }
 }

@@ -84,6 +84,7 @@
     <Compile Include="Model\INavigationManager.cs" />
     <Compile Include="Model\LogManager.cs" />
     <Compile Include="Model\NavigationManager.cs" />
+    <Compile Include="Model\Settings.cs" />
     <Compile Include="Model\SmoothCompassManager.cs" />
     <Compile Include="Model\Utils\CompassHelper.cs" />
     <Compile Include="Model\Utils\CP1251Encoding.cs" />

@@ -90,7 +90,7 @@
                             <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}"
                                                                    Tap="Pushpin_Tap"
                                                                    Style="{StaticResource PushpinStyle}"
-                                                                   Tag="{Binding CacheId}">
+                                                                   Tag="{Binding ShowDetails}">
                                 <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}"/>
                             </Microsoft_Phone_Controls_Maps:Pushpin>
                         </DataTemplate>

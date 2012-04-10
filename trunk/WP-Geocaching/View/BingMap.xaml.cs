@@ -35,7 +35,11 @@ namespace WP_Geocaching.View
         private void Pushpin_Tap(object sender, GestureEventArgs e)
         {
             Pushpin pin = sender as Pushpin;
-            NavigationManager.Instance.NavigateToDetails((string)pin.Tag);
+            ICommand showDetails = ((ICommand)pin.Tag);
+            if (showDetails != null)
+            {
+                showDetails.Execute(null);
+            }
         }
     }
 }

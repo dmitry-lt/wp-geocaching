@@ -14,7 +14,7 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True" Title="" OpacityMask="{x:Null}">
-    
+
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -28,12 +28,12 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate>
-                            <ContentPresenter Width="48">
-                                <ContentPresenter.RenderTransform>
-                                    <CompositeTransform TranslateX="-24"
+                                <ContentPresenter Width="48">
+                                    <ContentPresenter.RenderTransform>
+                                        <CompositeTransform TranslateX="-24"
                                                 TranslateY="3"/>
-                                </ContentPresenter.RenderTransform>
-                            </ContentPresenter>                           
+                                    </ContentPresenter.RenderTransform>
+                                </ContentPresenter>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
@@ -61,9 +61,9 @@
                     <Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}"
-                                                                   Tap="Pushpin_Tap"
                                                                    Style="{StaticResource PushpinStyle}"
-                                                                   Tag="{Binding CacheId}"
+                                                                   Tag="{Binding ShowDetails}"
+                                                                   Tap="Pushpin_Tap"
                                                                    >
                                 <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}"/>
                             </Microsoft_Phone_Controls_Maps:Pushpin>
@@ -74,7 +74,7 @@
                 <Border Background="#35000000"
                         VerticalAlignment="Top" 
                         Visibility="{Binding MessageIsVisible}">
-                        <TextBlock x:Name="OverflowMessage" 
+                    <TextBlock x:Name="OverflowMessage" 
                            Text="{Binding Path=LocalizedResources.OverflowMessage, 
                            Source={StaticResource LocalizedStrings}}" 
                            TextWrapping="Wrap"
@@ -85,8 +85,8 @@
                 </Border>
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>
-   </Grid>
-    
+    </Grid>
+
     <!--Sample code showing usage of ApplicationBar-->
     <!--<phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
