@@ -129,6 +129,11 @@ namespace WP_Geocaching.Model.DataBase
                 DbCacheItem itemForDeleting = (DbCacheItem)query.FirstOrDefault();
                 if (itemForDeleting != null)
                 {
+                    Settings settings = new Settings();
+                    if (settings.LastSoughtCacheId == id)
+                    {
+                        settings.SetDefaultLastSoughtCacheId();
+                    }
                     db.Caches.DeleteOnSubmit(itemForDeleting);
                     db.SubmitChanges();
                 }

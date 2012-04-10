@@ -36,7 +36,8 @@ namespace WP_Geocaching.ViewModel
         
         public BingMapViewModel(IApiManager apiManager)
         {
-            this.MapCenter = MapManager.Instance.DefaulMapCenter;
+            Settings settings = new Settings();
+            this.MapCenter = settings.LastLocation;
             this.Zoom = MapManager.Instance.DefaultZoom;
             this.apiManager = apiManager;
             this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
@@ -120,7 +121,7 @@ namespace WP_Geocaching.ViewModel
                     CachePushpin pushpin = new CachePushpin()
                     {
                         Location = p.Location,
-                        CacheId = p.Id.ToString(),
+                        Id = p.Id.ToString(),
                         IconUri = new Enum[2] { p.Type, p.Subtype }
                     };
 
