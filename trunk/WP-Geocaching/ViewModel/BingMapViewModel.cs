@@ -32,7 +32,8 @@ namespace WP_Geocaching.ViewModel
         private ObservableCollection<CachePushpin> cachePushpinCollection;
         private LocationRect boundingRectangle;
         /*Сообщение,указывающее на большое количество тайников на экране*/
-        private String messageIsVisible = "Collapsed";       
+        private String messageIsVisible = "Collapsed";
+        private GeoCoordinateWatcher watcher;
         
         public BingMapViewModel(IApiManager apiManager)
         {
@@ -41,6 +42,11 @@ namespace WP_Geocaching.ViewModel
             this.Zoom = MapManager.Instance.DefaultZoom;
             this.apiManager = apiManager;
             this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
+
+            watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+            watcher.MovementThreshold = 20;
+            watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(PositionChanged);
+            watcher.Start();
         }
        
         public String MessageIsVisible 
@@ -149,6 +155,13 @@ namespace WP_Geocaching.ViewModel
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        private void PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        {
+            MapCenter = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
+            watcher.Dispose();
+            NotifyPropertyChanged("MapCenter");
         }
     }
 }
