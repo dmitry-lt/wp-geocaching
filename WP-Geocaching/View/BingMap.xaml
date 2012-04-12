@@ -52,7 +52,7 @@
         <Microsoft_Phone_Controls_Maps:Map x:Name="Map" 
                                            Margin="12,0,12,8" 
                                            Grid.Row="1" 
-                                           Center="{Binding MapCenter}" 
+                                           Center="{Binding MapCenter, Mode=TwoWay}" 
                                            ZoomLevel="{Binding Zoom}"
                                            ViewChangeEnd="Map_ViewChangeEnd"
                                            CredentialsProvider ="AvLbzLZIOMHh3dDKm0l2Fak-Fpqpvv9t-YTbFir44CdP5QNXTTcj1GbDaLZMP_jr">

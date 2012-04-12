@@ -175,7 +175,7 @@ namespace WP_Geocaching.ViewModel
 
             watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
             watcher.MovementThreshold = 20;
-            watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(watcher_PositionChanged);
+            watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(PositionChanged);
             watcher.Start();
         }
         
@@ -206,7 +206,7 @@ namespace WP_Geocaching.ViewModel
             southeast.Longitude = Math.Max(coordinate.Longitude, southeast.Longitude);          
         }
 
-        private void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        private void PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
             CurrentLocation = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
 
