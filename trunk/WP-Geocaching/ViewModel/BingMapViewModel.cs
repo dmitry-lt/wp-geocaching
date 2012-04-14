@@ -34,14 +34,16 @@ namespace WP_Geocaching.ViewModel
         /*Сообщение,указывающее на большое количество тайников на экране*/
         private String messageIsVisible = "Collapsed";
         private GeoCoordinateWatcher watcher;
+        private bool isFirstSettingView;
         
         public BingMapViewModel(IApiManager apiManager)
         {
             Settings settings = new Settings();
-            this.MapCenter = settings.LastLocation;
-            this.Zoom = MapManager.Instance.DefaultZoom;
+            MapCenter = settings.LastLocation;
+            Zoom = MapManager.Instance.DefaultZoom;
             this.apiManager = apiManager;
-            this.CachePushpinCollection = new ObservableCollection<CachePushpin>();
+            CachePushpinCollection = new ObservableCollection<CachePushpin>();
+            isFirstSettingView = true;
 
             watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
             watcher.MovementThreshold = 20;
@@ -159,9 +161,15 @@ namespace WP_Geocaching.ViewModel
 
         private void PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            MapCenter = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
-            watcher.Dispose();
-            NotifyPropertyChanged("MapCenter");
+            Settings settings = new Settings();
+            GeoCoordinate currentLocation = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
+            settings.LastLocation = currentLocation;
+            if (isFirstSettingView)
+            {
+                MapCenter = currentLocation;
+                NotifyPropertyChanged("MapCenter");
+                isFirstSettingView = false;
+            }
         }
     }
 }
