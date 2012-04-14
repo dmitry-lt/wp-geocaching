@@ -27,7 +27,7 @@ namespace WP_Geocaching.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Boolean isFirstSettingView;
+        private bool isFirstSettingView;
         private GeoCoordinate northwest;
         private GeoCoordinate southeast;
         private GeoCoordinateWatcher watcher;
@@ -172,6 +172,8 @@ namespace WP_Geocaching.ViewModel
             Zoom = MapManager.Instance.DefaultZoom;            
             CachePushpins = new ObservableCollection<CachePushpin>();
             ConnectingLine = new LocationCollection();
+            currentLocation = settings.LastLocation;
+            SetViewAll();
 
             watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
             watcher.MovementThreshold = 20;

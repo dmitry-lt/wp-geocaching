@@ -11,11 +11,11 @@
     
     >
 
-    <Grid x:Name="LayoutRoot" Width="350" Height="150" Background="Black">
+    <Grid x:Name="LayoutRoot" Width="350" Height="150" Background="{StaticResource PhoneBackgroundBrush}">
         <Grid.Resources>
             <c:CacheSubtypeConverter x:Key="CacheSubtypeConverter"  x:Name="CacheSubtypeConverter"/>
         </Grid.Resources>
-        <Border BorderThickness="4" BorderBrush="White">
+        <Border BorderThickness="4" BorderBrush="{StaticResource PhoneBorderBrush}">
             <StackPanel Orientation="Vertical"  DataContext="{Binding DialogContent}">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel>
