@@ -21,14 +21,16 @@
 		</Grid.RowDefinitions>
 		
 		<!--TitlePanel contains the name of the application and page title-->
-		<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28" Orientation="Horizontal">
+            <StackPanel Background="{StaticResource PhoneAccentBrush}">
+                <Image Source="/WP-Geocaching;component/Resources/Images/application_logo_small_white.png"/>
+            </StackPanel>
             <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
-                Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitleDetails" Text="{Binding Path=LocalizedResources.PageTitleDetails, 
-                Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-		</StackPanel>
+                Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"
+                FontSize="28" VerticalAlignment="Center"/>
+        </StackPanel>
 
-		<!--ContentPanel - place additional content here-->
+        <!--ContentPanel - place additional content here-->
 		<Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"/>
         <phone:WebBrowser x:Name="Browser" Margin="0,0,0,0" Grid.Row="1"/>
 	</Grid>

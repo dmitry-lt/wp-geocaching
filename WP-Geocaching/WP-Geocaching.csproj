@@ -73,6 +73,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="Model\Converters\CacheTypeConverter.cs" />
     <Compile Include="Model\Converters\DistanceToPointConverter.cs" />
@@ -99,9 +102,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\MapManager.cs" />
     <Compile Include="Model\Cache.cs" />
@@ -172,8 +172,8 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="MainPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\BingMap.xaml">
       <SubType>Designer</SubType>
@@ -225,9 +225,7 @@
     <None Include="Properties\WMAppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ApplicationIcon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="ApplicationIcon.png" />
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -262,8 +260,15 @@
     <Content Include="Resources\Images\appbar.favs.deletefrom.rest.png" />
     <Content Include="Resources\Images\appbar.refresh.rest.png" />
     <Content Include="Resources\Images\appbar.save.rest.png" />
+    <Resource Include="Resources\Images\choose_cache_menu_icon.png" />
+    <Resource Include="Resources\Images\compass_menu_icon.png" />
+    <Resource Include="Resources\Images\application_logo_big_white.png" />
+    <Resource Include="Resources\Images\application_logo_small_white.png" />
+    <Resource Include="Resources\Images\compass_rose_black.png" />
     <Content Include="Resources\Images\compass_rose_white.png" />
     <Content Include="Resources\Images\appbar.feature.search.rest.png" />
+    <Resource Include="Resources\Images\favorites_menu_icon.png" />
+    <Resource Include="Resources\Images\search_map_menu_icon.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>

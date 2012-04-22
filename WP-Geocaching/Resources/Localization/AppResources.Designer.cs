@@ -124,7 +124,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сompass.
+        ///   Looks up a localized string similar to Compass.
         /// </summary>
         public static string Compass {
             get {
@@ -237,60 +237,6 @@ namespace WP_Geocaching.Resources.Localization {
         public static string OverflowMessage {
             get {
                 return ResourceManager.GetString("OverflowMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Checkpoints.
-        /// </summary>
-        public static string PageTitleCheckpoints {
-            get {
-                return ResourceManager.GetString("PageTitleCheckpoints", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to compass.
-        /// </summary>
-        public static string PageTitleCompass {
-            get {
-                return ResourceManager.GetString("PageTitleCompass", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create checkpoint.
-        /// </summary>
-        public static string PageTitleCreateCheckpoints {
-            get {
-                return ResourceManager.GetString("PageTitleCreateCheckpoints", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to cache details.
-        /// </summary>
-        public static string PageTitleDetails {
-            get {
-                return ResourceManager.GetString("PageTitleDetails", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to favorites.
-        /// </summary>
-        public static string PageTitleFavorites {
-            get {
-                return ResourceManager.GetString("PageTitleFavorites", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to main menu.
-        /// </summary>
-        public static string PageTitleMainPage {
-            get {
-                return ResourceManager.GetString("PageTitleMainPage", resourceCulture);
             }
         }
         

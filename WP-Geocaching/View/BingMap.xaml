@@ -42,9 +42,13 @@
         </Grid.Resources>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28" Orientation="Horizontal">
+            <StackPanel Background="{StaticResource PhoneAccentBrush}">
+                <Image Source="/WP-Geocaching;component/Resources/Images/application_logo_small_white.png"/>
+            </StackPanel>
             <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
-                Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+                Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"
+                FontSize="28" VerticalAlignment="Center"/>
         </StackPanel>
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"/>
@@ -71,17 +75,15 @@
                     </Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                 </Microsoft_Phone_Controls_Maps:MapItemsControl>
 
-                <Border Background="#35000000"
+                <Border Background="{StaticResource PhoneChromeBrush}"
+                        Opacity="0.7"
                         VerticalAlignment="Top" 
                         Visibility="{Binding MessageIsVisible}">
                     <TextBlock x:Name="OverflowMessage" 
                            Text="{Binding Path=LocalizedResources.OverflowMessage, 
                            Source={StaticResource LocalizedStrings}}" 
-                           TextWrapping="Wrap"
-                           FontSize="25" 
-                           FontFamily="Calibri"
-                           Foreground="#FF00004E" 
-                           Margin="35,0,0,0" />
+                           FontSize="22"
+                           Foreground="{StaticResource PhoneForegroundBrush}"/>
                 </Border>
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>

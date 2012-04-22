@@ -17,14 +17,31 @@
             <c:CacheSubtypeConverter x:Key="CacheSubtypeConverter"  x:Name="CacheSubtypeConverter"/>
         </Grid.Resources>
         <StackPanel Orientation="Horizontal" Height="Auto">
-            <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}" VerticalAlignment="Center" Width="48"/>
+            <Image Source="{Binding IconUri, 
+                Converter={StaticResource IconConverter}}" 
+                   VerticalAlignment="Center" 
+                   Width="48"/>
             <StackPanel Width="370">
-                <TextBlock Text="{Binding Name}" TextWrapping="Wrap" 
-                                           FontSize="24" VerticalAlignment="Center" Width="380" Height="Auto"/>
-                <TextBlock Text="{Binding Type, Converter={StaticResource CacheTypeConverter}}" 
-                                           FontSize="18" VerticalAlignment="Center" Width="380" Height="Auto"/>
-                <TextBlock Text="{Binding Subtype, Converter={StaticResource CacheSubtypeConverter}}"
-                                           FontSize="18" VerticalAlignment="Center" Width="380" Height="Auto"/>
+                <TextBlock Text="{Binding Name}" 
+                           TextWrapping="Wrap" 
+                           FontSize="22" 
+                           VerticalAlignment="Center" 
+                           Width="380" 
+                           Height="Auto"/>
+                <TextBlock Text="{Binding Type, 
+                    Converter={StaticResource CacheTypeConverter}}" 
+                           FontSize="18" 
+                           VerticalAlignment="Center" 
+                           Width="380" 
+                           Height="Auto" 
+                           Foreground="{StaticResource PhoneSubtleBrush}"/>
+                <TextBlock Text="{Binding Subtype, 
+                    Converter={StaticResource CacheSubtypeConverter}}"
+                           FontSize="18" 
+                           VerticalAlignment="Center" 
+                           Width="380" 
+                           Height="Auto" 
+                           Foreground="{StaticResource PhoneSubtleBrush}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -12,11 +12,11 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent" Height="767">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -56,9 +56,13 @@
         </Grid.Resources>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28" Orientation="Horizontal">
+            <StackPanel Background="{StaticResource PhoneAccentBrush}">
+                <Image Source="/WP-Geocaching;component/Resources/Images/application_logo_small_white.png"/>
+            </StackPanel>
             <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
-                Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+                Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"
+                FontSize="28" VerticalAlignment="Center"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -72,14 +76,12 @@
                                            CredentialsProvider ="AvLbzLZIOMHh3dDKm0l2Fak-Fpqpvv9t-YTbFir44CdP5QNXTTcj1GbDaLZMP_jr">
             <Microsoft_Phone_Controls_Maps:MapLayer>
 
-                <Border Background="#35000000"
+                <Border Background="{StaticResource PhoneChromeBrush}"
+                        Opacity="0.7"
                         VerticalAlignment="Top">
                     <TextBlock Text="{Binding DistanceToSoughtPoint, Mode=TwoWay, Converter={StaticResource DistanceToPointConverter}}" 
-                               TextWrapping="Wrap"
-                               FontSize="25" 
-                               FontFamily="Calibri"
-                               Foreground="#FF00004E" 
-                               Margin="0,0,0,0" />
+                               FontSize="22"
+                               Foreground="{StaticResource PhoneForegroundBrush}"/>
                 </Border>
 
                 <Microsoft_Phone_Controls_Maps:MapPolyline Locations="{Binding ConnectingLine, Mode=TwoWay}" Stroke="Black" StrokeThickness="4" Opacity="0.8"/>
@@ -105,10 +107,12 @@
 
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>
+        
+        
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Opacity="0.7">
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
