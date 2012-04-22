@@ -124,11 +124,11 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose a compass.
+        ///   Looks up a localized string similar to Сompass.
         /// </summary>
-        public static string ChooseCompass {
+        public static string Compass {
             get {
-                return ResourceManager.GetString("ChooseCompass", resourceCulture);
+                return ResourceManager.GetString("Compass", resourceCulture);
             }
         }
         
@@ -232,7 +232,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to It is too much caches on the screen! Zoom in..
+        ///   Looks up a localized string similar to It is too much caches on the screen! Zoom in.
         /// </summary>
         public static string OverflowMessage {
             get {
@@ -331,11 +331,11 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to set all.
+        ///   Looks up a localized string similar to show all.
         /// </summary>
-        public static string SetAllButton {
+        public static string ShowAllButton {
             get {
-                return ResourceManager.GetString("SetAllButton", resourceCulture);
+                return ResourceManager.GetString("ShowAllButton", resourceCulture);
             }
         }
         

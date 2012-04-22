@@ -45,7 +45,7 @@
                     Margin="0,80,0,0" 
                     FontSize="32" 
                     Click="ChooseCache_Click" />
-            <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=LocalizedResources.ChooseCompass}"  
+            <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=LocalizedResources.Compass}"  
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Top" 
                     Width="340" 
