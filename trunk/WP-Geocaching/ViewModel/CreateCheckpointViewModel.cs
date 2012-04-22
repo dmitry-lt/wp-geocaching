@@ -14,6 +14,7 @@ using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Resources.Localization;
 using WP_Geocaching.Model.Utils;
 using System.Device.Location;
+using System.Globalization;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -236,8 +237,8 @@ namespace WP_Geocaching.ViewModel
 
         private void updateSexagesimalSeconds()
         {
-            double lat = currentInputPointLocation.Latitude;
-            double lng = currentInputPointLocation.Longitude;
+            double lat = Convert.ToDouble(currentInputPointLocation.Latitude, CultureInfo.InvariantCulture);
+            double lng = Convert.ToDouble(currentInputPointLocation.Longitude, CultureInfo.InvariantCulture);
 
             SexagesimalSec sSexagesimal = new SexagesimalSec(lat).roundTo(2);
             sLatDegrees = sSexagesimal.degrees.ToString();
@@ -259,8 +260,8 @@ namespace WP_Geocaching.ViewModel
 
         private void updateSexagesimal()
         {
-            double lat = currentInputPointLocation.Latitude;
-            double lng = currentInputPointLocation.Longitude;
+            double lat = Convert.ToDouble(currentInputPointLocation.Latitude, CultureInfo.InvariantCulture);
+            double lng = Convert.ToDouble(currentInputPointLocation.Longitude, CultureInfo.InvariantCulture);
 
             Sexagesimal sexagesimal = new Sexagesimal(lat).roundTo(3);
             latDegrees = sexagesimal.Degrees.ToString();
@@ -284,8 +285,8 @@ namespace WP_Geocaching.ViewModel
 
         private void updateDecimal()
         {
-            double lat = currentInputPointLocation.Latitude;
-            double lng = currentInputPointLocation.Longitude;
+            double lat = Convert.ToDouble(currentInputPointLocation.Latitude, CultureInfo.InvariantCulture);
+            double lng = Convert.ToDouble(currentInputPointLocation.Longitude, CultureInfo.InvariantCulture);
 
             dLatDegrees = ((int)lat).ToString();
             dLngDegrees = ((int)lng).ToString();
@@ -308,14 +309,14 @@ namespace WP_Geocaching.ViewModel
         {
             try
             {
-                int degreesInt = Convert.ToInt32(sLatDegrees);
-                int minutesInt = Convert.ToInt32(sLatMinutes);
-                double secondsDouble = Convert.ToDouble(sLatSeconds);
+                int degreesInt = Convert.ToInt32(sLatDegrees, CultureInfo.InvariantCulture);
+                int minutesInt = Convert.ToInt32(sLatMinutes, CultureInfo.InvariantCulture);
+                double secondsDouble = Convert.ToDouble(sLatSeconds, CultureInfo.InvariantCulture);
                 double latitude = new SexagesimalSec(degreesInt, minutesInt, secondsDouble).toCoordinate();
 
-                degreesInt = Convert.ToInt32(sLngDegrees);
-                minutesInt = Convert.ToInt32(sLngMinutes);
-                secondsDouble = Convert.ToDouble(sLngSeconds);
+                degreesInt = Convert.ToInt32(sLngDegrees, CultureInfo.InvariantCulture);
+                minutesInt = Convert.ToInt32(sLngMinutes, CultureInfo.InvariantCulture);
+                secondsDouble = Convert.ToDouble(sLngSeconds, CultureInfo.InvariantCulture);
                 double longitude = new SexagesimalSec(degreesInt, minutesInt, secondsDouble).toCoordinate();
 
                 currentInputPointLocation = new GeoCoordinate(latitude, longitude);
@@ -332,14 +333,14 @@ namespace WP_Geocaching.ViewModel
         {
             try
             {
-                int degreesInt = Convert.ToInt32(latDegrees);
-                int minutesInt = Convert.ToInt32(latMinutes);
-                double minutesDouble = Convert.ToDouble("." + latMinutesFraction);
+                int degreesInt = Convert.ToInt32(latDegrees, CultureInfo.InvariantCulture);
+                int minutesInt = Convert.ToInt32(latMinutes, CultureInfo.InvariantCulture);
+                double minutesDouble = Convert.ToDouble("." + latMinutesFraction, CultureInfo.InvariantCulture);
                 double latitude = new Sexagesimal(degreesInt, (double)minutesInt + minutesDouble).toCoordinate();
 
-                degreesInt = Convert.ToInt32(lngDegrees);
-                minutesInt = Convert.ToInt32(lngMinutes);
-                minutesDouble = Convert.ToDouble("." + lngMinutesFraction);
+                degreesInt = Convert.ToInt32(lngDegrees, CultureInfo.InvariantCulture);
+                minutesInt = Convert.ToInt32(lngMinutes, CultureInfo.InvariantCulture);
+                minutesDouble = Convert.ToDouble("." + lngMinutesFraction, CultureInfo.InvariantCulture);
                 double longitude = new Sexagesimal(degreesInt, (double)minutesInt + minutesDouble).toCoordinate();
 
                 currentInputPointLocation = new GeoCoordinate(latitude, longitude);
@@ -356,8 +357,8 @@ namespace WP_Geocaching.ViewModel
         {
             try
             {
-                double latitude = (double)(Convert.ToInt32(dLatDegrees) + Convert.ToDouble("." + dLatDegreesFraction));
-                double longitude = (double)(Convert.ToInt32(dLngDegrees) + Convert.ToDouble("." + dLngDegreesFraction));
+                double latitude = (double)(Convert.ToInt32(dLatDegrees, CultureInfo.InvariantCulture) + Convert.ToDouble("." + dLatDegreesFraction, CultureInfo.InvariantCulture));
+                double longitude = (double)(Convert.ToInt32(dLngDegrees, CultureInfo.InvariantCulture) + Convert.ToDouble("." + dLngDegreesFraction, CultureInfo.InvariantCulture));
                 currentInputPointLocation = new GeoCoordinate(latitude, longitude);
                 updateSexagesimal();
                 updateSexagesimalSeconds();
