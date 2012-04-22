@@ -63,8 +63,10 @@ namespace WP_Geocaching.Model.DataBase
             MakeAllCheckpointsNotActive(cacheId);
             using (var db = new CacheDataContext(ConnectionString))
             {
+                int maxId = GetMaxCheckpointIdByCacheId(db.Checkpoints, cacheId);
                 DbCheckpointsItem newItem = new DbCheckpointsItem()
                 {
+                    Id = maxId + 1,
                     CacheId = cacheId,
                     Latitude = latitude,
                     Longitude = longitude,
@@ -81,7 +83,7 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCheckpointQueryByCacheId(db.Checkpoints, cacheId);
+                var query = GetCheckpointsQueryByCacheId(db.Checkpoints, cacheId);
                 foreach (DbCheckpointsItem c in query)
                 {
                     c.Subtype = (int)Cache.Subtypes.NotActiveCheckpoint;
@@ -90,12 +92,12 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        public void MakeCheckpointActive(int id)
+        public void MakeCheckpointActive(int cacheId, int id)
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
 
-                var query = GetCheckpointQueryById(db.Checkpoints, id);
+                var query = GetCheckpointQuery(db.Checkpoints, cacheId, id);
                 DbCheckpointsItem checkpoint = query.FirstOrDefault();
                 if ((checkpoint != null) && (checkpoint.Subtype != (int)Cache.Subtypes.ActiveCheckpoint))
                 {
@@ -163,16 +165,16 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCheckpointQueryByCacheId(db.Checkpoints, cacheId);
+                var query = GetCheckpointsQueryByCacheId(db.Checkpoints, cacheId);
                 return query.ToList();
             }
         }
 
-        public void DeleteCheckpoint(int id)
+        public void DeleteCheckpoint(int cacheId, int id)
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCheckpointQueryById(db.Checkpoints, id);
+                var query = GetCheckpointQuery(db.Checkpoints, cacheId, id);
                 db.Checkpoints.DeleteOnSubmit((DbCheckpointsItem)query.FirstOrDefault());
                 db.SubmitChanges();
             }
@@ -182,7 +184,7 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCheckpointQueryByCacheId(db.Checkpoints, cacheId);
+                var query = GetCheckpointsQueryByCacheId(db.Checkpoints, cacheId);
                 db.Checkpoints.DeleteAllOnSubmit(query);
                 db.SubmitChanges();
             }
@@ -196,20 +198,35 @@ namespace WP_Geocaching.Model.DataBase
             return query;
         }
 
-        private IQueryable<DbCheckpointsItem> GetCheckpointQueryById(Table<DbCheckpointsItem> table, int id)
+        private IQueryable<DbCheckpointsItem> GetCheckpointQuery(Table<DbCheckpointsItem> table, int cacheId, int id)
         {
-            var query = from e in table
+            var query = from e in GetCheckpointsQueryByCacheId(table, cacheId)
                         where (e.Id == id)
                         select e;
             return query;
         }
 
-        private IQueryable<DbCheckpointsItem> GetCheckpointQueryByCacheId(Table<DbCheckpointsItem> table, int cacheId)
+        private IQueryable<DbCheckpointsItem> GetCheckpointsQueryByCacheId(Table<DbCheckpointsItem> table, int cacheId)
         {
             var query = from e in table
                         where (e.CacheId == cacheId)
                         select e;
             return query;
+        }
+
+        private int GetMaxCheckpointIdByCacheId(Table<DbCheckpointsItem> table, int cacheId)
+        {
+            int maxId = -1;
+
+            var query = (from e in table
+                         where (e.CacheId == cacheId)
+                         select e.Id);
+            if (query.Count() != 0)
+            {
+                maxId = query.Max();
+            }
+
+            return maxId;
         }
     }
 }
