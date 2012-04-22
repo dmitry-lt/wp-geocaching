@@ -154,7 +154,7 @@
     <value>Favorites</value>
   </data>
   <data name="Kilometres" xml:space="preserve">
-    <value>km.</value>
+    <value>km</value>
   </data>
   <data name="Latitude" xml:space="preserve">
     <value>Latitude:</value>
@@ -163,10 +163,10 @@
     <value>Longitude:</value>
   </data>
   <data name="Metres" xml:space="preserve">
-    <value>m.</value>
+    <value>m</value>
   </data>
-  <data name="NewCheckpoint" xml:space="preserve">
-    <value>Checkpoint</value>
+  <data name="CheckpointName" xml:space="preserve">
+    <value>Checkpoint name</value>
   </data>
   <data name="OverflowMessage" xml:space="preserve">
     <value>It is too much caches on the screen! Zoom in.</value>
@@ -209,5 +209,8 @@
   </data>
   <data name="NoSouhgtCacheMessage" xml:space="preserve">
     <value>Before searching choose a cache, please</value>
+  </data>
+  <data name="DefaultCheckpointName" xml:space="preserve">
+    <value>Checkpoint {0}</value>
   </data>
 </root>
