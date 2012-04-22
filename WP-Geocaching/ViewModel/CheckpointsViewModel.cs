@@ -18,6 +18,7 @@ namespace WP_Geocaching.ViewModel
     public class CheckpointsViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        private int cacheId;
         private ListCacheItem selectedCheckpoint;
         private List<ListCacheItem> dataSource;
         private string dialogVisibility;
@@ -96,15 +97,16 @@ namespace WP_Geocaching.ViewModel
         {
             DialogVisibility = "Collapsed";
             IsListEnabled = true;
+            cacheId = MapManager.Instance.CacheId;
             UpdateDataSource();          
         }
 
         public void UpdateDataSource()
         {
             CacheDataBase db = new CacheDataBase();
-            List<DbCheckpointsItem> dbCheckpointsList = db.GetCheckpointsbyCacheId(MapManager.Instance.CacheId);
+            List<DbCheckpointsItem> dbCheckpointsList = db.GetCheckpointsbyCacheId(cacheId);
             List<ListCacheItem> newDataSource = new List<ListCacheItem>();
-            newDataSource.Add(new ListCacheItem(db.GetCache(MapManager.Instance.CacheId)));
+            newDataSource.Add(new ListCacheItem(db.GetCache(cacheId)));
             foreach (DbCheckpointsItem c in dbCheckpointsList)
             {
                 newDataSource.Add(new ListCacheItem(c));
@@ -128,7 +130,7 @@ namespace WP_Geocaching.ViewModel
         private void ShowMakeActiveorDeleteDialogDialog()
         {
             DialogVisibility = "Visible";
-            DialogContent = new ChooseoOrDeleteDialogViewModel(SelectedCheckpoint, CloseMakeActiveorDeleteDialogDialog);
+            DialogContent = new ChooseoOrDeleteDialogViewModel(cacheId, SelectedCheckpoint, CloseMakeActiveorDeleteDialogDialog);
             IsListEnabled = false;
         }
     }

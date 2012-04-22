@@ -16,9 +16,9 @@ namespace WP_Geocaching.Model.DataBase
     [Table]
     public class DbCheckpointsItem
     {
-        [Column(IsPrimaryKey = true, IsDbGenerated = true)]
+        [Column(IsPrimaryKey = true)]
         public int Id { get; set; }
-        [Column()]
+        [Column(IsPrimaryKey = true)]
         public int CacheId { get; set; }
         [Column()]
         public string Name { get; set; }

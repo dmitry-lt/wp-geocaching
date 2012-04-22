@@ -18,6 +18,7 @@ namespace WP_Geocaching.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private int cacheId;
         private int id;
         private int subtype;
         private int type;
@@ -90,8 +91,9 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public ChooseoOrDeleteDialogViewModel(ListCacheItem item, Action closeDialog)
+        public ChooseoOrDeleteDialogViewModel(int cacheId, ListCacheItem item, Action closeDialog)
         {
+            this.cacheId = cacheId;
             Subtype = item.Subtype;
             Latitude = item.Latitude;
             Longitude = item.Longitude;
@@ -113,7 +115,7 @@ namespace WP_Geocaching.ViewModel
         public void DeletefromBd(object p)
         {
             CacheDataBase db = new CacheDataBase();
-            db.DeleteCheckpoint(id);
+            db.DeleteCheckpoint(cacheId, id);
             closeDialog();
         }
 
@@ -126,7 +128,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {                
-                db.MakeCheckpointActive(id);               
+                db.MakeCheckpointActive(cacheId, id);               
             }
             closeDialog();
         }
