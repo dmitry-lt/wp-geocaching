@@ -58,8 +58,8 @@ namespace WP_Geocaching.View
         {
             ApplicationBarIconButton button = new ApplicationBarIconButton();
             button.IconUri = new Uri("Resources/Images/appbar.refresh.rest.png", UriKind.Relative);
-            button.Text = AppResources.SetAllButton;
-            button.Click += SetAll_Click;
+            button.Text = AppResources.ShowAllButton;
+            button.Click += ShowAll_Click;
             ApplicationBar.Buttons.Add(button);
         }
 
@@ -72,9 +72,9 @@ namespace WP_Geocaching.View
             ApplicationBar.Buttons.Add(button);
         }
 
-        private void SetAll_Click(object sender, EventArgs e)
+        private void ShowAll_Click(object sender, EventArgs e)
         {
-            searchBingMapViewModel.SetViewAll();
+            searchBingMapViewModel.ShowAll();
         }
 
         private void Checkpoints_Click(object sender, EventArgs e)

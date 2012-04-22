@@ -127,7 +127,7 @@
     <value>Сомнительный</value>
   </data>
   <data name="not_valid" xml:space="preserve">
-    <value>Недействующий</value>
+    <value>Неподтвержденный</value>
   </data>
   <data name="valid" xml:space="preserve">
     <value>Действующий</value>

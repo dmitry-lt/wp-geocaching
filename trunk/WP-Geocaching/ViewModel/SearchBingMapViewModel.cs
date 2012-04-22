@@ -173,7 +173,7 @@ namespace WP_Geocaching.ViewModel
             CachePushpins = new ObservableCollection<CachePushpin>();
             ConnectingLine = new LocationCollection();
             currentLocation = settings.LastLocation;
-            SetViewAll();
+            ShowAll();
 
             watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
             watcher.MovementThreshold = 20;
@@ -188,7 +188,7 @@ namespace WP_Geocaching.ViewModel
             UpdateConnectingLineLength();
         }
 
-        public void SetViewAll()
+        public void ShowAll()
         {
             GeoCoordinate northwest = new GeoCoordinate(-90, 180);
             GeoCoordinate southeast = new GeoCoordinate(90, -180);
@@ -214,7 +214,7 @@ namespace WP_Geocaching.ViewModel
 
             if ((isFirstSettingView) && (CachePushpins.Count != 0))
             {
-                SetViewAll();
+                ShowAll();
                 isFirstSettingView = false;
             }
         }

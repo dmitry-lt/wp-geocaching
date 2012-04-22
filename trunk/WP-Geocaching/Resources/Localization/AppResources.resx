@@ -135,8 +135,8 @@
   <data name="ChooseCache" xml:space="preserve">
     <value>Choose a cache</value>
   </data>
-  <data name="ChooseCompass" xml:space="preserve">
-    <value>Choose a compass</value>
+  <data name="Compass" xml:space="preserve">
+    <value>Сompass</value>
   </data>
   <data name="Coordinates" xml:space="preserve">
     <value>dd°,mm.mmm'</value>
@@ -169,7 +169,7 @@
     <value>Checkpoint name</value>
   </data>
   <data name="OverflowMessage" xml:space="preserve">
-    <value>It is too much caches on the screen! Zoom in.</value>
+    <value>It is too much caches on the screen! Zoom in</value>
   </data>
   <data name="PageTitleCheckpoints" xml:space="preserve">
     <value>Checkpoints</value>
@@ -198,8 +198,8 @@
   <data name="SearchButton" xml:space="preserve">
     <value>search</value>
   </data>
-  <data name="SetAllButton" xml:space="preserve">
-    <value>set all</value>
+  <data name="ShowAllButton" xml:space="preserve">
+    <value>show all</value>
   </data>
   <data name="Subtype" xml:space="preserve">
     <value>Subtype:</value>
