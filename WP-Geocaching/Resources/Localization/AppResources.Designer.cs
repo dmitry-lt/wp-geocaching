@@ -88,6 +88,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checkpoint name.
+        /// </summary>
+        public static string CheckpointName {
+            get {
+                return ResourceManager.GetString("CheckpointName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to checkpoints.
         /// </summary>
         public static string CheckpointsButton {
@@ -142,6 +151,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checkpoint {0}.
+        /// </summary>
+        public static string DefaultCheckpointName {
+            get {
+                return ResourceManager.GetString("DefaultCheckpointName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -169,7 +187,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to km..
+        ///   Looks up a localized string similar to km.
         /// </summary>
         public static string Kilometres {
             get {
@@ -196,20 +214,11 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to m..
+        ///   Looks up a localized string similar to m.
         /// </summary>
         public static string Metres {
             get {
                 return ResourceManager.GetString("Metres", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Checkpoint.
-        /// </summary>
-        public static string NewCheckpoint {
-            get {
-                return ResourceManager.GetString("NewCheckpoint", resourceCulture);
             }
         }
         

@@ -50,6 +50,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 name = value;
+                OnPropertyChanged("Name");
             }
         }
         public GeoCoordinate CurrentInputPointLocation
@@ -216,7 +217,7 @@ namespace WP_Geocaching.ViewModel
 
         private void SetDefaultValues()
         {
-            name = AppResources.NewCheckpoint;
+            name = AppResources.CheckpointName;
             CacheDataBase db = new CacheDataBase();
             DbCacheItem cacheItem = db.GetCache(MapManager.Instance.CacheId);
             updateTextBoxes();

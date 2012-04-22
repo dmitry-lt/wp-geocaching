@@ -13,6 +13,7 @@ using System.Data.Linq.Mapping;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Generic;
+using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.Model.DataBase
 {
@@ -64,16 +65,22 @@ namespace WP_Geocaching.Model.DataBase
             using (var db = new CacheDataContext(ConnectionString))
             {
                 int maxId = GetMaxCheckpointIdByCacheId(db.Checkpoints, cacheId);
-                DbCheckpointsItem newItem = new DbCheckpointsItem()
+                DbCheckpointsItem newItem = new DbCheckpointsItem();
+                newItem.Id = maxId + 1;
+                if (name.Equals(AppResources.CheckpointName))
                 {
-                    Id = maxId + 1,
-                    CacheId = cacheId,
-                    Latitude = latitude,
-                    Longitude = longitude,
-                    Name = name,
-                    Type = (int)Cache.Types.Checkpoint,
-                    Subtype = (int)Cache.Subtypes.ActiveCheckpoint,
-                };
+                    newItem.Name = String.Format(AppResources.DefaultCheckpointName, newItem.Id);
+                }
+                else
+                {
+                    newItem.Name = name;
+                }
+                newItem.CacheId = cacheId;
+                newItem.Latitude = latitude;
+                newItem.Longitude = longitude;
+                newItem.Type = (int)Cache.Types.Checkpoint;
+                newItem.Subtype = (int)Cache.Subtypes.ActiveCheckpoint;
+                
                 db.Checkpoints.InsertOnSubmit(newItem);
                 db.SubmitChanges();
             }
@@ -216,7 +223,7 @@ namespace WP_Geocaching.Model.DataBase
 
         private int GetMaxCheckpointIdByCacheId(Table<DbCheckpointsItem> table, int cacheId)
         {
-            int maxId = -1;
+            int maxId = 0;
 
             var query = (from e in table
                          where (e.CacheId == cacheId)

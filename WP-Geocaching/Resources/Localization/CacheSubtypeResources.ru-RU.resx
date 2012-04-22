@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="active" xml:space="preserve">
-    <value>Активный</value>
+    <value>Активна</value>
   </data>
   <data name="not_active" xml:space="preserve">
-    <value>Не активный</value>
+    <value>Не активна</value>
   </data>
   <data name="not_confirmed" xml:space="preserve">
     <value>Сомнительный</value>
