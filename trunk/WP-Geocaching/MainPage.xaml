@@ -21,51 +21,96 @@
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28" Orientation="Horizontal">
+            <StackPanel Background="{StaticResource PhoneAccentBrush}">
+            <Image Source="Resources/Images/application_logo_big_white.png"/>
+            </StackPanel>
             <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
-                Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitleMainPage" Text="{Binding Path=LocalizedResources.PageTitleMainPage, 
-                Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+                Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"
+                FontSize="58" VerticalAlignment="Center"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,12">
 
-            <Grid x:Name="NoSouhgtCacheMessage" Width="Auto" Height="50" Background="Black" VerticalAlignment="Bottom" Visibility="Collapsed">             
-                <Border BorderThickness="3" BorderBrush="White">
+            <Grid x:Name="NoSouhgtCacheMessage" Width="Auto"
+                  Background="{StaticResource PhoneChromeBrush}" 
+                  VerticalAlignment="Bottom" Visibility="Collapsed">
                     <TextBlock Text="{Binding Path=LocalizedResources.NoSouhgtCacheMessage, 
-                Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Center" FontSize="24"/>
-                </Border>
+                Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" FontSize="22"/>
             </Grid>
 
-            <Button Content="{Binding Path=LocalizedResources.ChooseCache, Source={StaticResource LocalizedStrings}}" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Top" 
-                    Width="340" 
-                    Margin="0,80,0,0" 
-                    FontSize="32" 
-                    Click="ChooseCache_Click" />
-            <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=LocalizedResources.Compass}"  
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Top" 
-                    Width="340" 
-                    Margin="0,160,0,0" 
-                    FontSize="32" 
-                    Click="ChooseCompass_Click" />
-            <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=LocalizedResources.Favorites}"  
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Top" 
-                    Width="340" 
-                    Margin="0,240,0,0" 
-                    FontSize="32" 
-                    Click="Favorites_Click" />
-            <Button Content="{Binding Source={StaticResource LocalizedStrings}, Path=LocalizedResources.SearchCache}"  
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Top" 
-                    Width="340" 
-                    Margin="0,320,0,0" 
-                    FontSize="32" 
-                    Click="SearchCache_Click" />
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Height="420" Width="420">
+                <Button HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                    Width="200" 
+                    Height="200"
+                    Background="{StaticResource PhoneAccentBrush}"
+                    BorderThickness="0"
+                    Click="ChooseCache_Click">
+                <Grid>
+                        <Image Source="Resources/Images/choose_cache_menu_icon.png"/>
+                        <TextBlock Text="{Binding Path=LocalizedResources.ChooseCache, 
+                            Source={StaticResource LocalizedStrings}}" 
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"/>
+                </Grid>
+                </Button>
+                <Button HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom"
+                    Width="200" 
+                    Height="200"
+                    Background="{StaticResource PhoneAccentBrush}"
+                    BorderThickness="0"
+                    Click="ChooseCompass_Click">
+                <Grid>
+                        <Image Source="Resources/Images/compass_menu_icon.png"/>
+                        <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
+                            Path=LocalizedResources.Compass}" 
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"/>
+                </Grid>
+                </Button>
+                <Button HorizontalAlignment="Left" 
+                    VerticalAlignment="Bottom"
+                    Width="200" 
+                    Height="200"
+                    Background="{StaticResource PhoneAccentBrush}"
+                    BorderThickness="0"
+                    Click="Favorites_Click">
+                <Grid>
+                        <Image Source="Resources/Images/favorites_menu_icon.png"/>
+                        <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
+                            Path=LocalizedResources.Favorites}" 
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"/>
+                </Grid>
+                </Button>
+                <Button HorizontalAlignment="Right" 
+                    VerticalAlignment="Top"
+                    Width="200" 
+                    Height="200"
+                    Background="{StaticResource PhoneAccentBrush}"
+                    BorderThickness="0"
+                    Click="SearchCache_Click">
+                    <Grid>
+                        <Image Source="Resources/Images/search_map_menu_icon.png"/>
+                        <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
+                            Path=LocalizedResources.SearchCache}" 
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"/>
+                    </Grid>
+                </Button>
+            </Grid>
         </Grid>
     </Grid>
 

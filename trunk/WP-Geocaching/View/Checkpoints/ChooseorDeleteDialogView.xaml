@@ -11,12 +11,11 @@
     
     >
 
-    <Grid x:Name="LayoutRoot" Width="350" Height="150" Background="{StaticResource PhoneBackgroundBrush}">
+    <Grid x:Name="LayoutRoot" Width="350" Height="150" Background="{StaticResource PhoneChromeBrush}">
         <Grid.Resources>
             <c:CacheSubtypeConverter x:Key="CacheSubtypeConverter"  x:Name="CacheSubtypeConverter"/>
         </Grid.Resources>
-        <Border BorderThickness="4" BorderBrush="{StaticResource PhoneBorderBrush}">
-            <StackPanel Orientation="Vertical"  DataContext="{Binding DialogContent}">
+            <StackPanel Orientation="Vertical"  DataContext="{Binding DialogContent}" Margin="5,5,5,5">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel>
                         <TextBlock Text="{Binding Path=LocalizedResources.Subtype, 
@@ -26,19 +25,38 @@
                         <TextBlock Text="{Binding Path=LocalizedResources.Longitude, 
                 Source={StaticResource LocalizedStrings}}"/>
                     </StackPanel>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Subtype, Converter={StaticResource CacheSubtypeConverter}}"/>
-                        <TextBlock Text="{Binding Latitude}"/>
-                        <TextBlock Text="{Binding Longitude}"/>
+                    <StackPanel Margin="5,0,0,0">
+                        <TextBlock Text="{Binding Subtype, 
+                            Converter={StaticResource CacheSubtypeConverter}}" 
+                                   Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <TextBlock Text="{Binding Latitude}" 
+                                   Foreground="{StaticResource PhoneSubtleBrush}"/>
+                    <TextBlock Text="{Binding Longitude}" 
+                               Foreground="{StaticResource PhoneSubtleBrush}"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="{Binding Path=LocalizedResources.Delete, Source={StaticResource LocalizedStrings}}"
-                            IsEnabled="{Binding IsDeleteEnabled}" Height="60" Width="160" FontSize="18" Command="{Binding DeleteCommand}"/>
-                    <Button Content="{Binding Path=LocalizedResources.Choose, Source={StaticResource LocalizedStrings}}" 
-                            Height="60" Width="160" FontSize="18" Command="{Binding ChooseCommand}"/>
-                </StackPanel>
+                <Button IsEnabled="{Binding IsDeleteEnabled}" 
+                            Height="60" Width="160" FontSize="18" 
+                            Command="{Binding DeleteCommand}"
+                            BorderThickness="0"
+                            Background="{StaticResource PhoneContrastBackgroundBrush}"
+                            >
+                    <TextBlock Text="{Binding Path=LocalizedResources.Delete, 
+                        Source={StaticResource LocalizedStrings}}"
+                               Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
+                </Button>
+                    
+                <Button Height="60" Width="160" FontSize="18" 
+                            Command="{Binding ChooseCommand}"
+                            BorderThickness="0"
+                            Background="{StaticResource PhoneContrastBackgroundBrush}"
+                            >
+                    <TextBlock Text="{Binding Path=LocalizedResources.Choose, 
+                        Source={StaticResource LocalizedStrings}}"
+                               Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
+                </Button>
             </StackPanel>
-        </Border>
+            </StackPanel>
     </Grid>
 </UserControl>

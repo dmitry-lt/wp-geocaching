@@ -19,12 +19,15 @@
         <StackPanel Orientation="Horizontal" Height="Auto">
             <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}" VerticalAlignment="Center" Width="48"/>
             <StackPanel Width="370">
-                <TextBlock Text="{Binding Name}" TextWrapping="Wrap" 
-                                           FontSize="24" VerticalAlignment="Center" Width="380" Height="Auto"/>
+                <TextBlock Text="{Binding Name}" TextWrapping="Wrap"
+                           FontSize="22" VerticalAlignment="Center" 
+                           Width="380" Height="Auto"/>
                 <TextBlock Text="{Binding Type, Converter={StaticResource CacheTypeConverter}}" 
-                                           FontSize="18" VerticalAlignment="Center" Width="380" Height="Auto"/>
-                <TextBlock Text="{Binding Subtype, Converter={StaticResource CacheSubtypeConverter}}"
-                                           FontSize="18" VerticalAlignment="Center" Width="380" Height="Auto"/>
+                           Foreground="{StaticResource PhoneSubtleBrush}"
+                           FontSize="18" VerticalAlignment="Center" Width="380" Height="Auto"/>
+                <TextBlock Text="{Binding Subtype, Converter={StaticResource CacheSubtypeConverter}}" 
+                           Foreground="{StaticResource PhoneSubtleBrush}"
+                           FontSize="18" VerticalAlignment="Center" Width="380" Height="Auto"/>
             </StackPanel>
         </StackPanel>
     </Grid>
