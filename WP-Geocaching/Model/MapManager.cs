@@ -20,7 +20,7 @@ namespace WP_Geocaching.Model
         private static MapManager instance;
         private GeoCoordinate defaultMapCenter = new GeoCoordinate(59.879904, 29.828674);
         private int cacheId;
-        private int defaultZoom = 10;
+        private int defaultZoom = 13;
 
         public static MapManager Instance
         {
