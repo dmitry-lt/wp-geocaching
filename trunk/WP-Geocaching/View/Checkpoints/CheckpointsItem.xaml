@@ -21,7 +21,7 @@
                 Converter={StaticResource IconConverter}}" 
                    VerticalAlignment="Center" 
                    Width="48"/>
-            <StackPanel Width="370">
+            <StackPanel Width="370" Margin="10,0,0,0">
                 <TextBlock Text="{Binding Name}" 
                            TextWrapping="Wrap" 
                            FontSize="22" 
