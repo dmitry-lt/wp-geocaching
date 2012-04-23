@@ -143,6 +143,7 @@ namespace WP_Geocaching.Model.DataBase
                     {
                         settings.SetDefaultLastSoughtCacheId();
                     }
+                    DeleteAllCheckpoints(id);
                     db.Caches.DeleteOnSubmit(itemForDeleting);
                     db.SubmitChanges();
                 }
