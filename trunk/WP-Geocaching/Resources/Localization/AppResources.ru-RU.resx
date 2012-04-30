@@ -168,7 +168,7 @@
   <data name="CheckpointName" xml:space="preserve">
     <value>Название точки</value>
   </data>
-  <data name="OverflowMessage" xml:space="preserve">
+  <data name="SurpassedCacheCountMessage" xml:space="preserve">
     <value>Слишком много тайников на экране. Увеличьте масштаб</value>
   </data>
   <data name="SaveCheckpointButton" xml:space="preserve">
@@ -194,5 +194,11 @@
   </data>
   <data name="DefaultCheckpointName" xml:space="preserve">
     <value>Контрольная точка {0}</value>
+  </data>
+  <data name="MyLocationButton" xml:space="preserve">
+    <value>моё положение</value>
+  </data>
+  <data name="UndetectedLocationMessage" xml:space="preserve">
+    <value>Местоположение не определено</value>
   </data>
 </root>

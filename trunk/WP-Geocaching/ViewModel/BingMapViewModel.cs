@@ -31,11 +31,12 @@ namespace WP_Geocaching.ViewModel
         private IApiManager apiManager;
         private ObservableCollection<CachePushpin> cachePushpinCollection;
         private LocationRect boundingRectangle;
-        /*Сообщение,указывающее на большое количество тайников на экране*/
-        private String messageIsVisible = "Collapsed";
+        private String surpassedCacheCountMessageVisibility = "Collapsed";
+        private String undetectedLocationMessageVisibility = "Collapsed";
         private GeoCoordinateWatcher watcher;
         private bool isFirstSettingView;
-        
+        private GeoCoordinate currentLocation;
+
         public BingMapViewModel(IApiManager apiManager)
         {
             Settings settings = new Settings();
@@ -50,14 +51,30 @@ namespace WP_Geocaching.ViewModel
             watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(PositionChanged);
             watcher.Start();
         }
-       
-        public String MessageIsVisible 
+
+        public String SurpassedCacheCountMessageVisibility
         {
-            get 
+            get
             {
-                return this.messageIsVisible;
+                return this.surpassedCacheCountMessageVisibility;
             }
-          
+        }
+
+        public String UndetectedLocationMessageVisibility
+        {
+            get
+            {
+                return this.undetectedLocationMessageVisibility;
+            }
+            set
+            {
+                bool changed = undetectedLocationMessageVisibility != value;
+                if (changed)
+                {
+                    undetectedLocationMessageVisibility = value;
+                    NotifyPropertyChanged("UndetectedLocationMessageVisibility");
+                }
+            }
         }
 
         public int Zoom
@@ -80,7 +97,12 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                this.mapCenter = value;
+                bool changed = mapCenter != value;
+                if (changed)
+                {
+                    mapCenter = value;
+                    NotifyPropertyChanged("MapCenter");
+                }
             }
         }
 
@@ -95,7 +117,7 @@ namespace WP_Geocaching.ViewModel
                 this.cachePushpinCollection = value;
             }
         }
-        
+
         public LocationRect BoundingRectangle
         {
             get
@@ -112,17 +134,19 @@ namespace WP_Geocaching.ViewModel
         private void ProcessCacheList(List<Cache> caches)
         {
 
-           this.CachePushpinCollection.Clear();
+            this.CachePushpinCollection.Clear();
 
-           if (caches.Count >= maxCountOfCache){
+            if (caches.Count >= maxCountOfCache)
+            {
 
-               if (messageIsVisible.Equals("Collapsed"))
-               {
-                 messageIsVisible = "Visible";
-                 NotifyPropertyChanged("MessageIsVisible");
-               }
-           }
-           else{
+                if (surpassedCacheCountMessageVisibility.Equals("Collapsed"))
+                {
+                    surpassedCacheCountMessageVisibility = "Visible";
+                    NotifyPropertyChanged("SurpassedCacheCountMessageVisibility");
+                }
+            }
+            else
+            {
 
                 foreach (Cache p in caches)
                 {
@@ -134,20 +158,20 @@ namespace WP_Geocaching.ViewModel
                     };
 
                     this.CachePushpinCollection.Add(pushpin);
-                } 
-               
-                if (messageIsVisible.Equals("Visible"))
-                {
-                   messageIsVisible = "Collapsed";
-                   NotifyPropertyChanged("MessageIsVisible");
                 }
-           }
-           
+
+                if (surpassedCacheCountMessageVisibility.Equals("Visible"))
+                {
+                    surpassedCacheCountMessageVisibility = "Collapsed";
+                    NotifyPropertyChanged("SurpassedCacheCountMessageVisibility");
+                }
+            }
+
         }
 
         private void GetPushpins()
         {
-            this.apiManager.GetCacheList(ProcessCacheList,  BoundingRectangle.East, 
+            this.apiManager.GetCacheList(ProcessCacheList, BoundingRectangle.East,
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
 
@@ -164,11 +188,34 @@ namespace WP_Geocaching.ViewModel
             Settings settings = new Settings();
             GeoCoordinate currentLocation = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
             settings.LastLocation = currentLocation;
+            this.currentLocation = currentLocation;
             if (isFirstSettingView)
             {
                 MapCenter = currentLocation;
                 NotifyPropertyChanged("MapCenter");
                 isFirstSettingView = false;
+            }
+        }
+
+        public void SetMapCenterOnCurrentLocationOrShowMessage(System.Windows.Threading.Dispatcher dispatcher)
+        {
+            if (currentLocation == null)
+            {
+                UndetectedLocationMessageVisibility = "Visible";
+                System.Threading.Timer timer = new System.Threading.Timer((state) =>
+                {
+                    System.Threading.Timer t = (System.Threading.Timer)state;
+                    dispatcher.BeginInvoke(() =>
+                    {
+                        UndetectedLocationMessageVisibility = "Collapsed";
+                    });
+                    t.Dispose();
+                });
+                timer.Change(3000, 0);
+            }
+            else
+            {
+                MapCenter = currentLocation;
             }
         }
     }

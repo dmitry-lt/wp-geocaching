@@ -105,6 +105,17 @@
                     <Image Source="/Resources/Icons/ic_arrow.png" />
                 </Microsoft_Phone_Controls_Maps:Pushpin>
 
+                <Border Background="{StaticResource PhoneChromeBrush}" 
+                Opacity="0.7" VerticalAlignment="Bottom" 
+                Visibility="{Binding UndetectedLocationMessageVisibility}" 
+                Margin="0,0,0,112" Grid.Row="1">
+                    <TextBlock Text="{Binding Path=LocalizedResources.UndetectedLocationMessage, 
+                           Source={StaticResource LocalizedStrings}}" 
+                       FontSize="22" 
+                       Foreground="{StaticResource PhoneForegroundBrush}" 
+                       HorizontalAlignment="Center"/>
+                </Border>
+
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>
         

@@ -269,6 +269,7 @@
     <Content Include="Resources\Images\appbar.feature.search.rest.png" />
     <Resource Include="Resources\Images\favorites_menu_icon.png" />
     <Resource Include="Resources\Images\search_map_menu_icon.png" />
+    <Content Include="Resources\Images\my.location.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
