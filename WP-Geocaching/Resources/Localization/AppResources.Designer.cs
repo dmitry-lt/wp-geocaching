@@ -223,20 +223,20 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to my location.
+        /// </summary>
+        public static string MyLocationButton {
+            get {
+                return ResourceManager.GetString("MyLocationButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Before searching choose a cache, please.
         /// </summary>
         public static string NoSouhgtCacheMessage {
             get {
                 return ResourceManager.GetString("NoSouhgtCacheMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to It is too much caches on the screen! Zoom in.
-        /// </summary>
-        public static string OverflowMessage {
-            get {
-                return ResourceManager.GetString("OverflowMessage", resourceCulture);
             }
         }
         
@@ -291,6 +291,24 @@ namespace WP_Geocaching.Resources.Localization {
         public static string Subtype {
             get {
                 return ResourceManager.GetString("Subtype", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It is too much caches on the screen! Zoom in.
+        /// </summary>
+        public static string SurpassedCacheCountMessage {
+            get {
+                return ResourceManager.GetString("SurpassedCacheCountMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location is undetected.
+        /// </summary>
+        public static string UndetectedLocationMessage {
+            get {
+                return ResourceManager.GetString("UndetectedLocationMessage", resourceCulture);
             }
         }
     }

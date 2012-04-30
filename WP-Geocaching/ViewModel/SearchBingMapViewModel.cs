@@ -40,7 +40,8 @@ namespace WP_Geocaching.ViewModel
         private LocationCollection connectingLine;
         private GeoCoordinate currentLocation;
         private double distanceToSoughtPoint;
-        Settings settings;
+        private String undetectedLocationMessageVisibility = "Collapsed";
+        private Settings settings;
 
         public int Zoom
         {
@@ -160,6 +161,23 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        public String UndetectedLocationMessageVisibility
+        {
+            get
+            {
+                return this.undetectedLocationMessageVisibility;
+            }
+            set
+            {
+                bool changed = undetectedLocationMessageVisibility != value;
+                if (changed)
+                {
+                    undetectedLocationMessageVisibility = value;
+                    OnPropertyChanged("UndetectedLocationMessageVisibility");
+                }
+            }
+        }
+
         public SearchBingMapViewModel(IApiManager apiManager, Action<LocationRect> setView)
         {
             this.apiManager = apiManager;
@@ -274,6 +292,28 @@ namespace WP_Geocaching.ViewModel
         {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void SetMapCenterOnCurrentLocationOrShowMessage(System.Windows.Threading.Dispatcher dispatcher)
+        {
+            if (currentLocation == null)
+            {
+                UndetectedLocationMessageVisibility = "Visible";
+                System.Threading.Timer timer = new System.Threading.Timer((state) =>
+                {
+                    System.Threading.Timer t = (System.Threading.Timer)state;
+                    dispatcher.BeginInvoke(() =>
+                    {
+                        UndetectedLocationMessageVisibility = "Collapsed";
+                    });
+                    t.Dispose();
+                });
+                timer.Change(3000, 0);
+            }
+            else
+            {
+                MapCenter = currentLocation;
+            }
         }
     }
 }

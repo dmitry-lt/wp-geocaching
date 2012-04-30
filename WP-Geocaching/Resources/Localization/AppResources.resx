@@ -168,7 +168,7 @@
   <data name="CheckpointName" xml:space="preserve">
     <value>Checkpoint name</value>
   </data>
-  <data name="OverflowMessage" xml:space="preserve">
+  <data name="SurpassedCacheCountMessage" xml:space="preserve">
     <value>It is too much caches on the screen! Zoom in</value>
   </data>
   <data name="SaveCheckpointButton" xml:space="preserve">
@@ -194,5 +194,11 @@
   </data>
   <data name="DefaultCheckpointName" xml:space="preserve">
     <value>Checkpoint {0}</value>
+  </data>
+  <data name="MyLocationButton" xml:space="preserve">
+    <value>my location</value>
+  </data>
+  <data name="UndetectedLocationMessage" xml:space="preserve">
+    <value>Location is undetected</value>
   </data>
 </root>

@@ -29,6 +29,7 @@ namespace WP_Geocaching.View
             this.DataContext = this.searchBingMapViewModel;
             SetCheckpointsButton();
             SetSetAllButton();
+            SetMyLocationButton();
         }
 
         private void Pushpin_Tap(object sender, GestureEventArgs e)
@@ -63,6 +64,15 @@ namespace WP_Geocaching.View
             ApplicationBar.Buttons.Add(button);
         }
 
+        private void SetMyLocationButton()
+        {
+            ApplicationBarIconButton button = new ApplicationBarIconButton();
+            button.IconUri = new Uri("Resources/Images/my.location.png", UriKind.Relative);
+            button.Text = AppResources.MyLocationButton;
+            button.Click += MyLocation_Click;
+            ApplicationBar.Buttons.Add(button);
+        }
+
         private void SetCheckpointsButton()
         {
             ApplicationBarIconButton button = new ApplicationBarIconButton();
@@ -80,6 +90,11 @@ namespace WP_Geocaching.View
         private void Checkpoints_Click(object sender, EventArgs e)
         {
             NavigationManager.Instance.NavigateToCheckpoints();
+        }
+
+        private void MyLocation_Click(object sender, EventArgs e)
+        {
+            searchBingMapViewModel.SetMapCenterOnCurrentLocationOrShowMessage(this.Dispatcher);
         }
     }
 }
