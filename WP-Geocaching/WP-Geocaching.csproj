@@ -20,7 +20,7 @@
     </SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>WP_Geocaching.xap</XapFilename>
+    <XapFilename>Geocaching.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
     <SilverlightAppEntry>WP_Geocaching.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
@@ -222,10 +222,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
-    <None Include="Properties\WMAppManifest.xml" />
+    <None Include="Properties\WMAppManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="TileApplicationIcon.png" />
     <Resource Include="ApplicationIcon.png" />
+    <Content Include="AppResLib.dll.0419.mui" />
+    <Content Include="AppResLib.dll" />
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
