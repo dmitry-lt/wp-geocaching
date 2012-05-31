@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{8ea4ae65-325d-4703-8e14-3e71670a7415}" Title="Geocaching" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WP_Geocaching author" Description="Sample description" Publisher="WP_Geocaching">
+    <App xmlns=""
+     ProductID="{8ea4ae65-325d-4703-8e14-3e71670a7415}"
+     Title="@AppResLib.dll,-100"
+     RuntimeType="Silverlight"
+     Version="1.0.0.0"
+     Genre="apps.normal"
+     Author="author"
+     Description="description"
+     Publisher="publisher">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES" />
@@ -24,9 +32,9 @@
     <Tokens>
       <PrimaryToken TokenID="WP_GeocachingToken" TaskName="_default">
         <TemplateType5>
-          <BackgroundImageURI IsRelative="true" IsResource="false">Background.png</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">TileApplicationIcon.png</BackgroundImageURI>
           <Count>0</Count>
-          <Title>WP_Geocaching</Title>
+          <Title>@AppResLib.dll,-200</Title>
         </TemplateType5>
       </PrimaryToken>
     </Tokens>
