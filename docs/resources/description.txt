@@ -1,26 +1,30 @@
 Описание для Marketplace
 
+
 Short description:
-Russian: Приложение для игры Геокэшинг
+Russian: Клиент для geocaching.su
 English: Geocaching.su mobile app
+
 
 Detailed description:
 Russian:
 Геокэшинг - это мобильное приложение для работы с сайтом http://www.geocaching.su
-Приложение упростит вам поиск тайников, с его помощью вы сможете:
-- Увидеть существующие тайники прямо на карте
-- Прочитать дополнительную информацию о тайнике
-- Искать тайник с помощью карты и компаса
-- Сохранять тайники в избранное
+
+Наше приложение упростит вам поиск тайников, с его помощью вы сможете:
+- увидеть существующие тайники прямо на карте
+- прочитать дополнительную информацию о тайнике
+- искать тайники с помощью карты и компаса
+- сохранять тайники в избранное
 
 Сайт проекта http://code.google.com/p/wp-geocaching/
 
-English:
+
 Geocaching is a mobile client for the http://www.geocaching.su service. Please note, that most of the cache information is in Russian
+
 This app will improve your geocaching experience by letting you
-- View caches on a live map
-- See detailed cache information
-- Search for a cache using map and compass
-- Save caches for offline use
+- view caches on a live map
+- see detailed cache information
+- search for a cache using map and compass
+- save caches for offline use
 
 Project site: http://code.google.com/p/wp-geocaching/
