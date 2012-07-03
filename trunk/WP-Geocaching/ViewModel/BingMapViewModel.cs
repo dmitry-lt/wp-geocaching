@@ -171,7 +171,7 @@ namespace WP_Geocaching.ViewModel
 
         private void GetPushpins()
         {
-            this.apiManager.GetCacheList(ProcessCacheList, BoundingRectangle.East,
+            this.apiManager.UpdateCacheList(ProcessCacheList, BoundingRectangle.East,
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
 

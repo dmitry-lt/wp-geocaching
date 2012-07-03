@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
@@ -33,25 +34,14 @@ namespace WP_Geocaching.Model
         private const string DownloadUrl =
             "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax={0}&lngmin={1}&latmax={2}&latmin={3}&id={4}&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
         private int id;
-        private List<Cache> cacheList;
 
-        public List<Cache> CacheList
-        {
-            get
-            {
-                return this.cacheList;
-            }
-            set
-            {
-                this.cacheList = value;
-            }
-        }
+        public List<Cache> CacheList { get; set; }
 
         private GeocahingSuApiManager()
         {
-            Random random = new Random();
+            var random = new Random();
             this.id = random.Next(100000000);
-            this.CacheList = new List<Cache>();
+            CacheList = new List<Cache>();
         }
 
         public static GeocahingSuApiManager Instance
@@ -66,94 +56,91 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lngmin, double latmax, double latmin)
+        public void UpdateCacheList(Action<List<Cache>> processCacheList, double lngmax, double lngmin, double latmax, double latmin)
         {
-
-            string sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, lngmax, lngmin, latmax, latmin, this.id);
-            WebClient client = new WebClient();
+            var sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, lngmax, lngmin, latmax, latmin, this.id);
+            var client = new WebClient();
             client.Encoding = CP1251Encoding;
             client.DownloadStringCompleted += (sender, e) =>
             {
                 if (e.Error == null)
                 {
-                    XElement caches = XElement.Parse(e.Result);
-                    CacheParser parser = new CacheParser();
-                    List<Cache> downloadedCaches = parser.Parse(caches);
+                    var caches = XElement.Parse(e.Result);
+                    var parser = new CacheParser();
+                    var downloadedCaches = parser.Parse(caches);
 
                     foreach (Cache p in downloadedCaches)
                     {
-                        if (!this.cacheList.Contains(p))
+                        if (!CacheList.Contains(p))
                         {
-                            this.cacheList.Add(p);
+                            CacheList.Add(p);
                         }
                     }
 
-                    if (ProcessCacheList != null)
+                    if (processCacheList != null)
                     {
-                     ProcessCacheList(FilterCacheList(lngmax, lngmin, latmax, latmin));
+                        var list = (from cache in CacheList
+                                           where ((cache.Location.Latitude <= latmax) &&
+                                                  (cache.Location.Latitude >= latmin) &&
+                                                  (cache.Location.Longitude <= lngmax) &&
+                                                  (cache.Location.Longitude >= lngmin))
+                                           select cache).ToList<Cache>();
+                        processCacheList(list);
                     }
                 }
             };
             client.DownloadStringAsync(new Uri(sUrl));
         }
 
-        private List<Cache> FilterCacheList(double lngmax, double lngmin, double latmax, double latmin)
+        /// <summary>
+        /// Downloads data at the url by cacheId
+        /// </summary>
+        /// <param name="processData">processes downloaded result</param>
+        private void DownloadAndProcessData(string url, Action<string> processData, int cacheId)
         {
-            List<Cache> filteredListCache = new List<Cache>();
-            foreach (Cache p in this.cacheList)
-            {            
-                if (((p.Location.Latitude <= latmax) && (p.Location.Latitude  >= latmin) &&
-                    (p.Location.Longitude <= lngmax) && (p.Location.Longitude >= lngmin)))
-                {
-                    filteredListCache.Add(p);
-                }
-            }
-            return filteredListCache;
-        }
-        public void GetCacheInfo(Action<string> ProcessCacheInfo, int cacheId)
-        {
-            WebClient webClient = new WebClient();
-
-            webClient.DownloadStringCompleted += (sender, e) =>
-                {
-                    if (e.Error == null && ProcessCacheInfo != null)
-                    {
-                        ProcessCacheInfo(e.Result);
-                    }
-                };
-
-            webClient.AllowReadStreamBuffering = true;
-            webClient.Encoding = CP1251Encoding;
-            webClient.DownloadStringAsync(new Uri(String.Format(InfoUrl, cacheId), UriKind.Absolute));
-        }
-
-        public void GetCacheNotebook(Action<string> ProcessCacheNotebook, int cacheId)
-        {
-            WebClient webClient = new WebClient();
+            var webClient = new WebClient();
 
             webClient.DownloadStringCompleted += (sender, e) =>
             {
-                if (e.Error == null && ProcessCacheNotebook != null)
+                if (e.Error == null && processData != null)
                 {
-                    ProcessCacheNotebook(e.Result);
+                    processData(e.Result);
                 }
             };
 
             webClient.AllowReadStreamBuffering = true;
             webClient.Encoding = CP1251Encoding;
-            webClient.DownloadStringAsync(new Uri(String.Format(NotebookUrl, cacheId), UriKind.Absolute));
+            webClient.DownloadStringAsync(new Uri(String.Format(url, cacheId), UriKind.Absolute));
         }
 
-        public Cache GetCachebyId(int id)
+        /// <summary>
+        /// Downloads cache info by cacheId
+        /// </summary>
+        /// <param name="processCacheInfo">processes downloaded result</param>
+        public void DownloadAndProcessInfo(Action<string> processCacheInfo, int cacheId)
         {
-            foreach (Cache p in GeocahingSuApiManager.Instance.CacheList)
+            DownloadAndProcessData(InfoUrl, processCacheInfo, cacheId);
+        }
+
+        /// <summary>
+        /// Downloads cache notebook by cacheId
+        /// </summary>
+        /// <param name="processCacheInfo">processes downloaded result</param>
+        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, int cacheId)
+        {
+            DownloadAndProcessData(NotebookUrl, processCacheNotebook, cacheId);
+        }
+
+        public Cache GetCacheById(int id)
+        {
+            foreach (Cache p in CacheList)
             {
                 if (p.Id == id)
                 {
                     return p;
                 }
             }
-            CacheDataBase db = new CacheDataBase();
+            var db = new CacheDataBase();
             return new Cache(db.GetCache(id));
         }
     }

@@ -12,8 +12,8 @@ namespace WP_Geocaching.Model
     public interface IApiManager
     {
         List<Cache> CacheList { get; set; }
-        Cache GetCachebyId(int id);
-        void GetCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lgnmin, double latmax, double latmin);
+        Cache GetCacheById(int id);
+        void UpdateCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lgnmin, double latmax, double latmin);
 
     }
 }
