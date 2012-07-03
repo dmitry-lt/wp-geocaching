@@ -201,4 +201,7 @@
   <data name="UndetectedLocationMessage" xml:space="preserve">
     <value>Местоположение не определено</value>
   </data>
+  <data name="NotebookButton" xml:space="preserve">
+    <value>блокнот</value>
+  </data>
 </root>

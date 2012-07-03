@@ -67,5 +67,9 @@ namespace WP_Geocaching.Model
         {
             this.Navigate("//View/Checkpoints/CreateCheckpointPivot.xaml");
         }
+        public void NavigateToNotebook(string CurrentId)
+        {
+            this.Navigate("//View/Notebook.xaml", CurrentId);
+        }
     }
 }
