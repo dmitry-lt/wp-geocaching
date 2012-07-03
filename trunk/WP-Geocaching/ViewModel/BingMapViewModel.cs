@@ -8,6 +8,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using System.Threading;
 using System.Xml;
 using System.Text;
 using System.IO;
@@ -23,42 +25,34 @@ namespace WP_Geocaching.ViewModel
 {
     public class BingMapViewModel : BaseViewModel
     {
-        private int zoom;
-        private const int maxCountOfCache = 50;
+        
+        private const int maxCacheCount = 50;
         private GeoCoordinate mapCenter;
-        private IApiManager apiManager;
-        private ObservableCollection<CachePushpin> cachePushpinCollection;
+        private IApiManager apiManager;        
         private LocationRect boundingRectangle;
-        private String surpassedCacheCountMessageVisibility = "Collapsed";
-        private String undetectedLocationMessageVisibility = "Collapsed";
+        private Visibility surpassedCacheCountMessageVisibility = Visibility.Collapsed;
+        private Visibility undetectedLocationMessageVisibility = Visibility.Collapsed;
         private GeoCoordinateWatcher watcher;
         private bool isFirstSettingView;
         private GeoCoordinate currentLocation;
 
-        public BingMapViewModel(IApiManager apiManager)
-        {
-            Settings settings = new Settings();
-            MapCenter = settings.LastLocation;
-            Zoom = MapManager.Instance.DefaultZoom;
-            this.apiManager = apiManager;
-            CachePushpinCollection = new ObservableCollection<CachePushpin>();
-            isFirstSettingView = true;
+        public int Zoom { get; set; }
+        public ObservableCollection<CachePushpin> CachePushpins { get; set; }
 
-            watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
-            watcher.MovementThreshold = 20;
-            watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(PositionChanged);
-            watcher.Start();
-        }
-
-        public String SurpassedCacheCountMessageVisibility
+        public Visibility SurpassedCacheCountMessageVisibility
         {
             get
             {
                 return this.surpassedCacheCountMessageVisibility;
             }
+            set
+            {
+                surpassedCacheCountMessageVisibility = value;
+                NotifyPropertyChanged("SurpassedCacheCountMessageVisibility");
+            }
         }
 
-        public String UndetectedLocationMessageVisibility
+        public Visibility UndetectedLocationMessageVisibility
         {
             get
             {
@@ -66,24 +60,8 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                bool changed = undetectedLocationMessageVisibility != value;
-                if (changed)
-                {
-                    undetectedLocationMessageVisibility = value;
-                    NotifyPropertyChanged("UndetectedLocationMessageVisibility");
-                }
-            }
-        }
-
-        public int Zoom
-        {
-            get
-            {
-                return this.zoom;
-            }
-            set
-            {
-                this.zoom = value;
+                undetectedLocationMessageVisibility = value;
+                NotifyPropertyChanged("UndetectedLocationMessageVisibility");
             }
         }
 
@@ -104,18 +82,6 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public ObservableCollection<CachePushpin> CachePushpinCollection
-        {
-            get
-            {
-                return this.cachePushpinCollection;
-            }
-            set
-            {
-                this.cachePushpinCollection = value;
-            }
-        }
-
         public LocationRect BoundingRectangle
         {
             get
@@ -125,22 +91,36 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 this.boundingRectangle = value;
-                this.GetPushpins();
+                SetPushpinsOnMap();
             }
+        }
+
+        public BingMapViewModel(IApiManager apiManager)
+        {
+            var settings = new Settings();
+            MapCenter = settings.LastLocation;
+            Zoom = MapManager.Instance.DefaultZoom;
+            this.apiManager = apiManager;
+            CachePushpins = new ObservableCollection<CachePushpin>();
+            isFirstSettingView = true;
+
+            watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
+            watcher.MovementThreshold = 20;
+            watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(PositionChanged);
+            watcher.Start();
         }
 
         private void ProcessCacheList(List<Cache> caches)
         {
 
-            this.CachePushpinCollection.Clear();
+            this.CachePushpins.Clear();
 
-            if (caches.Count >= maxCountOfCache)
+            if (caches.Count >= maxCacheCount)
             {
 
-                if (surpassedCacheCountMessageVisibility.Equals("Collapsed"))
+                if (surpassedCacheCountMessageVisibility.Equals(Visibility.Collapsed))
                 {
-                    surpassedCacheCountMessageVisibility = "Visible";
-                    NotifyPropertyChanged("SurpassedCacheCountMessageVisibility");
+                    SurpassedCacheCountMessageVisibility = Visibility.Visible;
                 }
             }
             else
@@ -148,25 +128,24 @@ namespace WP_Geocaching.ViewModel
 
                 foreach (Cache p in caches)
                 {
-                    CachePushpin pushpin = new CachePushpin()
+                    var pushpin = new CachePushpin()
                     {
                         Location = p.Location,
                         Id = p.Id.ToString(),
                         IconUri = new Enum[2] { p.Type, p.Subtype }
                     };
 
-                    this.CachePushpinCollection.Add(pushpin);
+                    CachePushpins.Add(pushpin);
                 }
 
-                if (surpassedCacheCountMessageVisibility.Equals("Visible"))
+                if (surpassedCacheCountMessageVisibility.Equals(Visibility.Visible))
                 {
-                    surpassedCacheCountMessageVisibility = "Collapsed";
-                    NotifyPropertyChanged("SurpassedCacheCountMessageVisibility");
+                    SurpassedCacheCountMessageVisibility = Visibility.Collapsed;
                 }
             }
         }
 
-        private void GetPushpins()
+        private void SetPushpinsOnMap()
         {
             this.apiManager.UpdateCacheList(ProcessCacheList, BoundingRectangle.East,
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
@@ -174,8 +153,8 @@ namespace WP_Geocaching.ViewModel
 
         private void PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            Settings settings = new Settings();
-            GeoCoordinate currentLocation = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
+            var settings = new Settings();
+            var currentLocation = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
             settings.LastLocation = currentLocation;
             this.currentLocation = currentLocation;
             if (isFirstSettingView)
@@ -186,17 +165,17 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public void SetMapCenterOnCurrentLocationOrShowMessage(System.Windows.Threading.Dispatcher dispatcher)
+        public void SetMapCenterOnCurrentLocationOrShowMessage(Dispatcher dispatcher)
         {
             if (currentLocation == null)
             {
-                UndetectedLocationMessageVisibility = "Visible";
-                System.Threading.Timer timer = new System.Threading.Timer((state) =>
+                UndetectedLocationMessageVisibility = Visibility.Visible;
+                var timer = new Timer((state) =>
                 {
-                    System.Threading.Timer t = (System.Threading.Timer)state;
+                    var t = (Timer)state;
                     dispatcher.BeginInvoke(() =>
                     {
-                        UndetectedLocationMessageVisibility = "Collapsed";
+                        UndetectedLocationMessageVisibility = Visibility.Collapsed;
                     });
                     t.Dispose();
                 });

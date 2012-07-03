@@ -61,7 +61,7 @@
                                            ViewChangeEnd="Map_ViewChangeEnd"
                                            CredentialsProvider ="AvLbzLZIOMHh3dDKm0l2Fak-Fpqpvv9t-YTbFir44CdP5QNXTTcj1GbDaLZMP_jr">
             <Microsoft_Phone_Controls_Maps:MapLayer>
-                <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpinCollection, Mode=TwoWay}" Margin="0">
+                <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpins, Mode=TwoWay}" Margin="0">
                     <Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}"
