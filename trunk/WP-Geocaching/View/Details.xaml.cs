@@ -73,6 +73,16 @@ namespace WP_Geocaching
         {
             SetSearchButton();
             SetFavoriteButton();
+            SetNotebookButton();
+        }
+
+        private void SetNotebookButton()
+        {
+            ApplicationBarIconButton notebookButton = new ApplicationBarIconButton();
+            notebookButton.IconUri = new Uri("Resources/Images/appbar.feature.notebook.rest.png", UriKind.Relative);
+            notebookButton.Text = AppResources.NotebookButton;
+            notebookButton.Click += NotebookButtonClick;
+            ApplicationBar.Buttons.Add(notebookButton);
         }
 
         private void SetSearchButton()
@@ -131,10 +141,16 @@ namespace WP_Geocaching
             db.AddCache(detailsViewModel.Cache, context);
             GetDeleteButton();
         }
+
         private void DeleteButtonClick(object sender, EventArgs e)
         {
             db.DeleteCache(detailsViewModel.Cache.Id);
             GetAddButton();
+        }
+
+        private void NotebookButtonClick(object sender, EventArgs e)
+        {
+            NavigationManager.Instance.NavigateToNotebook(detailsViewModel.Cache.Id.ToString());
         }
     }
 }

@@ -29,6 +29,7 @@ namespace WP_Geocaching.Model
         private static GeocahingSuApiManager instance;
         private static readonly Encoding CP1251Encoding = new CP1251Encoding();
         private const string InfoUrl = "http://pda.geocaching.su/cache.php?cid={0}";
+        private const string NotebookUrl = "http://pda.geocaching.su/note.php?cid={0}&mode=0";
         private const string DownloadUrl =
             "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax={0}&lngmin={1}&latmax={2}&latmin={3}&id={4}&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
         private int id;
@@ -124,6 +125,23 @@ namespace WP_Geocaching.Model
             webClient.AllowReadStreamBuffering = true;
             webClient.Encoding = CP1251Encoding;
             webClient.DownloadStringAsync(new Uri(String.Format(InfoUrl, cacheId), UriKind.Absolute));
+        }
+
+        public void GetCacheNotebook(Action<string> ProcessCacheNotebook, int cacheId)
+        {
+            WebClient webClient = new WebClient();
+
+            webClient.DownloadStringCompleted += (sender, e) =>
+            {
+                if (e.Error == null && ProcessCacheNotebook != null)
+                {
+                    ProcessCacheNotebook(e.Result);
+                }
+            };
+
+            webClient.AllowReadStreamBuffering = true;
+            webClient.Encoding = CP1251Encoding;
+            webClient.DownloadStringAsync(new Uri(String.Format(NotebookUrl, cacheId), UriKind.Absolute));
         }
 
         public Cache GetCachebyId(int id)

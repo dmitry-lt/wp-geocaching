@@ -162,6 +162,9 @@
     <Compile Include="View\Favorites\FavoritesPage.xaml.cs">
       <DependentUpon>FavoritesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Notebook.xaml.cs">
+      <DependentUpon>Notebook.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SearchBingMap.xaml.cs">
       <DependentUpon>SearchBingMap.xaml</DependentUpon>
     </Compile>
@@ -212,6 +215,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Favorites\FavoritesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Notebook.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

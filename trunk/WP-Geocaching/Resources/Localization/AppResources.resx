@@ -201,4 +201,7 @@
   <data name="UndetectedLocationMessage" xml:space="preserve">
     <value>Location is undetected</value>
   </data>
+  <data name="NotebookButton" xml:space="preserve">
+    <value>notebook</value>
+  </data>
 </root>
