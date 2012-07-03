@@ -34,7 +34,7 @@ namespace WP_Geocaching
             if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
             {
                 context = null;
-                detailsViewModel.Cache = GeocahingSuApiManager.Instance.GetCachebyId(cacheId);
+                detailsViewModel.Cache = GeocahingSuApiManager.Instance.GetCacheById(cacheId);
                 UpdateFavoriteButton();
             }
             else
@@ -49,7 +49,7 @@ namespace WP_Geocaching
             }
             else       
             {
-                GeocahingSuApiManager.Instance.GetCacheInfo(ProcessCacheInfo, cacheId);
+                GeocahingSuApiManager.Instance.DownloadAndProcessInfo(ProcessCacheInfo, cacheId);
             }
         }
 

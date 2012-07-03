@@ -25,7 +25,7 @@ namespace WP_Geocaching.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
-            GeocahingSuApiManager.Instance.GetCacheNotebook(ProcessNotebook, cacheId);            
+            GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(ProcessNotebook, cacheId);            
         }
 
         private void ProcessNotebook(string notebook)
