@@ -32,8 +32,8 @@ namespace WP_Geocaching.View
 
         private void Map_ViewChangeEnd(object sender, Microsoft.Phone.Controls.Maps.MapEventArgs e)
         {
-           var map = sender as Microsoft.Phone.Controls.Maps.Map;
-           this.bingMapViewModel.BoundingRectangle = map.BoundingRectangle;
+            var map = sender as Microsoft.Phone.Controls.Maps.Map;
+            this.bingMapViewModel.BoundingRectangle = map.BoundingRectangle;
         }
 
         private void Pushpin_Tap(object sender, GestureEventArgs e)

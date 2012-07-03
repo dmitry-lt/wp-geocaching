@@ -25,10 +25,10 @@ namespace WP_Geocaching.ViewModel
 {
     public class BingMapViewModel : BaseViewModel
     {
-        
+
         private const int maxCacheCount = 50;
         private GeoCoordinate mapCenter;
-        private IApiManager apiManager;        
+        private IApiManager apiManager;
         private LocationRect boundingRectangle;
         private Visibility surpassedCacheCountMessageVisibility = Visibility.Collapsed;
         private Visibility undetectedLocationMessageVisibility = Visibility.Collapsed;
