@@ -24,7 +24,7 @@ using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class SearchBingMapViewModel : BaseViewModel
+    public class SearchBingMapViewModel : BaseMapViewModel
     {
         private const int MinLatitude = -90;
         private const int MaxLatitude = 90;
@@ -34,15 +34,12 @@ namespace WP_Geocaching.ViewModel
         private bool isFirstSettingView;
         private GeoCoordinateWatcher watcher;
         private int zoom;
-        private GeoCoordinate mapCenter;
         private IApiManager apiManager;
         private ObservableCollection<CachePushpin> cachePushpins;
         private Cache soughtCache;
         private Action<LocationRect> setView;
         private LocationCollection connectingLine;
-        private GeoCoordinate currentLocation;
         private double distanceToSoughtPoint;
-        private Visibility undetectedLocationMessageVisibility = Visibility.Collapsed;
         private Settings settings;
 
         public int Zoom
@@ -55,19 +52,6 @@ namespace WP_Geocaching.ViewModel
             {
                 zoom = value;
                 NotifyPropertyChanged("Zoom");
-            }
-        }
-
-        public GeoCoordinate MapCenter
-        {
-            get
-            {
-                return this.mapCenter;
-            }
-            set
-            {
-                mapCenter = value;
-                NotifyPropertyChanged("MapCenter");
             }
         }
 
@@ -142,19 +126,6 @@ namespace WP_Geocaching.ViewModel
             {
                 distanceToSoughtPoint = value;
                 NotifyPropertyChanged("DistanceToSoughtPoint");
-            }
-        }
-
-        public Visibility UndetectedLocationMessageVisibility
-        {
-            get
-            {
-                return this.undetectedLocationMessageVisibility;
-            }
-            set
-            {
-                undetectedLocationMessageVisibility = value;
-                NotifyPropertyChanged("UndetectedLocationMessageVisibility");
             }
         }
 
@@ -264,28 +235,6 @@ namespace WP_Geocaching.ViewModel
                 }
             }
             return SoughtCache.Location;
-        }
-
-        public void SetMapCenterOnCurrentLocationOrShowMessage(Dispatcher dispatcher)
-        {
-            if (currentLocation == null)
-            {
-                UndetectedLocationMessageVisibility = Visibility.Visible;
-                var timer = new Timer((state) =>
-                {
-                    var t = (Timer)state;
-                    dispatcher.BeginInvoke(() =>
-                    {
-                        UndetectedLocationMessageVisibility = Visibility.Collapsed;
-                    });
-                    t.Dispose();
-                });
-                timer.Change(3000, 0);
-            }
-            else
-            {
-                MapCenter = currentLocation;
-            }
         }
     }
 }

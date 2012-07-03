@@ -23,18 +23,15 @@ using Microsoft.Phone.Controls.Maps;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class BingMapViewModel : BaseViewModel
+    public class BingMapViewModel : BaseMapViewModel
     {
 
         private const int maxCacheCount = 50;
-        private GeoCoordinate mapCenter;
         private IApiManager apiManager;
         private LocationRect boundingRectangle;
         private Visibility surpassedCacheCountMessageVisibility = Visibility.Collapsed;
-        private Visibility undetectedLocationMessageVisibility = Visibility.Collapsed;
         private GeoCoordinateWatcher watcher;
         private bool isFirstSettingView;
-        private GeoCoordinate currentLocation;
 
         public int Zoom { get; set; }
         public ObservableCollection<CachePushpin> CachePushpins { get; set; }
@@ -49,36 +46,6 @@ namespace WP_Geocaching.ViewModel
             {
                 surpassedCacheCountMessageVisibility = value;
                 NotifyPropertyChanged("SurpassedCacheCountMessageVisibility");
-            }
-        }
-
-        public Visibility UndetectedLocationMessageVisibility
-        {
-            get
-            {
-                return this.undetectedLocationMessageVisibility;
-            }
-            set
-            {
-                undetectedLocationMessageVisibility = value;
-                NotifyPropertyChanged("UndetectedLocationMessageVisibility");
-            }
-        }
-
-        public GeoCoordinate MapCenter
-        {
-            get
-            {
-                return this.mapCenter;
-            }
-            set
-            {
-                bool changed = mapCenter != value;
-                if (changed)
-                {
-                    mapCenter = value;
-                    NotifyPropertyChanged("MapCenter");
-                }
             }
         }
 
@@ -162,28 +129,6 @@ namespace WP_Geocaching.ViewModel
                 MapCenter = currentLocation;
                 NotifyPropertyChanged("MapCenter");
                 isFirstSettingView = false;
-            }
-        }
-
-        public void SetMapCenterOnCurrentLocationOrShowMessage(Dispatcher dispatcher)
-        {
-            if (currentLocation == null)
-            {
-                UndetectedLocationMessageVisibility = Visibility.Visible;
-                var timer = new Timer((state) =>
-                {
-                    var t = (Timer)state;
-                    dispatcher.BeginInvoke(() =>
-                    {
-                        UndetectedLocationMessageVisibility = Visibility.Collapsed;
-                    });
-                    t.Dispose();
-                });
-                timer.Change(3000, 0);
-            }
-            else
-            {
-                MapCenter = currentLocation;
             }
         }
     }
