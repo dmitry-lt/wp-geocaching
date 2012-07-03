@@ -8,6 +8,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using System.Threading;
 using System.Xml;
 using System.Text;
 using System.IO;
@@ -20,14 +22,16 @@ using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
 using WP_Geocaching.Model.DataBase;
 
-
 namespace WP_Geocaching.ViewModel
 {
     public class SearchBingMapViewModel : BaseViewModel
     {
+        private const int MinLatitude = -90;
+        private const int MaxLatitude = 90;
+        private const int MinLongitude = -180;
+        private const int MaxLongitude = 180;
+
         private bool isFirstSettingView;
-        private GeoCoordinate northwest;
-        private GeoCoordinate southeast;
         private GeoCoordinateWatcher watcher;
         private int zoom;
         private GeoCoordinate mapCenter;
@@ -38,7 +42,7 @@ namespace WP_Geocaching.ViewModel
         private LocationCollection connectingLine;
         private GeoCoordinate currentLocation;
         private double distanceToSoughtPoint;
-        private String undetectedLocationMessageVisibility = "Collapsed";
+        private Visibility undetectedLocationMessageVisibility = Visibility.Collapsed;
         private Settings settings;
 
         public int Zoom
@@ -49,14 +53,11 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                bool changed = zoom != value;
-                if (changed)
-                {
-                    zoom = value;
-                    NotifyPropertyChanged("Zoom");
-                }
+                zoom = value;
+                NotifyPropertyChanged("Zoom");
             }
         }
+
         public GeoCoordinate MapCenter
         {
             get
@@ -65,14 +66,11 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                bool changed = mapCenter != value;
-                if (changed)
-                {
-                    mapCenter = value;
-                    NotifyPropertyChanged("MapCenter");
-                }
+                mapCenter = value;
+                NotifyPropertyChanged("MapCenter");
             }
         }
+
         public Cache SoughtCache
         {
             get
@@ -81,7 +79,7 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                soughtCache = value;               
+                soughtCache = value;
                 if (soughtCache != null)
                 {
                     MapManager.Instance.CacheId = value.Id;
@@ -91,6 +89,7 @@ namespace WP_Geocaching.ViewModel
                 }
             }
         }
+
         public ObservableCollection<CachePushpin> CachePushpins
         {
             get
@@ -99,14 +98,11 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                bool changed = cachePushpins != value;
-                if (changed)
-                {
-                    cachePushpins = value;
-                    NotifyPropertyChanged("CachePushpins");
-                }
+                cachePushpins = value;
+                NotifyPropertyChanged("CachePushpins");
             }
         }
+
         public LocationCollection ConnectingLine
         {
             get
@@ -115,14 +111,11 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                bool changed = connectingLine != value;
-                if (changed)
-                {
-                    connectingLine = value;
-                    NotifyPropertyChanged("ConnectingLine");
-                }
+                connectingLine = value;
+                NotifyPropertyChanged("ConnectingLine");
             }
         }
+
         public GeoCoordinate CurrentLocation
         {
             get
@@ -131,17 +124,14 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                bool changed = currentLocation != value;
-                if (changed)
-                {
-                    UpdateCurrentLocationInConnectingLine(value);
-                    UpdateConnectingLineLength();
-                    currentLocation = value;
-                    settings.LastLocation = value;
-                    NotifyPropertyChanged("CurrentLocation");
-                }
+                UpdateCurrentLocationInConnectingLine(value);
+                UpdateConnectingLineLength();
+                currentLocation = value;
+                settings.LastLocation = value;
+                NotifyPropertyChanged("CurrentLocation");
             }
         }
+
         public double DistanceToSoughtPoint
         {
             get
@@ -150,16 +140,12 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                bool changed = distanceToSoughtPoint != value;
-                if (changed)
-                {
-                    distanceToSoughtPoint = value;
-                    NotifyPropertyChanged("DistanceToSoughtPoint");
-                }
+                distanceToSoughtPoint = value;
+                NotifyPropertyChanged("DistanceToSoughtPoint");
             }
         }
 
-        public String UndetectedLocationMessageVisibility
+        public Visibility UndetectedLocationMessageVisibility
         {
             get
             {
@@ -167,12 +153,8 @@ namespace WP_Geocaching.ViewModel
             }
             set
             {
-                bool changed = undetectedLocationMessageVisibility != value;
-                if (changed)
-                {
-                    undetectedLocationMessageVisibility = value;
-                    NotifyPropertyChanged("UndetectedLocationMessageVisibility");
-                }
+                undetectedLocationMessageVisibility = value;
+                NotifyPropertyChanged("UndetectedLocationMessageVisibility");
             }
         }
 
@@ -183,9 +165,7 @@ namespace WP_Geocaching.ViewModel
 
             settings = new Settings();
             isFirstSettingView = true;
-            northwest = new GeoCoordinate(-90, 180);
-            southeast = new GeoCoordinate(90, -180);
-            Zoom = MapManager.Instance.DefaultZoom;            
+            Zoom = MapManager.Instance.DefaultZoom;
             CachePushpins = new ObservableCollection<CachePushpin>();
             ConnectingLine = new LocationCollection();
             currentLocation = settings.LastLocation;
@@ -196,7 +176,7 @@ namespace WP_Geocaching.ViewModel
             watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(PositionChanged);
             watcher.Start();
         }
-        
+
         public void UpdateMapChildrens()
         {
             UpdateCachePushpins();
@@ -206,8 +186,8 @@ namespace WP_Geocaching.ViewModel
 
         public void ShowAll()
         {
-            GeoCoordinate northwest = new GeoCoordinate(-90, 180);
-            GeoCoordinate southeast = new GeoCoordinate(90, -180);
+            var northwest = new GeoCoordinate(MinLatitude, MaxLongitude);
+            var southeast = new GeoCoordinate(MaxLatitude, MinLongitude);
             foreach (CachePushpin c in cachePushpins)
             {
                 UpdateToSetData(c.Location, northwest, southeast);
@@ -221,7 +201,7 @@ namespace WP_Geocaching.ViewModel
             northwest.Latitude = Math.Max(coordinate.Latitude, northwest.Latitude);
             northwest.Longitude = Math.Min(coordinate.Longitude, northwest.Longitude);
             southeast.Latitude = Math.Min(coordinate.Latitude, southeast.Latitude);
-            southeast.Longitude = Math.Max(coordinate.Longitude, southeast.Longitude);          
+            southeast.Longitude = Math.Max(coordinate.Longitude, southeast.Longitude);
         }
 
         private void PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
@@ -239,13 +219,13 @@ namespace WP_Geocaching.ViewModel
         {
             ConnectingLine.Remove(currentLocation);
             ConnectingLine.Add(newCurrentLocation);
-        }             
+        }
 
         private void UpdateCachePushpins()
         {
-            CacheDataBase db = new CacheDataBase();
-            List<DbCheckpointsItem> dbCheckpointsList = db.GetCheckpointsbyCacheId(MapManager.Instance.CacheId);
-            ObservableCollection<CachePushpin> cachePushpins = new ObservableCollection<CachePushpin>();
+            var db = new CacheDataBase();
+            var dbCheckpointsList = db.GetCheckpointsbyCacheId(MapManager.Instance.CacheId);
+            var cachePushpins = new ObservableCollection<CachePushpin>();
             cachePushpins.Add(new CachePushpin(SoughtCache));
             foreach (DbCheckpointsItem c in dbCheckpointsList)
             {
@@ -256,7 +236,7 @@ namespace WP_Geocaching.ViewModel
 
         private void UpdateConnectingLine()
         {
-            LocationCollection connectingLine = new LocationCollection();
+            var connectingLine = new LocationCollection();
             if (currentLocation != null)
             {
                 connectingLine.Add(currentLocation);
@@ -277,7 +257,7 @@ namespace WP_Geocaching.ViewModel
         {
             foreach (CachePushpin c in CachePushpins)
             {
-                Cache.Subtypes subtype = (Cache.Subtypes)c.IconUri[1];
+                var subtype = (Cache.Subtypes)c.IconUri[1];
                 if ((subtype == Cache.Subtypes.ActiveCheckpoint))
                 {
                     return c.Location;
@@ -286,17 +266,17 @@ namespace WP_Geocaching.ViewModel
             return SoughtCache.Location;
         }
 
-        public void SetMapCenterOnCurrentLocationOrShowMessage(System.Windows.Threading.Dispatcher dispatcher)
+        public void SetMapCenterOnCurrentLocationOrShowMessage(Dispatcher dispatcher)
         {
             if (currentLocation == null)
             {
-                UndetectedLocationMessageVisibility = "Visible";
-                System.Threading.Timer timer = new System.Threading.Timer((state) =>
+                UndetectedLocationMessageVisibility = Visibility.Visible;
+                var timer = new Timer((state) =>
                 {
-                    System.Threading.Timer t = (System.Threading.Timer)state;
+                    var t = (Timer)state;
                     dispatcher.BeginInvoke(() =>
                     {
-                        UndetectedLocationMessageVisibility = "Collapsed";
+                        UndetectedLocationMessageVisibility = Visibility.Collapsed;
                     });
                     t.Dispose();
                 });
