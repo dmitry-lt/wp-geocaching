@@ -116,6 +116,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CacheTypeResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\BaseMapViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CachePushpin.cs" />
     <Compile Include="Model\GeocahingSuApiManager.cs" />
