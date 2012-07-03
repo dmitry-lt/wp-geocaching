@@ -18,10 +18,8 @@ using System.Globalization;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class CreateCheckpointViewModel : INotifyPropertyChanged
+    public class CreateCheckpointViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private string name;
         private GeoCoordinate currentInputPointLocation;
 
@@ -50,7 +48,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 name = value;
-                OnPropertyChanged("Name");
+                NotifyPropertyChanged("Name");
             }
         }
         public GeoCoordinate CurrentInputPointLocation
@@ -251,12 +249,12 @@ namespace WP_Geocaching.ViewModel
             sLngMinutes = sSexagesimal.minutes.ToString();
             sLngSeconds = sSexagesimal.seconds.ToString();
 
-            OnPropertyChanged("SLatDegrees");
-            OnPropertyChanged("SLatMinutes");
-            OnPropertyChanged("SLatSeconds");
-            OnPropertyChanged("SLngDegrees");
-            OnPropertyChanged("SLngMinutes");
-            OnPropertyChanged("SLngSeconds");
+            NotifyPropertyChanged("SLatDegrees");
+            NotifyPropertyChanged("SLatMinutes");
+            NotifyPropertyChanged("SLatSeconds");
+            NotifyPropertyChanged("SLngDegrees");
+            NotifyPropertyChanged("SLngMinutes");
+            NotifyPropertyChanged("SLngSeconds");
         }
 
         private void updateSexagesimal()
@@ -276,12 +274,12 @@ namespace WP_Geocaching.ViewModel
             lngMinutes = (minutesE3 / 1000).ToString();
             lngMinutesFraction = (minutesE3 % 1000).ToString();
 
-            OnPropertyChanged("LatDegrees");
-            OnPropertyChanged("LatMinutes");
-            OnPropertyChanged("LatMinutesFraction");
-            OnPropertyChanged("LngDegrees");
-            OnPropertyChanged("LngMinutes");
-            OnPropertyChanged("LngMinutesFraction");
+            NotifyPropertyChanged("LatDegrees");
+            NotifyPropertyChanged("LatMinutes");
+            NotifyPropertyChanged("LatMinutesFraction");
+            NotifyPropertyChanged("LngDegrees");
+            NotifyPropertyChanged("LngMinutes");
+            NotifyPropertyChanged("LngMinutesFraction");
         }
 
         private void updateDecimal()
@@ -294,16 +292,10 @@ namespace WP_Geocaching.ViewModel
             dLatDegreesFraction = ((int)((lat - (int)lat) * 1000000)).ToString();
             dLngDegreesFraction = ((int)((lng - (int)lng) * 1000000)).ToString();
 
-            OnPropertyChanged("DLatDegrees");
-            OnPropertyChanged("DLngDegrees");
-            OnPropertyChanged("DLatDegreesFraction");
-            OnPropertyChanged("DLngDegreesFraction");
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            NotifyPropertyChanged("DLatDegrees");
+            NotifyPropertyChanged("DLngDegrees");
+            NotifyPropertyChanged("DLatDegreesFraction");
+            NotifyPropertyChanged("DLngDegreesFraction");
         }
 
         public void SexagesimalSecondsChanged()

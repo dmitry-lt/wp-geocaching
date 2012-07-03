@@ -16,7 +16,7 @@ namespace WP_Geocaching.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(string propertyName)
+        protected void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {

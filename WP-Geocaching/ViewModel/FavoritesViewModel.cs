@@ -17,9 +17,8 @@ using WP_Geocaching.Model;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class FavoritesViewModel : INotifyPropertyChanged
+    public class FavoritesViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         private ListCacheItem selectedCache;
         private List<ListCacheItem> dataSource;
 
@@ -35,7 +34,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     dataSource = value;
-                    OnPropertyChanged("DataSource");
+                    NotifyPropertyChanged("DataSource");
                 }
             }
         }
@@ -72,12 +71,6 @@ namespace WP_Geocaching.ViewModel
                 dataSource.Add(new ListCacheItem(c));
             }
             return dataSource;
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void ShowDetails(string cacheId)
