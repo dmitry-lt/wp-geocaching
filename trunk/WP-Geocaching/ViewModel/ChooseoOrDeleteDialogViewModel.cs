@@ -14,10 +14,8 @@ using System.ComponentModel;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class ChooseoOrDeleteDialogViewModel : INotifyPropertyChanged
+    public class ChooseoOrDeleteDialogViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private int cacheId;
         private int id;
         private int subtype;
@@ -86,7 +84,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     isDeleteEnabled = value;
-                    OnPropertyChanged("IsDeleteEnabled");
+                    NotifyPropertyChanged("IsDeleteEnabled");
                 }
             }
         }
@@ -131,11 +129,6 @@ namespace WP_Geocaching.ViewModel
                 db.MakeCheckpointActive(cacheId, id);               
             }
             closeDialog();
-        }
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

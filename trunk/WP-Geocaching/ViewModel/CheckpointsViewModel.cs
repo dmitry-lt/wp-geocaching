@@ -15,9 +15,8 @@ using System.ComponentModel;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class CheckpointsViewModel : INotifyPropertyChanged
+    public class CheckpointsViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         private int cacheId;
         private ListCacheItem selectedCheckpoint;
         private List<ListCacheItem> dataSource;
@@ -37,7 +36,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     dataSource = value;
-                    OnPropertyChanged("DataSource");
+                    NotifyPropertyChanged("DataSource");
                 }         
             }
         }
@@ -62,7 +61,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     dialogVisibility = value;
-                    OnPropertyChanged("DialogVisibility");
+                    NotifyPropertyChanged("DialogVisibility");
                 }
             }
         }
@@ -75,7 +74,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     isListEnabled = value;
-                    OnPropertyChanged("IsListEnabled");
+                    NotifyPropertyChanged("IsListEnabled");
                 }
             }
         }
@@ -88,7 +87,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     dialogContent = value;
-                    OnPropertyChanged("DialogContent");
+                    NotifyPropertyChanged("DialogContent");
                 }
             }
         }
@@ -119,12 +118,6 @@ namespace WP_Geocaching.ViewModel
             DialogVisibility = "Collapsed";
             IsListEnabled = true;
             UpdateDataSource();
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void ShowMakeActiveorDeleteDialogDialog()

@@ -23,10 +23,8 @@ using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class SearchBingMapViewModel : INotifyPropertyChanged
+    public class SearchBingMapViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private bool isFirstSettingView;
         private GeoCoordinate northwest;
         private GeoCoordinate southeast;
@@ -55,7 +53,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     zoom = value;
-                    OnPropertyChanged("Zoom");
+                    NotifyPropertyChanged("Zoom");
                 }
             }
         }
@@ -71,7 +69,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     mapCenter = value;
-                    OnPropertyChanged("MapCenter");
+                    NotifyPropertyChanged("MapCenter");
                 }
             }
         }
@@ -105,7 +103,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     cachePushpins = value;
-                    OnPropertyChanged("CachePushpins");
+                    NotifyPropertyChanged("CachePushpins");
                 }
             }
         }
@@ -121,7 +119,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     connectingLine = value;
-                    OnPropertyChanged("ConnectingLine");
+                    NotifyPropertyChanged("ConnectingLine");
                 }
             }
         }
@@ -140,7 +138,7 @@ namespace WP_Geocaching.ViewModel
                     UpdateConnectingLineLength();
                     currentLocation = value;
                     settings.LastLocation = value;
-                    OnPropertyChanged("CurrentLocation");
+                    NotifyPropertyChanged("CurrentLocation");
                 }
             }
         }
@@ -156,7 +154,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     distanceToSoughtPoint = value;
-                    OnPropertyChanged("DistanceToSoughtPoint");
+                    NotifyPropertyChanged("DistanceToSoughtPoint");
                 }
             }
         }
@@ -173,7 +171,7 @@ namespace WP_Geocaching.ViewModel
                 if (changed)
                 {
                     undetectedLocationMessageVisibility = value;
-                    OnPropertyChanged("UndetectedLocationMessageVisibility");
+                    NotifyPropertyChanged("UndetectedLocationMessageVisibility");
                 }
             }
         }
@@ -286,12 +284,6 @@ namespace WP_Geocaching.ViewModel
                 }
             }
             return SoughtCache.Location;
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void SetMapCenterOnCurrentLocationOrShowMessage(System.Windows.Threading.Dispatcher dispatcher)

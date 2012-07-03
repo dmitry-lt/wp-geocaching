@@ -8,9 +8,8 @@ using WP_Geocaching.View.Compass;
 namespace WP_Geocaching.ViewModel
 {
 
-    public class CompassPageViewModal : ICompassView, INotifyPropertyChanged
+    public class CompassPageViewModal : BaseViewModel, ICompassView
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         private readonly SmoothCompassManager smoothCompassManager;
         private double _direction;
 
@@ -45,25 +44,6 @@ namespace WP_Geocaching.ViewModel
         public void Stop()
         {
             smoothCompassManager.Stop();
-        }
-
-        // NotifyPropertyChanged will raise the PropertyChanged event, 
-        // passing the source property that is being updated.
-        private Dictionary<string, PropertyChangedEventArgs> eventDictionary = new Dictionary<string, PropertyChangedEventArgs>(); //TODO: wtf? check
-        public void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventArgs changedEvent;
-            bool sucess = eventDictionary.TryGetValue(propertyName, out changedEvent);
-            if (!sucess)
-            {
-                changedEvent = new PropertyChangedEventArgs(propertyName);
-                eventDictionary.Add(propertyName, changedEvent);
-            }
-
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, changedEvent);
-            }
         }
     }
 }

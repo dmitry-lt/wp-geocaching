@@ -21,10 +21,8 @@ using Microsoft.Phone.Controls.Maps;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class BingMapViewModel : INotifyPropertyChanged
+    public class BingMapViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private int zoom;
         private const int maxCountOfCache = 50;
         private GeoCoordinate mapCenter;
@@ -166,21 +164,12 @@ namespace WP_Geocaching.ViewModel
                     NotifyPropertyChanged("SurpassedCacheCountMessageVisibility");
                 }
             }
-
         }
 
         private void GetPushpins()
         {
             this.apiManager.UpdateCacheList(ProcessCacheList, BoundingRectangle.East,
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
-        }
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
 
         private void PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
