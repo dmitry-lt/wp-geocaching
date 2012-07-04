@@ -34,7 +34,6 @@ namespace WP_Geocaching.ViewModel
         private bool isFirstSettingView;
         private GeoCoordinateWatcher watcher;
         private int zoom;
-        private IApiManager apiManager;
         private ObservableCollection<CachePushpin> cachePushpins;
         private Cache soughtCache;
         private Action<LocationRect> setView;
@@ -42,7 +41,7 @@ namespace WP_Geocaching.ViewModel
         private double distanceToSoughtPoint;
         private Settings settings;
 
-        public int Zoom
+        public override int Zoom
         {
             get
             {
@@ -74,7 +73,7 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public ObservableCollection<CachePushpin> CachePushpins
+        public override ObservableCollection<CachePushpin> CachePushpins
         {
             get
             {

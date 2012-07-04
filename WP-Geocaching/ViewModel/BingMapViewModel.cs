@@ -27,14 +27,10 @@ namespace WP_Geocaching.ViewModel
     {
 
         private const int maxCacheCount = 50;
-        private IApiManager apiManager;
         private LocationRect boundingRectangle;
         private Visibility surpassedCacheCountMessageVisibility = Visibility.Collapsed;
         private GeoCoordinateWatcher watcher;
-        private bool isFirstSettingView;
-
-        public int Zoom { get; set; }
-        public ObservableCollection<CachePushpin> CachePushpins { get; set; }
+        private bool isFirstSettingView;      
 
         public Visibility SurpassedCacheCountMessageVisibility
         {
