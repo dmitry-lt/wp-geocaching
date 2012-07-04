@@ -28,7 +28,7 @@ namespace WP_Geocaching
 
         private void ChooseCompass_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/View/Compass/CompassPage.xaml", UriKind.Relative));
+            // NavigationService.Navigate(new Uri("/View/Compass/CompassPage.xaml", UriKind.Relative));
         }
 
         private void Favorites_Click(object sender, RoutedEventArgs e)
@@ -58,7 +58,7 @@ namespace WP_Geocaching
             this.Dispatcher.BeginInvoke(() =>
             {
                 this.NoSouhgtCacheMessage.Visibility = System.Windows.Visibility.Collapsed;
-            });        
+            });
         }
     }
 }

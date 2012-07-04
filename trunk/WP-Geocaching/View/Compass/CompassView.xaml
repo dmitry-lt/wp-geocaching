@@ -30,7 +30,11 @@
                         <RotateTransform x:Name="CompassRoseRotatingBlack" Angle="{Binding Direction, Mode=OneWay}" CenterX="240" CenterY="240" />
                     </Image.RenderTransform>
                 </Image>
-                <Line x:Name="CacheNiddle" X1="240" Y1="240" X2="240" Y2="40" Stroke="Green" StrokeThickness="5"></Line>
+                <Line x:Name="CacheNiddle" X1="240" Y1="240" X2="240" Y2="40" Stroke="Green" StrokeThickness="5">
+                    <Line.RenderTransform>
+                        <RotateTransform Angle="{Binding CacheAngle, Mode=OneWay}" CenterX="240" CenterY="240" />
+                    </Line.RenderTransform>
+                </Line>
             </Canvas>
         </StackPanel>
     </Grid>

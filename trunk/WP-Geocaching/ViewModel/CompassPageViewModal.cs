@@ -12,6 +12,7 @@ namespace WP_Geocaching.ViewModel
     {
         private readonly SmoothCompassManager smoothCompassManager;
         private double _direction;
+        private double _cacheAngle;
 
         public double Direction
         {
@@ -20,6 +21,16 @@ namespace WP_Geocaching.ViewModel
             {
                 _direction = value;
                 NotifyPropertyChanged("Direction");
+            }
+        }
+
+        public double CacheAngle
+        {
+            get { return _cacheAngle; }
+            set
+            {
+                _cacheAngle = value;
+                NotifyPropertyChanged("CacheAngle");
             }
         }
 

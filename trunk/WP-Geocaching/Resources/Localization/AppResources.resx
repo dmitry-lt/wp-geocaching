@@ -135,8 +135,8 @@
   <data name="ChooseCache" xml:space="preserve">
     <value>Choose a cache</value>
   </data>
-  <data name="Compass" xml:space="preserve">
-    <value>Compass</value>
+  <data name="CompassSearchButton" xml:space="preserve">
+    <value>Search by compass</value>
   </data>
   <data name="Coordinates" xml:space="preserve">
     <value>dd°,mm.mmm'</value>
@@ -203,5 +203,7 @@
   </data>
   <data name="NotebookButton" xml:space="preserve">
     <value>notebook</value>
+  </data>  <data name="Compass" xml:space="preserve">
+    <value>Compass</value>
   </data>
 </root>

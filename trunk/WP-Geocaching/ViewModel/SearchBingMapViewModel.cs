@@ -132,7 +132,6 @@ namespace WP_Geocaching.ViewModel
         {
             this.apiManager = apiManager;
             this.setView = setView;
-
             settings = new Settings();
             isFirstSettingView = true;
             Zoom = MapManager.Instance.DefaultZoom;
