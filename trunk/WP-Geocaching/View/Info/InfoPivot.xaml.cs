@@ -3,86 +3,66 @@ using System.Diagnostics;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Navigation;
+using System.Windows.Controls;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Resources.Localization;
 
-namespace WP_Geocaching
+namespace WP_Geocaching.View.Info
 {
-    public partial class Details : PhoneApplicationPage
+    public partial class InfoPivot : PhoneApplicationPage
     {
-        private DetailsViewModel detailsViewModel;
-        private string context;
+        private InfoPivotViewModel infoPivotViewModel;
         private CacheDataBase db;
         private int favoriteButtonIndex = -1;
 
-        public Details()
+        public InfoPivot()
         {
             InitializeComponent();
-            this.detailsViewModel = new DetailsViewModel();
-            this.DataContext = detailsViewModel;
-            context = null;
+            infoPivotViewModel = new InfoPivotViewModel();
+            this.DataContext = infoPivotViewModel;
             this.db = new CacheDataBase();
             SetApplicationBarItems();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
-
             if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
             {
-                context = null;
-                detailsViewModel.Cache = GeocahingSuApiManager.Instance.GetCacheById(cacheId);
+                int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
+                infoPivotViewModel.Cache = GeocahingSuApiManager.Instance.GetCacheById(cacheId);
                 UpdateFavoriteButton();
             }
             else
             {
                 UpdateFavoriteButton();
             }
-
-            DbCacheItem item = db.GetCache(detailsViewModel.Cache.Id);
-            if ((item != null) && (item.Details != null))
-            {
-                Browser.NavigateToString(item.Details);
-            }
-            else       
-            {
-                GeocahingSuApiManager.Instance.DownloadAndProcessInfo(ProcessCacheInfo, cacheId);
-            }
         }
 
-        private void ProcessCacheInfo(string info)
+        private void Info_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            context = info;
-            if (db.GetCache(detailsViewModel.Cache.Id) != null)
+            if (e.AddedItems.Contains(NotebookPivotItem))
             {
-                db.UpdateCacheInfo(info, detailsViewModel.Cache.Id);
+                infoPivotViewModel.UpdateNotebookPivotItem(NotebookBrowser);
             }
-            Browser.NavigateToString(info);
-        }
+
+            if (e.AddedItems.Contains(DetailsPivotItem))
+            {
+                infoPivotViewModel.UpdateDetailsPivotItem(DetailsBrowser);
+            }
+        }      
 
         private void SearchCacheButton_Click(object sender, EventArgs e)
         {
-            db.AddCache(detailsViewModel.Cache, context);
-            NavigationManager.Instance.NavigateToSearchBingMap(detailsViewModel.Cache.Id.ToString());
+            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Details);
+            NavigationManager.Instance.NavigateToSearchBingMap(infoPivotViewModel.Cache.Id.ToString());
         }
 
         private void SetApplicationBarItems()
         {
             SetSearchButton();
             SetFavoriteButton();
-            SetNotebookButton();
-        }
-
-        private void SetNotebookButton()
-        {
-            ApplicationBarIconButton notebookButton = new ApplicationBarIconButton();
-            notebookButton.IconUri = new Uri("Resources/Images/appbar.feature.notebook.rest.png", UriKind.Relative);
-            notebookButton.Text = AppResources.NotebookButton;
-            notebookButton.Click += NotebookButtonClick;
-            ApplicationBar.Buttons.Add(notebookButton);
         }
 
         private void SetSearchButton()
@@ -107,8 +87,8 @@ namespace WP_Geocaching
         }
 
         private void UpdateFavoriteButton()
-        {         
-            if (db.GetCache(detailsViewModel.Cache.Id) == null)
+        {
+            if (db.GetCache(infoPivotViewModel.Cache.Id) == null)
             {
                 GetAddButton();
             }
@@ -120,7 +100,7 @@ namespace WP_Geocaching
 
         private void GetAddButton()
         {
-            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).IconUri = 
+            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).IconUri =
                 new Uri("Resources/Images/appbar.favs.addto.rest.png", UriKind.Relative);
             (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).Click += AddButtonClick;
             (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).Click -= DeleteButtonClick;
@@ -129,7 +109,7 @@ namespace WP_Geocaching
 
         private void GetDeleteButton()
         {
-            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).IconUri = 
+            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).IconUri =
                 new Uri("Resources/Images/appbar.favs.deletefrom.rest.png", UriKind.Relative);
             (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).Click += DeleteButtonClick;
             (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).Click -= AddButtonClick;
@@ -138,19 +118,14 @@ namespace WP_Geocaching
 
         private void AddButtonClick(object sender, EventArgs e)
         {
-            db.AddCache(detailsViewModel.Cache, context);
+            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Details);
             GetDeleteButton();
         }
 
         private void DeleteButtonClick(object sender, EventArgs e)
         {
-            db.DeleteCache(detailsViewModel.Cache.Id);
+            db.DeleteCache(infoPivotViewModel.Cache.Id);
             GetAddButton();
-        }
-
-        private void NotebookButtonClick(object sender, EventArgs e)
-        {
-            NavigationManager.Instance.NavigateToNotebook(detailsViewModel.Cache.Id.ToString());
         }
     }
 }

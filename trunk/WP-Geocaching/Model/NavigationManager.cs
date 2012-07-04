@@ -34,10 +34,11 @@ namespace WP_Geocaching.Model
         {
             this.Navigate(uri, null);
         }
+
         private void Navigate(string uri, string currentId)
         {
             PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
-            
+
             if (frame == null)
             {
                 return;
@@ -51,23 +52,28 @@ namespace WP_Geocaching.Model
                 frame.Navigate(new Uri(uri + "?ID=" + currentId, UriKind.RelativeOrAbsolute));
             }
         }
+
         private void Navigate(string uri, int SoughtCacheId)
         {
             PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
             frame.Navigate(new Uri(uri + "?CacheID=" + SoughtCacheId, UriKind.RelativeOrAbsolute));
         }
-        public void NavigateToDetails(string CurrentId)
+
+        public void NavigateToInfoPivot(string CurrentId)
         {
-            this.Navigate("//View/Details.xaml", CurrentId);
+            this.Navigate("//View/Info/InfoPivot.xaml", CurrentId);
         }
+
         public void NavigateToSearchBingMap(string CurrentId)
         {
             this.Navigate("//View/SearchBingMap.xaml", CurrentId);
         }
+
         public void NavigateToCheckpoints()
         {
             this.Navigate("//View/Checkpoints/Checkpoints.xaml");
         }
+
         public void NavigateToCreateCheckpoint()
         {
             this.Navigate("//View/Checkpoints/CreateCheckpointPivot.xaml");
@@ -77,8 +83,10 @@ namespace WP_Geocaching.Model
         {
             this.Navigate("//View/Notebook.xaml", CurrentId);
         }
+
         public void NavigateByCompass(int SoughtCacheId)
         {
             this.Navigate("//View/Compass/CompassPage.xaml", SoughtCacheId);
-        }    }
+        }
+    }
 }

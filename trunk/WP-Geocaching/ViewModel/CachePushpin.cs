@@ -85,7 +85,7 @@ namespace WP_Geocaching.ViewModel
 
         private void DefaultShowDetails(object p)
         {
-            NavigationManager.Instance.NavigateToDetails(id);
+            NavigationManager.Instance.NavigateToInfoPivot(id);
         }
     }
 }
