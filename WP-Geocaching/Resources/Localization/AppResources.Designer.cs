@@ -133,6 +133,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search by compass.
+        /// </summary>
+        public static string CompassSearchButton {
+            get {
+                return ResourceManager.GetString("CompassSearchButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to dd°,mm.mmm&apos;.
         /// </summary>
         public static string Coordinates {

@@ -30,6 +30,7 @@ namespace WP_Geocaching.View
             SetCheckpointsButton();
             SetSetAllButton();
             SetMyLocationButton();
+            SetCompassButton();
         }
 
         private void Pushpin_Tap(object sender, GestureEventArgs e)
@@ -80,6 +81,20 @@ namespace WP_Geocaching.View
             button.Text = AppResources.CheckpointsButton;
             button.Click += Checkpoints_Click;
             ApplicationBar.Buttons.Add(button);
+        }
+
+        private void SetCompassButton()
+        {
+            ApplicationBarIconButton button = new ApplicationBarIconButton();
+            button.IconUri = new Uri("Resources/Images/appbar.compass.png", UriKind.Relative);
+            button.Text = AppResources.CompassSearchButton;
+            button.Click += Compass_Click;
+            ApplicationBar.Buttons.Add(button);
+        }
+
+        void Compass_Click(object sender, EventArgs e)
+        {
+            NavigationManager.Instance.NavigateByCompass(searchBingMapViewModel.SoughtCache.Id);
         }
 
         private void ShowAll_Click(object sender, EventArgs e)

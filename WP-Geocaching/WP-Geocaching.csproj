@@ -279,7 +279,7 @@
     <Resource Include="Resources\Images\application_logo_big_white.png" />
     <Resource Include="Resources\Images\application_logo_small_white.png" />
     <Resource Include="Resources\Images\compass_rose_black.png" />
-    <Content Include="Resources\Images\compass_rose_white.png" />
+    <Resource Include="Resources\Images\compass_rose_white.png" />
     <Content Include="Resources\Images\appbar.feature.search.rest.png" />
     <Resource Include="Resources\Images\favorites_menu_icon.png" />
     <Resource Include="Resources\Images\search_map_menu_icon.png" />
@@ -290,6 +290,7 @@
     <EmbeddedResource Include="Resources\Localization\AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localization\AppResources.ru-RU.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

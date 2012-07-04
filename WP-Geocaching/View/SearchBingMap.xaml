@@ -102,7 +102,12 @@
                 <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding CurrentLocation, Mode=TwoWay}"
                                                                    Style="{StaticResource ArrowStyle}"
                                                                    >
-                    <Image Source="/Resources/Icons/ic_arrow.png" />
+                    <!--  <Image Source="/Resources/Icons/ic_arrow.png" /> -->
+                       <Image Source="/Resources/Icons/ic_arrow.png" >
+                        <Image.RenderTransform>
+                            <RotateTransform Angle="{Binding Direction, Mode=OneWay}" CenterX="{Binding X, Mode=OneWay}" CenterY="{Binding Y, Mode=OneWay}" />
+                        </Image.RenderTransform>
+                       </Image> 
                 </Microsoft_Phone_Controls_Maps:Pushpin>
 
                 <Border Background="{StaticResource PhoneChromeBrush}" 
