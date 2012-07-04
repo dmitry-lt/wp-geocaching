@@ -12,11 +12,14 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using System.Windows.Navigation;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.View
 {
     public partial class Notebook : PhoneApplicationPage
     {
+        private int cacheId;
+
         public Notebook()
         {
             InitializeComponent();
@@ -24,12 +27,27 @@ namespace WP_Geocaching.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
-            GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(ProcessNotebook, cacheId);            
+            cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
+
+            CacheDataBase db = new CacheDataBase();
+            DbCacheItem item = db.GetCache(cacheId);
+            if ((item != null) && (item.Notebook != null))
+            {
+                Browser.NavigateToString(item.Notebook);
+            }
+            else
+            {
+                GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(ProcessNotebook, cacheId);
+            }
         }
 
         private void ProcessNotebook(string notebook)
         {
+            CacheDataBase db = new CacheDataBase();
+            if (db.GetCache(cacheId) != null)
+            {
+                db.UpdateCacheNotebook(notebook, cacheId);
+            }
             Browser.NavigateToString(notebook);
         }
     }

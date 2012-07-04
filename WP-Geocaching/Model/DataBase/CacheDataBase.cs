@@ -47,7 +47,8 @@ namespace WP_Geocaching.Model.DataBase
                         Longitude = cache.Location.Longitude,
                         Type = (int)cache.Type,
                         Subtype = (int)cache.Subtype,
-                        Details = details
+                        Details = details,
+                        Notebook = null
                     };
 
                     if (!db.Caches.Contains(newItem))
@@ -126,6 +127,16 @@ namespace WP_Geocaching.Model.DataBase
             {
                 var query = GetCacheQueryById(db.Caches, id);
                 query.FirstOrDefault().Details = details;
+                db.SubmitChanges();
+            }
+        }
+
+        public void UpdateCacheNotebook(String notebook, int id)
+        {
+            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            {
+                var query = GetCacheQueryById(db.Caches, id);
+                query.FirstOrDefault().Notebook = notebook;
                 db.SubmitChanges();
             }
         }
