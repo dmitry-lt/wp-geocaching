@@ -11,15 +11,20 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Threading;
 using System.Device.Location;
+using System.Collections.ObjectModel;
+using WP_Geocaching.Model;
 
 namespace WP_Geocaching.ViewModel
 {
     public class BaseMapViewModel : BaseViewModel
     {
         protected GeoCoordinate mapCenter;
+        protected IApiManager apiManager;
         protected GeoCoordinate currentLocation;
         protected Visibility undetectedLocationMessageVisibility = Visibility.Collapsed;
 
+        public virtual int Zoom { get; set; }
+        public virtual ObservableCollection<CachePushpin> CachePushpins { get; set; }
         public Visibility UndetectedLocationMessageVisibility
         {
             get
