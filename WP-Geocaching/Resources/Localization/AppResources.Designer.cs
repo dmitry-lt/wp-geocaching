@@ -187,6 +187,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string DetailsTitle {
+            get {
+                return ResourceManager.GetString("DetailsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Favorites.
         /// </summary>
         public static string Favorites {
@@ -255,6 +264,15 @@ namespace WP_Geocaching.Resources.Localization {
         public static string NotebookButton {
             get {
                 return ResourceManager.GetString("NotebookButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notebook.
+        /// </summary>
+        public static string NotebookTitle {
+            get {
+                return ResourceManager.GetString("NotebookTitle", resourceCulture);
             }
         }
         

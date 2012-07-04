@@ -206,4 +206,10 @@
   </data>  <data name="Compass" xml:space="preserve">
     <value>Compass</value>
   </data>
+  <data name="DetailsTitle" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="NotebookTitle" xml:space="preserve">
+    <value>Notebook</value>
+  </data>
 </root>
