@@ -20,6 +20,7 @@ namespace WP_Geocaching.ViewModel
         private WebBrowser detailsBrowser;
 
         public string Details { get; set; }
+        public string Notebook { get; set; }
         public Cache Cache { get; set; }
 
         public void UpdateNotebookPivotItem(WebBrowser notebookBrowser)
@@ -55,6 +56,7 @@ namespace WP_Geocaching.ViewModel
         private void ProcessNotebook(string notebook)
         {
             CacheDataBase db = new CacheDataBase();
+            Notebook = notebook;
             if (db.GetCache(Cache.Id) != null)
             {
                 db.UpdateCacheNotebook(notebook, Cache.Id);
