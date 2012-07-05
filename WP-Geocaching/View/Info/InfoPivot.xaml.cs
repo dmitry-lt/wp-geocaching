@@ -55,7 +55,7 @@ namespace WP_Geocaching.View.Info
 
         private void SearchCacheButton_Click(object sender, EventArgs e)
         {
-            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Details);
+            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Details, infoPivotViewModel.Notebook);
             NavigationManager.Instance.NavigateToSearchBingMap(infoPivotViewModel.Cache.Id.ToString());
         }
 
@@ -118,7 +118,7 @@ namespace WP_Geocaching.View.Info
 
         private void AddButtonClick(object sender, EventArgs e)
         {
-            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Details);
+            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Details, infoPivotViewModel.Notebook);
             GetDeleteButton();
         }
 

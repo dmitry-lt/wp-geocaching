@@ -33,7 +33,7 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        public void AddCache(Cache cache, string details)
+        public void AddCache(Cache cache, string details, string notebook)
         {
             if (cache != null)
             {
@@ -48,7 +48,7 @@ namespace WP_Geocaching.Model.DataBase
                         Type = (int)cache.Type,
                         Subtype = (int)cache.Subtype,
                         Details = details,
-                        Notebook = null
+                        Notebook = notebook
                     };
 
                     if (!db.Caches.Contains(newItem))
