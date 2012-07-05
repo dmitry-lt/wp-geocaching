@@ -42,14 +42,14 @@ namespace WP_Geocaching.View.Info
 
         private void Info_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Contains(NotebookPivotItem))
+            if (e.AddedItems.Contains(NotebookPivotItem) && (NotebookBrowser.SaveToString() == ""))
             {
-                infoPivotViewModel.UpdateNotebookPivotItem(NotebookBrowser);
+                infoPivotViewModel.LoadNotebookPivotItem(NotebookBrowser);
             }
 
-            if (e.AddedItems.Contains(DetailsPivotItem))
+            if (e.AddedItems.Contains(DetailsPivotItem) && (NotebookBrowser.SaveToString() == ""))
             {
-                infoPivotViewModel.UpdateDetailsPivotItem(DetailsBrowser);
+                infoPivotViewModel.LoadDetailsPivotItem(DetailsBrowser);
             }
         }      
 
