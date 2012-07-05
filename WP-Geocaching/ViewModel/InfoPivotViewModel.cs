@@ -23,7 +23,7 @@ namespace WP_Geocaching.ViewModel
         public string Notebook { get; set; }
         public Cache Cache { get; set; }
 
-        public void UpdateNotebookPivotItem(WebBrowser notebookBrowser)
+        public void LoadNotebookPivotItem(WebBrowser notebookBrowser)
         {
             CacheDataBase db = new CacheDataBase();
             DbCacheItem item = db.GetCache(Cache.Id);
@@ -38,7 +38,7 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public void UpdateDetailsPivotItem(WebBrowser detailsBrowser)
+        public void LoadDetailsPivotItem(WebBrowser detailsBrowser)
         {
             CacheDataBase db = new CacheDataBase();
             DbCacheItem item = db.GetCache(Cache.Id);
