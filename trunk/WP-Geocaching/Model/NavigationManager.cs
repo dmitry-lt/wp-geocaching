@@ -53,10 +53,9 @@ namespace WP_Geocaching.Model
             }
         }
 
-        private void Navigate(string uri, int SoughtCacheId)
-        {
+        private void Navigate(string uri, string currentId, string checkpointId)        {
             PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
-            frame.Navigate(new Uri(uri + "?CacheID=" + SoughtCacheId, UriKind.RelativeOrAbsolute));
+            frame.Navigate(new Uri(uri + "?CurrentId=" + currentId + "&CheckpointId=" + checkpointId, UriKind.RelativeOrAbsolute));
         }
 
         public void NavigateToInfoPivot(string CurrentId)
@@ -83,10 +82,9 @@ namespace WP_Geocaching.Model
         {
             this.Navigate("//View/Notebook.xaml", CurrentId);
         }
-
-        public void NavigateByCompass(int SoughtCacheId)
+        public void NavigateByCompass(string currentId, string checkpointId)
         {
-            this.Navigate("//View/Compass/CompassPage.xaml", SoughtCacheId);
+ 			this.Navigate("//View/Compass/CompassPage.xaml", currentId, checkpointId);
         }
-    }
+	}
 }

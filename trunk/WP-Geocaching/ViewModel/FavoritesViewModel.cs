@@ -54,7 +54,7 @@ namespace WP_Geocaching.ViewModel
         public FavoritesViewModel()
         {
             UpdateDataSource();
-        }       
+        }
 
         public void UpdateDataSource()
         {

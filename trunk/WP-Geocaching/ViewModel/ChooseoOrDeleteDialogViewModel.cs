@@ -125,8 +125,8 @@ namespace WP_Geocaching.ViewModel
                 db.MakeCacheActive(id);
             }
             else
-            {                
-                db.MakeCheckpointActive(cacheId, id);               
+            {
+                db.MakeCheckpointActive(cacheId, id);
             }
             closeDialog();
         }

@@ -14,7 +14,7 @@ using WP_Geocaching.Model;
 namespace WP_Geocaching.ViewModel
 {
     public class ListCacheItem
-    {        
+    {
         private int id;
         private string name;
         private double latitude;
@@ -122,7 +122,7 @@ namespace WP_Geocaching.ViewModel
             Subtype = item.Subtype;
             Type = item.Type;
             Details = item.Details;
-            IconUri = new Enum[2]{(Cache.Types)item.Type, (Cache.Subtypes)item.Subtype};
+            IconUri = new Enum[2] { (Cache.Types)item.Type, (Cache.Subtypes)item.Subtype };
         }
         public ListCacheItem(DbCheckpointsItem item)
         {
