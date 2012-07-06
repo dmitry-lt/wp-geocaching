@@ -6,6 +6,7 @@ using System;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
+using System.Collections.Generic;
 
 namespace WP_Geocaching.View.Compass
 {
@@ -13,7 +14,7 @@ namespace WP_Geocaching.View.Compass
     {
         private CompassPageViewModal compassPageViewModal;
         private GeoCoordinateWatcher currentLocation;
-        private GeoCoordinate soughtCache;
+        private GeoCoordinate soughtPoint;
 
         private int currentDegreeLat;
         private double currentMinuteLat;
@@ -28,8 +29,6 @@ namespace WP_Geocaching.View.Compass
         private int cacheDegreeLon;
         private double cacheMinuteLon;
         private char cacheDirectionLon;
-
-        private double cacheAzimuth;
 
         public CompassPage()
         {
@@ -52,41 +51,59 @@ namespace WP_Geocaching.View.Compass
             currentDegreeLon = Math.Abs((int)currentCoordinate.Longitude);
             currentMinuteLon = (Math.Abs(currentCoordinate.Longitude) - Math.Abs((int)currentCoordinate.Longitude)) * 60;
 
-            cacheDirectionLat = soughtCache.Latitude > 0 ? 'N' : 'S';
-            cacheDegreeLat = Math.Abs((int)soughtCache.Latitude);
-            cacheMinuteLat = (Math.Abs(soughtCache.Latitude) - Math.Abs((int)soughtCache.Latitude)) * 60;
-            cacheDirectionLon = soughtCache.Longitude > 0 ? 'E' : 'W';
-            cacheDegreeLon = Math.Abs((int)soughtCache.Longitude);
-            cacheMinuteLon = (Math.Abs(soughtCache.Longitude) - Math.Abs((int)soughtCache.Longitude)) * 60;
+            cacheDirectionLat = soughtPoint.Latitude > 0 ? 'N' : 'S';
+            cacheDegreeLat = Math.Abs((int)soughtPoint.Latitude);
+            cacheMinuteLat = (Math.Abs(soughtPoint.Latitude) - Math.Abs((int)soughtPoint.Latitude)) * 60;
+            cacheDirectionLon = soughtPoint.Longitude > 0 ? 'E' : 'W';
+            cacheDegreeLon = Math.Abs((int)soughtPoint.Longitude);
+            cacheMinuteLon = (Math.Abs(soughtPoint.Longitude) - Math.Abs((int)soughtPoint.Longitude)) * 60;
 
-            double y = Math.Sin((soughtCache.Longitude - currentCoordinate.Longitude) * Math.PI / 180) * Math.Cos(soughtCache.Latitude * Math.PI / 180);
-            double x = Math.Cos(currentCoordinate.Latitude * Math.PI / 180) * Math.Sin(soughtCache.Latitude * Math.PI / 180) -
-                Math.Sin(currentCoordinate.Latitude * Math.PI / 180) * Math.Cos(soughtCache.Latitude * Math.PI / 180) * Math.Cos((soughtCache.Longitude - currentCoordinate.Longitude) * Math.PI / 180);
-            double bearing = Math.Atan2(y, x) * 180 / Math.PI;
-            bearing = (bearing + 360) % 360;
+            double y = Math.Sin((soughtPoint.Longitude - currentCoordinate.Longitude) * Math.PI / 180) * Math.Cos(soughtPoint.Latitude * Math.PI / 180);
+            double x = Math.Cos(currentCoordinate.Latitude * Math.PI / 180) * Math.Sin(soughtPoint.Latitude * Math.PI / 180) -
+                Math.Sin(currentCoordinate.Latitude * Math.PI / 180) * Math.Cos(soughtPoint.Latitude * Math.PI / 180) * Math.Cos((soughtPoint.Longitude - currentCoordinate.Longitude) * Math.PI / 180);
+            double bearing = (Math.Atan2(y, x) * 180 / Math.PI + 360) % 360;
 
-            compassPageViewModal.CacheAngle = bearing;
-            cacheAzimuth = (bearing - compassPageViewModal.Direction + 360) % 360;
+            double dir = (compassPageViewModal.Direction + 360) % 360;
+            double cacheAzimuth = (bearing - dir + 360) % 360;
+            compassPageViewModal.CacheAngle = cacheAzimuth + dir;
 
             curCoord.Text = String.Format("{0}° {1:F3}' {2} {3}° {4:F3}' {5}", currentDegreeLat, currentMinuteLat, currentDirectionLat, currentDegreeLon, currentMinuteLon, currentDirectionLon);
             cacheCoord.Text = String.Format("{0}° {1:F3}' {2} {3}° {4:F3}' {5}", cacheDegreeLat, cacheMinuteLat, cacheDirectionLat, cacheDegreeLon, cacheMinuteLon, cacheDirectionLon);
-            distance.Text = String.Format("{0:F2} km", currentCoordinate.GetDistanceTo(soughtCache) / 1000);
+            distance.Text = String.Format("{0:F3} km", currentCoordinate.GetDistanceTo(soughtPoint) / 1000);
             azimuth.Text = String.Format("{0:F1}°", cacheAzimuth);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            int soughtCacheId = Convert.ToInt32(NavigationContext.QueryString["CacheID"]);
+            int currentId = Convert.ToInt32(NavigationContext.QueryString["CurrentId"]);
+            int checkpointId = Convert.ToInt32(NavigationContext.QueryString["CheckpointId"]);
 
             if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
             {
                 CacheDataBase db = new CacheDataBase();
-                DbCacheItem cache = new DbCacheItem();
+                soughtPoint = new GeoCoordinate();
 
-                cache = db.GetCache(soughtCacheId);
-                soughtCache = new GeoCoordinate();
-                soughtCache.Latitude = cache.Latitude;
-                soughtCache.Longitude = cache.Longitude;
+                if (checkpointId != -1)
+                {
+                    List<DbCheckpointsItem> checkpoints = new List<DbCheckpointsItem>();
+                    checkpoints = db.GetCheckpointsbyCacheId(currentId);
+
+                    foreach (DbCheckpointsItem c in checkpoints)
+                    {
+                        if (c.Id == checkpointId)
+                        {
+                            soughtPoint.Latitude = c.Latitude;
+                            soughtPoint.Longitude = c.Longitude;
+                        }
+                    }
+                }
+                else
+                {
+                    DbCacheItem cache = new DbCacheItem();
+                    cache = db.GetCache(currentId);
+                    soughtPoint.Latitude = cache.Latitude;
+                    soughtPoint.Longitude = cache.Longitude;
+                }
             }
         }
 

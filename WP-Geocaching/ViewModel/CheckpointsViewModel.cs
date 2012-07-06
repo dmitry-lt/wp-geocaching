@@ -37,7 +37,7 @@ namespace WP_Geocaching.ViewModel
                 {
                     dataSource = value;
                     NotifyPropertyChanged("DataSource");
-                }         
+                }
             }
         }
         public ListCacheItem SelectedCheckpoint
@@ -97,7 +97,7 @@ namespace WP_Geocaching.ViewModel
             DialogVisibility = "Collapsed";
             IsListEnabled = true;
             cacheId = MapManager.Instance.CacheId;
-            UpdateDataSource();          
+            UpdateDataSource();
         }
 
         public void UpdateDataSource()
@@ -112,7 +112,7 @@ namespace WP_Geocaching.ViewModel
             }
             this.DataSource = newDataSource;
         }
-       
+
         public void CloseMakeActiveorDeleteDialogDialog()
         {
             DialogVisibility = "Collapsed";

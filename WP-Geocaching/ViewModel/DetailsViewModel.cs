@@ -15,8 +15,8 @@ namespace WP_Geocaching.ViewModel
 {
     public class DetailsViewModel
     {
-        public Cache Cache;      
-        
+        public Cache Cache;
+
         public DetailsViewModel()
         {
         }

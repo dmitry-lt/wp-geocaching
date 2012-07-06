@@ -30,7 +30,7 @@ namespace WP_Geocaching.ViewModel
         private LocationRect boundingRectangle;
         private Visibility surpassedCacheCountMessageVisibility = Visibility.Collapsed;
         private GeoCoordinateWatcher watcher;
-        private bool isFirstSettingView;      
+        private bool isFirstSettingView;
 
         public Visibility SurpassedCacheCountMessageVisibility
         {

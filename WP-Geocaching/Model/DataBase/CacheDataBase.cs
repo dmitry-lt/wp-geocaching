@@ -104,7 +104,6 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (CacheDataContext db = new CacheDataContext(ConnectionString))
             {
-
                 var query = GetCheckpointQuery(db.Checkpoints, cacheId, id);
                 DbCheckpointsItem checkpoint = query.FirstOrDefault();
                 if ((checkpoint != null) && (checkpoint.Subtype != (int)Cache.Subtypes.ActiveCheckpoint))

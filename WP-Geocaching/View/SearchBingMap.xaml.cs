@@ -94,7 +94,22 @@ namespace WP_Geocaching.View
 
         void Compass_Click(object sender, EventArgs e)
         {
-            NavigationManager.Instance.NavigateByCompass(searchBingMapViewModel.SoughtCache.Id);
+            int id = -1;
+            string cacheId = searchBingMapViewModel.SoughtCache.Id.ToString();
+            string checkpointId = id.ToString();
+            Model.DataBase.CacheDataBase db = new Model.DataBase.CacheDataBase();
+            List<Model.DataBase.DbCheckpointsItem> checkpoints = new List<Model.DataBase.DbCheckpointsItem>();
+            checkpoints = db.GetCheckpointsbyCacheId(Convert.ToInt32(cacheId));
+
+            foreach (Model.DataBase.DbCheckpointsItem c in checkpoints)
+            {
+                if ((Cache.Subtypes)c.Subtype == Cache.Subtypes.ActiveCheckpoint)
+                {
+                    checkpointId = c.Id.ToString();
+                }
+            }
+
+            NavigationManager.Instance.NavigateByCompass(cacheId, checkpointId);
         }
 
         private void ShowAll_Click(object sender, EventArgs e)
