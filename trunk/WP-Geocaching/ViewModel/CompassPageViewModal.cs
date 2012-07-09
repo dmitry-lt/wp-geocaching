@@ -11,44 +11,44 @@ namespace WP_Geocaching.ViewModel
     public class CompassPageViewModal : BaseViewModel, ICompassView
     {
         private readonly SmoothCompassManager smoothCompassManager;
-        private double _direction;
+        private double _northDirection;
         private double _cacheAngle;
 
         public int CurrentDegreeLat { get; set; }
-        
+
         public double CurrentMinuteLat { get; set; }
-        
+
         public char CurrentDirectionLat { get; set; }
-        
+
         public int CurrentDegreeLon { get; set; }
-        
+
         public double CurrentMinuteLon { get; set; }
-        
+
         public char CurrentDirectionLon { get; set; }
 
         public int CacheDegreeLat { get; set; }
-        
+
         public double CacheMinuteLat { get; set; }
-        
+
         public char CacheDirectionLat { get; set; }
-        
+
         public int CacheDegreeLon { get; set; }
-        
+
         public double CacheMinuteLon { get; set; }
-        
+
         public char CacheDirectionLon { get; set; }
 
-        public double Bearing { get; set; }
+        public double CacheAzimuth { get; set; }
 
         public GeoCoordinate SoughtPoint { get; set; }
 
-        public double Direction
+        public double NorthDirection
         {
-            get { return _direction; }
+            get { return _northDirection; }
             set
             {
-                _direction = value;
-                NotifyPropertyChanged("Direction");
+                _northDirection = value;
+                NotifyPropertyChanged("NorthDirection");
             }
         }
 
@@ -70,7 +70,8 @@ namespace WP_Geocaching.ViewModel
         private DateTime time;
         public void SetDirection(double direction)
         {
-            Direction = -direction;
+            NorthDirection = -direction;
+            CacheAngle = NorthDirection + CacheAzimuth;
             Debug.WriteLine("fps " + 1000 / (DateTime.Now - time).Milliseconds);
             time = DateTime.Now;
         }
@@ -104,10 +105,7 @@ namespace WP_Geocaching.ViewModel
             double y = Math.Sin((SoughtPoint.Longitude - currentCoordinate.Longitude) * Math.PI / 180) * Math.Cos(SoughtPoint.Latitude * Math.PI / 180);
             double x = Math.Cos(currentCoordinate.Latitude * Math.PI / 180) * Math.Sin(SoughtPoint.Latitude * Math.PI / 180) -
                 Math.Sin(currentCoordinate.Latitude * Math.PI / 180) * Math.Cos(SoughtPoint.Latitude * Math.PI / 180) * Math.Cos((SoughtPoint.Longitude - currentCoordinate.Longitude) * Math.PI / 180);
-            Bearing = (Math.Atan2(y, x) * 180 / Math.PI + 360) % 360;
-
-            double dir = (Direction + 360) % 360;
-            CacheAngle = dir + Bearing;
+            CacheAzimuth = (Math.Atan2(y, x) * 180 / Math.PI + 360) % 360;
         }
     }
 }
