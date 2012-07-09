@@ -65,7 +65,7 @@
                 Source={StaticResource LocalizedStrings}}"/>
                         </Grid>
                     </controls:PivotItem.Header>
-                    <Grid Grid.Row="1" Margin="0,0,0,0">
+                    <Grid x:Name="PhotoGrid" Grid.Row="1" Margin="0,0,0,0">
                     </Grid>
                 </controls:PivotItem>
             </controls:Pivot>

@@ -171,6 +171,24 @@ namespace WP_Geocaching.Model
             webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cacheId), UriKind.Absolute));
         }
 
+        public void DownloadPhotos(int cacheId, Action<List<string>> processUriList)
+        {
+            var webClient = new WebClient();
+
+            webClient.DownloadStringCompleted += (sender, e) =>
+            {
+                if (e.Error == null)
+                {
+                    ResetPhotoUrls(e.Result);
+                    processUriList(photoUrls);
+                }
+            };
+
+            webClient.AllowReadStreamBuffering = true;
+            webClient.Encoding = CP1251Encoding;
+            webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cacheId), UriKind.Absolute));
+        }
+
         private void ResetPhotoUrls(string htmlPhotoUrls)
         {
             photoUrls = new List<string>();
@@ -209,6 +227,23 @@ namespace WP_Geocaching.Model
             }
         }
 
-
+        public void LoadPhoto(string photoUrl, Action<Image> process)
+        {
+            var photoUri = new Uri(photoUrl);
+            var webClient = new WebClient();
+            webClient.OpenReadCompleted += (sender, e) =>
+            {
+                if (e.Error == null)
+                {
+                    Byte[] buffer = new Byte[e.Result.Length];
+                    WriteableBitmap writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
+                    Image image = new Image();
+                    image.Width = 150;
+                    image.Source = writableBitmap;
+                    process(image);
+                }
+            };
+            webClient.OpenReadAsync(photoUri);
+        }
     }
 }

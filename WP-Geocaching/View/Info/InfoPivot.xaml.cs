@@ -8,6 +8,8 @@ using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Resources.Localization;
+using System.Collections.Generic;
+using System.Windows.Media.Imaging;
 
 namespace WP_Geocaching.View.Info
 {
@@ -54,9 +56,29 @@ namespace WP_Geocaching.View.Info
 
             if (e.AddedItems.Contains(PhotosPivotItem))
             {
-                //GeocahingSuApiManager.Instance.DownloadAndSavePhotos(infoPivotViewModel.Cache.Id);
+                if (PhotoGrid.Children.Count == 0)
+                {
+                    GeocahingSuApiManager.Instance.DownloadPhotos(infoPivotViewModel.Cache.Id, ProcessUriList);
+                }
             }
-        }      
+        }
+
+        private void ProcessUriList(List<string> uriList)
+        {
+            StackPanel photoPanel = new StackPanel();
+            photoPanel.Orientation = System.Windows.Controls.Orientation.Vertical;
+            PhotoGrid.Children.Add(photoPanel);
+            for (int i = 0; i <= uriList.Count / 3; i++)
+            {
+                StackPanel panel = new StackPanel();
+                panel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                photoPanel.Children.Add(panel);
+                for (int j = i * 3; (j < (i + 1) * 3) & (j < uriList.Count) ; j++)
+                {
+                    GeocahingSuApiManager.Instance.LoadPhoto(uriList[j], panel.Children.Add);
+                }
+            }
+        }
 
         private void SearchCacheButton_Click(object sender, EventArgs e)
         {
