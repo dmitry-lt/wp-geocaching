@@ -57,6 +57,17 @@
                         <phone:WebBrowser x:Name="NotebookBrowser" Margin="12,0,12,0" Grid.Row="1"/>
                     </Grid>
                 </controls:PivotItem>
+
+                <controls:PivotItem x:Name="PhotosPivotItem">
+                    <controls:PivotItem.Header>
+                        <Grid>
+                            <TextBlock FontSize="50" Text="{Binding Path=LocalizedResources.PhotosTitle, 
+                Source={StaticResource LocalizedStrings}}"/>
+                        </Grid>
+                    </controls:PivotItem.Header>
+                    <Grid Grid.Row="1" Margin="0,0,0,0">
+                    </Grid>
+                </controls:PivotItem>
             </controls:Pivot>
         </Grid>
     </Grid>
