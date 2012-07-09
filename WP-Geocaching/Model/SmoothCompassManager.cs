@@ -25,7 +25,6 @@ namespace WP_Geocaching.Model
 
         private bool isArrived; // The needle has not arrived the goalDirection
 
-
         public SmoothCompassManager(ICompassView compassView)
         {
             this.compassView = compassView;

@@ -40,6 +40,8 @@ namespace WP_Geocaching.ViewModel
 
         public double CacheAzimuth { get; set; }
 
+        public double Azimuth { get; set; }
+
         public GeoCoordinate SoughtPoint { get; set; }
 
         public double NorthDirection
@@ -106,6 +108,8 @@ namespace WP_Geocaching.ViewModel
             double x = Math.Cos(currentCoordinate.Latitude * Math.PI / 180) * Math.Sin(SoughtPoint.Latitude * Math.PI / 180) -
                 Math.Sin(currentCoordinate.Latitude * Math.PI / 180) * Math.Cos(SoughtPoint.Latitude * Math.PI / 180) * Math.Cos((SoughtPoint.Longitude - currentCoordinate.Longitude) * Math.PI / 180);
             CacheAzimuth = (Math.Atan2(y, x) * 180 / Math.PI + 360) % 360;
+
+            Azimuth = (360 - NorthDirection) % 360;
         }
     }
 }

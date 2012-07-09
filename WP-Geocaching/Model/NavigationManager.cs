@@ -53,7 +53,8 @@ namespace WP_Geocaching.Model
             }
         }
 
-        private void Navigate(string uri, string currentId, string checkpointId)        {
+        private void Navigate(string uri, string currentId, string checkpointId)
+        {
             PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
             frame.Navigate(new Uri(uri + "?CurrentId=" + currentId + "&CheckpointId=" + checkpointId, UriKind.RelativeOrAbsolute));
         }
@@ -84,7 +85,7 @@ namespace WP_Geocaching.Model
         }
         public void NavigateByCompass(string currentId, string checkpointId)
         {
- 			this.Navigate("//View/Compass/CompassPage.xaml", currentId, checkpointId);
+            this.Navigate("//View/Compass/CompassPage.xaml", currentId, checkpointId);
         }
-	}
+    }
 }
