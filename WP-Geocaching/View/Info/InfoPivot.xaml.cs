@@ -51,6 +51,11 @@ namespace WP_Geocaching.View.Info
             {
                 infoPivotViewModel.LoadDetailsPivotItem(DetailsBrowser);
             }
+
+            if (e.AddedItems.Contains(PhotosPivotItem))
+            {
+                //GeocahingSuApiManager.Instance.DownloadAndSavePhotos(infoPivotViewModel.Cache.Id);
+            }
         }      
 
         private void SearchCacheButton_Click(object sender, EventArgs e)

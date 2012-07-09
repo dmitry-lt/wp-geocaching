@@ -277,6 +277,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Photos.
+        /// </summary>
+        public static string PhotosTitle {
+            get {
+                return ResourceManager.GetString("PhotosTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to save.
         /// </summary>
         public static string SaveCheckpointButton {

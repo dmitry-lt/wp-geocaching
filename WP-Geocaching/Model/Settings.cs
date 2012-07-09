@@ -85,7 +85,7 @@ namespace WP_Geocaching.Model
         {
             get
             {
-                return new GeoCoordinate (GetValueOrDefault<double>(LastLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
+                return new GeoCoordinate(GetValueOrDefault<double>(LastLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
                     GetValueOrDefault<double>(LastLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
             }
             set
@@ -98,12 +98,12 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public void SetDefaultLastSoughtCacheId ()
+        public void SetDefaultLastSoughtCacheId()
         {
             if (AddOrUpdateValue(LastSoughtCacheIdKeyName, LastSoughtCacheIdDefault))
-                {
-                    Save();
-                }
+            {
+                Save();
+            }
         }
     }
 }

@@ -19,6 +19,9 @@ using System.Device.Location;
 using System.Globalization;
 using WP_Geocaching.Model.Utils;
 using WP_Geocaching.Model.DataBase;
+using System.Text.RegularExpressions;
+using System.Windows.Media.Imaging;
+using Microsoft.Phone;
 
 namespace WP_Geocaching.Model
 {
@@ -31,6 +34,7 @@ namespace WP_Geocaching.Model
         private static readonly Encoding CP1251Encoding = new CP1251Encoding();
         private const string InfoUrl = "http://pda.geocaching.su/cache.php?cid={0}";
         private const string NotebookUrl = "http://pda.geocaching.su/note.php?cid={0}&mode=0";
+        private const string PhotosUrl = "http://pda.geocaching.su/pict.php?cid={0}&mode=0";
         private const string DownloadUrl =
             "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax={0}&lngmin={1}&latmax={2}&latmin={3}&id={4}&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
         private int id;
@@ -80,11 +84,11 @@ namespace WP_Geocaching.Model
                     if (processCacheList != null)
                     {
                         var list = (from cache in CacheList
-                                           where ((cache.Location.Latitude <= latmax) &&
-                                                  (cache.Location.Latitude >= latmin) &&
-                                                  (cache.Location.Longitude <= lngmax) &&
-                                                  (cache.Location.Longitude >= lngmin))
-                                           select cache).ToList<Cache>();
+                                    where ((cache.Location.Latitude <= latmax) &&
+                                           (cache.Location.Latitude >= latmin) &&
+                                           (cache.Location.Longitude <= lngmax) &&
+                                           (cache.Location.Longitude >= lngmin))
+                                    select cache).ToList<Cache>();
                         processCacheList(list);
                     }
                 }
@@ -143,5 +147,68 @@ namespace WP_Geocaching.Model
             var db = new CacheDataBase();
             return new Cache(db.GetCache(id));
         }
+
+        private List<String> photoUrls;
+
+        public void DownloadAndSavePhotos(int cacheId)
+        {
+            var webClient = new WebClient();
+
+            webClient.DownloadStringCompleted += (sender, e) =>
+            {
+                if (e.Error == null)
+                {
+                    ResetPhotoUrls(e.Result);
+                    foreach (string url in photoUrls)
+                    {
+                        DownloadAndSavePhoto(url, cacheId);
+                    }
+                }
+            };
+
+            webClient.AllowReadStreamBuffering = true;
+            webClient.Encoding = CP1251Encoding;
+            webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cacheId), UriKind.Absolute));
+        }
+
+        private void ResetPhotoUrls(string htmlPhotoUrls)
+        {
+            photoUrls = new List<string>();
+            string sPattern = "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
+            MatchCollection urls = Regex.Matches(htmlPhotoUrls, sPattern);
+            for (int i = 0; i < urls.Count; i++)
+            {
+                string url = urls[i].Value.Substring(7, urls[i].Value.Length - 8);
+
+                if (url.EndsWith(".jpg"))
+                {
+                    photoUrls.Add(url);
+                }
+            }
+        }
+
+        private void DownloadAndSavePhoto(string photoUrl, int cacheId)
+        {
+            FileStorageHelper helper = new FileStorageHelper();
+            var photoUri = new Uri(photoUrl);
+            string fileName = photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"));
+            if (!helper.IsFileExists(cacheId, fileName))
+            {
+                var webClient = new WebClient();
+                webClient.OpenReadCompleted += (sender, e) =>
+                {
+                    if (e.Error == null)
+                    {
+                        Byte[] buffer = new Byte[e.Result.Length];
+                        WriteableBitmap writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
+                        e.Result.Read(buffer, 0, buffer.Length);
+                        helper.SaveImage(cacheId, fileName, writableBitmap);
+                    }
+                };
+                webClient.OpenReadAsync(photoUri);
+            }
+        }
+
+
     }
 }

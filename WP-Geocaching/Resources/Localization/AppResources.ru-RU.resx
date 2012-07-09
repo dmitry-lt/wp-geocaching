@@ -203,7 +203,8 @@
   </data>
   <data name="NotebookButton" xml:space="preserve">
     <value>блокнот</value>
-  </data>  <data name="Compass" xml:space="preserve">
+  </data>
+  <data name="Compass" xml:space="preserve">
     <value>Компас</value>
   </data>
   <data name="DetailsTitle" xml:space="preserve">
@@ -211,5 +212,8 @@
   </data>
   <data name="NotebookTitle" xml:space="preserve">
     <value>Блокнот</value>
+  </data>
+  <data name="PhotosTitle" xml:space="preserve">
+    <value>Фотографии</value>
   </data>
 </root>
