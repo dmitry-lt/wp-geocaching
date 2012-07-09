@@ -16,26 +16,12 @@ namespace WP_Geocaching.View.Compass
         private GeoCoordinateWatcher currentLocation;
         private GeoCoordinate soughtPoint;
 
-        private int currentDegreeLat;
-        private double currentMinuteLat;
-        private char currentDirectionLat;
-        private int currentDegreeLon;
-        private double currentMinuteLon;
-        private char currentDirectionLon;
-
-        private int cacheDegreeLat;
-        private double cacheMinuteLat;
-        private char cacheDirectionLat;
-        private int cacheDegreeLon;
-        private double cacheMinuteLon;
-        private char cacheDirectionLon;
-
         public CompassPage()
         {
             InitializeComponent();
 
             currentLocation = new GeoCoordinateWatcher();
-            currentLocation.PositionChanged += new System.EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(currentLocation_PositionChanged);
+            currentLocation.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(currentLocation_PositionChanged);
             currentLocation.Start();
             compassPageViewModal = new CompassPageViewModal();
             DataContext = compassPageViewModal;
@@ -43,34 +29,12 @@ namespace WP_Geocaching.View.Compass
 
         void currentLocation_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            GeoCoordinate currentCoordinate = e.Position.Location;
-            currentDirectionLat = currentCoordinate.Latitude > 0 ? 'N' : 'S';
-            currentDegreeLat = Math.Abs((int)currentCoordinate.Latitude);
-            currentMinuteLat = (Math.Abs(currentCoordinate.Latitude) - Math.Abs((int)currentCoordinate.Latitude)) * 60;
-            currentDirectionLon = currentCoordinate.Longitude > 0 ? 'E' : 'W';
-            currentDegreeLon = Math.Abs((int)currentCoordinate.Longitude);
-            currentMinuteLon = (Math.Abs(currentCoordinate.Longitude) - Math.Abs((int)currentCoordinate.Longitude)) * 60;
+            compassPageViewModal.CalculateBearing(e.Position.Location);
 
-            cacheDirectionLat = soughtPoint.Latitude > 0 ? 'N' : 'S';
-            cacheDegreeLat = Math.Abs((int)soughtPoint.Latitude);
-            cacheMinuteLat = (Math.Abs(soughtPoint.Latitude) - Math.Abs((int)soughtPoint.Latitude)) * 60;
-            cacheDirectionLon = soughtPoint.Longitude > 0 ? 'E' : 'W';
-            cacheDegreeLon = Math.Abs((int)soughtPoint.Longitude);
-            cacheMinuteLon = (Math.Abs(soughtPoint.Longitude) - Math.Abs((int)soughtPoint.Longitude)) * 60;
-
-            double y = Math.Sin((soughtPoint.Longitude - currentCoordinate.Longitude) * Math.PI / 180) * Math.Cos(soughtPoint.Latitude * Math.PI / 180);
-            double x = Math.Cos(currentCoordinate.Latitude * Math.PI / 180) * Math.Sin(soughtPoint.Latitude * Math.PI / 180) -
-                Math.Sin(currentCoordinate.Latitude * Math.PI / 180) * Math.Cos(soughtPoint.Latitude * Math.PI / 180) * Math.Cos((soughtPoint.Longitude - currentCoordinate.Longitude) * Math.PI / 180);
-            double bearing = (Math.Atan2(y, x) * 180 / Math.PI + 360) % 360;
-
-            double dir = (compassPageViewModal.Direction + 360) % 360;
-            double cacheAzimuth = (bearing - dir + 360) % 360;
-            compassPageViewModal.CacheAngle = cacheAzimuth + dir;
-
-            curCoord.Text = String.Format("{0}° {1:F3}' {2} {3}° {4:F3}' {5}", currentDegreeLat, currentMinuteLat, currentDirectionLat, currentDegreeLon, currentMinuteLon, currentDirectionLon);
-            cacheCoord.Text = String.Format("{0}° {1:F3}' {2} {3}° {4:F3}' {5}", cacheDegreeLat, cacheMinuteLat, cacheDirectionLat, cacheDegreeLon, cacheMinuteLon, cacheDirectionLon);
-            distance.Text = String.Format("{0:F3} km", currentCoordinate.GetDistanceTo(soughtPoint) / 1000);
-            azimuth.Text = String.Format("{0:F1}°", cacheAzimuth);
+            curCoord.Text = String.Format("{0}° {1:F3}' {2} {3}° {4:F3}' {5}", compassPageViewModal.CurrentDegreeLat, compassPageViewModal.CurrentMinuteLat, compassPageViewModal.CurrentDirectionLat, compassPageViewModal.CurrentDegreeLon, compassPageViewModal.CurrentMinuteLon, compassPageViewModal.CurrentDirectionLon);
+            cacheCoord.Text = String.Format("{0}° {1:F3}' {2} {3}° {4:F3}' {5}", compassPageViewModal.CacheDegreeLat, compassPageViewModal.CacheMinuteLat, compassPageViewModal.CacheDirectionLat, compassPageViewModal.CacheDegreeLon, compassPageViewModal.CacheMinuteLon, compassPageViewModal.CacheDirectionLon);
+            distance.Text = String.Format("{0:F3} km", e.Position.Location.GetDistanceTo(soughtPoint) / 1000);
+            azimuth.Text = String.Format("{0:F1}°", compassPageViewModal.Bearing);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -94,6 +58,8 @@ namespace WP_Geocaching.View.Compass
                         {
                             soughtPoint.Latitude = c.Latitude;
                             soughtPoint.Longitude = c.Longitude;
+
+                            compassPageViewModal.SoughtPoint = soughtPoint;
                         }
                     }
                 }
@@ -103,6 +69,8 @@ namespace WP_Geocaching.View.Compass
                     cache = db.GetCache(currentId);
                     soughtPoint.Latitude = cache.Latitude;
                     soughtPoint.Longitude = cache.Longitude;
+
+                    compassPageViewModal.SoughtPoint = soughtPoint;
                 }
             }
         }
