@@ -179,7 +179,7 @@ namespace WP_Geocaching.Model
             {
                 if (e.Error == null)
                 {
-                    ResetPhotoUrls(e.Result);
+                    ResetPreviewUrls(e.Result);
                     processUriList(photoUrls);
                 }
             };
@@ -197,6 +197,30 @@ namespace WP_Geocaching.Model
             for (int i = 0; i < urls.Count; i++)
             {
                 string url = urls[i].Value.Substring(7, urls[i].Value.Length - 8);
+
+                if (url.EndsWith(".jpg"))
+                {
+                    photoUrls.Add(url);
+                }
+            }
+        }
+
+        private void ResetPreviewUrls(string htmlPhotoUrls)
+        {
+            string url = "";
+            photoUrls = new List<string>();
+            string sPattern = "\\s*(?i)src\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
+            MatchCollection urls = Regex.Matches(htmlPhotoUrls, sPattern);
+            for (int i = 0; i < urls.Count; i++)
+            {
+                if (urls[i].Value.EndsWith("\""))
+                {
+                    url = urls[i].Value.Substring(6, urls[i].Value.Length - 7);
+                }
+                else
+                {
+                    url = urls[i].Value.Substring(5, urls[i].Value.Length - 5);
+                }
 
                 if (url.EndsWith(".jpg"))
                 {
@@ -238,8 +262,15 @@ namespace WP_Geocaching.Model
                     Byte[] buffer = new Byte[e.Result.Length];
                     WriteableBitmap writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
                     Image image = new Image();
-                    image.Width = 150;
                     image.Source = writableBitmap;
+                    if (writableBitmap.PixelWidth >= writableBitmap.PixelHeight)
+                    {
+                        image.Width = 150;
+                    }
+                    else
+                    {
+                        image.Height = 150;
+                    }
                     process(image);
                 }
             };
