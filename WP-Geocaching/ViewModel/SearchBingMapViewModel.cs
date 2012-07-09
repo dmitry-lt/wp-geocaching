@@ -26,7 +26,11 @@ namespace WP_Geocaching.ViewModel
 {
     public class SearchBingMapViewModel : BaseMapViewModel
     {
-        private static const int MaxLongitude = 180;
+        private static int MinLatitude = -90;
+        private static int MaxLatitude = 90;		
+	    private static int MinLongitude = -180;		
+	    private static int MaxLongitude = 180;
+
         private bool isFirstSettingView;
         private GeoCoordinateWatcher watcher;
         private int zoom;
