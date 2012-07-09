@@ -234,18 +234,5 @@ namespace WP_Geocaching.ViewModel
             }
             return SoughtCache.Location;
         }
-        /*
-        public GeoCoordinate GetPointCoordinates()
-        {
-            foreach (CachePushpin c in CachePushpins)
-            {
-                var subtype = (Cache.Subtypes)c.IconUri[1];
-                if ((subtype == Cache.Subtypes.ActiveCheckpoint))
-                {
-                    return new GeoCoordinate(c.Location.Latitude, c.Location.Longitude);
-                }
-            }
-            return new GeoCoordinate(SoughtCache.Location.Latitude, SoughtCache.Location.Longitude);
-        }*/
     }
 }
