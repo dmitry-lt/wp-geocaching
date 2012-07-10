@@ -22,6 +22,7 @@ namespace WP_Geocaching.View
     public partial class SearchBingMap : PhoneApplicationPage
     {
         SearchBingMapViewModel searchBingMapViewModel;
+
         public SearchBingMap()
         {
             InitializeComponent();
@@ -45,15 +46,23 @@ namespace WP_Geocaching.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            SmoothCompassManager.Instance.AddSubscriber(searchBingMapViewModel);
+
             if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
             {
                 int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
                 searchBingMapViewModel.SoughtCache = GeocahingSuApiManager.Instance.GetCacheById(cacheId);
             }
+
             if (e.NavigationMode == System.Windows.Navigation.NavigationMode.Back)
             {
                 searchBingMapViewModel.UpdateMapChildrens();
             }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            SmoothCompassManager.Instance.RemoveSubscriber(searchBingMapViewModel);
         }
 
         private void SetSetAllButton()

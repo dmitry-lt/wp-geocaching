@@ -21,10 +21,11 @@ using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
 using WP_Geocaching.Model.DataBase;
+using WP_Geocaching.View.Compass;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class SearchBingMapViewModel : BaseMapViewModel
+    public class SearchBingMapViewModel : BaseMapViewModel, ICompassView
     {
         private const int MinLatitude = -90;
         private const int MaxLatitude = 90;
@@ -163,6 +164,12 @@ namespace WP_Geocaching.ViewModel
             }
             UpdateToSetData(CurrentLocation, northwest, southeast);
             setView(new LocationRect(northwest.Latitude, northwest.Longitude, southeast.Latitude, southeast.Longitude));
+        }
+
+        public void SetDirection(double direction)
+        {   
+            double northDirection = -direction;
+            Direction = (360 - northDirection) % 360;
         }
 
         private void UpdateToSetData(GeoCoordinate coordinate, GeoCoordinate northwest, GeoCoordinate southeast)
