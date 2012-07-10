@@ -35,7 +35,7 @@
 
         <!--ContentPanel – поместите здесь дополнительное содержимое-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Grid.Column="0">
-            <views:CompassView x:Name="CompassView" Loaded="LayoutRootLoaded" Unloaded="LayoutRootUnloaded"/>
+            <views:CompassView x:Name="CompassView" Margin="0" />
             <TextBlock Height="30" HorizontalAlignment="Left"  Margin="26,0,0,16" Name="curCoord" Text="" VerticalAlignment="Bottom" FontSize="26" />
             <TextBlock Height="30" HorizontalAlignment="Left"  Margin="26,601,0,0" Name="cacheCoord" Text="" VerticalAlignment="Top"  FontSize="26" />
             <TextBlock Height="30" HorizontalAlignment="Left"  Margin="26,565,0,0" Name="distance" Text="" VerticalAlignment="Top" FontSize="26" />

@@ -44,18 +44,16 @@ namespace WP_Geocaching.Model
         public void AddSubscriber(ICompassView compassView)
         {
             subscribers.Add(compassView);
+
+            this.Start();
         }
 
         public void RemoveSubscriber(ICompassView compassView)
         {
-            foreach (ICompassView c in subscribers)
-            {
-                if (c == compassView)
-                {
-                    subscribers.Remove(c);
-                    return;
-                }
-            }
+            subscribers.Remove(compassView);
+
+            if (subscribers.Count == 0)
+                this.Stop();
         }
 
         private SmoothCompassManager()
@@ -97,7 +95,7 @@ namespace WP_Geocaching.Model
             timer.Interval = TimeSpan.FromMilliseconds(isArrived ? LongSleep : DefaultSleep);
         }
 
-        public void Start()
+        private void Start()
         {
             if (!Compass.IsSupported)
             {
@@ -147,7 +145,7 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public void Stop()
+        private void Stop()
         {
             if (!Compass.IsSupported)
             {
