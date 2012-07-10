@@ -10,7 +10,7 @@ namespace WP_Geocaching.ViewModel
 {
     public class CompassPageViewModal : BaseViewModel, ICompassView
     {
-        private readonly SmoothCompassManager smoothCompassManager;
+        //private readonly SmoothCompassManager smoothCompassManager;
         private double _northDirection;
         private double _cacheAngle;
 
@@ -66,7 +66,8 @@ namespace WP_Geocaching.ViewModel
 
         public CompassPageViewModal()
         {
-            smoothCompassManager = new SmoothCompassManager(this);
+            //smoothCompassManager = new SmoothCompassManager(this);
+            SmoothCompassManager.Instance.AddSubscriber(this);
         }
 
         private DateTime time;
@@ -80,12 +81,14 @@ namespace WP_Geocaching.ViewModel
 
         public void Start()
         {
-            smoothCompassManager.Start();
+            //smoothCompassManager.Start();
+            SmoothCompassManager.Instance.Start();
         }
 
         public void Stop()
         {
-            smoothCompassManager.Stop();
+            //smoothCompassManager.Stop();
+            SmoothCompassManager.Instance.Stop();
         }
 
         public void CalculateBearing(GeoCoordinate currentCoordinate)
