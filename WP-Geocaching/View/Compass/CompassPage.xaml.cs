@@ -39,6 +39,7 @@ namespace WP_Geocaching.View.Compass
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            SmoothCompassManager.Instance.AddSubscriber(compassPageViewModal);
             int currentId = Convert.ToInt32(NavigationContext.QueryString["CurrentId"]);
             int checkpointId = Convert.ToInt32(NavigationContext.QueryString["CheckpointId"]);
 
@@ -75,16 +76,9 @@ namespace WP_Geocaching.View.Compass
             }
         }
 
-        private void LayoutRootLoaded(object sender, RoutedEventArgs e)
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            compassPageViewModal.Start();
-        }
-
-        //TODO: don't called on win-button click
-        private void LayoutRootUnloaded(object sender, RoutedEventArgs e)
-        {
-            // Stop data acquisition from the compass.
-            compassPageViewModal.Stop();
+            SmoothCompassManager.Instance.RemoveSubscriber(compassPageViewModal);
         }
     }
 }
