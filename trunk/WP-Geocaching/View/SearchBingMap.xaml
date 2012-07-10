@@ -43,8 +43,8 @@
                         <ControlTemplate>
                             <ContentPresenter Width="48">
                                 <ContentPresenter.RenderTransform>
-                                    <CompositeTransform TranslateX="-24"
-                                                TranslateY="17"/>
+                                    <CompositeTransform TranslateX="-25"
+                                                TranslateY="25"/>
                                 </ContentPresenter.RenderTransform>
                             </ContentPresenter>
                         </ControlTemplate>
@@ -99,16 +99,15 @@
                     </Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                 </Microsoft_Phone_Controls_Maps:MapItemsControl>
 
-                <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding CurrentLocation, Mode=TwoWay}"
+                  <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding CurrentLocation, Mode=TwoWay}"
                                                                    Style="{StaticResource ArrowStyle}"
                                                                    >
-                    <!--  <Image Source="/Resources/Icons/ic_arrow.png" /> -->
                        <Image Source="/Resources/Icons/ic_arrow.png" >
                         <Image.RenderTransform>
-                            <RotateTransform Angle="{Binding Direction, Mode=OneWay}" CenterX="16" CenterY="16" />
+                            <RotateTransform Angle="{Binding Direction, Mode=OneWay}" CenterX="24" CenterY="24" />
                         </Image.RenderTransform>
-                       </Image> 
-                </Microsoft_Phone_Controls_Maps:Pushpin>
+                       </Image>
+                 </Microsoft_Phone_Controls_Maps:Pushpin>
 
                 <Border Background="{StaticResource PhoneChromeBrush}" 
                 Opacity="0.7" VerticalAlignment="Bottom" 
