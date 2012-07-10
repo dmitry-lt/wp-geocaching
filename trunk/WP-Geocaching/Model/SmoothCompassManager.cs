@@ -45,7 +45,8 @@ namespace WP_Geocaching.Model
         {
             subscribers.Add(compassView);
 
-            this.Start();
+            if (subscribers.Count == 1)
+                this.Start();
         }
 
         public void RemoveSubscriber(ICompassView compassView)

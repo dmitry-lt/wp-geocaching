@@ -23,8 +23,6 @@ namespace WP_Geocaching.ViewModel
         protected GeoCoordinate currentLocation;
         protected Visibility undetectedLocationMessageVisibility = Visibility.Collapsed;
         protected double direction;
-        protected double x;
-        protected double y;
 
         public virtual int Zoom { get; set; }
         public virtual ObservableCollection<CachePushpin> CachePushpins { get; set; }
@@ -39,32 +37,6 @@ namespace WP_Geocaching.ViewModel
             {
                 direction = value;
                 NotifyPropertyChanged("Direction");
-            }
-        }
-
-        public double X
-        {
-            get
-            {
-                return this.x;
-            }
-            set
-            {
-                x = value;
-                NotifyPropertyChanged("X");
-            }
-        }
-
-        public double Y
-        {
-            get
-            {
-                return this.y;
-            }
-            set
-            {
-                y = value;
-                NotifyPropertyChanged("Y");
             }
         }
 
