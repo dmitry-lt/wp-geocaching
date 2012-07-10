@@ -3,6 +3,7 @@ using WP_Geocaching.View.Compass;
 using Microsoft.Devices.Sensors;
 using WP_Geocaching.Model.Utils;
 using System.Windows.Threading;
+using System.Collections.Generic;
 
 namespace WP_Geocaching.Model
 {
@@ -15,7 +16,6 @@ namespace WP_Geocaching.Model
         private const float LeavedEps = 2.5f;
         private const float SpeedEps = 0.55f;
 
-        private readonly ICompassView compassView;
         private readonly Compass compass;
         private readonly DispatcherTimer timer;
 
@@ -23,12 +23,44 @@ namespace WP_Geocaching.Model
         private double needleDirection;
         private double speed;
 
+        private List<ICompassView> subscribers = new List<ICompassView>();
+
         private bool isArrived; // The needle has not arrived the goalDirection
 
-        public SmoothCompassManager(ICompassView compassView)
-        {
-            this.compassView = compassView;
+        private static SmoothCompassManager instance;
 
+        public static SmoothCompassManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new SmoothCompassManager();
+                }
+                return instance;
+            }
+        }
+
+        public void AddSubscriber(ICompassView compassView)
+        {
+            subscribers.Add(compassView);
+        }
+
+        public void RemoveSubscriber(ICompassView compassView)
+        {
+            foreach (ICompassView c in subscribers)
+            {
+                if (c == compassView)
+                {
+                    subscribers.Remove(c);
+                    return;
+                }
+            }
+        }
+
+        private SmoothCompassManager()
+        {
+            //this.compassView = compassView;
             if (!Compass.IsSupported)
             {
                 //TODO: show something
@@ -53,7 +85,9 @@ namespace WP_Geocaching.Model
                 double difference = CompassHelper.CalculateNormalDifference(needleDirection, goalDirection);
                 speed = CalculateSpeed(difference, speed);
                 needleDirection = needleDirection + speed;
-                compassView.SetDirection(needleDirection);
+
+                foreach (ICompassView c in subscribers)
+                    c.SetDirection(needleDirection);
             }
             else
             {
@@ -79,7 +113,6 @@ namespace WP_Geocaching.Model
             {
                 //TODO: show message
             }
-
         }
 
         private void CompassCurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)
@@ -93,7 +126,6 @@ namespace WP_Geocaching.Model
 
             goalDirection = newDirection;
         }
-
 
         private double CalculateSpeed(double difference, double oldSpeed)
         {
@@ -121,9 +153,9 @@ namespace WP_Geocaching.Model
             {
                 return;
             }
+
             compass.Stop();
             timer.Stop();
         }
-
     }
 }
