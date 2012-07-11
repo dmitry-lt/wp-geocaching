@@ -88,7 +88,6 @@
     <Compile Include="Model\LogManager.cs" />
     <Compile Include="Model\NavigationManager.cs" />
     <Compile Include="Model\FileStorageHelper.cs" />
-    <Compile Include="Model\PreviewImage.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="Model\SmoothCompassManager.cs" />
     <Compile Include="Model\ThreePhotos.cs" />

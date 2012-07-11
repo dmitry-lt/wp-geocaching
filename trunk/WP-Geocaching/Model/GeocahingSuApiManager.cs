@@ -251,7 +251,7 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public void LoadPhoto(string photoUrl, Action<Image> process)
+        public void LoadPhoto(string photoUrl, Action<ImageSource> process)
         {
             var photoUri = new Uri(photoUrl);
             var webClient = new WebClient();
@@ -261,43 +261,7 @@ namespace WP_Geocaching.Model
                 {
                     byte[] buffer = new byte[e.Result.Length];
                     WriteableBitmap writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
-                    Image image = new Image();
-                    image.Source = writableBitmap;
-                    if (writableBitmap.PixelWidth >= writableBitmap.PixelHeight)
-                    {
-                        image.Width = 150;
-                    }
-                    else
-                    {
-                        image.Height = 150;
-                    }
-                    process(image);
-                }
-            };
-            webClient.OpenReadAsync(photoUri);
-        }
-
-        public void LoadPhoto(string photoUrl, Action<PreviewImage> process)
-        {
-            var photoUri = new Uri(photoUrl);
-            var webClient = new WebClient();
-            webClient.OpenReadCompleted += (sender, e) =>
-            {
-                if (e.Error == null)
-                {
-                    byte[] buffer = new byte[e.Result.Length];
-                    WriteableBitmap writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
-                    PreviewImage image = new PreviewImage();
-                    image.Source = writableBitmap;
-                    if (writableBitmap.PixelWidth >= writableBitmap.PixelHeight)
-                    {
-                        image.Width = 120;
-                    }
-                    else
-                    {
-                        image.Height = 120;
-                    }
-                    process(image);
+                    process(writableBitmap);
                 }
             };
             webClient.OpenReadAsync(photoUri);

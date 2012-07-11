@@ -8,12 +8,23 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
-    
+
     <Grid x:Name="LayoutRoot">
-        <StackPanel Width="370" Margin="10,0,0,0">
-            <Image Source="{Binding FirstPhoto.Source}" Height="{Binding Path=FirstPhoto.Height}" Width="{Binding Path=FirstPhoto.Width}"/>
-            <Image Source="{Binding SecondPhoto.Source}" Height="{Binding SecondPhoto.Height}" Width="{Binding SecondPhoto.Width}"/>
-            <Image Source="{Binding ThirdPhoto.Source}" Height="{Binding ThirdPhoto.Height}" Width="{Binding ThirdPhoto.Width}"/>
-        </StackPanel>
+        <Grid.Resources>
+            <Style x:Key="ImageStyle" TargetType="Image">
+                <Setter Property="Height" Value="120"/>
+                <Setter Property="Width" Value="120"/>
+            </Style>
+        </Grid.Resources>
+        <Grid Width="450">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <Image Source="{Binding FirstPhotoSource}" Style="{StaticResource ImageStyle}" HorizontalAlignment="Center" Grid.Column="0"/>
+            <Image Source="{Binding SecondPhotoSource}" Style="{StaticResource ImageStyle}" HorizontalAlignment="Center" Grid.Column="1"/>
+            <Image Source="{Binding ThirdPhotoSource}" Style="{StaticResource ImageStyle}" HorizontalAlignment="Center" Grid.Column="2"/>
+        </Grid>
     </Grid>
 </UserControl>

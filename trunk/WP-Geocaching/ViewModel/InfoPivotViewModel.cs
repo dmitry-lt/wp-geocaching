@@ -61,6 +61,11 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        public void LoadPreviews()
+        {
+            GeocahingSuApiManager.Instance.DownloadPhotos(Cache.Id, ProcessUriList);
+        }
+
         private void ProcessNotebook(string notebook)
         {
             CacheDataBase db = new CacheDataBase();
@@ -83,30 +88,48 @@ namespace WP_Geocaching.ViewModel
             detailsBrowser.NavigateToString(info);
         }
 
+        private int PhotoCount;
+
         public void ProcessUriList(List<string> uriList)
         {
-            for (int i = 0; i < uriList.Count; i++)
+            if (Previews.Count == 0)
             {
-                GeocahingSuApiManager.Instance.LoadPhoto(uriList[i], ProcaessPhoto);
+                PhotoCount = uriList.Count;
+                for (int i = 0; i < PhotoCount; i++)
+                {
+                    GeocahingSuApiManager.Instance.LoadPhoto(uriList[i], ProcaessPhoto);
+                }
             }
         }
 
-        ThreePhotos photos;
-        private void ProcaessPhoto(PreviewImage photo)
+        private ThreePhotos photos;
+
+        private void ProcaessPhoto(ImageSource photo)
         {
             if (photos == null)
             {
                 photos = new ThreePhotos();
                 photos.Add(photo);
+                CheckAndSetThreePhotos();
                 return;
             }
             if (photos.isFull())
             {
                 Previews.Add(photos);
                 photos = new ThreePhotos();
+                photos.Add(photo);
+                CheckAndSetThreePhotos();
                 return;
             }
             photos.Add(photo);
+            CheckAndSetThreePhotos();
+        }
+        private void CheckAndSetThreePhotos()
+        {
+            if ((Previews.Count) * 3 + photos.Count == PhotoCount)
+            {
+                Previews.Add(photos);
+            }
         }
     }
 }
