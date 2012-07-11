@@ -12,6 +12,7 @@ namespace WP_Geocaching.ViewModel
     {
         private double _northDirection;
         private double _cacheAngle;
+        private string _azimuth;
 
         public int CurrentDegreeLat { get; set; }
 
@@ -39,9 +40,17 @@ namespace WP_Geocaching.ViewModel
 
         public double CacheAzimuth { get; set; }
 
-        public double Azimuth { get; set; }
-
         public GeoCoordinate SoughtPoint { get; set; }
+
+        public string Azimuth
+        {
+            get { return _azimuth; }
+            set
+            {
+                _azimuth = value;
+                NotifyPropertyChanged("Azimuth");
+            }
+        }
 
         public double NorthDirection
         {
@@ -68,6 +77,8 @@ namespace WP_Geocaching.ViewModel
         {
             NorthDirection = -direction;
             CacheAngle = NorthDirection + CacheAzimuth;
+            double azimuth = (360 - NorthDirection % 360) % 360;
+            Azimuth = String.Format("{0:F1}°", azimuth);
             Debug.WriteLine("fps " + 1000 / (DateTime.Now - time).Milliseconds);
             time = DateTime.Now;
         }
@@ -92,8 +103,6 @@ namespace WP_Geocaching.ViewModel
             double x = Math.Cos(currentCoordinate.Latitude * Math.PI / 180) * Math.Sin(SoughtPoint.Latitude * Math.PI / 180) -
                 Math.Sin(currentCoordinate.Latitude * Math.PI / 180) * Math.Cos(SoughtPoint.Latitude * Math.PI / 180) * Math.Cos((SoughtPoint.Longitude - currentCoordinate.Longitude) * Math.PI / 180);
             CacheAzimuth = (Math.Atan2(y, x) * 180 / Math.PI + 360) % 360;
-
-            Azimuth = (360 - NorthDirection % 360) % 360;
         }
     }
 }

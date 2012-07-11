@@ -34,7 +34,6 @@ namespace WP_Geocaching.View.Compass
             curCoord.Text = String.Format("{0} {1}° {2:F3}' | {3} {4}° {5:F3}'",compassPageViewModal.CurrentDirectionLat, compassPageViewModal.CurrentDegreeLat, compassPageViewModal.CurrentMinuteLat, compassPageViewModal.CurrentDirectionLon, compassPageViewModal.CurrentDegreeLon, compassPageViewModal.CurrentMinuteLon);
             cacheCoord.Text = String.Format("{0} {1}° {2:F3}' | {3} {4}° {5:F3}'", compassPageViewModal.CacheDirectionLat, compassPageViewModal.CacheDegreeLat, compassPageViewModal.CacheMinuteLat, compassPageViewModal.CacheDirectionLon, compassPageViewModal.CacheDegreeLon, compassPageViewModal.CacheMinuteLon);
             distance.Text = String.Format("{0:F3} km", e.Position.Location.GetDistanceTo(soughtPoint) / 1000);
-            azimuth.Text = String.Format("{0:F1}°", compassPageViewModal.Azimuth);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
