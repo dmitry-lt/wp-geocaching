@@ -217,9 +217,9 @@
     <value>Photos</value>
   </data>
   <data name="NextButton" xml:space="preserve">
-    <value>Next</value>
+    <value>next</value>
   </data>
   <data name="PreviousButton" xml:space="preserve">
-    <value>Previous</value>
+    <value>previous</value>
   </data>
 </root>

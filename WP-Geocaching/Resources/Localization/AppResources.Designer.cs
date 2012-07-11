@@ -250,7 +250,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next.
+        ///   Looks up a localized string similar to next.
         /// </summary>
         public static string NextButton {
             get {
@@ -295,7 +295,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Previous.
+        ///   Looks up a localized string similar to previous.
         /// </summary>
         public static string PreviousButton {
             get {
