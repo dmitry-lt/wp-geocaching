@@ -88,47 +88,34 @@ namespace WP_Geocaching.ViewModel
             detailsBrowser.NavigateToString(info);
         }
 
-        private int PhotoCount;
-
         public void ProcessUriList(List<string> uriList)
         {
             if (Previews.Count == 0)
             {
-                PhotoCount = uriList.Count;
-                for (int i = 0; i < PhotoCount; i++)
+                FullPreviews(uriList.Count);
+
+                for (int i = 0; i < uriList.Count; i++)
                 {
-                    GeocahingSuApiManager.Instance.LoadPhoto(uriList[i], ProcaessPhoto, i);
+                    GeocahingSuApiManager.Instance.LoadPhoto(uriList[i], ProcessPhoto, i);
                 }
             }
         }
 
-        private ThreePhotos photos;
-
-        private void ProcaessPhoto(ImageSource photo, int index)
+        private void ProcessPhoto(ImageSource photo, int index)
         {
-            if (photos == null)
-            {
-                photos = new ThreePhotos();
-                photos.Add(photo, index);
-                CheckAndSetThreePhotos();
-                return;
-            }
-            if (photos.isFull())
-            {
-                Previews.Add(photos);
-                photos = new ThreePhotos();
-                photos.Add(photo, index);
-                CheckAndSetThreePhotos();
-                return;
-            }
-            photos.Add(photo, index);
-            CheckAndSetThreePhotos();
+            Previews[index / 3].Add(photo, index);
         }
-        private void CheckAndSetThreePhotos()
+
+        private void FullPreviews(int count)
         {
-            if ((Previews.Count) * 3 + photos.Count == PhotoCount)
+            for (int i = 0; i < count / 3; i++)
             {
-                Previews.Add(photos);
+                Previews.Add(new ThreePhotos());
+            }
+
+            if (count % 3 != 0)
+            {
+                Previews.Add(new ThreePhotos());
             }
         }
     }

@@ -217,9 +217,9 @@
     <value>Фотографии</value>
   </data>
   <data name="NextButton" xml:space="preserve">
-    <value>Седующая</value>
+    <value>вперед</value>
   </data>
   <data name="PreviousButton" xml:space="preserve">
-    <value>Предыдущая</value>
+    <value>назад</value>
   </data>
 </root>
