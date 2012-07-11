@@ -118,7 +118,7 @@ namespace WP_Geocaching.View
                 }
             }
 
-            NavigationManager.Instance.NavigateByCompass(cacheId, checkpointId);
+            NavigationManager.Instance.NavigateToCompass(cacheId, checkpointId);
         }
 
         private void ShowAll_Click(object sender, EventArgs e)
