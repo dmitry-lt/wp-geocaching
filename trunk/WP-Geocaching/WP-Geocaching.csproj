@@ -88,8 +88,10 @@
     <Compile Include="Model\LogManager.cs" />
     <Compile Include="Model\NavigationManager.cs" />
     <Compile Include="Model\FileStorageHelper.cs" />
+    <Compile Include="Model\PreviewImage.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="Model\SmoothCompassManager.cs" />
+    <Compile Include="Model\ThreePhotos.cs" />
     <Compile Include="Model\Utils\CompassHelper.cs" />
     <Compile Include="Model\Utils\CP1251Encoding.cs" />
     <Compile Include="Model\Utils\Sexagesimal.cs" />
@@ -166,6 +168,12 @@
     <Compile Include="View\Info\InfoPivot.xaml.cs">
       <DependentUpon>InfoPivot.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Info\PhotoPage.xaml.cs">
+      <DependentUpon>PhotoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Info\ThreePhotoItem.xaml.cs">
+      <DependentUpon>ThreePhotoItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SearchBingMap.xaml.cs">
       <DependentUpon>SearchBingMap.xaml</DependentUpon>
     </Compile>
@@ -216,6 +224,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Info\InfoPivot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Info\PhotoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Info\ThreePhotoItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

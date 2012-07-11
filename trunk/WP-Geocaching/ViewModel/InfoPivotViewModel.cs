@@ -9,6 +9,8 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
 
@@ -22,6 +24,12 @@ namespace WP_Geocaching.ViewModel
         public string Details { get; set; }
         public string Notebook { get; set; }
         public Cache Cache { get; set; }
+        public ObservableCollection<ThreePhotos> Previews { get; set; }
+
+        public InfoPivotViewModel()
+        {
+            Previews = new ObservableCollection<ThreePhotos>();
+        }
 
         public void LoadNotebookPivotItem(WebBrowser notebookBrowser)
         {
@@ -73,6 +81,32 @@ namespace WP_Geocaching.ViewModel
                 db.UpdateCacheInfo(info, Cache.Id);
             }
             detailsBrowser.NavigateToString(info);
+        }
+
+        public void ProcessUriList(List<string> uriList)
+        {
+            for (int i = 0; i < uriList.Count; i++)
+            {
+                GeocahingSuApiManager.Instance.LoadPhoto(uriList[i], ProcaessPhoto);
+            }
+        }
+
+        ThreePhotos photos;
+        private void ProcaessPhoto(PreviewImage photo)
+        {
+            if (photos == null)
+            {
+                photos = new ThreePhotos();
+                photos.Add(photo);
+                return;
+            }
+            if (photos.isFull())
+            {
+                Previews.Add(photos);
+                photos = new ThreePhotos();
+                return;
+            }
+            photos.Add(photo);
         }
     }
 }

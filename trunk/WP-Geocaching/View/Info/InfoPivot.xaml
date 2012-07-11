@@ -7,6 +7,7 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:item="clr-namespace:WP_Geocaching.View.Info"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -42,7 +43,7 @@
                         </Grid>
                     </controls:PivotItem.Header>
                     <Grid Grid.Row="1" Margin="0,0,0,0">
-                         <phone:WebBrowser x:Name="DetailsBrowser" Margin="12,0,12,0" Grid.Row="1"/>
+                        <phone:WebBrowser x:Name="DetailsBrowser" Margin="12,0,12,0" Grid.Row="1"/>
                     </Grid>
                 </controls:PivotItem>
 
@@ -66,15 +67,24 @@
                         </Grid>
                     </controls:PivotItem.Header>
                     <Grid x:Name="PhotoGrid" Grid.Row="1" Margin="0,0,0,0">
+                        <ListBox Margin="0,0,0,0" 
+                                 x:Name="List"
+                                 ItemsSource="{Binding Previews, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:Name="ItemTemplate">
+                                    <item:ThreePhotoItem/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                 </controls:PivotItem>
             </controls:Pivot>
         </Grid>
     </Grid>
 
-    
+
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True"/>
     </phone:PhoneApplicationPage.ApplicationBar>
-    
+
 </phone:PhoneApplicationPage>

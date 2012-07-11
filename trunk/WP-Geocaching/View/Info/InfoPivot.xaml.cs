@@ -56,10 +56,10 @@ namespace WP_Geocaching.View.Info
 
             if (e.AddedItems.Contains(PhotosPivotItem))
             {
-                if (PhotoGrid.Children.Count == 0)
-                {
-                    GeocahingSuApiManager.Instance.DownloadPhotos(infoPivotViewModel.Cache.Id, ProcessUriList);
-                }
+                //if (PhotoGrid.Children.Count == 0)
+                //{
+                    GeocahingSuApiManager.Instance.DownloadPhotos(infoPivotViewModel.Cache.Id, infoPivotViewModel.ProcessUriList);
+                //}
             }
         }
 

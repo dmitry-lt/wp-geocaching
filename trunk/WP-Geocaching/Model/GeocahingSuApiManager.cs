@@ -259,7 +259,7 @@ namespace WP_Geocaching.Model
             {
                 if (e.Error == null)
                 {
-                    Byte[] buffer = new Byte[e.Result.Length];
+                    byte[] buffer = new byte[e.Result.Length];
                     WriteableBitmap writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
                     Image image = new Image();
                     image.Source = writableBitmap;
@@ -270,6 +270,32 @@ namespace WP_Geocaching.Model
                     else
                     {
                         image.Height = 150;
+                    }
+                    process(image);
+                }
+            };
+            webClient.OpenReadAsync(photoUri);
+        }
+
+        public void LoadPhoto(string photoUrl, Action<PreviewImage> process)
+        {
+            var photoUri = new Uri(photoUrl);
+            var webClient = new WebClient();
+            webClient.OpenReadCompleted += (sender, e) =>
+            {
+                if (e.Error == null)
+                {
+                    byte[] buffer = new byte[e.Result.Length];
+                    WriteableBitmap writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
+                    PreviewImage image = new PreviewImage();
+                    image.Source = writableBitmap;
+                    if (writableBitmap.PixelWidth >= writableBitmap.PixelHeight)
+                    {
+                        image.Width = 120;
+                    }
+                    else
+                    {
+                        image.Height = 120;
                     }
                     process(image);
                 }
