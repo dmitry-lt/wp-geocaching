@@ -39,7 +39,7 @@
             <TextBlock HorizontalAlignment="Center" Margin="0,0,0,28" Name="curCoord" Text="" VerticalAlignment="Bottom" FontSize="26" />
             <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" Name="cacheCoord" Text="" VerticalAlignment="Top"  FontSize="26" />
             <TextBlock HorizontalAlignment="Left" Margin="40,60,0,0" Name="distance" Text="" VerticalAlignment="Top" FontSize="36" />
-            <TextBlock HorizontalAlignment="Left" Margin="360,60,0,0" Name="azimuth" Text="" VerticalAlignment="Top" FontSize="36" />
+            <TextBlock HorizontalAlignment="Left" Margin="360,60,0,0" Name="azimuth" Text="{Binding Azimuth, Mode=OneWay}" VerticalAlignment="Top" FontSize="36" />
         </Grid>
     </Grid>
 
