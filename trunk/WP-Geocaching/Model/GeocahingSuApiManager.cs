@@ -149,6 +149,7 @@ namespace WP_Geocaching.Model
         }
 
         private List<String> photoUrls;
+        private List<String> photoPreviewUrls;
 
         public void DownloadAndSavePhotos(int cacheId)
         {
@@ -181,7 +182,7 @@ namespace WP_Geocaching.Model
                 {
                     ResetPreviewUrls(e.Result);
                     ResetPhotoUrls(e.Result);
-                    processUriList(photoUrls);
+                    processUriList(photoPreviewUrls);
                 }
             };
 
@@ -209,7 +210,7 @@ namespace WP_Geocaching.Model
         private void ResetPreviewUrls(string htmlPhotoUrls)
         {
             string url = "";
-            photoUrls = new List<string>();
+            photoPreviewUrls = new List<string>();
             string sPattern = "\\s*(?i)src\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
             MatchCollection urls = Regex.Matches(htmlPhotoUrls, sPattern);
             for (int i = 0; i < urls.Count; i++)
@@ -225,7 +226,7 @@ namespace WP_Geocaching.Model
 
                 if (url.EndsWith(".jpg"))
                 {
-                    photoUrls.Add(url);
+                    photoPreviewUrls.Add(url);
                 }
             }
         }
@@ -252,7 +253,7 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public void LoadPhoto(string photoUrl, Action<ImageSource, string> process, int index)
+        public void LoadPhoto(string photoUrl, Action<ImageSource, int> process, int index)
         {
             var photoUri = new Uri(photoUrl);
             var webClient = new WebClient();
@@ -263,15 +264,20 @@ namespace WP_Geocaching.Model
                 {
                     byte[] buffer = new byte[e.Result.Length];
                     WriteableBitmap writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
-                    process(writableBitmap, photoUrls[index]);
+                    process(writableBitmap, index);
                 }
             };
             webClient.OpenReadAsync(photoUri);
         }
 
-        public void LoadFullSizePhoto(Action<ImageSource> process, string photoUrl)
+        public void LoadFullSizePhoto(Action<ImageSource> process, int index)
         {
-            var photoUri = new Uri(photoUrl);
+            index = index % photoUrls.Count;
+            if (index < 0)
+            {
+                index += photoUrls.Count;
+            }
+            var photoUri = new Uri(photoUrls[index]);
             var webClient = new WebClient();
             webClient.OpenReadCompleted += (sender, e) =>
             {

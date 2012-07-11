@@ -15,7 +15,7 @@ namespace WP_Geocaching.Model.Converters
 {
     public class DistanceToPointConverter : IValueConverter
     {
-        private const string IconUri = "≈ {0} {1}";
+        private const string DistanceToPoint = "≈ {0} {1}";
 
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
@@ -30,12 +30,12 @@ namespace WP_Geocaching.Model.Converters
             if (distantion >= 1000)
             {
                 distantion = Math.Round(distantion / 100) / 10;
-                return String.Format(IconUri, distantion, AppResources.Kilometres);
+                return String.Format(DistanceToPoint, distantion, AppResources.Kilometres);
             }
             else
             {
                 distantion = Math.Round(distantion * 10) / 10;
-                return String.Format(IconUri, distantion, AppResources.Metres);
+                return String.Format(DistanceToPoint, distantion, AppResources.Metres);
             }
         }
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

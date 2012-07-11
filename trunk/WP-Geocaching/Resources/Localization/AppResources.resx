@@ -216,4 +216,10 @@
   <data name="PhotosTitle" xml:space="preserve">
     <value>Photos</value>
   </data>
+  <data name="NextButton" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="PreviousButton" xml:space="preserve">
+    <value>Previous</value>
+  </data>
 </root>

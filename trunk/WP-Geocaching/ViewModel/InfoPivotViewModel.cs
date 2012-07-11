@@ -104,12 +104,12 @@ namespace WP_Geocaching.ViewModel
 
         private ThreePhotos photos;
 
-        private void ProcaessPhoto(ImageSource photo, string name)
+        private void ProcaessPhoto(ImageSource photo, int index)
         {
             if (photos == null)
             {
                 photos = new ThreePhotos();
-                photos.Add(photo, name);
+                photos.Add(photo, index);
                 CheckAndSetThreePhotos();
                 return;
             }
@@ -117,11 +117,11 @@ namespace WP_Geocaching.ViewModel
             {
                 Previews.Add(photos);
                 photos = new ThreePhotos();
-                photos.Add(photo, name);
+                photos.Add(photo, index);
                 CheckAndSetThreePhotos();
                 return;
             }
-            photos.Add(photo, name);
+            photos.Add(photo, index);
             CheckAndSetThreePhotos();
         }
         private void CheckAndSetThreePhotos()

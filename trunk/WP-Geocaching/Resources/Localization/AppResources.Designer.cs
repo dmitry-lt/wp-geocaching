@@ -250,6 +250,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string NextButton {
+            get {
+                return ResourceManager.GetString("NextButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Before searching choose a cache, please.
         /// </summary>
         public static string NoSouhgtCacheMessage {
@@ -282,6 +291,15 @@ namespace WP_Geocaching.Resources.Localization {
         public static string PhotosTitle {
             get {
                 return ResourceManager.GetString("PhotosTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous.
+        /// </summary>
+        public static string PreviousButton {
+            get {
+                return ResourceManager.GetString("PreviousButton", resourceCulture);
             }
         }
         

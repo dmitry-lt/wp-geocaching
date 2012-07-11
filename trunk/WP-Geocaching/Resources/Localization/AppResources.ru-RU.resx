@@ -216,4 +216,10 @@
   <data name="PhotosTitle" xml:space="preserve">
     <value>Фотографии</value>
   </data>
+  <data name="NextButton" xml:space="preserve">
+    <value>Седующая</value>
+  </data>
+  <data name="PreviousButton" xml:space="preserve">
+    <value>Предыдущая</value>
+  </data>
 </root>
