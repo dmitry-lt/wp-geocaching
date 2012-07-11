@@ -15,39 +15,39 @@ namespace WP_Geocaching.Model
     {
         public int Count { get; private set; }
         public ImageSource FirstPhotoSource { get; private set; }
-        public string FirstPhotoName { get; private set; }
+        public int FirstPhotoIndex { get; private set; }
         public ImageSource SecondPhotoSource { get; private set; }
-        public string SecondPhotoName { get; private set; }
+        public int SecondPhotoIndex { get; private set; }
         public ImageSource ThirdPhotoSource { get; private set; }
-        public string ThirdPhotoName { get; private set; }
+        public int ThirdPhotoIndex { get; private set; }
 
         public ThreePhotos()
         {
             Count = 0;
         }
 
-        public void Add(ImageSource imageSource, string name)
+        public void Add(ImageSource imageSource, int index)
         {
             switch (Count)
             {
                 case 0:
                     {
                         FirstPhotoSource = imageSource;
-                        FirstPhotoName = name;
+                        FirstPhotoIndex = index;
                         Count++;
                         return;
                     };
                 case 1:
                     {
                         SecondPhotoSource = imageSource;
-                        SecondPhotoName = name;
+                        SecondPhotoIndex = index;
                         Count++;
                         return;
                     }
                 case 2:
                     {
                         ThirdPhotoSource = imageSource;
-                        ThirdPhotoName = name;
+                        ThirdPhotoIndex = index;
                         Count++;
                         return;
                     }

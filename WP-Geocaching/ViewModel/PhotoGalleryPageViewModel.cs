@@ -16,6 +16,7 @@ namespace WP_Geocaching.ViewModel
     public class PhotoGalleryPageViewModel : BaseViewModel
     {
         private ImageSource imageSource;
+        private int currentIndex;
 
         public ImageSource ImageSource
         {
@@ -30,14 +31,25 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public void LoadFullsizePhoto(string photoUrl)
+        public void LoadFullsizePhoto(int index)
         {
-            GeocahingSuApiManager.Instance.LoadFullSizePhoto(SetImageSource, photoUrl);
+            currentIndex = index;
+            GeocahingSuApiManager.Instance.LoadFullSizePhoto(SetImageSource, index);
         }
 
         public void SetImageSource(ImageSource source)
         {
             ImageSource = source;
+        }
+
+        public void LoadNext()
+        {
+            LoadFullsizePhoto(++currentIndex);
+        }
+
+        public void LoadPrevious()
+        {
+            LoadFullsizePhoto(--currentIndex);
         }
     }
 }
