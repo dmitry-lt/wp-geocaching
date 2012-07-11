@@ -22,9 +22,9 @@
                 <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
-            <Image Source="{Binding FirstPhotoSource}" Style="{StaticResource ImageStyle}" HorizontalAlignment="Center" Grid.Column="0"/>
-            <Image Source="{Binding SecondPhotoSource}" Style="{StaticResource ImageStyle}" HorizontalAlignment="Center" Grid.Column="1"/>
-            <Image Source="{Binding ThirdPhotoSource}" Style="{StaticResource ImageStyle}" HorizontalAlignment="Center" Grid.Column="2"/>
+            <Image Source="{Binding FirstPhotoSource}" Tag="{Binding FirstPhotoName}" Style="{StaticResource ImageStyle}" HorizontalAlignment="Center" Grid.Column="0" Tap="Image_GotFocus"/>
+            <Image Source="{Binding SecondPhotoSource}" Tag="{Binding SecondPhotoName}" Style="{StaticResource ImageStyle}" HorizontalAlignment="Center" Grid.Column="1" Tap="Image_GotFocus"/>
+            <Image Source="{Binding ThirdPhotoSource}" Tag="{Binding ThirdPhotoName}" Style="{StaticResource ImageStyle}" HorizontalAlignment="Center" Grid.Column="2" Tap="Image_GotFocus"/>
         </Grid>
     </Grid>
 </UserControl>

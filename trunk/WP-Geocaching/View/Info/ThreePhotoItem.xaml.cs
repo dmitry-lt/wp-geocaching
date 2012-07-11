@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using WP_Geocaching.Model;
 
 namespace WP_Geocaching.View.Info
 {
@@ -17,6 +18,11 @@ namespace WP_Geocaching.View.Info
         public ThreePhotoItem()
         {
             InitializeComponent();
+        }
+
+        private void Image_GotFocus(object sender, RoutedEventArgs e)
+        {
+            NavigationManager.Instance.NavigateToPhotoGallery((string)(((Image)sender).Tag));
         }
     }
 }

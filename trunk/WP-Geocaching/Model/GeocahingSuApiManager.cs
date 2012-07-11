@@ -180,6 +180,7 @@ namespace WP_Geocaching.Model
                 if (e.Error == null)
                 {
                     ResetPreviewUrls(e.Result);
+                    ResetPhotoUrls(e.Result);
                     processUriList(photoUrls);
                 }
             };
@@ -251,7 +252,24 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public void LoadPhoto(string photoUrl, Action<ImageSource> process)
+        public void LoadPhoto(string photoUrl, Action<ImageSource, string> process, int index)
+        {
+            var photoUri = new Uri(photoUrl);
+            var webClient = new WebClient();
+            var photoName = photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"));
+            webClient.OpenReadCompleted += (sender, e) =>
+            {
+                if (e.Error == null)
+                {
+                    byte[] buffer = new byte[e.Result.Length];
+                    WriteableBitmap writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
+                    process(writableBitmap, photoUrls[index]);
+                }
+            };
+            webClient.OpenReadAsync(photoUri);
+        }
+
+        public void LoadFullSizePhoto(Action<ImageSource> process, string photoUrl)
         {
             var photoUri = new Uri(photoUrl);
             var webClient = new WebClient();
@@ -260,8 +278,7 @@ namespace WP_Geocaching.Model
                 if (e.Error == null)
                 {
                     byte[] buffer = new byte[e.Result.Length];
-                    WriteableBitmap writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
-                    process(writableBitmap);
+                    process(PictureDecoder.DecodeJpeg(e.Result));
                 }
             };
             webClient.OpenReadAsync(photoUri);

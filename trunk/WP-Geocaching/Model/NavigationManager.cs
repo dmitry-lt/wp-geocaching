@@ -83,9 +83,15 @@ namespace WP_Geocaching.Model
         {
             this.Navigate("//View/Notebook.xaml", CurrentId);
         }
-        public void NavigateByCompass(string currentId, string checkpointId)
+
+        public void NavigateToCompass(string currentId, string checkpointId)
         {
             this.Navigate("//View/Compass/CompassPage.xaml", currentId, checkpointId);
+        }
+
+        public void NavigateToPhotoGallery(string photoUrl)
+        {
+            this.Navigate("//View/Info/PhotoGalleryPage.xaml", photoUrl);
         }
     }
 }
