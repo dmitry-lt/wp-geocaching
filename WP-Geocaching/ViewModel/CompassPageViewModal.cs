@@ -93,7 +93,7 @@ namespace WP_Geocaching.ViewModel
                 Math.Sin(currentCoordinate.Latitude * Math.PI / 180) * Math.Cos(SoughtPoint.Latitude * Math.PI / 180) * Math.Cos((SoughtPoint.Longitude - currentCoordinate.Longitude) * Math.PI / 180);
             CacheAzimuth = (Math.Atan2(y, x) * 180 / Math.PI + 360) % 360;
 
-            Azimuth = (360 - NorthDirection) % 360;
+            Azimuth = (360 - NorthDirection % 360) % 360;
         }
     }
 }
