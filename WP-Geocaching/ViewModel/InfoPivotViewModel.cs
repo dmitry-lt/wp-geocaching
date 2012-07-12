@@ -92,11 +92,11 @@ namespace WP_Geocaching.ViewModel
         {
             if (Previews.Count == 0)
             {
-                FullPreviews(uriList.Count);
+                FillPreviews(uriList.Count);
 
                 for (int i = 0; i < uriList.Count; i++)
                 {
-                    GeocahingSuApiManager.Instance.LoadPhoto(uriList[i], ProcessPhoto, i);
+                    GeocahingSuApiManager.Instance.LoadPreviewPhoto(uriList[i], ProcessPhoto, i);
                 }
             }
         }
@@ -106,7 +106,7 @@ namespace WP_Geocaching.ViewModel
             Previews[index / 3].Add(photo, index);
         }
 
-        private void FullPreviews(int count)
+        private void FillPreviews(int count)
         {
             for (int i = 0; i < count / 3; i++)
             {

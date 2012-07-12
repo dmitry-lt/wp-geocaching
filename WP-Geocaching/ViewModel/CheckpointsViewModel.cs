@@ -103,7 +103,7 @@ namespace WP_Geocaching.ViewModel
         public void UpdateDataSource()
         {
             CacheDataBase db = new CacheDataBase();
-            List<DbCheckpointsItem> dbCheckpointsList = db.GetCheckpointsbyCacheId(cacheId);
+            List<DbCheckpointsItem> dbCheckpointsList = db.GetCheckpointsByCacheId(cacheId);
             List<ListCacheItem> newDataSource = new List<ListCacheItem>();
             newDataSource.Add(new ListCacheItem(db.GetCache(cacheId)));
             foreach (DbCheckpointsItem c in dbCheckpointsList)

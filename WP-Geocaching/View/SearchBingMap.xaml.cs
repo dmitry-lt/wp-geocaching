@@ -108,7 +108,7 @@ namespace WP_Geocaching.View
             string checkpointId = id.ToString();
             Model.DataBase.CacheDataBase db = new Model.DataBase.CacheDataBase();
             List<Model.DataBase.DbCheckpointsItem> checkpoints = new List<Model.DataBase.DbCheckpointsItem>();
-            checkpoints = db.GetCheckpointsbyCacheId(Convert.ToInt32(cacheId));
+            checkpoints = db.GetCheckpointsByCacheId(Convert.ToInt32(cacheId));
 
             foreach (Model.DataBase.DbCheckpointsItem c in checkpoints)
             {
