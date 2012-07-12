@@ -50,7 +50,7 @@ namespace WP_Geocaching.View.Compass
                 if (checkpointId != -1)
                 {
                     List<DbCheckpointsItem> checkpoints = new List<DbCheckpointsItem>();
-                    checkpoints = db.GetCheckpointsbyCacheId(currentId);
+                    checkpoints = db.GetCheckpointsByCacheId(currentId);
 
                     foreach (DbCheckpointsItem c in checkpoints)
                     {

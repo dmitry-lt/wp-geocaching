@@ -179,7 +179,7 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        public List<DbCheckpointsItem> GetCheckpointsbyCacheId(int cacheId)
+        public List<DbCheckpointsItem> GetCheckpointsByCacheId(int cacheId)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
@@ -245,6 +245,16 @@ namespace WP_Geocaching.Model.DataBase
             }
 
             return maxId;
+        }
+
+        public bool IsContainsCache(int cacheId)
+        {
+            if (GetCache(cacheId) != null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

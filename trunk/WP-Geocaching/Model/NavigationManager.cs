@@ -89,9 +89,10 @@ namespace WP_Geocaching.Model
             this.Navigate("//View/Compass/CompassPage.xaml", currentId, checkpointId);
         }
 
-        public void NavigateToPhotoGallery(string photoUrl)
+        public void NavigateToPhotoGallery(int index)
         {
-            this.Navigate("//View/Info/PhotoGalleryPage.xaml", photoUrl);
+            PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
+            frame.Navigate(new Uri("//View/Info/PhotoGalleryPage.xaml" + "?Index=" + index, UriKind.RelativeOrAbsolute));
         }
     }
 }

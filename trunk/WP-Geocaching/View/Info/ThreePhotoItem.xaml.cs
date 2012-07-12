@@ -23,7 +23,7 @@ namespace WP_Geocaching.View.Info
         private void Image_GotFocus(object sender, RoutedEventArgs e)
         {
             var index = (int)(((Image)sender).Tag);
-            NavigationManager.Instance.NavigateToPhotoGallery(index.ToString());
+            NavigationManager.Instance.NavigateToPhotoGallery(index);
         }
     }
 }

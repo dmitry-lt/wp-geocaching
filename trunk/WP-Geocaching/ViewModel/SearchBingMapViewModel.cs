@@ -200,7 +200,7 @@ namespace WP_Geocaching.ViewModel
         private void UpdateCachePushpins()
         {
             var db = new CacheDataBase();
-            var dbCheckpointsList = db.GetCheckpointsbyCacheId(MapManager.Instance.CacheId);
+            var dbCheckpointsList = db.GetCheckpointsByCacheId(MapManager.Instance.CacheId);
             var cachePushpins = new ObservableCollection<CachePushpin>();
             cachePushpins.Add(new CachePushpin(SoughtCache));
             foreach (DbCheckpointsItem c in dbCheckpointsList)
