@@ -6,7 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     
+    xmlns:c="clr-namespace:WP_Geocaching.Model.Converters"
     xmlns:views="clr-namespace:WP_Geocaching.View.Compass"
     
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -23,6 +23,11 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Grid.Resources>
+            <c:DistanceToPointConverter x:Key="DistanceToPointConverter"/>
+            <c:CoordinateConverter x:Key="CoordinateConverter"/>
+        </Grid.Resources>
+
         <!--TitlePanel содержит имя приложения и заголовок страницы-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28" Orientation="Horizontal">
             <StackPanel Background="{StaticResource PhoneAccentBrush}">
@@ -36,9 +41,9 @@
         <!--ContentPanel – поместите здесь дополнительное содержимое-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Grid.Column="0">
             <views:CompassView x:Name="CompassView" Margin="0,95,0,0" />
-            <TextBlock HorizontalAlignment="Center" Margin="0,0,0,28" Name="curCoord" Text="" VerticalAlignment="Bottom" FontSize="26" />
-            <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" Name="cacheCoord" Text="" VerticalAlignment="Top"  FontSize="26" />
-            <TextBlock HorizontalAlignment="Left" Margin="40,60,0,0" Name="distance" Text="" VerticalAlignment="Top" FontSize="36" />
+            <TextBlock HorizontalAlignment="Center" Margin="0,0,0,28" Name="currentCoordinate" Text="{Binding CurrentLocation, Mode=OneWay, Converter={StaticResource CoordinateConverter}}" VerticalAlignment="Bottom" FontSize="26" />
+            <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" Name="cacheCoordinate" Text="{Binding SoughtPoint, Mode=OneWay, Converter={StaticResource CoordinateConverter}}" VerticalAlignment="Top"  FontSize="26" />
+            <TextBlock HorizontalAlignment="Left" Margin="40,60,0,0" Name="distanceToCache" Text="{Binding Distance, Mode=OneWay, Converter={StaticResource DistanceToPointConverter}}" VerticalAlignment="Top" FontSize="36" />
             <TextBlock HorizontalAlignment="Left" Margin="360,60,0,0" Name="azimuth" Text="{Binding Azimuth, Mode=OneWay}" VerticalAlignment="Top" FontSize="36" />
         </Grid>
     </Grid>

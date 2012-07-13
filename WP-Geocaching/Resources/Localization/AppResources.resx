@@ -222,4 +222,19 @@
   <data name="PreviousButton" xml:space="preserve">
     <value>previous</value>
   </data>
+  <data name="CoordinateFormat" xml:space="preserve">
+    <value>{2} {0}° {1:F3}' | {5} {3}° {4:F3}'</value>
+  </data>
+  <data name="EastLongitude" xml:space="preserve">
+    <value>E</value>
+  </data>
+  <data name="NorthLatitude" xml:space="preserve">
+    <value>N</value>
+  </data>
+  <data name="SouthLatitude" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="WestLongitude" xml:space="preserve">
+    <value>W</value>
+  </data>
 </root>

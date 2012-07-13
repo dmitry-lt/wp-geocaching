@@ -23,7 +23,7 @@ namespace WP_Geocaching.Model
         private double needleDirection;
         private double speed;
 
-        private List<ICompassView> subscribers = new List<ICompassView>();
+        private List<ICompassAware> subscribers = new List<ICompassAware>();
 
         private bool isArrived; // The needle has not arrived the goalDirection
 
@@ -41,20 +41,27 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public void AddSubscriber(ICompassView compassView)
+        public void AddSubscriber(ICompassAware compassView)
         {
-            subscribers.Add(compassView);
+            if (compassView != null)
+            {
+                subscribers.Add(compassView);
+            }
 
             if (subscribers.Count == 1)
+            {
                 this.Start();
+            }
         }
 
-        public void RemoveSubscriber(ICompassView compassView)
+        public void RemoveSubscriber(ICompassAware compassView)
         {
             subscribers.Remove(compassView);
 
             if (subscribers.Count == 0)
+            {
                 this.Stop();
+            }
         }
 
         private SmoothCompassManager()
@@ -67,11 +74,19 @@ namespace WP_Geocaching.Model
             else
             {
                 // Initialize the timer and add Tick event handler, but don't start it yet.
-                timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(DefaultSleep) };
+                timer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromMilliseconds(DefaultSleep)
+                };
+
                 timer.Tick += TimerTick;
 
                 // Instantiate the compass.
-                compass = new Compass { TimeBetweenUpdates = TimeSpan.FromMilliseconds(DefaultSleep) };
+                compass = new Compass
+                {
+                    TimeBetweenUpdates = TimeSpan.FromMilliseconds(DefaultSleep)
+                };
+
                 compass.CurrentValueChanged += CompassCurrentValueChanged;
             }
         }
@@ -81,12 +96,14 @@ namespace WP_Geocaching.Model
             if (IsNeedPainting())
             {
                 isArrived = false;
-                double difference = CompassHelper.CalculateNormalDifference(needleDirection, goalDirection);
+                var difference = CompassHelper.CalculateNormalDifference(needleDirection, goalDirection);
                 speed = CalculateSpeed(difference, speed);
                 needleDirection = needleDirection + speed;
 
-                foreach (ICompassView c in subscribers)
+                foreach (var c in subscribers)
+                {
                     c.SetDirection(needleDirection);
+                }
             }
             else
             {
@@ -94,6 +111,39 @@ namespace WP_Geocaching.Model
             }
 
             timer.Interval = TimeSpan.FromMilliseconds(isArrived ? LongSleep : DefaultSleep);
+        }
+
+        private void CompassCurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)
+        {
+            double newDirection = e.SensorReading.TrueHeading;
+            double difference = newDirection - goalDirection;
+            difference = CompassHelper.NormalizeAngle(difference);
+
+            newDirection = goalDirection + difference / 4; // TODO extract constant
+            newDirection = CompassHelper.NormalizeAngle(newDirection);
+
+            goalDirection = newDirection;
+        }
+
+        private static double CalculateSpeed(double difference, double oldSpeed)
+        {
+            double newSpeed;
+            newSpeed = oldSpeed * 0.75f;
+            newSpeed += difference / 25.0f;
+
+            return newSpeed;
+        }
+
+        private bool IsNeedPainting()
+        {
+            if (isArrived)
+            {
+                return Math.Abs(needleDirection - goalDirection) > LeavedEps;
+            }
+            else
+            {
+                return Math.Abs(needleDirection - goalDirection) > ArrivedEps ? true : Math.Abs(speed) > SpeedEps;
+            }
         }
 
         private void Start()
@@ -111,38 +161,6 @@ namespace WP_Geocaching.Model
             catch (InvalidOperationException)
             {
                 //TODO: show message
-            }
-        }
-
-        private void CompassCurrentValueChanged(object sender, SensorReadingEventArgs<CompassReading> e)
-        {
-            double newDirection = e.SensorReading.TrueHeading;
-            double difference = newDirection - goalDirection;
-            difference = CompassHelper.NormalizeAngle(difference);
-
-            newDirection = goalDirection + difference / 4; // TODO extract constant
-            newDirection = CompassHelper.NormalizeAngle(newDirection);
-
-            goalDirection = newDirection;
-        }
-
-        private double CalculateSpeed(double difference, double oldSpeed)
-        {
-            oldSpeed = oldSpeed * 0.75f;
-            oldSpeed += difference / 25.0f;
-
-            return oldSpeed;
-        }
-
-        private bool IsNeedPainting()
-        {
-            if (isArrived)
-            {
-                return Math.Abs(needleDirection - goalDirection) > LeavedEps;
-            }
-            else
-            {
-                return Math.Abs(needleDirection - goalDirection) > ArrivedEps || Math.Abs(speed) > SpeedEps;
             }
         }
 

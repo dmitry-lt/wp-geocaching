@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Model\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="Model\Converters\CacheTypeConverter.cs" />
+    <Compile Include="Model\Converters\CoordinateConverter.cs" />
     <Compile Include="Model\Converters\DistanceToPointConverter.cs" />
     <Compile Include="Model\DataBase\DbCacheItem.cs" />
     <Compile Include="Model\DataBase\CacheDataContext.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Model\SmoothCompassManager.cs" />
     <Compile Include="Model\ThreePhotos.cs" />
     <Compile Include="Model\Utils\CompassHelper.cs" />
+    <Compile Include="Model\Utils\LocationHelper.cs" />
     <Compile Include="Model\Utils\CP1251Encoding.cs" />
     <Compile Include="Model\Utils\Sexagesimal.cs" />
     <Compile Include="Model\Utils\SexagesimalSec.cs" />
@@ -158,7 +160,7 @@
     <Compile Include="View\Compass\CompassView.xaml.cs">
       <DependentUpon>CompassView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\ICompassView.cs" />
+    <Compile Include="Model\ICompassAware.cs" />
     <Compile Include="View\Favorites\FavoriteItem.xaml.cs">
       <DependentUpon>FavoriteItem.xaml</DependentUpon>
     </Compile>
@@ -308,17 +310,24 @@
     <EmbeddedResource Include="Resources\Localization\AppResources.ru-RU.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.ru-RU.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localization\CacheSubtypeResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CacheSubtypeResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Localization\CacheSubtypeResources.ru-RU.resx" />
+    <EmbeddedResource Include="Resources\Localization\CacheSubtypeResources.ru-RU.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localization\CacheTypeResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CacheTypeResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Localization\CacheTypeResources.ru-RU.resx" />
+    <EmbeddedResource Include="Resources\Localization\CacheTypeResources.ru-RU.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />

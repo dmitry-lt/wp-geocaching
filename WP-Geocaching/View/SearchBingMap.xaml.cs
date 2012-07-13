@@ -107,14 +107,13 @@ namespace WP_Geocaching.View
             string cacheId = searchBingMapViewModel.SoughtCache.Id.ToString();
             string checkpointId = id.ToString();
             Model.DataBase.CacheDataBase db = new Model.DataBase.CacheDataBase();
-            List<Model.DataBase.DbCheckpointsItem> checkpoints = new List<Model.DataBase.DbCheckpointsItem>();
-            checkpoints = db.GetCheckpointsByCacheId(Convert.ToInt32(cacheId));
-
+            List<Model.DataBase.DbCheckpointsItem> checkpoints = db.GetCheckpointsByCacheId(Convert.ToInt32(cacheId));
             foreach (Model.DataBase.DbCheckpointsItem c in checkpoints)
             {
                 if ((Cache.Subtypes)c.Subtype == Cache.Subtypes.ActiveCheckpoint)
                 {
                     checkpointId = c.Id.ToString();
+                    break;
                 }
             }
 
