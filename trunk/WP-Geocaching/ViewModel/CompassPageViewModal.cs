@@ -5,104 +5,101 @@ using System.Diagnostics;
 using WP_Geocaching.Model;
 using WP_Geocaching.View.Compass;
 using System.Device.Location;
+using WP_Geocaching.Model.Utils;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class CompassPageViewModal : BaseViewModel, ICompassView
+    public class CompassPageViewModal : BaseViewModel, ICompassAware
     {
-        private double _northDirection;
-        private double _cacheAngle;
-        private string _azimuth;
-
-        public int CurrentDegreeLat { get; set; }
-
-        public double CurrentMinuteLat { get; set; }
-
-        public char CurrentDirectionLat { get; set; }
-
-        public int CurrentDegreeLon { get; set; }
-
-        public double CurrentMinuteLon { get; set; }
-
-        public char CurrentDirectionLon { get; set; }
-
-        public int CacheDegreeLat { get; set; }
-
-        public double CacheMinuteLat { get; set; }
-
-        public char CacheDirectionLat { get; set; }
-
-        public int CacheDegreeLon { get; set; }
-
-        public double CacheMinuteLon { get; set; }
-
-        public char CacheDirectionLon { get; set; }
-
-        public double CacheAzimuth { get; set; }
-
-        public GeoCoordinate SoughtPoint { get; set; }
+        private double northDirection;
+        private double cacheDirection;
+        private string azimuth;
+        private double distance;
+        private GeoCoordinate soughtPoint;
+        private GeoCoordinate currentLocation;
+        private double cacheAzimuth;
+        private GeoCoordinateWatcher watcher;
 
         public string Azimuth
         {
-            get { return _azimuth; }
+            get { return azimuth; }
             set
             {
-                _azimuth = value;
+                azimuth = value;
                 NotifyPropertyChanged("Azimuth");
             }
         }
 
         public double NorthDirection
         {
-            get { return _northDirection; }
+            get { return northDirection; }
             set
             {
-                _northDirection = value;
+                northDirection = value;
                 NotifyPropertyChanged("NorthDirection");
             }
         }
 
-        public double CacheAngle
+        public double CacheDirection
         {
-            get { return _cacheAngle; }
+            get { return cacheDirection; }
             set
             {
-                _cacheAngle = value;
-                NotifyPropertyChanged("CacheAngle");
+                cacheDirection = value;
+                NotifyPropertyChanged("CacheDirection");
             }
         }
 
-        private DateTime time;
+        public double Distance
+        {
+            get { return distance; }
+            set
+            {
+                distance = value;
+                NotifyPropertyChanged("Distance");
+            }
+        }
+
+        public GeoCoordinate CurrentLocation
+        {
+            get { return currentLocation; }
+            set
+            {
+                currentLocation = value;
+                NotifyPropertyChanged("CurrentLocation");
+            }
+        }
+
+        public GeoCoordinate SoughtPoint
+        {
+            get { return soughtPoint; }
+            set
+            {
+                soughtPoint = value;
+                NotifyPropertyChanged("SoughtPoint");
+            }
+        }
+
+        public CompassPageViewModal()
+        {
+            watcher = new GeoCoordinateWatcher();
+            watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(PositionChanged);
+            watcher.Start();
+        }
+
         public void SetDirection(double direction)
         {
             NorthDirection = -direction;
-            CacheAngle = NorthDirection + CacheAzimuth;
+            CacheDirection = NorthDirection + cacheAzimuth;
             double azimuth = (360 - NorthDirection % 360) % 360;
             Azimuth = String.Format("{0:F1}°", azimuth);
-            Debug.WriteLine("fps " + 1000 / (DateTime.Now - time).Milliseconds);
-            time = DateTime.Now;
         }
 
-        public void CalculateBearing(GeoCoordinate currentCoordinate)
+        private void PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            CurrentDirectionLat = currentCoordinate.Latitude > 0 ? 'N' : 'S';
-            CurrentDegreeLat = Math.Abs((int)currentCoordinate.Latitude);
-            CurrentMinuteLat = (Math.Abs(currentCoordinate.Latitude) - Math.Abs((int)currentCoordinate.Latitude)) * 60;
-            CurrentDirectionLon = currentCoordinate.Longitude > 0 ? 'E' : 'W';
-            CurrentDegreeLon = Math.Abs((int)currentCoordinate.Longitude);
-            CurrentMinuteLon = (Math.Abs(currentCoordinate.Longitude) - Math.Abs((int)currentCoordinate.Longitude)) * 60;
-
-            CacheDirectionLat = SoughtPoint.Latitude > 0 ? 'N' : 'S';
-            CacheDegreeLat = Math.Abs((int)SoughtPoint.Latitude);
-            CacheMinuteLat = (Math.Abs(SoughtPoint.Latitude) - Math.Abs((int)SoughtPoint.Latitude)) * 60;
-            CacheDirectionLon = SoughtPoint.Longitude > 0 ? 'E' : 'W';
-            CacheDegreeLon = Math.Abs((int)SoughtPoint.Longitude);
-            CacheMinuteLon = (Math.Abs(SoughtPoint.Longitude) - Math.Abs((int)SoughtPoint.Longitude)) * 60;
-
-            double y = Math.Sin((SoughtPoint.Longitude - currentCoordinate.Longitude) * Math.PI / 180) * Math.Cos(SoughtPoint.Latitude * Math.PI / 180);
-            double x = Math.Cos(currentCoordinate.Latitude * Math.PI / 180) * Math.Sin(SoughtPoint.Latitude * Math.PI / 180) -
-                Math.Sin(currentCoordinate.Latitude * Math.PI / 180) * Math.Cos(SoughtPoint.Latitude * Math.PI / 180) * Math.Cos((SoughtPoint.Longitude - currentCoordinate.Longitude) * Math.PI / 180);
-            CacheAzimuth = (Math.Atan2(y, x) * 180 / Math.PI + 360) % 360;
+            CurrentLocation = e.Position.Location;
+            Distance = e.Position.Location.GetDistanceTo(SoughtPoint);
+            cacheAzimuth = LocationHelper.CacheAzimuth(CurrentLocation, SoughtPoint);
         }
     }
 }

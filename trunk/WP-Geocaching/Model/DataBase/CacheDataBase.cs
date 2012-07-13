@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Generic;
 using WP_Geocaching.Resources.Localization;
+using System.Device.Location;
 
 namespace WP_Geocaching.Model.DataBase
 {
@@ -81,7 +82,7 @@ namespace WP_Geocaching.Model.DataBase
                 newItem.Longitude = longitude;
                 newItem.Type = (int)Cache.Types.Checkpoint;
                 newItem.Subtype = (int)Cache.Subtypes.ActiveCheckpoint;
-                
+
                 db.Checkpoints.InsertOnSubmit(newItem);
                 db.SubmitChanges();
             }
@@ -185,6 +186,15 @@ namespace WP_Geocaching.Model.DataBase
             {
                 var query = GetCheckpointsQueryByCacheId(db.Checkpoints, cacheId);
                 return query.ToList();
+            }
+        }
+
+        public DbCheckpointsItem GetCheckpointByCacheIdAndCheckpointId(int cacheId, int checkpointId)
+        {
+            using (var db = new CacheDataContext(ConnectionString))
+            {
+                var query = GetCheckpointQuery(db.Checkpoints, cacheId, checkpointId);
+                return query.FirstOrDefault();
             }
         }
 

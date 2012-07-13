@@ -142,6 +142,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {2} {0}° {1:F3}&apos; | {5} {3}° {4:F3}&apos;.
+        /// </summary>
+        public static string CoordinateFormat {
+            get {
+                return ResourceManager.GetString("CoordinateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to dd°,mm.mmm&apos;.
         /// </summary>
         public static string Coordinates {
@@ -192,6 +201,15 @@ namespace WP_Geocaching.Resources.Localization {
         public static string DetailsTitle {
             get {
                 return ResourceManager.GetString("DetailsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E.
+        /// </summary>
+        public static string EastLongitude {
+            get {
+                return ResourceManager.GetString("EastLongitude", resourceCulture);
             }
         }
         
@@ -259,7 +277,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Before searching choose a cache, please.
+        ///   Looks up a localized string similar to N.
+        /// </summary>
+        public static string NorthLatitude {
+            get {
+                return ResourceManager.GetString("NorthLatitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>        ///   Looks up a localized string similar to Before searching choose a cache, please.
         /// </summary>
         public static string NoSouhgtCacheMessage {
             get {
@@ -349,6 +375,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to S.
+        /// </summary>
+        public static string SouthLatitude {
+            get {
+                return ResourceManager.GetString("SouthLatitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subtype:.
         /// </summary>
         public static string Subtype {
@@ -372,6 +407,15 @@ namespace WP_Geocaching.Resources.Localization {
         public static string UndetectedLocationMessage {
             get {
                 return ResourceManager.GetString("UndetectedLocationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to W.
+        /// </summary>
+        public static string WestLongitude {
+            get {
+                return ResourceManager.GetString("WestLongitude", resourceCulture);
             }
         }
     }

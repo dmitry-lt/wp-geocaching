@@ -25,7 +25,7 @@ using WP_Geocaching.View.Compass;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class SearchBingMapViewModel : BaseMapViewModel, ICompassView
+    public class SearchBingMapViewModel : BaseMapViewModel, ICompassAware
     {
         private const int MinLatitude = -90;
         private const int MaxLatitude = 90;
