@@ -277,6 +277,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You haven&apos;t chosen any favorite caches yet.
+        /// </summary>
+        public static string NoFavoriteCachesMessage {
+            get {
+                return ResourceManager.GetString("NoFavoriteCachesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to N.
         /// </summary>
         public static string NorthLatitude {
@@ -286,8 +295,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please choose a cache to search first.
-        /// </summary>
+        ///   Looks up a localized string similar to Please choose a cache to search first.        /// </summary>
         public static string NoSouhgtCacheMessage {
             get {
                 return ResourceManager.GetString("NoSouhgtCacheMessage", resourceCulture);

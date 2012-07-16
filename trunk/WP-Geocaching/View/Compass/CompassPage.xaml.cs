@@ -24,6 +24,7 @@ namespace WP_Geocaching.View.Compass
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             SmoothCompassManager.Instance.AddSubscriber(compassPageViewModal);
+
             var currentId = Convert.ToInt32(NavigationContext.QueryString["CurrentId"]);
             var checkpointId = Convert.ToInt32(NavigationContext.QueryString["CheckpointId"]);
 
