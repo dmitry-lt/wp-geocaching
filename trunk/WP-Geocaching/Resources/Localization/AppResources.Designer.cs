@@ -241,11 +241,29 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {2} {0}° {1:F3}&apos;.
+        /// </summary>
+        public static string LatitudeFormat {
+            get {
+                return ResourceManager.GetString("LatitudeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Longitude:.
         /// </summary>
         public static string Longitude {
             get {
                 return ResourceManager.GetString("Longitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {2} {0}° {1:F3}&apos;.
+        /// </summary>
+        public static string LongitudeFormat {
+            get {
+                return ResourceManager.GetString("LongitudeFormat", resourceCulture);
             }
         }
         

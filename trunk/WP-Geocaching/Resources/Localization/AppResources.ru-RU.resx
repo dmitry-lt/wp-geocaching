@@ -240,4 +240,10 @@
   <data name="NoFavoriteCachesMessage" xml:space="preserve">
     <value>В избранном пока нет тайников</value>
   </data>
+  <data name="LatitudeFormat" xml:space="preserve">
+    <value>{0}° {1:F3}' {2}</value>
+  </data>
+  <data name="LongitudeFormat" xml:space="preserve">
+    <value>{0}° {1:F3}' {2}</value>
+  </data>
 </root>

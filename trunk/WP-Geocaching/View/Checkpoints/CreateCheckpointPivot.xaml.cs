@@ -44,5 +44,12 @@ namespace WP_Geocaching
             createCheckpointViewModel.SavePoint();
             this.NavigationService.GoBack();
         }
+
+        private void TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            var bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+            bindingExpr.UpdateSource();
+        }
     }
 }
