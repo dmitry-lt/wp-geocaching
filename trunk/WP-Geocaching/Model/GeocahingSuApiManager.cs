@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Windows.Media;
-using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using WP_Geocaching.Model.Utils;
 using WP_Geocaching.Model.DataBase;
 using System.Text.RegularExpressions;
-using System.Windows.Media.Imaging;
 using Microsoft.Phone;
+using WP_Geocaching.Model;
 
 namespace WP_Geocaching.Model
 {
@@ -28,13 +28,13 @@ namespace WP_Geocaching.Model
             "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax={0}&lngmin={1}&latmax={2}&latmin={3}&cacheId={4}&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
         private int id;
 
-        public List<Cache> CacheList { get; set; }
+        public HashSet<Cache> CacheList { get; set; }
 
         private GeocahingSuApiManager()
         {
             var random = new Random();
             id = random.Next(100000000);
-            CacheList = new List<Cache>();
+            CacheList = new HashSet<Cache>();
         }
 
         public static GeocahingSuApiManager Instance

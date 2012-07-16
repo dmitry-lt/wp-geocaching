@@ -1,13 +1,4 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Device.Location;
 using System.Collections.Generic;
 using WP_Geocaching.Model.DataBase;
@@ -17,9 +8,9 @@ namespace WP_Geocaching.Model
     /// <summary>
     /// Contains information about the Cache
     /// </summary>
-    public class Cache : IEquatable<Cache>
+    public class Cache
     {
-        public enum Subtypes: int
+        public enum Subtypes
         {
             Valid = 1,
             NotConfirmed = 2,
@@ -27,7 +18,7 @@ namespace WP_Geocaching.Model
             ActiveCheckpoint = 4,
             NotActiveCheckpoint = 5
         }
-        public enum Types : int
+        public enum Types
         {
             Traditional = 1,
             StepbyStepTraditional = 2, 
@@ -106,28 +97,44 @@ namespace WP_Geocaching.Model
         {
             get
             {
-                return this.cClass;
+                return cClass;
             }
             set
             {
-                this.cClass = value;
+                cClass = value;
             }
         }
 
         public Cache(DbCacheItem item)
         {
-            this.Id = item.Id;
-            this.Location = new GeoCoordinate(item.Latitude, item.Longitude);
-            this.Name = item.Name;
-            this.Subtype = (Subtypes)item.Subtype;
-            this.Type = (Types)item.Type;
+            Id = item.Id;
+            Location = new GeoCoordinate(item.Latitude, item.Longitude);
+            Name = item.Name;
+            Subtype = (Subtypes)item.Subtype;
+            Type = (Types)item.Type;
         }
 
         public Cache() { }
 
-        public bool Equals(Cache cache)
+        public override bool Equals(Object cache)
         {
-            return this.Id == cache.Id;
+            if (ReferenceEquals(null, cache)) return false;
+            if (ReferenceEquals(this, cache)) return true;
+            if (cache.GetType() != typeof(Cache)) return false;
+            return Equals((Cache)cache);
+        }
+
+
+        public bool Equals(Cache other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return other.id == id;
+        }
+
+        public override int GetHashCode()
+        {
+            return id;
         }
     }
 }
