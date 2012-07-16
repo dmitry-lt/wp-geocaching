@@ -136,7 +136,7 @@
     <value>Choose a cache</value>
   </data>
   <data name="CompassSearchButton" xml:space="preserve">
-    <value>Search by compass</value>
+    <value>compass</value>
   </data>
   <data name="Coordinates" xml:space="preserve">
     <value>dd°,mm.mmm'</value>

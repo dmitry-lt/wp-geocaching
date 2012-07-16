@@ -136,7 +136,7 @@
     <value>Выбрать тайник</value>
   </data>
   <data name="CompassSearchButton" xml:space="preserve">
-    <value>Поиск по компасу</value>
+    <value>компас</value>
   </data>
   <data name="Coordinates" xml:space="preserve">
     <value>гг°,мм.ммм'</value>
