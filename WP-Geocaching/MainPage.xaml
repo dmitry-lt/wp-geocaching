@@ -34,11 +34,19 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,12">
 
             <Grid x:Name="NoSouhgtCacheMessage" Width="Auto"
-                  Background="{StaticResource PhoneChromeBrush}" 
-                  VerticalAlignment="Bottom" Visibility="Collapsed">
-                    <TextBlock Text="{Binding Path=LocalizedResources.NoSouhgtCacheMessage, 
-                Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Center" 
-                               VerticalAlignment="Center" FontSize="22"/>
+                Background="{StaticResource PhoneChromeBrush}" 
+                VerticalAlignment="Bottom" Visibility="Collapsed">
+                <TextBlock Text="{Binding Path=LocalizedResources.NoSouhgtCacheMessage, 
+                    Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" FontSize="22"/>
+            </Grid>
+
+            <Grid x:Name="NoFavoriteCachesMessage" Width="Auto"
+                Background="{StaticResource PhoneChromeBrush}" 
+                VerticalAlignment="Bottom" Visibility="Collapsed">
+                <TextBlock Text="{Binding Path=LocalizedResources.NoFavoriteCachesMessage, 
+                    Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" FontSize="22"/>
             </Grid>
 
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Height="420" Width="420">

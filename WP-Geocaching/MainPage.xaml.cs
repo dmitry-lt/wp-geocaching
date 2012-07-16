@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching
 {
@@ -33,7 +34,19 @@ namespace WP_Geocaching
 
         private void Favorites_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/View/Favorites/FavoritesPage.xaml", UriKind.Relative));
+            CacheDataBase db = new CacheDataBase();
+            List<DbCacheItem> dbCacheList = db.GetCacheList();
+
+            if (dbCacheList.Count > 0)
+            {
+                NavigationService.Navigate(new Uri("/View/Favorites/FavoritesPage.xaml", UriKind.Relative));
+            }
+            else
+            {
+                this.NoFavoriteCachesMessage.Visibility = System.Windows.Visibility.Visible;
+                System.Threading.Timer timer = new System.Threading.Timer(DisposeTimerAndCollapseMessage);
+                timer.Change(3000, 0);
+            }
         }
 
         private void SearchCache_Click(object sender, RoutedEventArgs e)
@@ -58,7 +71,14 @@ namespace WP_Geocaching
             this.Dispatcher.BeginInvoke(() =>
             {
                 this.NoSouhgtCacheMessage.Visibility = System.Windows.Visibility.Collapsed;
+                this.NoFavoriteCachesMessage.Visibility = System.Windows.Visibility.Collapsed;
             });
+        }
+
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            this.NoSouhgtCacheMessage.Visibility = System.Windows.Visibility.Collapsed;
+            this.NoFavoriteCachesMessage.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }

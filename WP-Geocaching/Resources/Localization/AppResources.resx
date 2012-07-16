@@ -237,4 +237,7 @@
   <data name="WestLongitude" xml:space="preserve">
     <value>W</value>
   </data>
+  <data name="NoFavoriteCachesMessage" xml:space="preserve">
+    <value>You haven't chosen any favorite caches yet</value>
+  </data>
 </root>

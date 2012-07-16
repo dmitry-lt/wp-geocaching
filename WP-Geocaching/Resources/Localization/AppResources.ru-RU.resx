@@ -237,4 +237,7 @@
   <data name="WestLongitude" xml:space="preserve">
     <value>з.д.</value>
   </data>
-  </root>
+  <data name="NoFavoriteCachesMessage" xml:space="preserve">
+    <value>В избранном пока нет тайников</value>
+  </data>
+</root>
