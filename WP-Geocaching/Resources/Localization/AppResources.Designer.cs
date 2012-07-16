@@ -285,7 +285,8 @@ namespace WP_Geocaching.Resources.Localization {
             }
         }
         
-        /// <summary>        ///   Looks up a localized string similar to Before searching choose a cache, please.
+        /// <summary>        
+		///   Looks up a localized string similar to Before searching choose a cache, please.
         /// </summary>
         public static string NoSouhgtCacheMessage {
             get {
