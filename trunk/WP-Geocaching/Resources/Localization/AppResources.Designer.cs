@@ -133,7 +133,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search by compass.
+        ///   Looks up a localized string similar to compass.
         /// </summary>
         public static string CompassSearchButton {
             get {
@@ -295,7 +295,8 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please choose a cache to search first.        /// </summary>
+        ///   Looks up a localized string similar to Please choose a cache to search first.
+        /// </summary>
         public static string NoSouhgtCacheMessage {
             get {
                 return ResourceManager.GetString("NoSouhgtCacheMessage", resourceCulture);
