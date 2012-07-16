@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
+using System.Linq;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Windows.Media.Imaging;
@@ -22,19 +15,18 @@ namespace WP_Geocaching.Model
         private const string filePath = "{0}\\{1}";
         private const string previewSubdirectory = "{0}/preview";
         private const string fullsizeSubdirectory = "{0}/follsize";
-        private IsolatedStorageFile fileStore;
-
+        
         public void SaveImage(string imagePath, WriteableBitmap bitmap)
         {
-            fileStore = IsolatedStorageFile.GetUserStoreForApplication();
+            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
             if (fileStore.FileExists(imagePath))
             {
                 fileStore.DeleteFile(imagePath);
             }
-            IsolatedStorageFileStream myFileStream = fileStore.CreateFile(imagePath);
+            var myFileStream = fileStore.CreateFile(imagePath);
 
             //85 - quality, maybe this parameter should be added in settings
-            Extensions.SaveJpeg(bitmap, myFileStream, bitmap.PixelWidth, bitmap.PixelHeight, 0, 85);
+            bitmap.SaveJpeg(myFileStream, bitmap.PixelWidth, bitmap.PixelHeight, 0, 85);
             myFileStream.Close();
         }
 
@@ -44,13 +36,12 @@ namespace WP_Geocaching.Model
             {
                 using (var store = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    if (store == null) return null;
                     if (!store.FileExists(imagePath)) return null;
-                    using (IsolatedStorageFileStream isfs = store.OpenFile(imagePath, FileMode.Open))
+                    using (var isfs = store.OpenFile(imagePath, FileMode.Open))
                     {
                         if (isfs.Length > 0)
                         {
-                            BitmapImage image = new BitmapImage();
+                            var image = new BitmapImage();
                             image.SetSource(isfs);
                             isfs.Close();
                             return image;
@@ -79,85 +70,73 @@ namespace WP_Geocaching.Model
         public bool IsPreviewExists(int cacheId, string fileName)
         {
             string imagePath = String.Format(filePath, String.Format(previewSubdirectory, cacheId), fileName.Substring(1));
-            fileStore = IsolatedStorageFile.GetUserStoreForApplication();
+            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
             return fileStore.FileExists(imagePath);
         }
 
         public bool IsFullsizeExists(int cacheId, string fileName)
         {
-            string imagePath = String.Format(filePath, String.Format(fullsizeSubdirectory, cacheId), fileName.Substring(1));
-            fileStore = IsolatedStorageFile.GetUserStoreForApplication();
+            var imagePath = String.Format(filePath, String.Format(fullsizeSubdirectory, cacheId), fileName.Substring(1));
+            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
             return fileStore.FileExists(imagePath);
         }
 
         public bool IsPhotosExists(int cacheId)
         {
-            fileStore = IsolatedStorageFile.GetUserStoreForApplication();
+            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
             return fileStore.DirectoryExists(cacheId.ToString());
         }
 
         public void SavePreviewImage(int cacheId, string fileName, WriteableBitmap bitmap)
         {
             CreateCacheDirectories(cacheId);
-            string newFilePath = String.Format(filePath, String.Format(previewSubdirectory, cacheId), fileName.Substring(1));
+            var newFilePath = String.Format(filePath, String.Format(previewSubdirectory, cacheId), fileName.Substring(1));
             SaveImage(newFilePath, bitmap);
         }
 
         public void SaveFullsizeImage(int cacheId, string fileName, WriteableBitmap bitmap)
         {
             CreateCacheDirectories(cacheId);
-            string newFilePath = String.Format(filePath, String.Format(fullsizeSubdirectory, cacheId), fileName.Substring(1));
+            var newFilePath = String.Format(filePath, String.Format(fullsizeSubdirectory, cacheId), fileName.Substring(1));
             SaveImage(newFilePath, bitmap);
         }
 
         private void CreateCacheDirectories(int cacheId)
         {
-            fileStore = IsolatedStorageFile.GetUserStoreForApplication();
-            if (!fileStore.DirectoryExists(cacheId.ToString()))
-            {
-                fileStore.CreateDirectory(cacheId.ToString());
-                fileStore.CreateDirectory(String.Format(previewSubdirectory, cacheId));
-                fileStore.CreateDirectory(String.Format(fullsizeSubdirectory, cacheId));
-            }
+            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
+            if (fileStore.DirectoryExists(cacheId.ToString())) return;
+            fileStore.CreateDirectory(cacheId.ToString());
+            fileStore.CreateDirectory(String.Format(previewSubdirectory, cacheId));
+            fileStore.CreateDirectory(String.Format(fullsizeSubdirectory, cacheId));
         }
 
         public void SavePictureInMediaLibrary(int cacheId, string fileName)
         {
-            string FilePath = String.Format(filePath, cacheId, fileName.Substring(1));
+            var path = String.Format(filePath, cacheId, fileName.Substring(1));
 
             var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
-            var myFileStream = fileStore.CreateFile(FilePath);
-            myFileStream = fileStore.OpenFile(FilePath, FileMode.Open, FileAccess.Read);
+            var myFileStream = fileStore.CreateFile(path);
+            myFileStream = fileStore.OpenFile(path, FileMode.Open, FileAccess.Read);
 
             //Add the JPEG file to the photos library on the device.
-            MediaLibrary library = new MediaLibrary();
-            Picture pic = library.SavePicture(fileName.Substring(1), myFileStream);
+            var library = new MediaLibrary();
+            var pic = library.SavePicture(fileName.Substring(1), myFileStream);
 
             myFileStream.Close();
         }
 
         public List<string> GetPreviewNames(int cacheId)
         {
-            List<string> previewNames = new List<string>();
             var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
             var filePattern = String.Format(previewSubdirectory, cacheId) + "\\*.*";
-            foreach (var name in fileStore.GetFileNames(filePattern))
-            {
-                previewNames.Add(name);
-            }
-            return previewNames;
+            return fileStore.GetFileNames(filePattern).ToList();
         }
 
         public List<string> GetFullsizeNames(int cacheId)
         {
-            List<string> fullsizeNames = new List<string>();
             var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
             var filePattern = String.Format(fullsizeSubdirectory, cacheId) + "\\*.*";
-            foreach (var name in fileStore.GetFileNames(filePattern))
-            {
-                fullsizeNames.Add(name);
-            }
-            return fullsizeNames;
+            return fileStore.GetFileNames(filePattern).ToList();
         }
     }
 }

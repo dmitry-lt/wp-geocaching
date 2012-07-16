@@ -34,7 +34,7 @@
 
         <!--Pivot Control-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
-            <controls:Pivot x:Name="Info" SelectionChanged="Info_SelectionChanged">
+            <controls:Pivot x:Name="Info" SelectionChanged="InfoSelectionChanged">
                 <controls:PivotItem x:Name="DetailsPivotItem">
                     <controls:PivotItem.Header>
                         <Grid>

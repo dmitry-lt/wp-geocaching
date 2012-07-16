@@ -12,7 +12,7 @@ namespace WP_Geocaching.Model
     public interface IApiManager
     {
         List<Cache> CacheList { get; set; }
-        Cache GetCacheById(int id);
+        Cache GetCacheById(int cacheId);
         void UpdateCacheList(Action<List<Cache>> ProcessCacheList, double lngmax, double lgnmin, double latmax, double latmin);
 
     }

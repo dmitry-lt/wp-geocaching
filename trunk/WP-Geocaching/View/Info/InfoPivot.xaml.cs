@@ -30,7 +30,7 @@ namespace WP_Geocaching.View.Info
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
+            if (e.NavigationMode == NavigationMode.New)
             {
                 int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
                 infoPivotViewModel.Cache = GeocahingSuApiManager.Instance.GetCacheById(cacheId);
@@ -42,7 +42,7 @@ namespace WP_Geocaching.View.Info
             }
         }
 
-        private void Info_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void InfoSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Contains(NotebookPivotItem) && (NotebookBrowser.SaveToString() == ""))
             {
@@ -60,7 +60,7 @@ namespace WP_Geocaching.View.Info
             }
         }
 
-        private void SearchCacheButton_Click(object sender, EventArgs e)
+        private void SearchCacheButtonClick(object sender, EventArgs e)
         {
             db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Details, infoPivotViewModel.Notebook);
             NavigationManager.Instance.NavigateToSearchBingMap(infoPivotViewModel.Cache.Id.ToString());
@@ -74,23 +74,27 @@ namespace WP_Geocaching.View.Info
 
         private void SetSearchButton()
         {
-            ApplicationBarIconButton searchButton = new ApplicationBarIconButton();
-            searchButton.IconUri = new Uri("Resources/Images/appbar.feature.search.rest.png", UriKind.Relative);
-            searchButton.Text = AppResources.SearchButton;
-            searchButton.Click += SearchCacheButton_Click;
+            var searchButton = new ApplicationBarIconButton
+                                   {
+                                       IconUri =
+                                           new Uri("Resources/Images/appbar.feature.search.rest.png", UriKind.Relative),
+                                       Text = AppResources.SearchButton
+                                   };
+            searchButton.Click += SearchCacheButtonClick;
             ApplicationBar.Buttons.Add(searchButton);
         }
 
         private void SetFavoriteButton()
         {
-            if (favoriteButtonIndex < 0)
-            {
-                ApplicationBarIconButton favoriteButton = new ApplicationBarIconButton();
-                favoriteButton.IconUri = new Uri("Resources/Images/appbar.favs.addto.rest.png", UriKind.Relative);
-                favoriteButton.Text = AppResources.AddFavoritesButton;
-                ApplicationBar.Buttons.Add(favoriteButton);
-                favoriteButtonIndex = ApplicationBar.Buttons.IndexOf(favoriteButton);
-            }
+            if (favoriteButtonIndex >= 0) return;
+            var favoriteButton = new ApplicationBarIconButton
+                                     {
+                                         IconUri =
+                                             new Uri("Resources/Images/appbar.favs.addto.rest.png", UriKind.Relative),
+                                         Text = AppResources.AddFavoritesButton
+                                     };
+            ApplicationBar.Buttons.Add(favoriteButton);
+            favoriteButtonIndex = ApplicationBar.Buttons.IndexOf(favoriteButton);
         }
 
         private void UpdateFavoriteButton()
