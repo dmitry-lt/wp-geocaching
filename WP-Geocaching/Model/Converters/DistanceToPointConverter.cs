@@ -1,13 +1,4 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Windows.Data;
 using WP_Geocaching.Resources.Localization;
 
@@ -25,19 +16,22 @@ namespace WP_Geocaching.Model.Converters
                 return null;
             }
 
-            double distantion = (double)value;
+            var distantion = (double)value;
 
+            string formatedDistace;
             if (distantion >= 1000)
             {
                 distantion = Math.Round(distantion / 100) / 10;
-                return String.Format(DistanceToPoint, distantion, AppResources.Kilometres);
+                formatedDistace = String.Format(DistanceToPoint, distantion, AppResources.Kilometres);
             }
             else
             {
                 distantion = Math.Round(distantion * 10) / 10;
-                return String.Format(DistanceToPoint, distantion, AppResources.Metres);
+                formatedDistace = String.Format(DistanceToPoint, distantion, AppResources.Metres);
             }
+            return formatedDistace;
         }
+
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return value;

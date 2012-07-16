@@ -117,19 +117,19 @@ namespace WP_Geocaching.Model
                     {
                         FirstPhotoSource = imageSource;
                         FirstPhotoIndex = index;
-                        return;
-                    };
+                        break;
+                    }
                 case 1:
                     {
                         SecondPhotoSource = imageSource;
                         SecondPhotoIndex = index;
-                        return;
+                        break;
                     }
                 case 2:
                     {
                         ThirdPhotoSource = imageSource;
                         ThirdPhotoIndex = index;
-                        return;
+                        break;
                     }
             }
         }

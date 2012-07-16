@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Data.Linq;
-using System.Data.Linq.Mapping;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Generic;
 using WP_Geocaching.Resources.Localization;
@@ -23,40 +12,39 @@ namespace WP_Geocaching.Model.DataBase
 
         public CacheDataBase()
         {
-            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            using (var db = new CacheDataContext(ConnectionString))
             {
-                if (!db.DatabaseExists())
+                if (db.DatabaseExists())
                 {
-                    db.CreateDatabase();
-                    db.SubmitChanges();
+                    return;
                 }
+                db.CreateDatabase();
+                db.SubmitChanges();
             }
         }
 
         public void AddCache(Cache cache, string details, string notebook)
         {
-            if (cache != null)
+            if (cache == null)
             {
-                using (var db = new CacheDataContext(ConnectionString))
-                {
-                    DbCacheItem newItem = new DbCacheItem()
-                    {
-                        Id = cache.Id,
-                        Name = cache.Name,
-                        Latitude = cache.Location.Latitude,
-                        Longitude = cache.Location.Longitude,
-                        Type = (int)cache.Type,
-                        Subtype = (int)cache.Subtype,
-                        Details = details,
-                        Notebook = notebook
-                    };
-
-                    if (!db.Caches.Contains(newItem))
-                    {
-                        db.Caches.InsertOnSubmit(newItem);
-                        db.SubmitChanges();
-                    }
-                }
+                return;
+            }
+            using (var db = new CacheDataContext(ConnectionString))
+            {
+                if (GetCache(cache.Id) != null) return;
+                var newItem = new DbCacheItem
+                                  {
+                                      Id = cache.Id,
+                                      Name = cache.Name,
+                                      Latitude = cache.Location.Latitude,
+                                      Longitude = cache.Location.Longitude,
+                                      Type = (int)cache.Type,
+                                      Subtype = (int)cache.Subtype,
+                                      Details = details,
+                                      Notebook = notebook
+                                  };
+                db.Caches.InsertOnSubmit(newItem);
+                db.SubmitChanges();
             }
         }
 
@@ -66,16 +54,10 @@ namespace WP_Geocaching.Model.DataBase
             using (var db = new CacheDataContext(ConnectionString))
             {
                 int maxId = GetMaxCheckpointIdByCacheId(db.Checkpoints, cacheId);
-                DbCheckpointsItem newItem = new DbCheckpointsItem();
-                newItem.Id = maxId + 1;
-                if (name.Equals(AppResources.CheckpointName))
-                {
-                    newItem.Name = String.Format(AppResources.DefaultCheckpointName, newItem.Id);
-                }
-                else
-                {
-                    newItem.Name = name;
-                }
+                var newItem = new DbCheckpointsItem {Id = maxId + 1};
+                newItem.Name = name.Equals(AppResources.CheckpointName)
+                                   ? String.Format(AppResources.DefaultCheckpointName, newItem.Id)
+                                   : name;
                 newItem.CacheId = cacheId;
                 newItem.Latitude = latitude;
                 newItem.Longitude = longitude;
@@ -89,7 +71,7 @@ namespace WP_Geocaching.Model.DataBase
 
         private void MakeAllCheckpointsNotActive(int cacheId)
         {
-            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCheckpointsQueryByCacheId(db.Checkpoints, cacheId);
                 foreach (DbCheckpointsItem c in query)
@@ -102,7 +84,7 @@ namespace WP_Geocaching.Model.DataBase
 
         public void MakeCheckpointActive(int cacheId, int id)
         {
-            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCheckpointQuery(db.Checkpoints, cacheId, id);
                 DbCheckpointsItem checkpoint = query.FirstOrDefault();
@@ -122,7 +104,7 @@ namespace WP_Geocaching.Model.DataBase
 
         public void UpdateCacheInfo(String details, int id)
         {
-            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCacheQueryById(db.Caches, id);
                 query.FirstOrDefault().Details = details;
@@ -132,7 +114,7 @@ namespace WP_Geocaching.Model.DataBase
 
         public void UpdateCacheNotebook(String notebook, int id)
         {
-            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCacheQueryById(db.Caches, id);
                 query.FirstOrDefault().Notebook = notebook;
@@ -142,27 +124,25 @@ namespace WP_Geocaching.Model.DataBase
 
         public void DeleteCache(int id)
         {
-            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCacheQueryById(db.Caches, id);
-                DbCacheItem itemForDeleting = (DbCacheItem)query.FirstOrDefault();
-                if (itemForDeleting != null)
+                var itemForDeleting = query.FirstOrDefault();
+                if (itemForDeleting == null) return;
+                var settings = new Settings();
+                if (settings.LastSoughtCacheId == id)
                 {
-                    Settings settings = new Settings();
-                    if (settings.LastSoughtCacheId == id)
-                    {
-                        settings.SetDefaultLastSoughtCacheId();
-                    }
-                    DeleteAllCheckpoints(id);
-                    db.Caches.DeleteOnSubmit(itemForDeleting);
-                    db.SubmitChanges();
+                    settings.SetDefaultLastSoughtCacheId();
                 }
+                DeleteAllCheckpoints(id);
+                db.Caches.DeleteOnSubmit(itemForDeleting);
+                db.SubmitChanges();
             }
         }
 
         public List<DbCacheItem> GetCacheList()
         {
-            var cacheList = new List<DbCacheItem>();
+            List<DbCacheItem> cacheList;
             using (var db = new CacheDataContext(ConnectionString))
             {
                 cacheList = db.Caches.ToList();
@@ -199,17 +179,17 @@ namespace WP_Geocaching.Model.DataBase
 
         public void DeleteCheckpoint(int cacheId, int id)
         {
-            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCheckpointQuery(db.Checkpoints, cacheId, id);
-                db.Checkpoints.DeleteOnSubmit((DbCheckpointsItem)query.FirstOrDefault());
+                db.Checkpoints.DeleteOnSubmit(query.FirstOrDefault());
                 db.SubmitChanges();
             }
         }
 
         public void DeleteAllCheckpoints(int cacheId)
         {
-            using (CacheDataContext db = new CacheDataContext(ConnectionString))
+            using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCheckpointsQueryByCacheId(db.Checkpoints, cacheId);
                 db.Checkpoints.DeleteAllOnSubmit(query);
