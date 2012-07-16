@@ -87,6 +87,7 @@
     <Compile Include="Model\DataBase\CacheDataBase.cs" />
     <Compile Include="Model\DataBase\DbCheckpointsItem.cs" />
     <Compile Include="Model\ButtonCommand.cs" />
+    <Compile Include="Model\HashSet.cs" />
     <Compile Include="Model\INavigationManager.cs" />
     <Compile Include="Model\LogManager.cs" />
     <Compile Include="Model\NavigationManager.cs" />
