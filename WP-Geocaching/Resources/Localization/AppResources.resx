@@ -169,7 +169,7 @@
     <value>Checkpoint name</value>
   </data>
   <data name="SurpassedCacheCountMessage" xml:space="preserve">
-    <value>It is too much caches on the screen! Zoom in</value>
+    <value>Too many caches on the screen. Zoom in</value>
   </data>
   <data name="SaveCheckpointButton" xml:space="preserve">
     <value>save</value>
@@ -190,7 +190,7 @@
     <value>Search a cache</value>
   </data>
   <data name="NoSouhgtCacheMessage" xml:space="preserve">
-    <value>Before searching choose a cache, please</value>
+    <value>Please choose a cache to search first</value>
   </data>
   <data name="DefaultCheckpointName" xml:space="preserve">
     <value>Checkpoint {0}</value>
