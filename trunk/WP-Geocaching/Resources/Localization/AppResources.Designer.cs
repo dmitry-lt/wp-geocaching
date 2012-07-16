@@ -285,8 +285,8 @@ namespace WP_Geocaching.Resources.Localization {
             }
         }
         
-        /// <summary>        
-		///   Looks up a localized string similar to Before searching choose a cache, please.
+        /// <summary>
+        ///   Looks up a localized string similar to Please choose a cache to search first.
         /// </summary>
         public static string NoSouhgtCacheMessage {
             get {
@@ -394,7 +394,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to It is too much caches on the screen! Zoom in.
+        ///   Looks up a localized string similar to Too many caches on the screen. Zoom in.
         /// </summary>
         public static string SurpassedCacheCountMessage {
             get {
