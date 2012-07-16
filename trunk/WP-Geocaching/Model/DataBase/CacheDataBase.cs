@@ -14,7 +14,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Generic;
 using WP_Geocaching.Resources.Localization;
-using System.Device.Location;
 
 namespace WP_Geocaching.Model.DataBase
 {
