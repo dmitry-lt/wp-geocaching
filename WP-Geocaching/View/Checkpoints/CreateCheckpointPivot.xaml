@@ -37,43 +37,6 @@
             <controls:Pivot x:Name="Converters">
 
                 <controls:PivotItem>
-                    <controls:PivotItem.Header>
-                        <Grid>
-                            <TextBlock FontSize="50" Text="{Binding Path=LocalizedResources.DCoordinates, 
-                Source={StaticResource LocalizedStrings}}"/>
-                        </Grid>
-                    </controls:PivotItem.Header>
-                    <Grid Grid.Row="1" Margin="12,0,12,0">
-                        <StackPanel Orientation="Vertical">
-                            <TextBox Height="70" Margin="0,0,0,0" TextWrapping="Wrap" 
-                     Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top"/>
-
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Path=LocalizedResources.Latitude, 
-                Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox FontSize="22" Text="{Binding DLatDegrees, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="70"/>
-                                <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding DLatDegreesFraction, Mode=TwoWay}"
-                                         VerticalAlignment="Center" Width="150"/>
-                                <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Path=LocalizedResources.Longitude, 
-                  Source ={StaticResource LocalizedStrings}}"  FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox FontSize="22" Text="{Binding DLngDegrees, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="70"/>
-                                <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding DLngDegreesFraction, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="150"/>
-                                <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Grid>
-                </controls:PivotItem>
-
-                <controls:PivotItem>
 
                     <controls:PivotItem.Header>
                         <Grid>
@@ -85,33 +48,33 @@
                     <Grid Grid.Row="1" Margin="12,0,12,0">
                         <StackPanel Orientation="Vertical">
                             <TextBox Height="70" Margin="0,0,0,0" TextWrapping="Wrap" 
-                     Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top"/>
+                     Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" TextChanged="TextChanged"/>
 
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Path=LocalizedResources.Latitude, 
                 Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox FontSize="22" Text="{Binding LatDegrees, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="70"/>
+                                <TextBox FontSize="22" Text="{Binding LatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
                                 <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding LatMinutes, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="70"/>
+                                <TextBox FontSize="22" Text="{Binding LatMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
                                 <TextBlock FontSize="22" Text="." VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding LatMinutesFraction, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="100"/>
+                                <TextBox FontSize="22" Text="{Binding LatMinutesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="100" TextChanged="TextChanged"/>
                                 <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Path=LocalizedResources.Longitude, 
                 Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox FontSize="22" Text="{Binding LngDegrees, Mode=TwoWay}"
-                                         VerticalAlignment="Center" Width="70"/>
+                                <TextBox FontSize="22" Text="{Binding LngDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
                                 <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding LngMinutes, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="70"/>
+                                <TextBox FontSize="22" Text="{Binding LngMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
                                 <TextBlock FontSize="22" Text="." VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding LngMinutesFraction, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="100"/>
+                                <TextBox FontSize="22" Text="{Binding LngMinutesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="100" TextChanged="TextChanged"/>
                                 <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
                             </StackPanel>
 
@@ -119,7 +82,42 @@
                     </Grid>
                 </controls:PivotItem>
 
+                <controls:PivotItem>
+                    <controls:PivotItem.Header>
+                        <Grid>
+                            <TextBlock FontSize="50" Text="{Binding Path=LocalizedResources.DCoordinates, 
+                Source={StaticResource LocalizedStrings}}"/>
+                        </Grid>
+                    </controls:PivotItem.Header>
+                    <Grid Grid.Row="1" Margin="12,0,12,0">
+                        <StackPanel Orientation="Vertical">
+                            <TextBox Height="70" Margin="0,0,0,0" TextWrapping="Wrap" 
+                     Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" TextChanged="TextChanged"/>
 
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=LocalizedResources.Latitude, 
+                Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="100"/>
+                                <TextBox FontSize="22" Text="{Binding DLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
+                                <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
+                                <TextBox FontSize="22" Text="{Binding DLatDegreesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+                                         VerticalAlignment="Center" Width="150" TextChanged="TextChanged"/>
+                                <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=LocalizedResources.Longitude, 
+                  Source ={StaticResource LocalizedStrings}}"  FontSize="22" VerticalAlignment="Center" Width="100"/>
+                                <TextBox FontSize="22" Text="{Binding DLngDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
+                                <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
+                                <TextBox FontSize="22" Text="{Binding DLngDegreesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="150" TextChanged="TextChanged"/>
+                                <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </controls:PivotItem>
 
                 <controls:PivotItem>
                     <controls:PivotItem.Header>
@@ -131,33 +129,33 @@
                     <Grid Grid.Row="1" Margin="12,0,12,0">
                         <StackPanel Orientation="Vertical">
                             <TextBox Height="70" Margin="0,0,0,0" TextWrapping="Wrap" 
-                     Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top"/>
+                     Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" TextChanged="TextChanged"/>
 
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Path=LocalizedResources.Latitude, 
                 Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox  FontSize="22" Text="{Binding SLatDegrees, Mode=TwoWay}" 
-                                          VerticalAlignment="Center" Width="70"/>
+                                <TextBox  FontSize="22" Text="{Binding SLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                          VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
                                 <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding SLatMinutes, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="70"/>
+                                <TextBox FontSize="22" Text="{Binding SLatMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
                                 <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding SLatSeconds, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="100"/> 
+                                <TextBox FontSize="22" Text="{Binding SLatSeconds, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="100" TextChanged="TextChanged"/> 
                                 <TextBlock FontSize="22" Text="''" VerticalAlignment="Center"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Path=LocalizedResources.Longitude, 
                 Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox FontSize="22" Text="{Binding SLngDegrees, Mode=TwoWay}" 
-                                          VerticalAlignment="Center" Width="70"/>
+                                <TextBox FontSize="22" Text="{Binding SLngDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                          VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
                                 <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding SLngMinutes, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="70"/>
+                                <TextBox FontSize="22" Text="{Binding SLngMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
                                 <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding SLngSeconds, Mode=TwoWay}" 
-                                         VerticalAlignment="Center" Width="100"/>
+                                <TextBox FontSize="22" Text="{Binding SLngSeconds, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="100" TextChanged="TextChanged"/>
                                 <TextBlock FontSize="22" Text="''" VerticalAlignment="Center"/>
                             </StackPanel>
 

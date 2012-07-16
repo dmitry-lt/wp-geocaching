@@ -8,14 +8,16 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    
     >
 
     <Grid x:Name="LayoutRoot" Width="350" Height="150" Background="{StaticResource PhoneChromeBrush}">
         <Grid.Resources>
             <c:CacheSubtypeConverter x:Key="CacheSubtypeConverter"  x:Name="CacheSubtypeConverter"/>
+            <c:LatitudeConverter x:Key="LatitudeConverter"/>
+            <c:LongitudeConverter x:Key="LongitudeConverter"/>
         </Grid.Resources>
-            <StackPanel Orientation="Vertical"  DataContext="{Binding DialogContent}" Margin="5,5,5,5">
+            
+        <StackPanel Orientation="Vertical"  DataContext="{Binding DialogContent}" Margin="5,5,5,5">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel>
                         <TextBlock Text="{Binding Path=LocalizedResources.Subtype, 
@@ -28,11 +30,11 @@
                     <StackPanel Margin="5,0,0,0">
                         <TextBlock Text="{Binding Subtype, 
                             Converter={StaticResource CacheSubtypeConverter}}" 
-                                   Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBlock Text="{Binding Latitude}" 
-                                   Foreground="{StaticResource PhoneSubtleBrush}"/>
-                    <TextBlock Text="{Binding Longitude}" 
-                               Foreground="{StaticResource PhoneSubtleBrush}"/>
+                            Foreground="{StaticResource PhoneSubtleBrush}"/>
+                    <TextBlock Text="{Binding Latitude, Converter={StaticResource LatitudeConverter}}" 
+                            Foreground="{StaticResource PhoneSubtleBrush}"/>
+                    <TextBlock Text="{Binding Longitude, Converter={StaticResource LongitudeConverter}}" 
+                            Foreground="{StaticResource PhoneSubtleBrush}"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">

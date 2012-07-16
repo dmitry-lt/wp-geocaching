@@ -21,7 +21,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28" Orientation="Horizontal">
             <StackPanel Background="{StaticResource PhoneAccentBrush}">
@@ -46,7 +46,7 @@
                         <item:CheckpointsItem/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox>          
+            </ListBox>
             <item:ChooseOrDeleteDialogView Visibility="{Binding DialogVisibility}" 
                                            VerticalAlignment="Center" 
                                            HorizontalAlignment="Center" />
