@@ -146,7 +146,7 @@ namespace WP_Geocaching.Model
             }
 
             var helper = new FileStorageHelper();
-            if ((db.GetCache(cacheId) != null) && helper.IsPhotosExists(cacheId))
+            if ((db.GetCache(cacheId) != null) && helper.IsPhotosExist(cacheId))
             {
                 DownloadFromIsolatedStorage(cacheId, processUriList);
             }
@@ -217,7 +217,7 @@ namespace WP_Geocaching.Model
             var helper = new FileStorageHelper();
             var photoUri = new Uri(photoUrl);
             var fileName = photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"));
-            if (helper.IsPreviewExists(cacheId, fileName)) return;
+            if (helper.IsOnePhotoExists(cacheId, fileName)) return;
             if (images[index] == null)
             {
 
@@ -228,13 +228,13 @@ namespace WP_Geocaching.Model
                                                        var buffer = new byte[e.Result.Length];
                                                        var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
                                                        e.Result.Read(buffer, 0, buffer.Length);
-                                                       helper.SavePreviewImage(cacheId, fileName, writableBitmap);
+                                                       helper.SavePhoto(cacheId, fileName, writableBitmap);
                                                    };
                 webClient.OpenReadAsync(photoUri);
             }
             else
             {
-                helper.SavePreviewImage(cacheId, fileName, (WriteableBitmap)images[index]);
+                helper.SavePhoto(cacheId, fileName, (WriteableBitmap)images[index]);
             }
         }
 
@@ -244,11 +244,11 @@ namespace WP_Geocaching.Model
             var db = new CacheDataBase();
             if (photoNames != null)
             {
-                var image = helper.GetPreviewImage(cacheId, photoUrl);
+                var image = helper.GetPhoto(cacheId, photoUrl);
                 images[index] = image;
                 process(image, index);
             }
-            if ((db.GetCache(cacheId) == null) && !helper.IsPhotosExists(cacheId))
+            if ((db.GetCache(cacheId) == null) && !helper.IsPhotosExist(cacheId))
             {
                 var photoUri = new Uri(photoUrls[index]);
                 var webClient = new WebClient();
@@ -265,7 +265,7 @@ namespace WP_Geocaching.Model
             }
             else
             {
-                var image = helper.GetPreviewImage(cacheId, photoUrl);
+                var image = helper.GetPhoto(cacheId, photoUrl);
                 images[index] = image;
                 process(image, index);
             }
