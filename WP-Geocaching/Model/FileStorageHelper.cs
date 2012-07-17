@@ -88,5 +88,15 @@ namespace WP_Geocaching.Model
             var filePattern = String.Format(FilePath, cacheId, "*.*");
             return fileStore.GetFileNames(filePattern).ToList();
         }
+
+        public void DeletePhotos(int cacheId)
+        {
+            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
+            foreach (var p in GetPreviewNames(cacheId))
+            {
+                fileStore.DeleteFile(String.Format(FilePath, cacheId, p));
+            }
+            fileStore.DeleteDirectory(cacheId.ToString());
+        }
     }
 }
