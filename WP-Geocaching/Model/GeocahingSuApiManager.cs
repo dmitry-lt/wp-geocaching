@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Globalization;
@@ -21,6 +22,7 @@ namespace WP_Geocaching.Model
     {
         private static GeocahingSuApiManager instance;
         private static readonly Encoding CP1251Encoding = new CP1251Encoding();
+        private const string LinkPattern = "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
         private const string InfoUrl = "http://pda.geocaching.su/cache.php?cid={0}";
         private const string NotebookUrl = "http://pda.geocaching.su/note.php?cid={0}&mode=0";
         private const string PhotosUrl = "http://pda.geocaching.su/pict.php?cid={0}&mode=0";
@@ -47,7 +49,7 @@ namespace WP_Geocaching.Model
 
         public void UpdateCacheList(Action<List<Cache>> processCacheList, double lngmax, double lngmin, double latmax, double latmin)
         {
-            var sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, lngmax, lngmin, latmax, latmin, this.id);
+            var sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, lngmax, lngmin, latmax, latmin, id);
             var client = new WebClient
                              {
                                  Encoding = CP1251Encoding
@@ -129,16 +131,20 @@ namespace WP_Geocaching.Model
         }
 
         private List<String> photoUrls;
-        private List<String> photoPreviewUrls;
         private List<String> photoNames;
-        private List<String> photoPreviewNames;
+        private List<ImageSource> images;
         private int cacheId;
 
         public void DownloadPhotos(int cacheId, Action<List<string>> processUriList)
         {
             var db = new CacheDataBase();
-            this.cacheId = cacheId;
-            photoUrls = photoPreviewUrls = photoNames = null;
+            if (this.cacheId != cacheId)
+            {
+                this.cacheId = cacheId;
+                photoUrls = photoNames = null;
+                images = null;
+            }
+
             var helper = new FileStorageHelper();
             if ((db.GetCache(cacheId) != null) && helper.IsPhotosExists(cacheId))
             {
@@ -158,9 +164,9 @@ namespace WP_Geocaching.Model
             {
                 if (e.Error == null)
                 {
-                    ResetPreviewUrls(e.Result);
                     ResetPhotoUrls(e.Result);
-                    processUriList(photoPreviewUrls);
+                    InitializeImages(photoUrls.Count);
+                    processUriList(photoUrls);
                 }
             };
 
@@ -169,19 +175,32 @@ namespace WP_Geocaching.Model
             webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cacheId), UriKind.Absolute));
         }
 
+        private void InitializeImages(int count)
+        {
+            if (images != null) return;
+            images = new List<ImageSource>();
+            for (var i = 0; i < count; i++)
+            {
+                images.Add(null);
+            }
+        }
+
         private void DownloadFromIsolatedStorage(int cacheId, Action<List<string>> processUriList)
         {
             var helper = new FileStorageHelper();
-            photoPreviewNames = helper.GetPreviewNames(cacheId);
-            photoNames = helper.GetFullsizeNames(cacheId);
-            processUriList(photoPreviewNames);
+            if (photoNames == null)
+            {
+                photoNames = helper.GetPreviewNames(cacheId);
+            }
+            InitializeImages(photoNames.Count);
+            processUriList(photoNames);
         }
 
         private void ResetPhotoUrls(string htmlPhotoUrls)
         {
+            if (photoUrls != null) return;
             photoUrls = new List<string>();
-            var sPattern = "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
-            var urls = Regex.Matches(htmlPhotoUrls, sPattern);
+            var urls = Regex.Matches(htmlPhotoUrls, LinkPattern);
             for (var i = 0; i < urls.Count; i++)
             {
                 var url = urls[i].Value.Substring(7, urls[i].Value.Length - 8);
@@ -193,77 +212,53 @@ namespace WP_Geocaching.Model
             }
         }
 
-        private void ResetPreviewUrls(string htmlPhotoUrls)
-        {
-            string url;
-            photoPreviewUrls = new List<string>();
-            string sPattern = "\\s*(?i)src\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
-            var urls = Regex.Matches(htmlPhotoUrls, sPattern);
-            for (int i = 0; i < urls.Count; i++)
-            {
-                url = urls[i].Value.EndsWith("\"") ? urls[i].Value.Substring(6, urls[i].Value.Length - 7) :
-                    urls[i].Value.Substring(5, urls[i].Value.Length - 5);
-
-                if (url.EndsWith(".jpg"))
-                {
-                    photoPreviewUrls.Add(url);
-                }
-            }
-        }
-
-        private void DownloadAndSavePreviewPhoto(string photoUrl, int cacheId)
-        {
-            var helper = new FileStorageHelper();
-            var photoUri = new Uri(photoUrl);
-            string fileName = photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"));
-            if (!helper.IsPreviewExists(cacheId, fileName))
-            {
-                var webClient = new WebClient();
-                webClient.OpenReadCompleted += (sender, e) =>
-                {
-                    if (e.Error != null) return;
-                    var buffer = new byte[e.Result.Length];
-                    var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
-                    e.Result.Read(buffer, 0, buffer.Length);
-                    helper.SavePreviewImage(cacheId, fileName, writableBitmap);
-                };
-                webClient.OpenReadAsync(photoUri);
-            }
-        }
-
-        private void DownloadAndSaveFullsizePhoto(string photoUrl, int cacheId)
+        public void DownloadAndSavePreviewPhoto(string photoUrl, int index)
         {
             var helper = new FileStorageHelper();
             var photoUri = new Uri(photoUrl);
             var fileName = photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"));
-            if (helper.IsFullsizeExists(cacheId, fileName)) return;
-            var webClient = new WebClient();
-            webClient.OpenReadCompleted += (sender, e) =>
-                                               {
-                                                   if (e.Error != null) return;
-                                                   var buffer = new byte[e.Result.Length];
-                                                   var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
-                                                   e.Result.Read(buffer, 0, buffer.Length);
-                                                   helper.SaveFullsizeImage(cacheId, fileName, writableBitmap);
-                                               };
-            webClient.OpenReadAsync(photoUri);
+            if (helper.IsPreviewExists(cacheId, fileName)) return;
+            if (images[index] == null)
+            {
+
+                var webClient = new WebClient();
+                webClient.OpenReadCompleted += (sender, e) =>
+                                                   {
+                                                       if (e.Error != null) return;
+                                                       var buffer = new byte[e.Result.Length];
+                                                       var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
+                                                       e.Result.Read(buffer, 0, buffer.Length);
+                                                       helper.SavePreviewImage(cacheId, fileName, writableBitmap);
+                                                   };
+                webClient.OpenReadAsync(photoUri);
+            }
+            else
+            {
+                helper.SavePreviewImage(cacheId, fileName, (WriteableBitmap)images[index]);
+            }
         }
 
         public void LoadPreviewPhoto(string photoUrl, Action<ImageSource, int> process, int index)
         {
             var helper = new FileStorageHelper();
-            if (photoPreviewUrls != null)
+            var db = new CacheDataBase();
+            if (photoNames != null)
             {
-                var photoUri = new Uri(photoPreviewUrls[index]);
+                var image = helper.GetPreviewImage(cacheId, photoUrl);
+                images[index] = image;
+                process(image, index);
+            }
+            if ((db.GetCache(cacheId) == null) && !helper.IsPhotosExists(cacheId))
+            {
+                var photoUri = new Uri(photoUrls[index]);
                 var webClient = new WebClient();
-                var fileName = photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"));
                 webClient.OpenReadCompleted += (sender, e) =>
                 {
                     if (e.Error != null) return;
                     var buffer = new byte[e.Result.Length];
                     var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
                     e.Result.Read(buffer, 0, buffer.Length);
-                    helper.SavePreviewImage(cacheId, fileName, writableBitmap);
+                    images[index] = writableBitmap;
                     process(writableBitmap, index);
                 };
                 webClient.OpenReadAsync(photoUri);
@@ -271,51 +266,21 @@ namespace WP_Geocaching.Model
             else
             {
                 var image = helper.GetPreviewImage(cacheId, photoUrl);
+                images[index] = image;
                 process(image, index);
             }
         }
 
         public void LoadFullSizePhoto(Action<ImageSource> process, int index)
         {
-            var helper = new FileStorageHelper();
-            if (photoUrls != null)
+            var count = photoUrls == null ? photoNames.Count : photoUrls.Count;
+            if (count == 0) return;
+            index = index % count;
+            if (index < 0)
             {
-                index = index % photoUrls.Count;
-                if (index < 0)
-                {
-                    index += photoUrls.Count;
-                }
-
-                var photoUri = new Uri(photoUrls[index]);
-                var fileName = photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"));
-
-                var webClient = new WebClient();
-                webClient.OpenReadCompleted += (sender, e) =>
-                {
-                    if (e.Error != null)
-                    {
-                        return;
-                    }
-                    var buffer = new byte[e.Result.Length];
-                    var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
-                    e.Result.Read(buffer, 0, buffer.Length);
-                    helper.SaveFullsizeImage(cacheId, fileName, writableBitmap);
-                    process(writableBitmap);
-                };
-                webClient.OpenReadAsync(photoUri);
-
+                index += count;
             }
-            else
-            {
-                index = index % photoNames.Count;
-                if (index < 0)
-                {
-                    index += photoNames.Count;
-                }
-                
-                var image = helper.GetFullsizeImage(cacheId, photoNames[index]);
-                process(image);
-            }
+            process(images[index]);
         }
     }
 }
