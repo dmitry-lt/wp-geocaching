@@ -130,12 +130,14 @@ namespace WP_Geocaching.View.Info
         private void AddButtonClick(object sender, EventArgs e)
         {
             db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Details, infoPivotViewModel.Notebook);
+            infoPivotViewModel.DownloadAndSavePhotos();
             GetDeleteButton();
         }
 
         private void DeleteButtonClick(object sender, EventArgs e)
         {
             db.DeleteCache(infoPivotViewModel.Cache.Id);
+            //ToDo: delete photos
             GetAddButton();
         }
     }
