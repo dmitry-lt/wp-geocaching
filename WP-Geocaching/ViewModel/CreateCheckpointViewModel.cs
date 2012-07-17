@@ -215,8 +215,8 @@ namespace WP_Geocaching.ViewModel
 
         private void SetDefaultValues()
         {
-            name = AppResources.CheckpointName;
             CacheDataBase db = new CacheDataBase();
+            name = String.Format(AppResources.DefaultCheckpointName, db.GetMaxCheckpointId(MapManager.Instance.CacheId) + 1);
             DbCacheItem cacheItem = db.GetCache(MapManager.Instance.CacheId);
             updateTextBoxes();
         }
