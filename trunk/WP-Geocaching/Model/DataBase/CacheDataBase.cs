@@ -55,9 +55,8 @@ namespace WP_Geocaching.Model.DataBase
             {
                 int maxId = GetMaxCheckpointIdByCacheId(db.Checkpoints, cacheId);
                 var newItem = new DbCheckpointsItem {Id = maxId + 1};
-                newItem.Name = name.Equals(AppResources.CheckpointName)
-                                   ? String.Format(AppResources.DefaultCheckpointName, newItem.Id)
-                                   : name;
+
+                newItem.Name = name;
                 newItem.CacheId = cacheId;
                 newItem.Latitude = latitude;
                 newItem.Longitude = longitude;
@@ -66,6 +65,14 @@ namespace WP_Geocaching.Model.DataBase
 
                 db.Checkpoints.InsertOnSubmit(newItem);
                 db.SubmitChanges();
+            }
+        }
+
+        public int GetMaxCheckpointId(int cacheId)
+        {
+            using (var db = new CacheDataContext(ConnectionString))
+            {
+                return GetMaxCheckpointIdByCacheId(db.Checkpoints, cacheId);
             }
         }
 
