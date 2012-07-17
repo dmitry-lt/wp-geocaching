@@ -282,5 +282,14 @@ namespace WP_Geocaching.Model
             }
             process(images[index]);
         }
+
+        public void DeletePhotos(int cacheId)
+        {
+            var helper = new FileStorageHelper();
+            helper.DeletePhotos(cacheId);
+            this.cacheId = -1;
+            photoUrls = photoNames = null;
+            images = null;
+        }
     }
 }

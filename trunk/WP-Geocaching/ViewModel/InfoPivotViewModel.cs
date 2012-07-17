@@ -62,6 +62,11 @@ namespace WP_Geocaching.ViewModel
             GeocahingSuApiManager.Instance.DownloadPhotos(Cache.Id, SavePhotos);
         }
 
+        public void DeletePhotos()
+        {
+            GeocahingSuApiManager.Instance.DeletePhotos(Cache.Id);
+        }
+
         private void SavePhotos(List<string> uriList)
         {
             for (var i = 0; i < uriList.Count; i++)
