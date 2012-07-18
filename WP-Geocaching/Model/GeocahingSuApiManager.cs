@@ -195,7 +195,7 @@ namespace WP_Geocaching.Model
 
             if (processAction != null)
             {
-                processAction(photoUrls);
+                processAction(photoNames);
             }
         }
 
