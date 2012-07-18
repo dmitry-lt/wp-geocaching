@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows.Media;
 using Microsoft.Phone.Controls;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,6 +28,7 @@ namespace WP_Geocaching.ViewModel
             var db = new CacheDataBase();
             var item = db.GetCache(Cache.Id);
             this.notebookBrowser = notebookBrowser;
+
             if ((item != null) && (item.Notebook != null))
             {
                 notebookBrowser.NavigateToString(item.Notebook);
@@ -42,6 +44,7 @@ namespace WP_Geocaching.ViewModel
             var db = new CacheDataBase();
             var item = db.GetCache(Cache.Id);
             this.detailsBrowser = detailsBrowser;
+
             if ((item != null) && (item.Details != null))
             {
                 detailsBrowser.NavigateToString(item.Details);
@@ -54,12 +57,12 @@ namespace WP_Geocaching.ViewModel
 
         public void LoadPreviews()
         {
-            GeocahingSuApiManager.Instance.DownloadPhotos(Cache.Id, LoadPhotosPage);
+            GeocahingSuApiManager.Instance.ProcessPhotos(Cache.Id, LoadPhotos);
         }
 
         public void DownloadAndSavePhotos()
         {
-            GeocahingSuApiManager.Instance.DownloadPhotos(Cache.Id, SavePhotos);
+            GeocahingSuApiManager.Instance.ProcessPhotos(Cache.Id, SavePhotos);
         }
 
         public void DeletePhotos()
@@ -69,20 +72,19 @@ namespace WP_Geocaching.ViewModel
 
         private void SavePhotos(List<string> uriList)
         {
-            for (var i = 0; i < uriList.Count; i++)
-            {
-                GeocahingSuApiManager.Instance.DownloadAndSavePreviewPhoto(uriList[i], i);
-            }
+            ProcessPhotos(uriList, GeocahingSuApiManager.Instance.SaveAndProcessPhoto);
         }
 
         private void ProcessNotebook(string notebook)
         {
             var db = new CacheDataBase();
             Notebook = notebook;
+
             if (db.GetCache(Cache.Id) != null)
             {
                 db.UpdateCacheNotebook(notebook, Cache.Id);
             }
+
             notebookBrowser.NavigateToString(notebook);
         }
 
@@ -90,21 +92,32 @@ namespace WP_Geocaching.ViewModel
         {
             var db = new CacheDataBase();
             Details = info;
+
             if (db.GetCache(Cache.Id) != null)
             {
                 db.UpdateCacheInfo(info, Cache.Id);
             }
+
             detailsBrowser.NavigateToString(info);
         }
 
-        public void LoadPhotosPage(List<string> uriList)
+        public void LoadPhotos(List<string> uriList)
         {
-            if (Previews.Count != 0) return;
+            ProcessPhotos(uriList, GeocahingSuApiManager.Instance.LoadAndProcessPhoto);
+        }
+
+        private void ProcessPhotos(List<string> uriList, Action<string, Action<ImageSource, int>, int> processPhotos)
+        {
+            if (uriList == null || Previews == null || Previews.Count != 0)
+            {
+                return;
+            }
+
             FillPreviews(uriList.Count);
 
             for (var i = 0; i < uriList.Count; i++)
             {
-                GeocahingSuApiManager.Instance.LoadPreviewPhoto(uriList[i], AddPhotoToPrevious, i);
+                processPhotos(uriList[i], AddPhotoToPrevious, i);
             }
         }
 

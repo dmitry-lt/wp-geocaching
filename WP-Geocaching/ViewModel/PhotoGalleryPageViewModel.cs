@@ -34,7 +34,7 @@ namespace WP_Geocaching.ViewModel
         public void LoadFullsizePhoto(int index)
         {
             currentIndex = index;
-            GeocahingSuApiManager.Instance.LoadFullSizePhoto(SetImageSource, index);
+            GeocahingSuApiManager.Instance.ProcessPhoto(SetImageSource, index);
         }
 
         public void SetImageSource(ImageSource source)

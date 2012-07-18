@@ -48,55 +48,88 @@ namespace WP_Geocaching.Model
 
         public bool IsOnePhotoExists(int cacheId, string fileName)
         {
-            var imagePath = String.Format(FilePath, cacheId, fileName.Substring(1));
-            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
-            return fileStore.FileExists(imagePath);
+            var imagePath = String.Format(FilePath, cacheId, fileName);
+
+            using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                return fileStore.FileExists(imagePath);
+            }
         }
 
         public bool IsPhotosExist(int cacheId)
         {
-            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
-            return fileStore.DirectoryExists(cacheId.ToString());
+            using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                return fileStore.DirectoryExists(cacheId.ToString());
+            }
         }
 
         public void SavePhoto(int cacheId, string fileName, WriteableBitmap bitmap)
         {
             CreateCacheDirectories(cacheId);
-            var newFilePath = String.Format(FilePath, cacheId, fileName.Substring(1));
-            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
-            if (fileStore.FileExists(newFilePath))
-            {
-                fileStore.DeleteFile(newFilePath);
-            }
-            var myFileStream = fileStore.CreateFile(newFilePath);
+            var newFilePath = String.Format(FilePath, cacheId, fileName);
 
-            //85 - quality, maybe this parameter should be added in settings
-            bitmap.SaveJpeg(myFileStream, bitmap.PixelWidth, bitmap.PixelHeight, 0, 85);
-            myFileStream.Close();
+            using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+
+                if (fileStore.FileExists(newFilePath))
+                {
+                    fileStore.DeleteFile(newFilePath);
+                }
+                var myFileStream = fileStore.CreateFile(newFilePath);
+
+                //85 - quality, maybe this parameter should be added in settings
+                bitmap.SaveJpeg(myFileStream, bitmap.PixelWidth, bitmap.PixelHeight, 0, 85);
+                myFileStream.Close();
+            }
         }
 
         private void CreateCacheDirectories(int cacheId)
         {
-            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
-            if (fileStore.DirectoryExists(cacheId.ToString())) return;
-            fileStore.CreateDirectory(cacheId.ToString());
+            using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+
+                if (fileStore.DirectoryExists(cacheId.ToString()))
+                {
+                    return;
+                }
+
+                fileStore.CreateDirectory(cacheId.ToString());
+            }
         }
 
-        public List<string> GetPreviewNames(int cacheId)
+        public List<string> GetPhotoNames(int cacheId)
         {
-            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
-            var filePattern = String.Format(FilePath, cacheId, "*.*");
-            return fileStore.GetFileNames(filePattern).ToList();
+            if (!IsPhotosExist(cacheId))
+            {
+                return null;
+            }
+
+            using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                var filePattern = String.Format(FilePath, cacheId, "*.*");
+                return fileStore.GetFileNames(filePattern).ToList();
+            }
         }
 
         public void DeletePhotos(int cacheId)
         {
-            var fileStore = IsolatedStorageFile.GetUserStoreForApplication();
-            foreach (var p in GetPreviewNames(cacheId))
+            using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                fileStore.DeleteFile(String.Format(FilePath, cacheId, p));
+                var photos = GetPhotoNames(cacheId);
+
+                if (photos == null)
+                {
+                    return;
+                }
+
+                foreach (var p in photos)
+                {
+                    fileStore.DeleteFile(String.Format(FilePath, cacheId, p));
+                }
+
+                fileStore.DeleteDirectory(cacheId.ToString());
             }
-            fileStore.DeleteDirectory(cacheId.ToString());
         }
     }
 }
