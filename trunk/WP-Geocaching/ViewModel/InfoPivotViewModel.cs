@@ -108,12 +108,15 @@ namespace WP_Geocaching.ViewModel
 
         private void ProcessPhotos(List<string> uriList, Action<string, Action<ImageSource, int>, int> processPhotos)
         {
-            if (uriList == null || Previews == null || Previews.Count != 0)
+            if (uriList == null || Previews == null)
             {
                 return;
             }
 
-            FillPreviews(uriList.Count);
+            if (Previews.Count == 0)
+            {
+                FillPreviews(uriList.Count);
+            }
 
             for (var i = 0; i < uriList.Count; i++)
             {
