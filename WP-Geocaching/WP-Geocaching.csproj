@@ -54,6 +54,7 @@
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
     <Reference Include="Microsoft.Phone.Controls.Maps" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="system.data.linq" />
@@ -94,7 +95,7 @@
     <Compile Include="Model\FileStorageHelper.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="Model\SmoothCompassManager.cs" />
-    <Compile Include="Model\ThreePhotos.cs" />
+    <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\Utils\CompassHelper.cs" />
     <Compile Include="Model\Utils\LocationHelper.cs" />
     <Compile Include="Model\Utils\CP1251Encoding.cs" />
@@ -176,9 +177,6 @@
     <Compile Include="View\Info\PhotoGalleryPage.xaml.cs">
       <DependentUpon>PhotoGalleryPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Info\ThreePhotoItem.xaml.cs">
-      <DependentUpon>ThreePhotoItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\SearchBingMap.xaml.cs">
       <DependentUpon>SearchBingMap.xaml</DependentUpon>
     </Compile>
@@ -233,10 +231,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Info\PhotoGalleryPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Info\ThreePhotoItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
