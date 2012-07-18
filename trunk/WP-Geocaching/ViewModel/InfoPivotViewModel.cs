@@ -16,11 +16,11 @@ namespace WP_Geocaching.ViewModel
         public string Details { get; set; }
         public string Notebook { get; set; }
         public Cache Cache { get; set; }
-        public ObservableCollection<ThreePhotos> Previews { get; set; }
+        public ObservableCollection<Photo> Previews { get; set; }
 
         public InfoPivotViewModel()
         {
-            Previews = new ObservableCollection<ThreePhotos>();
+            Previews = new ObservableCollection<Photo>();
         }
 
         public void LoadNotebookPivotItem(WebBrowser notebookBrowser)
@@ -126,19 +126,15 @@ namespace WP_Geocaching.ViewModel
 
         private void AddPhotoToPrevious(ImageSource photo, int index)
         {
-            Previews[index / 3].Add(photo, index);
+            Previews[index].PhotoSource = photo;
+            Previews[index].Index = index;
         }
 
         private void FillPreviews(int count)
         {
-            for (var i = 0; i < count / 3; i++)
+            for (var i = 0; i < count; i++)
             {
-                Previews.Add(new ThreePhotos());
-            }
-
-            if (count % 3 != 0)
-            {
-                Previews.Add(new ThreePhotos());
+                Previews.Add(new Photo());
             }
         }
     }

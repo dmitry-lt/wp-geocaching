@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Windows;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Navigation;
@@ -139,6 +140,12 @@ namespace WP_Geocaching.View.Info
             db.DeleteCache(infoPivotViewModel.Cache.Id);
             infoPivotViewModel.DeletePhotos();
             GetAddButton();
+        }
+
+        private void ImageGotFocus(object sender, RoutedEventArgs e)
+        {
+            var index = (int)(((Image)sender).Tag);
+            NavigationManager.Instance.NavigateToPhotoGallery(index);
         }
     }
 }
