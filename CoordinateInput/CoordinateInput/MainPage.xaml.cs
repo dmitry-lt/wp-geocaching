@@ -15,13 +15,13 @@ namespace CoordinateInput
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        CreateCheckpointViewModel createCheckpointViewModel;
+        CheckpointViewModel checkpointViewModel;
 
         public MainPage()
         {
             InitializeComponent();
-            createCheckpointViewModel = new CreateCheckpointViewModel();
-            DataContext = createCheckpointViewModel;
+            checkpointViewModel = new CheckpointViewModel();
+            DataContext = checkpointViewModel;
         }
 
         private void TextChanged(object sender, TextChangedEventArgs e)
@@ -29,6 +29,11 @@ namespace CoordinateInput
             TextBox textBox = sender as TextBox;
             var bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
             bindingExpr.UpdateSource();
+        }
+
+        private void LoadingPivotItem(object sender, PivotItemEventArgs e)
+        {
+            checkpointViewModel.Refresh();
         }
     }
 }
