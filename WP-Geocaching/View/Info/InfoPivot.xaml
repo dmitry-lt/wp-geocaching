@@ -23,7 +23,6 @@
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,12,12" Orientation="Horizontal">
-            <!--<Image Source="/WP-Geocaching;component/Resources/Images/application_logo_small.png"/>-->
             <StackPanel Background="{StaticResource PhoneAccentBrush}">
                 <Image Source="/WP-Geocaching;component/Resources/Images/application_logo_small_white.png"/>
             </StackPanel>
@@ -72,7 +71,7 @@
                                  ItemsSource="{Binding Previews, Mode=TwoWay}">
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <toolkit:WrapPanel ItemWidth="150" ItemHeight="150"/>
+                                    <toolkit:WrapPanel ItemWidth="152" ItemHeight="152"/>
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                             <ListBox.ItemTemplate>

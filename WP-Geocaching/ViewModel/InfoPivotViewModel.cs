@@ -120,11 +120,11 @@ namespace WP_Geocaching.ViewModel
 
             for (var i = 0; i < uriList.Count; i++)
             {
-                processPhotos(uriList[i], AddPhotoToPrevious, i);
+                processPhotos(uriList[i], AddPhotoToPreviews, i);
             }
         }
 
-        private void AddPhotoToPrevious(ImageSource photo, int index)
+        private void AddPhotoToPreviews(ImageSource photo, int index)
         {
             Previews[index].PhotoSource = photo;
             Previews[index].Index = index;

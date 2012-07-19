@@ -47,5 +47,39 @@ namespace WP_Geocaching.View.Info
             previousButton.Click += (sender, e) => photoGalleryPageViewModel.LoadPrevious();
             ApplicationBar.Buttons.Add(previousButton);
         }
+
+        private void GestureListenerDragCompleted(object sender, DragCompletedGestureEventArgs e)
+        {
+            if (e.Direction == System.Windows.Controls.Orientation.Horizontal)
+            {
+                var abs = Math.Abs(panelDragHorizontal);
+                if (abs > 75)
+                {
+                    if (panelDragHorizontal > 0) photoGalleryPageViewModel.LoadPrevious();
+                    else photoGalleryPageViewModel.LoadNext();
+
+                    e.Handled = true;
+                }
+            }
+            imageTranslate.TranslateX = 0;
+        }
+
+
+        double panelDragHorizontal;
+        private void GestureListenerDragDelta(object sender, DragDeltaGestureEventArgs e)
+        {
+            if (e.Direction == System.Windows.Controls.Orientation.Horizontal)
+            {
+                panelDragHorizontal += e.HorizontalChange;
+
+                imageTranslate.TranslateX = panelDragHorizontal * 0.7;
+            }
+
+        }
+
+        private void GestureListenerDragStarted(object sender, DragStartedGestureEventArgs e)
+        {
+            panelDragHorizontal = 0;
+        }
     }
 }
