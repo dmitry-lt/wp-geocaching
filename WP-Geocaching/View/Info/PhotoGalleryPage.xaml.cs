@@ -91,15 +91,21 @@ namespace WP_Geocaching.View.Info
         }
 
         private double initialScale;
+        private double x;
+        private double y;
 
         private void GestureListenerPinchStarted(object sender, PinchStartedGestureEventArgs e)
         {
             initialScale = imageTranslate.ScaleX;
+            x = (e.GetPosition(image, 0).X + e.GetPosition(image, 1).X) / 2;
+            y = (e.GetPosition(image, 0).Y + e.GetPosition(image, 1).Y) / 2;
         }
 
         private void GestureListenerPinchDelta(object sender, PinchGestureEventArgs e)
         {
-            imageTranslate.ScaleX = imageTranslate.ScaleY = e.DistanceRatio > 1 ? initialScale * e.DistanceRatio : 1;
+            imageTranslate.ScaleX = imageTranslate.ScaleY = e.DistanceRatio * initialScale > 1 ? initialScale * e.DistanceRatio : 1;
+            imageTranslate.CenterX = x;
+            imageTranslate.CenterY = y;
         }
 
         private void ResetImageTranslate()
