@@ -64,9 +64,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseViewModel.cs" />
-    <Compile Include="Sexagesimal.cs" />
-    <Compile Include="Decimal.cs" />
-    <Compile Include="CreateCheckpointViewModel.cs" />
+    <Compile Include="SecCoordinateViewModel.cs" />
+    <Compile Include="MinCoordinateViewModel.cs" />
+    <Compile Include="DegCoordinateViewModel.cs" />
+    <Compile Include="CheckpointViewModel.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

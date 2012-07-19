@@ -30,7 +30,7 @@
         <!--ContentPanel - place additional content here-->
         <!--Pivot Control-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <controls:Pivot x:Name="Converters">
+            <controls:Pivot x:Name="Converters" LoadingPivotItem="LoadingPivotItem">
                 <controls:PivotItem>
                     <controls:PivotItem.Header>
                         <Grid>
@@ -41,13 +41,13 @@
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Latitude" FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox FontSize="22" Text="{Binding LatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                <TextBox MaxLength="2" FontSize="22" Text="{Binding LatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                                          VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
                                 <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding LatMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                <TextBox MaxLength="2" FontSize="22" Text="{Binding LatMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                                          VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
                                 <TextBlock FontSize="22" Text="." VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding LatMinutesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                <TextBox FontSize="22" MaxLength="3" Text="{Binding LatMinutesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                                          VerticalAlignment="Center" Width="100" TextChanged="TextChanged"/>
                                 <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
                             </StackPanel>
@@ -65,10 +65,10 @@
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Latitude" FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox FontSize="22" Text="{Binding DLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                <TextBox FontSize="22" MaxLength="2" Text="{Binding DLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                                          VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
                                 <TextBlock FontSize="22" Text="." VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" Text="{Binding DLatDegreesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                <TextBox FontSize="22" MaxLength="6" Text="{Binding DLatDegreesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                                          VerticalAlignment="Center" Width="150" TextChanged="TextChanged"/>
                                 <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
                             </StackPanel>
