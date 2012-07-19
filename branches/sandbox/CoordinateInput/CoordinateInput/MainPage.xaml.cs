@@ -15,10 +15,20 @@ namespace CoordinateInput
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        // Constructor
+        CreateCheckpointViewModel createCheckpointViewModel;
+
         public MainPage()
         {
             InitializeComponent();
+            createCheckpointViewModel = new CreateCheckpointViewModel();
+            DataContext = createCheckpointViewModel;
+        }
+
+        private void TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            var bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+            bindingExpr.UpdateSource();
         }
     }
 }
