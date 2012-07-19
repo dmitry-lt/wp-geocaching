@@ -3,6 +3,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Resources.Localization;
+using WP_Geocaching.Model;
 
 namespace WP_Geocaching.View.Info
 {
@@ -33,7 +34,7 @@ namespace WP_Geocaching.View.Info
                                      IconUri = new Uri("Resources/Images/appbar.next.rest.png", UriKind.Relative),
                                      Text = AppResources.NextButton
                                  };
-            nextButton.Click += (sender, e) => photoGalleryPageViewModel.LoadNext();
+            nextButton.Click += (sender, e) => photoGalleryPageViewModel.LoadNext(ResetImageTranslate);
             ApplicationBar.Buttons.Add(nextButton);
         }
 
@@ -44,42 +45,69 @@ namespace WP_Geocaching.View.Info
                                          IconUri = new Uri("Resources/Images/appbar.back.rest.png", UriKind.Relative),
                                          Text = AppResources.PreviousButton
                                      };
-            previousButton.Click += (sender, e) => photoGalleryPageViewModel.LoadPrevious();
+            previousButton.Click += (sender, e) => photoGalleryPageViewModel.LoadPrevious(ResetImageTranslate);
             ApplicationBar.Buttons.Add(previousButton);
         }
 
+        private double panelDragHorizontal;
+        private double panelDragVertical;
+        private double initialTranslateX;
+        private double initialTranslateY;
+
         private void GestureListenerDragCompleted(object sender, DragCompletedGestureEventArgs e)
         {
-            if (e.Direction == System.Windows.Controls.Orientation.Horizontal)
-            {
-                var abs = Math.Abs(panelDragHorizontal);
-                if (abs > 75)
-                {
-                    if (panelDragHorizontal > 0) photoGalleryPageViewModel.LoadPrevious();
-                    else photoGalleryPageViewModel.LoadNext();
+            if ((e.Direction != System.Windows.Controls.Orientation.Horizontal) || (imageTranslate.ScaleX > 1)) return;
 
-                    e.Handled = true;
-                }
-            }
-            imageTranslate.TranslateX = 0;
+            var abs = Math.Abs(panelDragHorizontal);
+
+            if (abs <= 75) return;
+
+            if (panelDragHorizontal > 0) photoGalleryPageViewModel.LoadPrevious(ResetImageTranslate);
+            else photoGalleryPageViewModel.LoadNext(ResetImageTranslate);
+
+            e.Handled = true;
         }
 
-
-        double panelDragHorizontal;
         private void GestureListenerDragDelta(object sender, DragDeltaGestureEventArgs e)
         {
-            if (e.Direction == System.Windows.Controls.Orientation.Horizontal)
-            {
-                panelDragHorizontal += e.HorizontalChange;
+            //panelDragHorizontal += e.HorizontalChange;
+            //double x = initialTranslateX + panelDragHorizontal * 0.7;
+            //if ((image.ActualHeight / 2 > x) && (panelDragHorizontal < 0)) imageTranslate.TranslateX = image.ActualHeight / 2;
+            //else if ((-image.ActualHeight / 2 < x) && (panelDragHorizontal > 0)) imageTranslate.TranslateX = image.ActualHeight / 2;
+            //else imageTranslate.TranslateX = x;
 
-                imageTranslate.TranslateX = panelDragHorizontal * 0.7;
-            }
-
+            panelDragHorizontal += e.HorizontalChange;
+            imageTranslate.TranslateX = initialTranslateX + panelDragHorizontal * 0.7;
+            panelDragVertical += e.VerticalChange;
+            imageTranslate.TranslateY = initialTranslateY + panelDragVertical * 0.7;
         }
 
         private void GestureListenerDragStarted(object sender, DragStartedGestureEventArgs e)
         {
             panelDragHorizontal = 0;
+            panelDragVertical = 0;
+            initialTranslateX = imageTranslate.TranslateX;
+            initialTranslateY = imageTranslate.TranslateY;
+        }
+
+        private double initialScale;
+
+        private void GestureListenerPinchStarted(object sender, PinchStartedGestureEventArgs e)
+        {
+            initialScale = imageTranslate.ScaleX;
+        }
+
+        private void GestureListenerPinchDelta(object sender, PinchGestureEventArgs e)
+        {
+            imageTranslate.ScaleX = imageTranslate.ScaleY = e.DistanceRatio > 1 ? initialScale * e.DistanceRatio : 1;
+        }
+
+        private void ResetImageTranslate()
+        {
+            imageTranslate.ScaleX = 1;
+            imageTranslate.ScaleY = 1;
+            imageTranslate.TranslateX = 0;
+            imageTranslate.TranslateY = 0;
         }
     }
 }
