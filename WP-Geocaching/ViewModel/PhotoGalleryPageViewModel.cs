@@ -42,13 +42,15 @@ namespace WP_Geocaching.ViewModel
             ImageSource = source;
         }
 
-        public void LoadNext()
+        public void LoadNext(Action action)
         {
+            action();
             LoadFullsizePhoto(++currentIndex);
         }
 
-        public void LoadPrevious()
+        public void LoadPrevious(Action action)
         {
+            action();
             LoadFullsizePhoto(--currentIndex);
         }
     }
