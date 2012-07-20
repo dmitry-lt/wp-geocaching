@@ -13,6 +13,7 @@ public class DegCoordinateViewModel
 {
     private int degrees;
     private double degreesFraction;
+    private bool positive;
 
     public string Degrees
     {
@@ -23,6 +24,7 @@ public class DegCoordinateViewModel
         set
         {
             degrees = Convert.ToInt32(value);
+            positive = degrees > 0 ? true : false;
         }
     }
 
@@ -30,7 +32,7 @@ public class DegCoordinateViewModel
     {
         get
         {
-            return degreesFraction.ToString().Substring(2);
+            return String.Format("{0:0.000000}", degreesFraction).Substring(2);
         }
         set
         {
@@ -41,12 +43,17 @@ public class DegCoordinateViewModel
 
     public DegCoordinateViewModel(double coordinate)
     {
+        positive = coordinate > 0 ? true : false;
         degrees = (int)coordinate;
-        degreesFraction = Math.Round(coordinate - (int)coordinate, 6);
+        degreesFraction = Math.Round(Math.Abs(coordinate - (int)coordinate), 6);
     }
 
     public double ToCoordinate()
     {
-        return degrees + degreesFraction;
+        if (positive)
+        {
+            return degrees + degreesFraction;
+        }
+        return degrees - degreesFraction;
     }
 }

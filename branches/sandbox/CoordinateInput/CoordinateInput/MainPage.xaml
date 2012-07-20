@@ -41,14 +41,14 @@
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Latitude" FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox MaxLength="2" FontSize="22" Text="{Binding LatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
-                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
+                                <TextBox MaxLength="3" FontSize="22" Text="{Binding LatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
                                 <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
                                 <TextBox MaxLength="2" FontSize="22" Text="{Binding LatMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
-                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
                                 <TextBlock FontSize="22" Text="." VerticalAlignment="Center"/>
                                 <TextBox FontSize="22" MaxLength="3" Text="{Binding LatMinutesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
-                                         VerticalAlignment="Center" Width="100" TextChanged="TextChanged"/>
+                                         VerticalAlignment="Center" Width="100" TextChanged="TextChanged" InputScope="Number"/>
                                 <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
                             </StackPanel>
                         </StackPanel>
@@ -65,11 +65,11 @@
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Latitude" FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox FontSize="22" MaxLength="2" Text="{Binding DLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
-                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged"/>
+                                <TextBox FontSize="22" MaxLength="3" Text="{Binding DLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
                                 <TextBlock FontSize="22" Text="." VerticalAlignment="Center"/>
                                 <TextBox FontSize="22" MaxLength="6" Text="{Binding DLatDegreesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
-                                         VerticalAlignment="Center" Width="150" TextChanged="TextChanged"/>
+                                         VerticalAlignment="Center" Width="150" TextChanged="TextChanged" InputScope="Number"/>
                                 <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
                             </StackPanel>
                         </StackPanel>
