@@ -11,6 +11,10 @@ using System.Windows.Shapes;
 
 public class MinCoordinateViewModel
 {
+    private const string FormatMinutesFraction = "{0:0.000}";
+    private const string DotPosition = "0.";
+    private const int RoundMinutesFraction = 3;
+
     private int degrees;
     private int minutes;
     private double minutesFraction;
@@ -22,11 +26,6 @@ public class MinCoordinateViewModel
         {
             return degrees.ToString();
         }
-        set
-        {
-            degrees = Convert.ToInt32(value);
-            positive = degrees > 0 ? true : false;
-        }
     }
 
     public string Minutes
@@ -35,23 +34,61 @@ public class MinCoordinateViewModel
         {
             return minutes.ToString();
         }
-        set
-        {
-            minutes = Convert.ToInt32(value);
-        }
     }
 
     public string MinutesFraction
     {
         get
         {
-            return String.Format("{0:0.000}", minutesFraction).Substring(2);
+            return String.Format(FormatMinutesFraction, minutesFraction).Substring(2);
         }
-        set
+    }
+
+    public bool SetDegrees(string value)
+    {
+        int deg;
+
+        if (int.TryParse(value, out deg))
         {
-            string val = "0." + value;
-            minutesFraction = Convert.ToDouble(val);
+            if (deg > -90 && deg < 90)
+            {
+                degrees = deg;
+                positive = degrees > 0 ? true : false;
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    public bool SetMinutes(string value)
+    {
+        int min;
+
+        if (int.TryParse(value, out min))
+        {
+            if (min >= 0 && min < 60)
+            {
+                minutes = min;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool SetMinutesFraction(string value)
+    {
+        string val = DotPosition + value;
+        double minFraction;
+
+        if (double.TryParse(val, out minFraction))
+        {
+            minutesFraction = minFraction;
+            return true;
+        }
+
+        return false;
     }
 
     public MinCoordinateViewModel(double coordinate)
@@ -59,7 +96,7 @@ public class MinCoordinateViewModel
         positive = coordinate > 0 ? true : false;
         degrees = (int)coordinate;
         minutes = Math.Abs((int)((coordinate - degrees) * 60));
-        minutesFraction = Math.Round(Math.Abs((coordinate - degrees)) * 60 - minutes, 3);
+        minutesFraction = Math.Round(Math.Abs((coordinate - degrees)) * 60 - minutes, RoundMinutesFraction);
     }
 
     public double ToCoordinate()
@@ -68,6 +105,7 @@ public class MinCoordinateViewModel
         {
             return degrees + (minutes + minutesFraction) / 60.0;
         }
+
         return degrees - (minutes + minutesFraction) / 60.0;
     }
 }
