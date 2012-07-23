@@ -59,11 +59,6 @@ namespace WP_Geocaching.View.Info
         private double initialTranslateX;
         private double initialTranslateY;
 
-        
-
-        private Point parentPosition;
-        private Point childrenPosition;
-
         private void GestureListenerDragCompleted(object sender, DragCompletedGestureEventArgs e)
         {
             if ((e.Direction != System.Windows.Controls.Orientation.Horizontal) || (imageTransform.ScaleX > 1)) return;
@@ -115,8 +110,8 @@ namespace WP_Geocaching.View.Info
 
         private void GestureListenerDragStarted(object sender, DragStartedGestureEventArgs e)
         {
-            deltaX = ContentPanel.ActualWidth / 2 - 50;
-            deltaY = ContentPanel.ActualHeight / 2 - 50;
+            deltaX = ContentPanel.ActualWidth / 2;
+            deltaY = ContentPanel.ActualHeight / 2;
             panelDragHorizontal = 0;
             panelDragVertical = 0;
             initialTranslateX = imageTransform.TranslateX;
@@ -138,15 +133,26 @@ namespace WP_Geocaching.View.Info
         }
 
         private double initialScale;
+        private double initialDistance;
+        private double initialAngle;
 
         private void GestureListenerPinchStarted(object sender, PinchStartedGestureEventArgs e)
         {
             initialScale = imageTransform.ScaleX;
+            initialDistance = e.Distance;
+            initialAngle = 360 - e.Angle;
+            initialTranslateX = imageTransform.TranslateX;
+            initialTranslateY = imageTransform.TranslateY;
         }
 
         private void GestureListenerPinchDelta(object sender, PinchGestureEventArgs e)
         {
             imageTransform.ScaleX = imageTransform.ScaleY = e.DistanceRatio * initialScale > 1 ? initialScale * e.DistanceRatio : 1;
+            var midPoint = new Point((e.GetPosition(ContentPanel, 1).X + e.GetPosition(ContentPanel, 0).X)/2,
+                                     (e.GetPosition(ContentPanel, 1).Y + e.GetPosition(ContentPanel, 0).Y)/2);
+            var delta = Math.Abs(imageTransform.ScaleX - initialScale);
+            imageTransform.TranslateX = initialTranslateX + (ContentPanel.ActualWidth / 2 - midPoint.X) * delta / 2;
+            imageTransform.TranslateY = initialTranslateY + (ContentPanel.ActualHeight / 2 - midPoint.Y) * delta / 2;
         }
 
         private void ResetImageTranslate()
