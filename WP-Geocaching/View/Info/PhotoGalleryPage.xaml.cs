@@ -60,7 +60,7 @@ namespace WP_Geocaching.View.Info
         {
             if ((e.Direction != System.Windows.Controls.Orientation.Horizontal) || (imageTransform.ScaleX > 1)) return;
 
-            if (panelDragHorizontal > 0) photoGalleryPageViewModel.LoadPrevious(ResetImageTranslate);
+            if (panelDragHorizontal > 50) photoGalleryPageViewModel.LoadPrevious(ResetImageTranslate);
             else photoGalleryPageViewModel.LoadNext(ResetImageTranslate);
 
             e.Handled = true;
@@ -93,11 +93,6 @@ namespace WP_Geocaching.View.Info
                 {
                     panelDragVertical -= e.VerticalChange;
                 }
-            }
-            else
-            {
-                panelDragHorizontal += e.HorizontalChange;
-                imageTransform.TranslateX = initialTranslateX + panelDragHorizontal;
             }
         }
 
@@ -145,12 +140,8 @@ namespace WP_Geocaching.View.Info
         {
             imageTransform.ScaleX = imageTransform.ScaleY = e.DistanceRatio * initialScale > 1 ? initialScale * e.DistanceRatio : 1;
 
-            var midPoint = new Point((e.GetPosition(ContentPanel, 1).X + e.GetPosition(ContentPanel, 0).X)/2,
-                                     (e.GetPosition(ContentPanel, 1).Y + e.GetPosition(ContentPanel, 0).Y)/2);
-            var difference = Math.Abs(imageTransform.ScaleX - initialScale);
-
-            imageTransform.TranslateX = initialTranslateX + (contentPanelHalfWidth - midPoint.X) * difference / 2;
-            imageTransform.TranslateY = initialTranslateY + (contentPanelHalfHight - midPoint.Y) * difference / 2;
+            imageTransform.TranslateX = initialTranslateX * e.DistanceRatio;
+            imageTransform.TranslateY = initialTranslateY * e.DistanceRatio;
         }
 
         private void ResetImageTranslate()
