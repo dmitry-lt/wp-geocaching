@@ -21,6 +21,9 @@ public class CheckpointViewModel : BaseViewModel
     private Visibility latMinutesFractionValidate;
     private Visibility dLatDegreesValidate;
     private Visibility dLatDegreesFractionValidate;
+    private Visibility sLatDegreesValidate;
+    private Visibility sLatMinutesValidate;
+    private Visibility sLatSecondsValidate;
 
     public Visibility LatDegreesValidate
     {
@@ -84,6 +87,45 @@ public class CheckpointViewModel : BaseViewModel
         {
             dLatDegreesFractionValidate = value;
             NotifyPropertyChanged("DLatDegreesFractionValidate");
+        }
+    }
+
+    public Visibility SLatDegreesValidate
+    {
+        get
+        {
+            return sLatDegreesValidate;
+        }
+        set
+        {
+            sLatDegreesValidate = value;
+            NotifyPropertyChanged("SLatDegreesValidate");
+        }
+    }
+
+    public Visibility SLatMinutesValidate
+    {
+        get
+        {
+            return sLatMinutesValidate;
+        }
+        set
+        {
+            sLatMinutesValidate = value;
+            NotifyPropertyChanged("SLatMinutesValidate");
+        }
+    }
+
+    public Visibility SLatSecondsValidate
+    {
+        get
+        {
+            return sLatSecondsValidate;
+        }
+        set
+        {
+            sLatSecondsValidate = value;
+            NotifyPropertyChanged("SLatSecondsValidate");
         }
     }
 
@@ -250,6 +292,99 @@ public class CheckpointViewModel : BaseViewModel
         }
     }
 
+    public string SLatDegrees
+    {
+        get
+        {
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
+            SLatDegreesValidate = Visibility.Collapsed;
+            return secCoordinateViewModel.Degrees;
+        }
+        set
+        {
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
+
+            if (secCoordinateViewModel.Degrees != value)
+            {
+                if (secCoordinateViewModel.SetDegrees(value))
+                {
+                    currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                    SLatDegreesValidate = Visibility.Collapsed;
+                }
+                else
+                {
+                    SLatDegreesValidate = Visibility.Visible;
+                }
+            }
+            else
+            {
+                SLatDegreesValidate = Visibility.Collapsed;
+            }
+        }
+    }
+
+    public string SLatMinutes
+    {
+        get
+        {
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
+            SLatDegreesValidate = Visibility.Collapsed;
+            return secCoordinateViewModel.Minutes;
+        }
+        set
+        {
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
+
+            if (secCoordinateViewModel.Minutes != value)
+            {
+                if (secCoordinateViewModel.SetMinutes(value))
+                {
+                    currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                    SLatMinutesValidate = Visibility.Collapsed;
+                }
+                else
+                {
+                    SLatMinutesValidate = Visibility.Visible;
+                }
+            }
+            else
+            {
+                SLatMinutesValidate = Visibility.Collapsed;
+            }
+        }
+    }
+
+    public string SLatSeconds
+    {
+        get
+        {
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
+            SLatDegreesValidate = Visibility.Collapsed;
+            return secCoordinateViewModel.Seconds;
+        }
+        set
+        {
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
+
+            if (secCoordinateViewModel.Seconds != value)
+            {
+                if (secCoordinateViewModel.SetSeconds(value))
+                {
+                    currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                    SLatSecondsValidate = Visibility.Collapsed;
+                }
+                else
+                {
+                    SLatSecondsValidate = Visibility.Visible;
+                }
+            }
+            else
+            {
+                SLatSecondsValidate = Visibility.Collapsed;
+            }
+        }
+    }
+
     public CheckpointViewModel()
     {
         currentInputPointLocation = new GeoCoordinate(59.898580584384277, 30.285182952880845);
@@ -258,6 +393,9 @@ public class CheckpointViewModel : BaseViewModel
         LatMinutesFractionValidate = Visibility.Collapsed;
         DLatDegreesValidate = Visibility.Collapsed;
         DLatDegreesFractionValidate = Visibility.Collapsed;
+        SLatDegreesValidate = Visibility.Collapsed;
+        SLatMinutesValidate = Visibility.Collapsed;
+        SLatSecondsValidate = Visibility.Collapsed;
     }
 
     public void Refresh()
@@ -267,5 +405,8 @@ public class CheckpointViewModel : BaseViewModel
         NotifyPropertyChanged("LatDegrees");
         NotifyPropertyChanged("LatMinutes");
         NotifyPropertyChanged("LatMinutesFraction");
+        NotifyPropertyChanged("SLatDegrees");
+        NotifyPropertyChanged("SLatMinutes");
+        NotifyPropertyChanged("SLatSeconds");
     }
 }
