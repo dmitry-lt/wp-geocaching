@@ -11,6 +11,10 @@ using System.Windows.Shapes;
 
 public class DegCoordinateViewModel
 {
+    private const string FormatDegreesFraction = "{0:0.000000}";
+    private const string DotPosition = "0.";
+    private const int RoundDegreesFraction = 6;
+
     private int degrees;
     private double degreesFraction;
     private bool positive;
@@ -21,31 +25,52 @@ public class DegCoordinateViewModel
         {
             return degrees.ToString();
         }
-        set
-        {
-            degrees = Convert.ToInt32(value);
-            positive = degrees > 0 ? true : false;
-        }
     }
 
     public string DegreesFraction
     {
         get
         {
-            return String.Format("{0:0.000000}", degreesFraction).Substring(2);
+            return String.Format(FormatDegreesFraction, degreesFraction).Substring(2);
         }
-        set
+    }
+
+    public bool SetDegrees(string value)
+    {
+        int deg;
+
+        if (int.TryParse(value, out deg))
         {
-            string val = "0." + value;
-            degreesFraction = Convert.ToDouble(val);
+            if (deg > -90 && deg < 90)
+            {
+                degrees = deg;
+                positive = degrees > 0 ? true : false;
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    public bool SetDegreesFraction(string value)
+    {
+        string val = DotPosition + value;
+        double degFraction;
+
+        if (double.TryParse(val, out degFraction))
+        {
+            degreesFraction = degFraction;
+            return true;
+        }
+
+        return false;
     }
 
     public DegCoordinateViewModel(double coordinate)
     {
         positive = coordinate > 0 ? true : false;
         degrees = (int)coordinate;
-        degreesFraction = Math.Round(Math.Abs(coordinate - (int)coordinate), 6);
+        degreesFraction = Math.Round(Math.Abs(coordinate - (int)coordinate), RoundDegreesFraction);
     }
 
     public double ToCoordinate()
@@ -54,6 +79,7 @@ public class DegCoordinateViewModel
         {
             return degrees + degreesFraction;
         }
+
         return degrees - degreesFraction;
     }
 }

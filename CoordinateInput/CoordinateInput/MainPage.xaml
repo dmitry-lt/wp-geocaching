@@ -41,14 +41,23 @@
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Latitude" FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox MaxLength="3" FontSize="22" Text="{Binding LatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
-                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
+                                <Grid>
+                                    <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding LatDegreesValidate}" Margin="5"/>
+                                    <TextBox MaxLength="3" FontSize="22" Text="{Binding LatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                        VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
+                                </Grid>
                                 <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
-                                <TextBox MaxLength="2" FontSize="22" Text="{Binding LatMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
-                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
+                                <Grid>
+                                    <Border BorderThickness="3" BorderBrush="Red" Visibility="{Binding LatMinutesValidate}" Margin="5"/>
+                                    <TextBox MaxLength="2" FontSize="22" Text="{Binding LatMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                        VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
+                                </Grid>
                                 <TextBlock FontSize="22" Text="." VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" MaxLength="3" Text="{Binding LatMinutesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                <Grid>
+                                    <Border BorderThickness="3" BorderBrush="Red" Visibility="{Binding LatMinutesFractionValidate}" Margin="5"/>
+                                    <TextBox FontSize="22" MaxLength="3" Text="{Binding LatMinutesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                                          VerticalAlignment="Center" Width="100" TextChanged="TextChanged" InputScope="Number"/>
+                                </Grid>
                                 <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
                             </StackPanel>
                         </StackPanel>
@@ -65,11 +74,17 @@
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Latitude" FontSize="22" VerticalAlignment="Center" Width="100"/>
-                                <TextBox FontSize="22" MaxLength="3" Text="{Binding DLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                <Grid>
+                                    <Border BorderThickness="3" BorderBrush="Red" Visibility="{Binding DLatDegreesValidate}" Margin="5"/>
+                                    <TextBox FontSize="22" MaxLength="3" Text="{Binding DLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                                          VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
+                                </Grid>
                                 <TextBlock FontSize="22" Text="." VerticalAlignment="Center"/>
-                                <TextBox FontSize="22" MaxLength="6" Text="{Binding DLatDegreesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                <Grid>
+                                    <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding DLatDegreesFractionValidate}" Margin="5"/>
+                                    <TextBox FontSize="22" MaxLength="6" Text="{Binding DLatDegreesFraction, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                                          VerticalAlignment="Center" Width="150" TextChanged="TextChanged" InputScope="Number"/>
+                                </Grid>
                                 <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
                             </StackPanel>
                         </StackPanel>
