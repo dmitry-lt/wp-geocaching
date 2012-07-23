@@ -57,7 +57,7 @@ public class DegCoordinateViewModel
         string val = DotPosition + value;
         double degFraction;
 
-        if (double.TryParse(val, out degFraction))
+        if (double.TryParse(val, out degFraction) && val != DotPosition)
         {
             degreesFraction = degFraction;
             return true;

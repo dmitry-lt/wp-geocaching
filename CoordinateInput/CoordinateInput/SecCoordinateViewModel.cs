@@ -12,7 +12,6 @@ using System.Windows.Shapes;
 public class SecCoordinateViewModel
 {
     private const string FormatSeconds = "{0:0.000}";
-    private const int RoundSeconds = 3;
 
     private int degrees;
     private int minutes;
@@ -98,7 +97,7 @@ public class SecCoordinateViewModel
         degrees = (int)coordinate;
         double fractoinMinutes = Math.Abs(coordinate - degrees) * 60;
         minutes = (int)(fractoinMinutes);
-        seconds = Math.Round((fractoinMinutes - minutes) * 60, RoundSeconds);
+        seconds = Math.Round((fractoinMinutes - minutes) * 60);
     }
 
     public double ToCoordinate()

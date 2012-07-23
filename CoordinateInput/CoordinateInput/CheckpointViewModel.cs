@@ -387,7 +387,7 @@ public class CheckpointViewModel : BaseViewModel
 
     public CheckpointViewModel()
     {
-        currentInputPointLocation = new GeoCoordinate(59.898580584384277, 30.285182952880845);
+        currentInputPointLocation = new GeoCoordinate(/*59.898580584384277*/3.97, 30.285182952880845);
         LatDegreesValidate = Visibility.Collapsed;
         LatMinutesValidate = Visibility.Collapsed;
         LatMinutesFractionValidate = Visibility.Collapsed;

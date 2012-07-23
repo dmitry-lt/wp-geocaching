@@ -103,19 +103,19 @@
                                 <TextBlock Text="Latitude" FontSize="22" VerticalAlignment="Center" Width="100"/>
                                 <Grid>
                                     <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding SLatDegreesValidate}" Margin="5"/>
-                                    <TextBox  FontSize="22" Text="{Binding SLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                    <TextBox  FontSize="22" MaxLength="3" Text="{Binding SLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                                           VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
                                 </Grid>
                                 <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
                                 <Grid>
                                     <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding SLatMinutesValidate}" Margin="5"/>
-                                    <TextBox FontSize="22" Text="{Binding SLatMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                    <TextBox FontSize="22" MaxLength="2" Text="{Binding SLatMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                                          VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
                                 </Grid>
                                 <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
                                 <Grid>
                                     <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding SLatSecondsValidate}" Margin="5"/>
-                                    <TextBox FontSize="22" Text="{Binding SLatSeconds, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                    <TextBox FontSize="22" MaxLength="6" Text="{Binding SLatSeconds, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                                          VerticalAlignment="Center" Width="100" TextChanged="TextChanged" InputScope="Number"/>
                                 </Grid>
                                 <TextBlock FontSize="22" Text="''" VerticalAlignment="Center"/>
