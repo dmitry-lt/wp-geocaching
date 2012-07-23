@@ -90,6 +90,39 @@
                         </StackPanel>
                     </Grid>
                 </controls:PivotItem>
+
+                <controls:PivotItem>
+                    <controls:PivotItem.Header>
+                        <Grid>
+                            <TextBlock FontSize="50" Text="dd°,mm'ss.sss''"/>
+                        </Grid>
+                    </controls:PivotItem.Header>
+                    <Grid Grid.Row="1" Margin="12,0,12,0">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Latitude" FontSize="22" VerticalAlignment="Center" Width="100"/>
+                                <Grid>
+                                    <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding SLatDegreesValidate}" Margin="5"/>
+                                    <TextBox  FontSize="22" Text="{Binding SLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                          VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
+                                </Grid>
+                                <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
+                                <Grid>
+                                    <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding SLatMinutesValidate}" Margin="5"/>
+                                    <TextBox FontSize="22" Text="{Binding SLatMinutes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="70" TextChanged="TextChanged" InputScope="Number"/>
+                                </Grid>
+                                <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
+                                <Grid>
+                                    <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding SLatSecondsValidate}" Margin="5"/>
+                                    <TextBox FontSize="22" Text="{Binding SLatSeconds, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                         VerticalAlignment="Center" Width="100" TextChanged="TextChanged" InputScope="Number"/>
+                                </Grid>
+                                <TextBlock FontSize="22" Text="''" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </controls:PivotItem>
             </controls:Pivot>
         </Grid>
     </Grid>
