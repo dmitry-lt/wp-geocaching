@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Windows;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using WP_Geocaching.Model;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Resources.Localization;
-using WP_Geocaching.Model;
 
 namespace WP_Geocaching.View.Info
 {
@@ -15,9 +16,10 @@ namespace WP_Geocaching.View.Info
         {
             InitializeComponent();
             photoGalleryPageViewModel = new PhotoGalleryPageViewModel();
-            this.DataContext = photoGalleryPageViewModel;
+            DataContext = photoGalleryPageViewModel;
             SetPreviousButton();
             SetNextButton();
+            ResetImageTranslate();
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -54,9 +56,16 @@ namespace WP_Geocaching.View.Info
         private double initialTranslateX;
         private double initialTranslateY;
 
+        private const double delta = 50;
+        private double limitTranslateX;
+        private double limitTranslateY;
+
+        private Point parentPosition;
+        private Point childrenPosition;
+
         private void GestureListenerDragCompleted(object sender, DragCompletedGestureEventArgs e)
         {
-            if ((e.Direction != System.Windows.Controls.Orientation.Horizontal) || (imageTranslate.ScaleX > 1)) return;
+            if ((e.Direction != System.Windows.Controls.Orientation.Horizontal) || (imageTransform.ScaleX > 1)) return;
 
             var abs = Math.Abs(panelDragHorizontal);
 
@@ -71,49 +80,75 @@ namespace WP_Geocaching.View.Info
         private void GestureListenerDragDelta(object sender, DragDeltaGestureEventArgs e)
         {
             //panelDragHorizontal += e.HorizontalChange;
-            //double x = initialTranslateX + panelDragHorizontal * 0.7;
-            //if ((image.ActualHeight / 2 > x) && (panelDragHorizontal < 0)) imageTranslate.TranslateX = image.ActualHeight / 2;
-            //else if ((-image.ActualHeight / 2 < x) && (panelDragHorizontal > 0)) imageTranslate.TranslateX = image.ActualHeight / 2;
-            //else imageTranslate.TranslateX = x;
+
+            //var newTranslate = initialTranslateX + panelDragHorizontal * 0.7;
+
+            //var limitTranslate = childrenPosition.X * imageTransform.ScaleX  - parentPosition.X;
+            //imageTransform.TranslateX = GetCorrectedTranslate(newTranslate, limitTranslate, (image.ActualWidth - childrenPosition.X) * imageTransform.ScaleX - ContentPanel.ActualWidth + parentPosition.X);
+
+            //panelDragVertical += e.VerticalChange;
+
+            //newTranslate = initialTranslateY + panelDragVertical * 0.7;
+            //limitTranslate = image.ActualHeight * imageTransform.ScaleY / 2 - 50;
+            //delta = image.ActualHeight / 2;
+            //imageTransform.TranslateY = GetCorrectedTranslate(newTranslate, limitTranslate) + delta;
 
             panelDragHorizontal += e.HorizontalChange;
-            imageTranslate.TranslateX = initialTranslateX + panelDragHorizontal * 0.7;
+            imageTransform.TranslateX = initialTranslateX + panelDragHorizontal * 0.7;
             panelDragVertical += e.VerticalChange;
-            imageTranslate.TranslateY = initialTranslateY + panelDragVertical * 0.7;
+            imageTransform.TranslateY = initialTranslateY + panelDragVertical * 0.7;
         }
+
 
         private void GestureListenerDragStarted(object sender, DragStartedGestureEventArgs e)
         {
             panelDragHorizontal = 0;
             panelDragVertical = 0;
-            initialTranslateX = imageTranslate.TranslateX;
-            initialTranslateY = imageTranslate.TranslateY;
+            initialTranslateX = imageTransform.TranslateX;
+            initialTranslateY = imageTransform.TranslateY;
+            parentPosition = e.GetPosition(ContentPanel);
+            childrenPosition = e.GetPosition(image);
+
+            LogManager.Log(parentPosition.ToString());
+            LogManager.Log(childrenPosition.ToString());
+        }
+
+
+        private double GetCorrectedTranslate(double translate, double point, double size)
+        {
+            if (point + delta < translate)
+            {
+                return point + delta;
+            }
+            if (- size - delta > translate)
+            {
+                return - size - delta;
+            }
+            return translate;
         }
 
         private double initialScale;
-        private double x;
-        private double y;
 
         private void GestureListenerPinchStarted(object sender, PinchStartedGestureEventArgs e)
         {
-            initialScale = imageTranslate.ScaleX;
-            x = (e.GetPosition(image, 0).X + e.GetPosition(image, 1).X) / 2;
-            y = (e.GetPosition(image, 0).Y + e.GetPosition(image, 1).Y) / 2;
+            initialScale = imageTransform.ScaleX;
+            imageTransform.CenterX = (e.GetPosition(image, 0).X + e.GetPosition(image, 1).X) / 2;
+            imageTransform.CenterY = (e.GetPosition(image, 0).Y + e.GetPosition(image, 1).Y) / 2;
         }
 
         private void GestureListenerPinchDelta(object sender, PinchGestureEventArgs e)
-        {
-            imageTranslate.ScaleX = imageTranslate.ScaleY = e.DistanceRatio * initialScale > 1 ? initialScale * e.DistanceRatio : 1;
-            imageTranslate.CenterX = x;
-            imageTranslate.CenterY = y;
+        {          
+            imageTransform.ScaleX = imageTransform.ScaleY = e.DistanceRatio * initialScale > 1 ? initialScale * e.DistanceRatio : 1;
         }
-
+        
         private void ResetImageTranslate()
         {
-            imageTranslate.ScaleX = 1;
-            imageTranslate.ScaleY = 1;
-            imageTranslate.TranslateX = 0;
-            imageTranslate.TranslateY = 0;
+            imageTransform.CenterX = image.ActualWidth / 2;
+            imageTransform.CenterY = image.ActualHeight / 2;
+            imageTransform.ScaleX = 1;
+            imageTransform.ScaleY = 1;
+            imageTransform.TranslateX = 0;
+            imageTransform.TranslateY = 0;
         }
     }
 }
