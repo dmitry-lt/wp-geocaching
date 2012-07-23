@@ -36,7 +36,7 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Image x:Name="image" Source="{Binding ImageSource}">
                 <Image.RenderTransform>
-                    <CompositeTransform x:Name="imageTranslate"/>
+                    <CompositeTransform x:Name="imageTransform"/>
                 </Image.RenderTransform>
                 <toolkit:GestureService.GestureListener>
                     <toolkit:GestureListener  x:Name="listener" 
