@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WP_Geocaching.ViewModel;
+using WP_Geocaching.Model;
 using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.View.Info
@@ -73,7 +75,7 @@ namespace WP_Geocaching.View.Info
                 panelDragHorizontal += e.HorizontalChange;
                 var limitTranslate = (image.ActualWidth) * imageTransform.ScaleX / 2 - contentPanelHalfWidth;
                 var newTranslate = initialTranslateX + panelDragHorizontal;
-                if (IsCorrectedTranslate(newTranslate, limitTranslate, e.HorizontalChange))
+                if (IsNormalTranslate(newTranslate, limitTranslate, e.HorizontalChange))
                 {
                     imageTransform.TranslateX = newTranslate;
                 }
@@ -85,7 +87,7 @@ namespace WP_Geocaching.View.Info
                 panelDragVertical += e.VerticalChange;
                 limitTranslate = (image.ActualHeight) * imageTransform.ScaleX / 2 - contentPanelHalfHight;
                 newTranslate = initialTranslateY + panelDragVertical;
-                if (IsCorrectedTranslate(newTranslate, limitTranslate, e.VerticalChange))
+                if (IsNormalTranslate(newTranslate, limitTranslate, e.VerticalChange))
                 {
                     imageTransform.TranslateY = newTranslate;
                 }
@@ -110,7 +112,7 @@ namespace WP_Geocaching.View.Info
         }
 
 
-        private bool IsCorrectedTranslate(double translate, double limitTranslate, double difference)
+        private bool IsNormalTranslate(double translate, double limitTranslate, double difference)
         {
             if (limitTranslate < translate && difference > 0)
             {
@@ -124,10 +126,12 @@ namespace WP_Geocaching.View.Info
         }
 
         private double initialScale;
+        private double maxScale;
 
         private void GestureListenerPinchStarted(object sender, PinchStartedGestureEventArgs e)
         {
             initialScale = imageTransform.ScaleX;
+            maxScale = Math.Max(1, ((BitmapSource)image.Source).PixelWidth / ContentPanel.ActualWidth);
 
             initialTranslateX = imageTransform.TranslateX;
             initialTranslateY = imageTransform.TranslateY;
@@ -138,10 +142,50 @@ namespace WP_Geocaching.View.Info
 
         private void GestureListenerPinchDelta(object sender, PinchGestureEventArgs e)
         {
-            imageTransform.ScaleX = imageTransform.ScaleY = e.DistanceRatio * initialScale > 1 ? initialScale * e.DistanceRatio : 1;
+            if (!IsPointOnImage(e.GetPosition(image, 0)) && IsPointOnImage(e.GetPosition(image, 1)))
+            {
+                return;
+            }
 
-            imageTransform.TranslateX = initialTranslateX * e.DistanceRatio;
-            imageTransform.TranslateY = initialTranslateY * e.DistanceRatio;
+            var previousScale = imageTransform.ScaleX;
+
+            imageTransform.ScaleX = imageTransform.ScaleY = GetNormalizeScale(initialScale * e.DistanceRatio);
+
+            var midPoint = new Point((e.GetPosition(ContentPanel, 1).X + e.GetPosition(ContentPanel, 0).X) / 2,
+                                     (e.GetPosition(ContentPanel, 1).Y + e.GetPosition(ContentPanel, 0).Y) / 2);
+            var difference = Math.Abs(imageTransform.ScaleX - previousScale);
+
+            imageTransform.TranslateX += (contentPanelHalfWidth - midPoint.X) * difference / 2;
+            imageTransform.TranslateY += (contentPanelHalfHight - midPoint.Y) * difference / 2;
+        }
+
+        private double GetNormalizeScale(double scale)
+        {
+            if (scale > maxScale)
+            {
+                return maxScale;
+            }
+            else if (scale > 1)
+            {
+                return scale;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
+        private bool IsPointOnImage(Point point)
+        {
+            if (point.Y <= image.ActualHeight && point.Y >= 0 &&
+                point.X <= image.ActualWidth && point.X >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void ResetImageTranslate()
