@@ -82,7 +82,7 @@ public class MinCoordinateViewModel
         string val = DotPosition + value;
         double minFraction;
 
-        if (double.TryParse(val, out minFraction))
+        if (double.TryParse(val, out minFraction) && val != DotPosition)
         {
             minutesFraction = minFraction;
             return true;
