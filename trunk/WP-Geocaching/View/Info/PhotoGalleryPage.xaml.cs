@@ -2,7 +2,6 @@
 using System.Windows;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using WP_Geocaching.Model;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Resources.Localization;
 
@@ -11,8 +10,6 @@ namespace WP_Geocaching.View.Info
     public partial class PhotoGalleryPage : PhoneApplicationPage
     {
         private PhotoGalleryPageViewModel photoGalleryPageViewModel;
-        private double deltaX;
-        private double deltaY;
 
         public PhotoGalleryPage()
         {
@@ -21,8 +18,6 @@ namespace WP_Geocaching.View.Info
             DataContext = photoGalleryPageViewModel;
             SetPreviousButton();
             SetNextButton();
-
-            
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -54,6 +49,8 @@ namespace WP_Geocaching.View.Info
             ApplicationBar.Buttons.Add(previousButton);
         }
 
+        private double contentPanelHalfWidth;
+        private double contentPanelHalfHight;
         private double panelDragHorizontal;
         private double panelDragVertical;
         private double initialTranslateX;
@@ -73,12 +70,9 @@ namespace WP_Geocaching.View.Info
         {
             if (imageTransform.ScaleX > 1)
             {
-                double limitTranslate;
-                double newTranslate;
-
                 panelDragHorizontal += e.HorizontalChange;
-                limitTranslate = (image.ActualWidth) * imageTransform.ScaleX / 2 - deltaX;
-                newTranslate = initialTranslateX + panelDragHorizontal;
+                var limitTranslate = (image.ActualWidth) * imageTransform.ScaleX / 2 - contentPanelHalfWidth;
+                var newTranslate = initialTranslateX + panelDragHorizontal;
                 if (IsCorrectedTranslate(newTranslate, limitTranslate, e.HorizontalChange))
                 {
                     imageTransform.TranslateX = newTranslate;
@@ -89,7 +83,7 @@ namespace WP_Geocaching.View.Info
                 }
 
                 panelDragVertical += e.VerticalChange;
-                limitTranslate = (image.ActualHeight) * imageTransform.ScaleX / 2 - deltaY;
+                limitTranslate = (image.ActualHeight) * imageTransform.ScaleX / 2 - contentPanelHalfHight;
                 newTranslate = initialTranslateY + panelDragVertical;
                 if (IsCorrectedTranslate(newTranslate, limitTranslate, e.VerticalChange))
                 {
@@ -110,22 +104,24 @@ namespace WP_Geocaching.View.Info
 
         private void GestureListenerDragStarted(object sender, DragStartedGestureEventArgs e)
         {
-            deltaX = ContentPanel.ActualWidth / 2;
-            deltaY = ContentPanel.ActualHeight / 2;
             panelDragHorizontal = 0;
             panelDragVertical = 0;
+
             initialTranslateX = imageTransform.TranslateX;
             initialTranslateY = imageTransform.TranslateY;
+
+            contentPanelHalfWidth = ContentPanel.ActualWidth / 2;
+            contentPanelHalfHight = ContentPanel.ActualHeight / 2;
         }
 
 
-        private bool IsCorrectedTranslate(double translate, double limitTranslate, double changing)
+        private bool IsCorrectedTranslate(double translate, double limitTranslate, double difference)
         {
-            if (limitTranslate < translate && changing > 0)
+            if (limitTranslate < translate && difference > 0)
             {
                 return false;
             }
-            else if (-limitTranslate > translate && changing < 0)
+            if (-limitTranslate > translate && difference < 0)
             {
                 return false;
             }
@@ -133,32 +129,35 @@ namespace WP_Geocaching.View.Info
         }
 
         private double initialScale;
-        private double initialDistance;
-        private double initialAngle;
 
         private void GestureListenerPinchStarted(object sender, PinchStartedGestureEventArgs e)
         {
             initialScale = imageTransform.ScaleX;
-            initialDistance = e.Distance;
-            initialAngle = 360 - e.Angle;
+
             initialTranslateX = imageTransform.TranslateX;
             initialTranslateY = imageTransform.TranslateY;
+
+            contentPanelHalfWidth = ContentPanel.ActualWidth / 2;
+            contentPanelHalfHight = ContentPanel.ActualHeight / 2;
         }
 
         private void GestureListenerPinchDelta(object sender, PinchGestureEventArgs e)
         {
             imageTransform.ScaleX = imageTransform.ScaleY = e.DistanceRatio * initialScale > 1 ? initialScale * e.DistanceRatio : 1;
+
             var midPoint = new Point((e.GetPosition(ContentPanel, 1).X + e.GetPosition(ContentPanel, 0).X)/2,
                                      (e.GetPosition(ContentPanel, 1).Y + e.GetPosition(ContentPanel, 0).Y)/2);
-            var delta = Math.Abs(imageTransform.ScaleX - initialScale);
-            imageTransform.TranslateX = initialTranslateX + (ContentPanel.ActualWidth / 2 - midPoint.X) * delta / 2;
-            imageTransform.TranslateY = initialTranslateY + (ContentPanel.ActualHeight / 2 - midPoint.Y) * delta / 2;
+            var difference = Math.Abs(imageTransform.ScaleX - initialScale);
+
+            imageTransform.TranslateX = initialTranslateX + (contentPanelHalfWidth - midPoint.X) * difference / 2;
+            imageTransform.TranslateY = initialTranslateY + (contentPanelHalfHight - midPoint.Y) * difference / 2;
         }
 
         private void ResetImageTranslate()
         {
             imageTransform.ScaleX = 1;
             imageTransform.ScaleY = 1;
+
             imageTransform.TranslateX = 0;
             imageTransform.TranslateY = 0;
         }
