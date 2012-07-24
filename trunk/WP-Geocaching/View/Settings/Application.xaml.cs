@@ -12,9 +12,9 @@ using System.Windows.Shapes;
 
 namespace WP_Geocaching.View.Settings
 {
-    public partial class About : UserControl
+    public partial class Application : UserControl
     {
-        public About()
+        public Application()
         {
             InitializeComponent();
         }

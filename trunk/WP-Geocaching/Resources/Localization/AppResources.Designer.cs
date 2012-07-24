@@ -61,6 +61,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string AboutTitle {
+            get {
+                return ResourceManager.GetString("AboutTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to add.
         /// </summary>
         public static string AddCheckpointButton {
@@ -79,11 +88,38 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aerial.
+        /// </summary>
+        public static string AerialModeSettings {
+            get {
+                return ResourceManager.GetString("AerialModeSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application.
+        /// </summary>
+        public static string ApplicationPivotTitle {
+            get {
+                return ResourceManager.GetString("ApplicationPivotTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GEOCACHING.
         /// </summary>
         public static string ApplicationTitle {
             get {
                 return ResourceManager.GetString("ApplicationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Geocaching.
+        /// </summary>
+        public static string AppNameAbout {
+            get {
+                return ResourceManager.GetString("AppNameAbout", resourceCulture);
             }
         }
         
@@ -223,6 +259,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Info.
+        /// </summary>
+        public static string InfoAbout {
+            get {
+                return ResourceManager.GetString("InfoAbout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to km.
         /// </summary>
         public static string Kilometres {
@@ -264,6 +309,24 @@ namespace WP_Geocaching.Resources.Localization {
         public static string LongitudeFormat {
             get {
                 return ResourceManager.GetString("LongitudeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map mode.
+        /// </summary>
+        public static string MapModeSettings {
+            get {
+                return ResourceManager.GetString("MapModeSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        public static string MapSettings {
+            get {
+                return ResourceManager.GetString("MapSettings", resourceCulture);
             }
         }
         
@@ -358,6 +421,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Road.
+        /// </summary>
+        public static string RoadModeSettings {
+            get {
+                return ResourceManager.GetString("RoadModeSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to save.
         /// </summary>
         public static string SaveCheckpointButton {
@@ -430,6 +502,24 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Support.
+        /// </summary>
+        public static string SupportAbout {
+            get {
+                return ResourceManager.GetString("SupportAbout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to wp-geocaching-support@googlegroups.com.
+        /// </summary>
+        public static string SupportEmail {
+            get {
+                return ResourceManager.GetString("SupportEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Too many caches on the screen. Zoom in.
         /// </summary>
         public static string SurpassedCacheCountMessage {
@@ -444,6 +534,15 @@ namespace WP_Geocaching.Resources.Localization {
         public static string UndetectedLocationMessage {
             get {
                 return ResourceManager.GetString("UndetectedLocationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version 1.0.
+        /// </summary>
+        public static string VersionAbout {
+            get {
+                return ResourceManager.GetString("VersionAbout", resourceCulture);
             }
         }
         

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Controls.Maps.Core;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using Microsoft.Phone.Controls.Maps;
@@ -24,6 +25,7 @@ namespace WP_Geocaching.View
         private void Map_ViewChangeEnd(object sender, MapEventArgs e)
         {
             var map = sender as Map;
+            map.Mode = new AerialMode();
             this.bingMapViewModel.BoundingRectangle = map.BoundingRectangle;
         }
 
