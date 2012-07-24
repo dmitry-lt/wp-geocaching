@@ -56,7 +56,7 @@
                     Height="200"
                     Background="{StaticResource PhoneAccentBrush}"
                     BorderThickness="0"
-                    Click="ChooseCache_Click">
+                    Click="ChooseCacheClick">
                 <Grid>
                         <Image Source="Resources/Images/choose_cache_menu_icon.png"/>
                         <TextBlock Text="{Binding Path=LocalizedResources.ChooseCache, 
@@ -73,7 +73,7 @@
                     Height="200"
                     Background="{StaticResource PhoneAccentBrush}"
                     BorderThickness="0"
-                    Click="ChooseCompass_Click">
+                    Click="SettingsClick">
                 <Grid>
                         <Image Source="Resources/Images/settings_menu_icon.png"/>
                         <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
@@ -90,7 +90,7 @@
                     Height="200"
                     Background="{StaticResource PhoneAccentBrush}"
                     BorderThickness="0"
-                    Click="Favorites_Click">
+                    Click="FavoritesClick">
                 <Grid>
                         <Image Source="Resources/Images/favorites_menu_icon.png"/>
                         <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
@@ -107,7 +107,7 @@
                     Height="200"
                     Background="{StaticResource PhoneAccentBrush}"
                     BorderThickness="0"
-                    Click="SearchCache_Click">
+                    Click="SearchCacheClick">
                     <Grid>
                         <Image Source="Resources/Images/search_map_menu_icon.png"/>
                         <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 

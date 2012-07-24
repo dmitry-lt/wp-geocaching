@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
@@ -22,20 +14,20 @@ namespace WP_Geocaching
             InitializeComponent();
         }
 
-        private void ChooseCache_Click(object sender, RoutedEventArgs e)
+        private void ChooseCacheClick(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/BingMap.xaml", UriKind.Relative));
         }
 
-        private void ChooseCompass_Click(object sender, RoutedEventArgs e)
+        private void SettingsClick(object sender, RoutedEventArgs e)
         {
-            // NavigationService.Navigate(new Uri("/View/Compass/CompassPage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/View/Settings/Settings.xaml", UriKind.Relative));
         }
 
-        private void Favorites_Click(object sender, RoutedEventArgs e)
+        private void FavoritesClick(object sender, RoutedEventArgs e)
         {
-            CacheDataBase db = new CacheDataBase();
-            List<DbCacheItem> dbCacheList = db.GetCacheList();
+            var db = new CacheDataBase();
+            var dbCacheList = db.GetCacheList();
 
             if (dbCacheList.Count > 0)
             {
@@ -43,42 +35,42 @@ namespace WP_Geocaching
             }
             else
             {
-                this.NoFavoriteCachesMessage.Visibility = System.Windows.Visibility.Visible;
-                System.Threading.Timer timer = new System.Threading.Timer(DisposeTimerAndCollapseMessage);
+                NoFavoriteCachesMessage.Visibility = Visibility.Visible;
+                var timer = new Timer(DisposeTimerAndCollapseMessage);
                 timer.Change(3000, 0);
             }
         }
 
-        private void SearchCache_Click(object sender, RoutedEventArgs e)
+        private void SearchCacheClick(object sender, RoutedEventArgs e)
         {
-            Settings settings = new Settings();
+            var settings = new Settings();
             if (settings.LastSoughtCacheId > 0)
             {
                 NavigationManager.Instance.NavigateToSearchBingMap(settings.LastSoughtCacheId.ToString());
             }
             else
             {
-                this.NoSouhgtCacheMessage.Visibility = System.Windows.Visibility.Visible;
-                System.Threading.Timer timer = new System.Threading.Timer(DisposeTimerAndCollapseMessage);
+                NoSouhgtCacheMessage.Visibility = Visibility.Visible;
+                var timer = new Timer(DisposeTimerAndCollapseMessage);
                 timer.Change(3000, 0);
             }
         }
 
         private void DisposeTimerAndCollapseMessage(object state)
         {
-            System.Threading.Timer t = (System.Threading.Timer)state;
+            var t = (Timer)state;
             t.Dispose();
-            this.Dispatcher.BeginInvoke(() =>
+            Dispatcher.BeginInvoke(() =>
             {
-                this.NoSouhgtCacheMessage.Visibility = System.Windows.Visibility.Collapsed;
-                this.NoFavoriteCachesMessage.Visibility = System.Windows.Visibility.Collapsed;
+                NoSouhgtCacheMessage.Visibility = Visibility.Collapsed;
+                NoFavoriteCachesMessage.Visibility = Visibility.Collapsed;
             });
         }
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
-            this.NoSouhgtCacheMessage.Visibility = System.Windows.Visibility.Collapsed;
-            this.NoFavoriteCachesMessage.Visibility = System.Windows.Visibility.Collapsed;
+            NoSouhgtCacheMessage.Visibility = Visibility.Collapsed;
+            NoFavoriteCachesMessage.Visibility = Visibility.Collapsed;
         }
     }
 }
