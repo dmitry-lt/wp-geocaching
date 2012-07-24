@@ -6,12 +6,12 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WP_Geocaching")]
+[assembly: AssemblyTitle("Geocaching")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WP_Geocaching")]
-[assembly: AssemblyCopyright("Copyright ©  2011")]
+[assembly: AssemblyProduct("Geocaching")]
+[assembly: AssemblyCopyright("Copyright ©  2011-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -6,6 +6,8 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:items="clr-namespace:WP_Geocaching.View.Settings"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -31,9 +33,35 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"></Grid>
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
+            <controls:Pivot>
+                <controls:PivotItem x:Name="AboutPivotItem">
+                    <controls:PivotItem.Header>
+                        <Grid>
+                            <TextBlock FontSize="50" Text="{Binding Path=LocalizedResources.AboutTitle, 
+                Source={StaticResource LocalizedStrings}}"/>
+                        </Grid>
+                    </controls:PivotItem.Header>
+                    <Grid Grid.Row="1" Margin="0,0,0,0">
+                        <items:About Width="Auto"/>
+                    </Grid>
+                </controls:PivotItem>
+
+                <controls:PivotItem x:Name="ApplicationPivotItem">
+                    <controls:PivotItem.Header>
+                        <Grid>
+                            <TextBlock FontSize="50" Text="{Binding Path=LocalizedResources.ApplicationPivotTitle, 
+                Source={StaticResource LocalizedStrings}}"/>
+                        </Grid>
+                    </controls:PivotItem.Header>
+                    <Grid Grid.Row="1" Margin="0,0,0,0">
+                        <items:Application Width="Auto"/>
+                    </Grid>
+                </controls:PivotItem>
+            </controls:Pivot>
+        </Grid>
     </Grid>
- 
+
     <!--Sample code showing usage of ApplicationBar-->
     <!--<phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">

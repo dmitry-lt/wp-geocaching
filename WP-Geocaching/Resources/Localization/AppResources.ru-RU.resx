@@ -246,7 +246,40 @@
   <data name="LongitudeFormat" xml:space="preserve">
     <value>{0}° {1:F3}' {2}</value>
   </data>
+  <data name="AboutTitle" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="AerialModeSettings" xml:space="preserve">
+    <value>Спутник</value>
+  </data>
+  <data name="ApplicationPivotTitle" xml:space="preserve">
+    <value>Приложение</value>
+  </data>
+  <data name="AppNameAbout" xml:space="preserve">
+    <value>Геокэшинг</value>
+  </data>
+  <data name="InfoAbout" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="MapModeSettings" xml:space="preserve">
+    <value>Тип карты</value>
+  </data>
+  <data name="MapSettings" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="RoadModeSettings" xml:space="preserve">
+    <value>Карта</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Настройки</value>
+  </data>
+  <data name="SupportAbout" xml:space="preserve">
+    <value>Поддержка</value>
+  </data>
+  <data name="SupportEmail" xml:space="preserve">
+    <value>wp-geocaching-support@googlegroups.com</value>
+  </data>
+  <data name="VersionAbout" xml:space="preserve">
+    <value>Версия 1.0</value>
   </data>
 </root>

@@ -246,7 +246,40 @@
   <data name="LongitudeFormat" xml:space="preserve">
     <value>{2} {0}° {1:F3}'</value>
   </data>
+  <data name="AboutTitle" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AerialModeSettings" xml:space="preserve">
+    <value>Aerial</value>
+  </data>
+  <data name="ApplicationPivotTitle" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="AppNameAbout" xml:space="preserve">
+    <value>Geocaching</value>
+  </data>
+  <data name="InfoAbout" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="MapModeSettings" xml:space="preserve">
+    <value>Map mode</value>
+  </data>
+  <data name="MapSettings" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="RoadModeSettings" xml:space="preserve">
+    <value>Road</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="SupportAbout" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="SupportEmail" xml:space="preserve">
+    <value>wp-geocaching-support@googlegroups.com</value>
+  </data>
+  <data name="VersionAbout" xml:space="preserve">
+    <value>Version 1.0</value>
   </data>
 </root>
