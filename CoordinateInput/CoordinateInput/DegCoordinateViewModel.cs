@@ -13,11 +13,15 @@ public class DegCoordinateViewModel
 {
     private const string FormatDegreesFraction = "{0:0.000000}";
     private const string DotPosition = "0.";
-    private const int RoundDegreesFraction = 6;
+    private const int MinLatitude = -90;
+    private const int MaxLatitude = 90;
+    private const int MinLongitude = -180;
+    private const int MaxLongitude = 180;
 
     private int degrees;
     private double degreesFraction;
     private bool positive;
+    private CoordinateType coordinateType;
 
     public string Degrees
     {
@@ -41,11 +45,23 @@ public class DegCoordinateViewModel
 
         if (int.TryParse(value, out deg))
         {
-            if (deg > -90 && deg < 90)
+            if (coordinateType == CoordinateType.Lat)
             {
-                degrees = deg;
-                positive = degrees > 0 ? true : false;
-                return true;
+                if (deg > MinLatitude && deg < MaxLatitude)
+                {
+                    degrees = deg;
+                    positive = degrees > 0 ? true : false;
+                    return true;
+                }
+            }
+            else
+            {
+                if (deg > MinLongitude && deg < MaxLongitude)
+                {
+                    degrees = deg;
+                    positive = degrees > 0 ? true : false;
+                    return true;
+                }
             }
         }
 
@@ -66,11 +82,12 @@ public class DegCoordinateViewModel
         return false;
     }
 
-    public DegCoordinateViewModel(double coordinate)
+    public DegCoordinateViewModel(double coordinate, CoordinateType type)
     {
+        coordinateType = type;
         positive = coordinate > 0 ? true : false;
         degrees = (int)coordinate;
-        degreesFraction = Math.Round(Math.Abs(coordinate - (int)coordinate), RoundDegreesFraction);
+        degreesFraction = Math.Abs(coordinate - (int)coordinate);
     }
 
     public double ToCoordinate()

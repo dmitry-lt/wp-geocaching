@@ -12,6 +12,8 @@ using System.ComponentModel;
 using System.Device.Location;
 using System.Globalization;
 
+public enum CoordinateType { Lat, Lng };
+
 public class CheckpointViewModel : BaseViewModel
 {
     private GeoCoordinate currentInputPointLocation;
@@ -24,6 +26,7 @@ public class CheckpointViewModel : BaseViewModel
     private Visibility sLatDegreesValidate;
     private Visibility sLatMinutesValidate;
     private Visibility sLatSecondsValidate;
+    private Visibility sLatSecondsFractionValidate;
 
     public Visibility LatDegreesValidate
     {
@@ -129,6 +132,19 @@ public class CheckpointViewModel : BaseViewModel
         }
     }
 
+    public Visibility SLatSecondsFractionValidate
+    {
+        get
+        {
+            return sLatSecondsFractionValidate;
+        }
+        set
+        {
+            sLatSecondsFractionValidate = value;
+            NotifyPropertyChanged("SLatSecondsFractionValidate");
+        }
+    }
+
     public GeoCoordinate CurrentInputPointLocation
     {
         get
@@ -141,13 +157,13 @@ public class CheckpointViewModel : BaseViewModel
     {
         get
         {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude);
+            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
             LatDegreesValidate = Visibility.Collapsed;
             return minCoordinateViewModel.Degrees;
         }
         set
         {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude);
+            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
 
             if (minCoordinateViewModel.Degrees != value)
             {
@@ -172,13 +188,13 @@ public class CheckpointViewModel : BaseViewModel
     {
         get
         {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude);
+            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
             LatMinutesValidate = Visibility.Collapsed;
             return minCoordinateViewModel.Minutes;
         }
         set
         {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude);
+            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
 
             if (minCoordinateViewModel.Minutes != value)
             {
@@ -203,13 +219,13 @@ public class CheckpointViewModel : BaseViewModel
     {
         get
         {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude);
+            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
             LatMinutesFractionValidate = Visibility.Collapsed;
             return minCoordinateViewModel.MinutesFraction;
         }
         set
         {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude);
+            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
 
             if (minCoordinateViewModel.MinutesFraction != value)
             {
@@ -234,13 +250,13 @@ public class CheckpointViewModel : BaseViewModel
     {
         get
         {
-            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude);
+            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
             DLatDegreesValidate = Visibility.Collapsed;
             return degCoordinateViewModel.Degrees;
         }
         set
         {
-            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude);
+            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
 
             if (degCoordinateViewModel.Degrees != value)
             {
@@ -265,13 +281,13 @@ public class CheckpointViewModel : BaseViewModel
     {
         get
         {
-            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude);
+            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
             DLatDegreesFractionValidate = Visibility.Collapsed;
             return degCoordinateViewModel.DegreesFraction;
         }
         set
         {
-            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude);
+            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
 
             if (degCoordinateViewModel.DegreesFraction != value)
             {
@@ -296,13 +312,13 @@ public class CheckpointViewModel : BaseViewModel
     {
         get
         {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
             SLatDegreesValidate = Visibility.Collapsed;
             return secCoordinateViewModel.Degrees;
         }
         set
         {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
 
             if (secCoordinateViewModel.Degrees != value)
             {
@@ -327,13 +343,13 @@ public class CheckpointViewModel : BaseViewModel
     {
         get
         {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
-            SLatDegreesValidate = Visibility.Collapsed;
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+            SLatMinutesValidate = Visibility.Collapsed;
             return secCoordinateViewModel.Minutes;
         }
         set
         {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
 
             if (secCoordinateViewModel.Minutes != value)
             {
@@ -358,13 +374,13 @@ public class CheckpointViewModel : BaseViewModel
     {
         get
         {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
-            SLatDegreesValidate = Visibility.Collapsed;
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+            SLatSecondsValidate = Visibility.Collapsed;
             return secCoordinateViewModel.Seconds;
         }
         set
         {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude);
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
 
             if (secCoordinateViewModel.Seconds != value)
             {
@@ -385,9 +401,40 @@ public class CheckpointViewModel : BaseViewModel
         }
     }
 
+    public string SLatSecondsFraction
+    {
+        get
+        {
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+            SLatSecondsFractionValidate = Visibility.Collapsed;
+            return secCoordinateViewModel.SecondsFraction;
+        }
+        set
+        {
+            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+
+            if (secCoordinateViewModel.SecondsFraction != value)
+            {
+                if (secCoordinateViewModel.SetSecondsFraction(value))
+                {
+                    currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                    SLatSecondsFractionValidate = Visibility.Collapsed;
+                }
+                else
+                {
+                    SLatSecondsFractionValidate = Visibility.Visible;
+                }
+            }
+            else
+            {
+                SLatSecondsFractionValidate = Visibility.Collapsed;
+            }
+        }
+    }
+
     public CheckpointViewModel()
     {
-        currentInputPointLocation = new GeoCoordinate(/*59.898580584384277*/3.97, 30.285182952880845);
+        currentInputPointLocation = new GeoCoordinate(59.898580584384277, 30.285182952880845);
         LatDegreesValidate = Visibility.Collapsed;
         LatMinutesValidate = Visibility.Collapsed;
         LatMinutesFractionValidate = Visibility.Collapsed;
@@ -396,6 +443,7 @@ public class CheckpointViewModel : BaseViewModel
         SLatDegreesValidate = Visibility.Collapsed;
         SLatMinutesValidate = Visibility.Collapsed;
         SLatSecondsValidate = Visibility.Collapsed;
+        sLatSecondsFractionValidate = Visibility.Collapsed;
     }
 
     public void Refresh()
@@ -408,5 +456,6 @@ public class CheckpointViewModel : BaseViewModel
         NotifyPropertyChanged("SLatDegrees");
         NotifyPropertyChanged("SLatMinutes");
         NotifyPropertyChanged("SLatSeconds");
+        NotifyPropertyChanged("SLatSecondsFraction");
     }
 }
