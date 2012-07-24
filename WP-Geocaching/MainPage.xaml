@@ -75,9 +75,9 @@
                     BorderThickness="0"
                     Click="ChooseCompass_Click">
                 <Grid>
-                        <Image Source="Resources/Images/compass_menu_icon.png"/>
+                        <Image Source="Resources/Images/settings_menu_icon.png"/>
                         <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
-                            Path=LocalizedResources.Compass}" 
+                            Path=LocalizedResources.Settings}" 
                                    VerticalAlignment="Bottom"
                                    HorizontalAlignment="Center"
                                    FontSize="20"
