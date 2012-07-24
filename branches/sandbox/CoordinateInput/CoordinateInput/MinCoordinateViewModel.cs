@@ -13,12 +13,16 @@ public class MinCoordinateViewModel
 {
     private const string FormatMinutesFraction = "{0:0.000}";
     private const string DotPosition = "0.";
-    private const int RoundMinutesFraction = 3;
+    private const int MinLatitude = -90;
+    private const int MaxLatitude = 90;
+    private const int MinLongitude = -180;
+    private const int MaxLongitude = 180;
 
     private int degrees;
     private int minutes;
     private double minutesFraction;
     private bool positive;
+    private CoordinateType coordinateType;
 
     public string Degrees
     {
@@ -50,11 +54,23 @@ public class MinCoordinateViewModel
 
         if (int.TryParse(value, out deg))
         {
-            if (deg > -90 && deg < 90)
+            if (coordinateType == CoordinateType.Lat)
             {
-                degrees = deg;
-                positive = degrees > 0 ? true : false;
-                return true;
+                if (deg > MinLatitude && deg < MaxLatitude)
+                {
+                    degrees = deg;
+                    positive = degrees > 0 ? true : false;
+                    return true;
+                }
+            }
+            else
+            {
+                if (deg > MinLongitude && deg < MaxLongitude)
+                {
+                    degrees = deg;
+                    positive = degrees > 0 ? true : false;
+                    return true;
+                }
             }
         }
 
@@ -91,12 +107,19 @@ public class MinCoordinateViewModel
         return false;
     }
 
-    public MinCoordinateViewModel(double coordinate)
+    public MinCoordinateViewModel(double coordinate, CoordinateType type)
     {
+        coordinateType = type;
         positive = coordinate > 0 ? true : false;
         degrees = (int)coordinate;
         minutes = Math.Abs((int)((coordinate - degrees) * 60));
-        minutesFraction = Math.Round(Math.Abs((coordinate - degrees)) * 60 - minutes, RoundMinutesFraction);
+        minutesFraction = Math.Abs((coordinate - degrees)) * 60 - minutes;
+
+        if (1 - minutesFraction < 0.0000001)
+        {
+            minutes++;
+            minutesFraction = 0;
+        }
     }
 
     public double ToCoordinate()
