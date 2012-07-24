@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Input;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.ViewModel;
@@ -18,18 +17,18 @@ namespace WP_Geocaching.View
         public SearchBingMap()
         {
             InitializeComponent();
-            this.searchBingMapViewModel = new SearchBingMapViewModel(GeocahingSuApiManager.Instance, this.Map.SetView);
-            this.DataContext = this.searchBingMapViewModel;
+            searchBingMapViewModel = new SearchBingMapViewModel(GeocahingSuApiManager.Instance, Map.SetView);
+            DataContext = searchBingMapViewModel;
             SetCheckpointsButton();
             SetSetAllButton();
             SetMyLocationButton();
             SetCompassButton();
         }
 
-        private void Pushpin_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void PushpinTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Pushpin pin = sender as Pushpin;
-            ICommand showDetails = ((ICommand)pin.Tag);
+            var pin = sender as Pushpin;
+            var showDetails = ((ICommand)pin.Tag);
             if (showDetails != null)
             {
                 showDetails.Execute(null);
@@ -40,13 +39,13 @@ namespace WP_Geocaching.View
         {
             SmoothCompassManager.Instance.AddSubscriber(searchBingMapViewModel);
 
-            if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
+            if (e.NavigationMode == NavigationMode.New)
             {
                 int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
                 searchBingMapViewModel.SoughtCache = GeocahingSuApiManager.Instance.GetCacheById(cacheId);
             }
 
-            if (e.NavigationMode == System.Windows.Navigation.NavigationMode.Back)
+            if (e.NavigationMode == NavigationMode.Back)
             {
                 searchBingMapViewModel.UpdateMapChildrens();
             }
@@ -59,73 +58,79 @@ namespace WP_Geocaching.View
 
         private void SetSetAllButton()
         {
-            ApplicationBarIconButton button = new ApplicationBarIconButton();
-            button.IconUri = new Uri("Resources/Images/appbar.refresh.rest.png", UriKind.Relative);
-            button.Text = AppResources.ShowAllButton;
-            button.Click += ShowAll_Click;
+            var button = new ApplicationBarIconButton
+                             {
+                                 IconUri = new Uri("Resources/Images/appbar.refresh.rest.png", UriKind.Relative),
+                                 Text = AppResources.ShowAllButton
+                             };
+            button.Click += ShowAllClick;
             ApplicationBar.Buttons.Add(button);
         }
 
         private void SetMyLocationButton()
         {
-            ApplicationBarIconButton button = new ApplicationBarIconButton();
-            button.IconUri = new Uri("Resources/Images/my.location.png", UriKind.Relative);
-            button.Text = AppResources.MyLocationButton;
-            button.Click += MyLocation_Click;
+            var button = new ApplicationBarIconButton
+                             {
+                                 IconUri = new Uri("Resources/Images/my.location.png", UriKind.Relative),
+                                 Text = AppResources.MyLocationButton
+                             };
+            button.Click += MyLocationClick;
             ApplicationBar.Buttons.Add(button);
         }
 
         private void SetCheckpointsButton()
         {
-            ApplicationBarIconButton button = new ApplicationBarIconButton();
-            button.IconUri = new Uri("Resources/Images/appbar.checkpoints.png", UriKind.Relative);
-            button.Text = AppResources.CheckpointsButton;
-            button.Click += Checkpoints_Click;
+            var button = new ApplicationBarIconButton
+                             {
+                                 IconUri = new Uri("Resources/Images/appbar.checkpoints.png", UriKind.Relative),
+                                 Text = AppResources.CheckpointsButton
+                             };
+            button.Click += CheckpointsClick;
             ApplicationBar.Buttons.Add(button);
         }
 
         private void SetCompassButton()
         {
-            ApplicationBarIconButton button = new ApplicationBarIconButton();
-            button.IconUri = new Uri("Resources/Images/appbar.compass.png", UriKind.Relative);
-            button.Text = AppResources.CompassSearchButton;
-            button.Click += Compass_Click;
+            var button = new ApplicationBarIconButton
+                             {
+                                 IconUri = new Uri("Resources/Images/appbar.compass.png", UriKind.Relative),
+                                 Text = AppResources.CompassSearchButton
+                             };
+            button.Click += CompassClick;
             ApplicationBar.Buttons.Add(button);
         }
 
-        void Compass_Click(object sender, EventArgs e)
+        void CompassClick(object sender, EventArgs e)
         {
-            int id = -1;
-            string cacheId = searchBingMapViewModel.SoughtCache.Id.ToString();
-            string checkpointId = id.ToString();
-            Model.DataBase.CacheDataBase db = new Model.DataBase.CacheDataBase();
-            List<Model.DataBase.DbCheckpointsItem> checkpoints = db.GetCheckpointsByCacheId(Convert.ToInt32(cacheId));
+            var id = -1;
+            var cacheId = searchBingMapViewModel.SoughtCache.Id.ToString();
+            var checkpointId = id.ToString();
+            var db = new Model.DataBase.CacheDataBase();
+            var checkpoints = db.GetCheckpointsByCacheId(Convert.ToInt32(cacheId));
 
-            foreach (Model.DataBase.DbCheckpointsItem c in checkpoints)
+            foreach (var c in checkpoints)
             {
-                if ((Cache.Subtypes)c.Subtype == Cache.Subtypes.ActiveCheckpoint)
-                {
-                    checkpointId = c.Id.ToString();
-                    break;
-                }
+                if ((Cache.Subtypes) c.Subtype != Cache.Subtypes.ActiveCheckpoint) continue;
+                checkpointId = c.Id.ToString();
+                break;
             }
 
             NavigationManager.Instance.NavigateToCompass(cacheId, checkpointId);
         }
 
-        private void ShowAll_Click(object sender, EventArgs e)
+        private void ShowAllClick(object sender, EventArgs e)
         {
             searchBingMapViewModel.ShowAll();
         }
 
-        private void Checkpoints_Click(object sender, EventArgs e)
+        private void CheckpointsClick(object sender, EventArgs e)
         {
             NavigationManager.Instance.NavigateToCheckpoints();
         }
 
-        private void MyLocation_Click(object sender, EventArgs e)
+        private void MyLocationClick(object sender, EventArgs e)
         {
-            searchBingMapViewModel.SetMapCenterOnCurrentLocationOrShowMessage(this.Dispatcher);
+            searchBingMapViewModel.SetMapCenterOnCurrentLocationOrShowMessage(Dispatcher);
         }
     }
 }

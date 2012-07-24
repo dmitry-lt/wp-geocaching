@@ -90,7 +90,7 @@
                     <Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}"
-                                                                   Tap="Pushpin_Tap"
+                                                                   Tap="PushpinTap"
                                                                    Style="{StaticResource PushpinStyle}"
                                                                    Tag="{Binding ShowDetails}">
                                 <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}"/>
