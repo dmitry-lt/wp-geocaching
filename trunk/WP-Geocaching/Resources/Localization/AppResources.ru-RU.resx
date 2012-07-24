@@ -246,4 +246,7 @@
   <data name="LongitudeFormat" xml:space="preserve">
     <value>{0}° {1:F3}' {2}</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
 </root>
