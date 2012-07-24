@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Windows.Media.Imaging;
 using WP_Geocaching.Model;
 
@@ -15,6 +7,7 @@ namespace WP_Geocaching.ViewModel
 {
     public class PhotoGalleryPageViewModel : BaseViewModel
     {
+        private double maxHeight;
         private ImageSource imageSource;
         private int currentIndex;
 
@@ -22,12 +15,25 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.imageSource;
+                return imageSource;
             }
             set
             {
                 imageSource = value;
                 NotifyPropertyChanged("ImageSource");
+            }
+        }
+
+        public double MaxHeight
+        {
+            get
+            {
+                return maxHeight;
+            }
+            set
+            {
+                maxHeight = value;
+                NotifyPropertyChanged("MaxHeight");
             }
         }
 
@@ -40,6 +46,7 @@ namespace WP_Geocaching.ViewModel
         public void SetImageSource(ImageSource source)
         {
             ImageSource = source;
+            MaxHeight = ((BitmapSource) source).PixelHeight;
         }
 
         public void LoadNext(Action action)
