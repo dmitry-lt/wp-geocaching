@@ -282,4 +282,7 @@
   <data name="VersionAbout" xml:space="preserve">
     <value>Версия 1.0</value>
   </data>
+  <data name="EmailSubject" xml:space="preserve">
+    <value>[Geocaching]</value>
+  </data>
 </root>
