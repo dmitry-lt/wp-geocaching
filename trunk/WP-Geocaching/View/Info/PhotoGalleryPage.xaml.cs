@@ -63,8 +63,8 @@ namespace WP_Geocaching.View.Info
         {
             if ((e.Direction != System.Windows.Controls.Orientation.Horizontal) || (imageTransform.ScaleX > 1)) return;
 
-            if (panelDragHorizontal > 50) photoGalleryPageViewModel.LoadPrevious(ResetImageTranslate);
-            else photoGalleryPageViewModel.LoadNext(ResetImageTranslate);
+            if (panelDragHorizontal > 15) photoGalleryPageViewModel.LoadPrevious(ResetImageTranslate);
+            else if (panelDragHorizontal < -15) photoGalleryPageViewModel.LoadNext(ResetImageTranslate);
 
             e.Handled = true;
         }
@@ -97,6 +97,10 @@ namespace WP_Geocaching.View.Info
                     panelDragVertical -= e.VerticalChange;
                 }
             }
+            else
+            {
+                panelDragHorizontal += e.HorizontalChange;
+            }
         }
 
 
@@ -128,6 +132,7 @@ namespace WP_Geocaching.View.Info
 
         private double initialScale;
         private double maxScale;
+        private Point midPoint;
 
         private void GestureListenerPinchStarted(object sender, PinchStartedGestureEventArgs e)
         {
@@ -135,16 +140,19 @@ namespace WP_Geocaching.View.Info
 
             maxScale = GetMaxScale();
 
-            contentPanelHalfWidth = ContentPanel.ActualWidth / 2;
-            contentPanelHalfHight = ContentPanel.ActualHeight / 2;
+            contentPanelHalfWidth = image.ActualWidth / 2;
+            contentPanelHalfHight = image.ActualHeight / 2;
+
+            var firstPositionPoint = e.GetPosition(image, 0);
+            var secondPositionPoint = e.GetPosition(image, 1);
+
+            midPoint = new Point((firstPositionPoint.X + secondPositionPoint.X) / 2,
+                                     (firstPositionPoint.Y + secondPositionPoint.Y) / 2);
         }
 
         private void GestureListenerPinchDelta(object sender, PinchGestureEventArgs e)
         {
-            var firstPositionPoint = e.GetPosition(image, 0);
-            var secondPositionPoint = e.GetPosition(image, 1);
-
-            if (!IsPointOnImage(firstPositionPoint) && IsPointOnImage(secondPositionPoint))
+            if (!(IsPointOnImage(e.GetPosition(image, 0)) && IsPointOnImage(e.GetPosition(image, 1))))
             {
                 return;
             }
@@ -153,7 +161,7 @@ namespace WP_Geocaching.View.Info
 
             imageTransform.ScaleX = imageTransform.ScaleY = GetNormalizeScale(initialScale * e.DistanceRatio);
 
-            SetImageTranslate(firstPositionPoint, secondPositionPoint, previousScale);
+            SetImageTranslate(previousScale);
         }
         
         private double GetMaxScale()
@@ -172,21 +180,19 @@ namespace WP_Geocaching.View.Info
             return 1;
         }
 
-        private void SetImageTranslate(Point firstPositionPoint, Point secondPositionPoint, double previousScale)
+        private void SetImageTranslate(double previousScale)
         {
-            var midPoint = new Point((firstPositionPoint.X + secondPositionPoint.X) / 2,
-                                     (firstPositionPoint.Y + secondPositionPoint.Y) / 2);
-            var difference = Math.Abs(imageTransform.ScaleX - previousScale);
+            var difference = imageTransform.ScaleX - previousScale;
 
-            imageTransform.TranslateX += (contentPanelHalfWidth - midPoint.X) * difference / 2;
-            imageTransform.TranslateY += (contentPanelHalfHight - midPoint.Y) * difference / 2;
+            imageTransform.TranslateX += (contentPanelHalfWidth - midPoint.X) * difference;
+            imageTransform.TranslateY += (contentPanelHalfHight - midPoint.Y) * difference;
         }
 
         private double GetNormalizeScale(double scale)
         {
-            if (scale > maxScale)
+            if (scale > 2 * maxScale)
             {
-                return maxScale;
+                return 2 * maxScale;
             }
             else if (scale > 1)
             {

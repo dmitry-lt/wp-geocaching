@@ -112,11 +112,11 @@ namespace WP_Geocaching.View
                 IconUri = new Uri("Resources/Images/appbar.info.png", UriKind.Relative),
                 Text = AppResources.InfoButton
             };
-            button.Click += ShowDetails;
+            button.Click += ShowInfo;
             ApplicationBar.Buttons.Add(button);
         }
 
-        void ShowDetails(object sender, EventArgs e)
+        void ShowInfo(object sender, EventArgs e)
         {
             NavigationManager.Instance.NavigateToInfoPivot(searchBingMapViewModel.SoughtCache.Id.ToString());
         }
