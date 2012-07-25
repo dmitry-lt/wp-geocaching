@@ -143,6 +143,7 @@
     <Compile Include="ViewModel\ChooseoOrDeleteDialogViewModel.cs" />
     <Compile Include="ViewModel\PhotoGalleryPageViewModel.cs" />
     <Compile Include="ViewModel\SearchBingMapViewModel.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="View\BingMap.xaml.cs">
       <DependentUpon>BingMap.xaml</DependentUpon>
     </Compile>

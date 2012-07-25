@@ -34,7 +34,7 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
-            <controls:Pivot>
+            <controls:Pivot SelectedItem="ApplicationPivotItem">
                 <controls:PivotItem x:Name="AboutPivotItem">
                     <controls:PivotItem.Header>
                         <Grid>
