@@ -187,7 +187,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to dd°,mm.mmm&apos;.
+        ///   Looks up a localized string similar to dd° mm.mmm&apos;.
         /// </summary>
         public static string Coordinates {
             get {
@@ -196,7 +196,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to dd,dddddd°.
+        ///   Looks up a localized string similar to dd.dddddd°.
         /// </summary>
         public static string DCoordinates {
             get {
@@ -457,7 +457,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to dd°,mm&apos;ss.sss&apos;&apos;.
+        ///   Looks up a localized string similar to dd° mm&apos; ss.sss&apos;&apos;.
         /// </summary>
         public static string SCoordinates {
             get {
