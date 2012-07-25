@@ -24,9 +24,10 @@ namespace WP_Geocaching.View
             var binding = new Binding("MapMode");
             SetBinding(MapModeProperty, binding);
             SetCheckpointsButton();
-            SetSetAllButton();
+            //SetSetAllButton();
             SetMyLocationButton();
             SetCompassButton();
+            SetShowInfoButton();
         }
 
         private void PushpinTap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -102,6 +103,22 @@ namespace WP_Geocaching.View
                              };
             button.Click += CompassClick;
             ApplicationBar.Buttons.Add(button);
+        }
+
+        private void SetShowInfoButton()
+        {
+            var button = new ApplicationBarIconButton
+            {
+                IconUri = new Uri("Resources/Images/appbar.info.png", UriKind.Relative),
+                Text = AppResources.InfoButton
+            };
+            button.Click += ShowDetails;
+            ApplicationBar.Buttons.Add(button);
+        }
+
+        void ShowDetails(object sender, EventArgs e)
+        {
+            NavigationManager.Instance.NavigateToInfoPivot(searchBingMapViewModel.SoughtCache.Id.ToString());
         }
 
         void CompassClick(object sender, EventArgs e)
