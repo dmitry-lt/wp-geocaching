@@ -83,6 +83,7 @@
     <Compile Include="Model\Converters\LongitudeConverter.cs" />
     <Compile Include="Model\Converters\LatitudeConverter.cs" />
     <Compile Include="Model\Converters\DistanceToPointConverter.cs" />
+    <Compile Include="Model\Converters\ValidConverter.cs" />
     <Compile Include="Model\DataBase\DbCacheItem.cs" />
     <Compile Include="Model\DataBase\CacheDataContext.cs" />
     <Compile Include="Model\DataBase\CacheDataBase.cs" />
@@ -124,6 +125,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CacheTypeResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\BaseCoordinateViewModel.cs" />
     <Compile Include="ViewModel\BaseMapViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CachePushpin.cs" />
@@ -134,15 +136,19 @@
     <Compile Include="Resources\Localization\LocalizedStrings.cs" />
     <Compile Include="ViewModel\BingMapViewModel.cs" />
     <Compile Include="ViewModel\CheckpointsViewModel.cs" />
+    <Compile Include="ViewModel\CheckpointViewModel.cs" />
     <Compile Include="ViewModel\CompassPageViewModal.cs" />
     <Compile Include="ViewModel\CreateCheckpointViewModel.cs" />
+    <Compile Include="ViewModel\DegCoordinateViewModel.cs" />
     <Compile Include="ViewModel\DetailsViewModel.cs" />
     <Compile Include="ViewModel\InfoPivotViewModel.cs" />
     <Compile Include="ViewModel\ListCacheItem.cs" />
     <Compile Include="ViewModel\FavoritesViewModel.cs" />
     <Compile Include="ViewModel\ChooseoOrDeleteDialogViewModel.cs" />
+    <Compile Include="ViewModel\MinCoordinateViewModel.cs" />
     <Compile Include="ViewModel\PhotoGalleryPageViewModel.cs" />
     <Compile Include="ViewModel\SearchBingMapViewModel.cs" />
+    <Compile Include="ViewModel\SecCoordinateViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="View\BingMap.xaml.cs">
       <DependentUpon>BingMap.xaml</DependentUpon>
@@ -156,8 +162,11 @@
     <Compile Include="View\Checkpoints\ChooseOrDeleteDialogView.xaml.cs">
       <DependentUpon>ChooseOrDeleteDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Checkpoints\CreateCheckpointPivot.xaml.cs">
-      <DependentUpon>CreateCheckpointPivot.xaml</DependentUpon>
+    <Compile Include="View\Checkpoints\CoordinateInputView.xaml.cs">
+      <DependentUpon>CoordinateInputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Checkpoints\CreateCheckpoint.xaml.cs">
+      <DependentUpon>CreateCheckpoint.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Compass\CompassPage.xaml.cs">
       <DependentUpon>CompassPage.xaml</DependentUpon>
@@ -216,7 +225,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Checkpoints\CreateCheckpointPivot.xaml">
+    <Page Include="View\Checkpoints\CoordinateInputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Checkpoints\CreateCheckpoint.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
