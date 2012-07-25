@@ -83,6 +83,7 @@
     <Compile Include="Model\Converters\LongitudeConverter.cs" />
     <Compile Include="Model\Converters\LatitudeConverter.cs" />
     <Compile Include="Model\Converters\DistanceToPointConverter.cs" />
+    <Compile Include="Model\Converters\MapModeConverter.cs" />
     <Compile Include="Model\Converters\ValidConverter.cs" />
     <Compile Include="Model\DataBase\DbCacheItem.cs" />
     <Compile Include="Model\DataBase\CacheDataContext.cs" />

@@ -1,21 +1,6 @@
 ﻿using System;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using System.Threading;
-using System.Xml;
-using System.Text;
-using System.IO;
-using System.Xml.Linq;
 using WP_Geocaching.Model;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Collections.ObjectModel;
@@ -36,7 +21,7 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.surpassedCacheCountMessageVisibility;
+                return surpassedCacheCountMessageVisibility;
             }
             set
             {
@@ -49,11 +34,11 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.boundingRectangle;
+                return boundingRectangle;
             }
             set
             {
-                this.boundingRectangle = value;
+                boundingRectangle = value;
                 SetPushpinsOnMap();
             }
         }
@@ -62,6 +47,7 @@ namespace WP_Geocaching.ViewModel
         {
             var settings = new Settings();
             MapCenter = settings.LastLocation;
+            MapMode = settings.MapMode;
             Zoom = MapManager.Instance.DefaultZoom;
             this.apiManager = apiManager;
             CachePushpins = new ObservableCollection<CachePushpin>();
@@ -69,14 +55,19 @@ namespace WP_Geocaching.ViewModel
 
             watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
             watcher.MovementThreshold = 20;
-            watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(PositionChanged);
+            watcher.PositionChanged += PositionChanged;
             watcher.Start();
+        }
+
+        public void UpdateMapChildrens()
+        {
+            UpdateMapMode();
         }
 
         private void ProcessCacheList(List<Cache> caches)
         {
 
-            this.CachePushpins.Clear();
+            CachePushpins.Clear();
 
             if (caches.Count >= maxCacheCount)
             {
@@ -89,7 +80,7 @@ namespace WP_Geocaching.ViewModel
             else
             {
 
-                foreach (Cache p in caches)
+                foreach (var p in caches)
                 {
                     var pushpin = new CachePushpin()
                     {
@@ -110,7 +101,7 @@ namespace WP_Geocaching.ViewModel
 
         private void SetPushpinsOnMap()
         {
-            this.apiManager.UpdateCacheList(ProcessCacheList, BoundingRectangle.East,
+            apiManager.UpdateCacheList(ProcessCacheList, BoundingRectangle.East,
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
 
@@ -120,12 +111,13 @@ namespace WP_Geocaching.ViewModel
             var currentLocation = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
             settings.LastLocation = currentLocation;
             this.currentLocation = currentLocation;
-            if (isFirstSettingView)
+            if (!isFirstSettingView)
             {
-                MapCenter = currentLocation;
-                NotifyPropertyChanged("MapCenter");
-                isFirstSettingView = false;
+                return;
             }
+            MapCenter = currentLocation;
+            NotifyPropertyChanged("MapCenter");
+            isFirstSettingView = false;
         }
     }
 }

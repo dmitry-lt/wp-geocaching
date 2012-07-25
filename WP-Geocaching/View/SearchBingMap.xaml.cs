@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.ViewModel;
@@ -19,6 +21,8 @@ namespace WP_Geocaching.View
             InitializeComponent();
             searchBingMapViewModel = new SearchBingMapViewModel(GeocahingSuApiManager.Instance, Map.SetView);
             DataContext = searchBingMapViewModel;
+            var binding = new Binding("MapMode");
+            SetBinding(MapModeProperty, binding);
             SetCheckpointsButton();
             SetSetAllButton();
             SetMyLocationButton();
@@ -47,7 +51,7 @@ namespace WP_Geocaching.View
 
             if (e.NavigationMode == NavigationMode.Back)
             {
-                searchBingMapViewModel.UpdateMapChildrens();
+                searchBingMapViewModel.UpdateMapProperties();
             }
         }
 
@@ -131,6 +135,18 @@ namespace WP_Geocaching.View
         private void MyLocationClick(object sender, EventArgs e)
         {
             searchBingMapViewModel.SetMapCenterOnCurrentLocationOrShowMessage(Dispatcher);
+        }
+
+        public static readonly DependencyProperty MapModeProperty =
+            DependencyProperty.Register("MapMode", typeof(MapMode), typeof(SearchBingMap),
+            new PropertyMetadata(OnMapModeChanged));
+
+
+        private static void OnMapModeChanged(DependencyObject element,
+               DependencyPropertyChangedEventArgs e)
+        {
+            var mm = (new Model.Converters.MapModeConverter()).Convert(e.NewValue, null, null, null);
+            ((SearchBingMap)element).Map.Mode = (Microsoft.Phone.Controls.Maps.Core.MapMode)(mm);
         }
     }
 }

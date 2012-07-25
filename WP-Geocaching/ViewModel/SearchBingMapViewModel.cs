@@ -1,22 +1,5 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using System.Threading;
-using System.Xml;
-using System.Text;
-using System.IO;
-using System.Xml.Linq;
 using WP_Geocaching.Model;
-using System.ComponentModel;
-using System.Collections.Generic;
 using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
@@ -40,13 +23,12 @@ namespace WP_Geocaching.ViewModel
         private Action<LocationRect> setView;
         private LocationCollection connectingLine;
         private double distanceToSoughtPoint;
-        private Settings settings;
 
         public override int Zoom
         {
             get
             {
-                return this.zoom;
+                return zoom;
             }
             set
             {
@@ -59,7 +41,7 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.soughtCache;
+                return soughtCache;
             }
             set
             {
@@ -68,7 +50,7 @@ namespace WP_Geocaching.ViewModel
                 {
                     MapManager.Instance.CacheId = value.Id;
                     ConnectingLine.Add(soughtCache.Location);
-                    UpdateMapChildrens();
+                    UpdateMapProperties();
                     settings.LastSoughtCacheId = value.Id;
                 }
             }
@@ -78,7 +60,7 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.cachePushpins;
+                return cachePushpins;
             }
             set
             {
@@ -91,7 +73,7 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.connectingLine;
+                return connectingLine;
             }
             set
             {
@@ -104,7 +86,7 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.currentLocation;
+                return currentLocation;
             }
             set
             {
@@ -120,7 +102,7 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.distanceToSoughtPoint;
+                return distanceToSoughtPoint;
             }
             set
             {
@@ -133,32 +115,34 @@ namespace WP_Geocaching.ViewModel
         {
             this.apiManager = apiManager;
             this.setView = setView;
-            settings = new Settings();
             isFirstSettingView = true;
             Zoom = MapManager.Instance.DefaultZoom;
             CachePushpins = new ObservableCollection<CachePushpin>();
             ConnectingLine = new LocationCollection();
+            settings = new Settings();
+            MapMode = settings.MapMode;
             currentLocation = settings.LastLocation;
             ShowAll();
 
             watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
             watcher.MovementThreshold = 20;
-            watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(PositionChanged);
+            watcher.PositionChanged += PositionChanged;
             watcher.Start();
         }
 
-        public void UpdateMapChildrens()
+        public override void UpdateMapProperties()
         {
             UpdateCachePushpins();
             UpdateConnectingLine();
             UpdateConnectingLineLength();
+            UpdateMapMode();
         }
 
         public void ShowAll()
         {
             var northwest = new GeoCoordinate(MinLatitude, MaxLongitude);
             var southeast = new GeoCoordinate(MaxLatitude, MinLongitude);
-            foreach (CachePushpin c in cachePushpins)
+            foreach (var c in cachePushpins)
             {
                 UpdateToSetData(c.Location, northwest, southeast);
             }
@@ -168,7 +152,7 @@ namespace WP_Geocaching.ViewModel
 
         public void SetDirection(double direction)
         {   
-            double northDirection = -direction;
+            var northDirection = -direction;
             Direction = (360 - northDirection) % 360;
         }
 
