@@ -15,25 +15,9 @@ namespace CoordinateInput
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        CheckpointViewModel checkpointViewModel;
-
         public MainPage()
         {
             InitializeComponent();
-            checkpointViewModel = new CheckpointViewModel();
-            DataContext = checkpointViewModel;
-        }
-
-        private void TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            var bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
-            bindingExpr.UpdateSource();
-        }
-
-        private void LoadingPivotItem(object sender, PivotItemEventArgs e)
-        {
-            checkpointViewModel.Refresh();
         }
     }
 }
