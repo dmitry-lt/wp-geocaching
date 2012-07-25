@@ -157,10 +157,10 @@
     <value>km</value>
   </data>
   <data name="Latitude" xml:space="preserve">
-    <value>Latitude:</value>
+    <value>Latitude</value>
   </data>
   <data name="Longitude" xml:space="preserve">
-    <value>Longitude:</value>
+    <value>Longitude</value>
   </data>
   <data name="Metres" xml:space="preserve">
     <value>m</value>
@@ -184,7 +184,7 @@
     <value>show all</value>
   </data>
   <data name="Subtype" xml:space="preserve">
-    <value>Subtype:</value>
+    <value>Subtype</value>
   </data>
   <data name="SearchCache" xml:space="preserve">
     <value>Search a cache</value>

@@ -157,10 +157,10 @@
     <value>км</value>
   </data>
   <data name="Latitude" xml:space="preserve">
-    <value>Широта:</value>
+    <value>Широта</value>
   </data>
   <data name="Longitude" xml:space="preserve">
-    <value>Долгота:</value>
+    <value>Долгота</value>
   </data>
   <data name="Metres" xml:space="preserve">
     <value>м</value>
@@ -184,7 +184,7 @@
     <value>показать всё</value>
   </data>
   <data name="Subtype" xml:space="preserve">
-    <value>Подтип:</value>
+    <value>Подтип</value>
   </data>
   <data name="SearchCache" xml:space="preserve">
     <value>Искать тайник</value>

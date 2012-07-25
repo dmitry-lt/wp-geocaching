@@ -295,7 +295,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Latitude:.
+        ///   Looks up a localized string similar to Latitude.
         /// </summary>
         public static string Latitude {
             get {
@@ -313,7 +313,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Longitude:.
+        ///   Looks up a localized string similar to Longitude.
         /// </summary>
         public static string Longitude {
             get {
@@ -511,7 +511,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Subtype:.
+        ///   Looks up a localized string similar to Subtype.
         /// </summary>
         public static string Subtype {
             get {
