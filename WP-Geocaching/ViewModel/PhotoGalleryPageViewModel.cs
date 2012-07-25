@@ -46,7 +46,7 @@ namespace WP_Geocaching.ViewModel
         public void SetImageSource(ImageSource source)
         {
             ImageSource = source;
-            MaxHeight = ((BitmapSource) source).PixelHeight;
+            MaxHeight = ((BitmapSource) source).PixelHeight * Math.Sqrt(2);
         }
 
         public void LoadNext(Action action)

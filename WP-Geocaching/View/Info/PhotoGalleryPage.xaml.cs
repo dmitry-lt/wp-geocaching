@@ -130,6 +130,9 @@ namespace WP_Geocaching.View.Info
             return true;
         }
 
+
+        private double imageHalfWidth;
+        private double imageHalfHight;
         private double initialScale;
         private double maxScale;
         private Point midPoint;
@@ -140,8 +143,8 @@ namespace WP_Geocaching.View.Info
 
             maxScale = GetMaxScale();
 
-            contentPanelHalfWidth = image.ActualWidth / 2;
-            contentPanelHalfHight = image.ActualHeight / 2;
+            imageHalfWidth = image.ActualWidth / 2;
+            imageHalfHight = image.ActualHeight / 2;
 
             var firstPositionPoint = e.GetPosition(image, 0);
             var secondPositionPoint = e.GetPosition(image, 1);
@@ -171,11 +174,11 @@ namespace WP_Geocaching.View.Info
                 case PageOrientation.PortraitUp:
                 case PageOrientation.PortraitDown:
                 case PageOrientation.Portrait:
-                    return Math.Max(1, ((BitmapSource)image.Source).PixelWidth / ContentPanel.ActualWidth);
+                    return Math.Max(1, ((BitmapSource)image.Source).PixelWidth / ContentPanel.ActualWidth) * Math.Sqrt(2);
                 case PageOrientation.LandscapeRight:
                 case PageOrientation.LandscapeLeft:
                 case PageOrientation.Landscape:
-                    return Math.Max(1, ((BitmapSource)image.Source).PixelHeight / ContentPanel.ActualHeight);
+                    return Math.Max(1, ((BitmapSource)image.Source).PixelHeight / ContentPanel.ActualHeight) * Math.Sqrt(2);
             }
             return 1;
         }
@@ -184,15 +187,15 @@ namespace WP_Geocaching.View.Info
         {
             var difference = imageTransform.ScaleX - previousScale;
 
-            imageTransform.TranslateX += (contentPanelHalfWidth - midPoint.X) * difference;
-            imageTransform.TranslateY += (contentPanelHalfHight - midPoint.Y) * difference;
+            imageTransform.TranslateX += (imageHalfWidth - midPoint.X) * difference;
+            imageTransform.TranslateY += (imageHalfHight - midPoint.Y) * difference;
         }
 
         private double GetNormalizeScale(double scale)
         {
-            if (scale > 2 * maxScale)
+            if (scale > maxScale)
             {
-                return 2 * maxScale;
+                return maxScale;
             }
             else if (scale > 1)
             {
