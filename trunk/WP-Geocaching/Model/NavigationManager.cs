@@ -76,7 +76,7 @@ namespace WP_Geocaching.Model
 
         public void NavigateToCreateCheckpoint()
         {
-            this.Navigate("//View/Checkpoints/CreateCheckpointPivot.xaml");
+            this.Navigate("//View/Checkpoints/CreateCheckpoint.xaml");
         }
 
         public void NavigateToNotebook(string CurrentId)
