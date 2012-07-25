@@ -33,11 +33,20 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,12">
 
+            <Grid.Resources>
+                <Style x:Key="TileTextStyle" TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Style>
+            </Grid.Resources>
+            
             <Grid x:Name="NoSouhgtCacheMessage" Width="Auto"
                 Background="{StaticResource PhoneChromeBrush}" 
                 VerticalAlignment="Bottom" Visibility="Collapsed">
                 <TextBlock Text="{Binding Path=LocalizedResources.NoSouhgtCacheMessage, 
-                    Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Center" 
+                    Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" 
                         VerticalAlignment="Center" FontSize="22"/>
             </Grid>
 
@@ -45,7 +54,7 @@
                 Background="{StaticResource PhoneChromeBrush}" 
                 VerticalAlignment="Bottom" Visibility="Collapsed">
                 <TextBlock Text="{Binding Path=LocalizedResources.NoFavoriteCachesMessage, 
-                    Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Center" 
+                    Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" 
                         VerticalAlignment="Center" FontSize="22"/>
             </Grid>
 
@@ -60,11 +69,8 @@
                 <Grid>
                         <Image Source="Resources/Images/choose_cache_menu_icon.png"/>
                         <TextBlock Text="{Binding Path=LocalizedResources.ChooseCache, 
-                            Source={StaticResource LocalizedStrings}}" 
-                                   VerticalAlignment="Bottom"
-                                   HorizontalAlignment="Center"
-                                   FontSize="20"
-                                   Foreground="White"/>
+                                   Source={StaticResource LocalizedStrings}}" 
+                                   Style="{StaticResource TileTextStyle}"/>
                 </Grid>
                 </Button>
                 <Button HorizontalAlignment="Right" 
@@ -77,11 +83,8 @@
                 <Grid>
                         <Image Source="Resources/Images/settings_menu_icon.png"/>
                         <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
-                            Path=LocalizedResources.Settings}" 
-                                   VerticalAlignment="Bottom"
-                                   HorizontalAlignment="Center"
-                                   FontSize="20"
-                                   Foreground="White"/>
+                                   Path=LocalizedResources.Settings}" 
+                                   Style="{StaticResource TileTextStyle}"/>
                 </Grid>
                 </Button>
                 <Button HorizontalAlignment="Left" 
@@ -94,11 +97,8 @@
                 <Grid>
                         <Image Source="Resources/Images/favorites_menu_icon.png"/>
                         <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
-                            Path=LocalizedResources.Favorites}" 
-                                   VerticalAlignment="Bottom"
-                                   HorizontalAlignment="Center"
-                                   FontSize="20"
-                                   Foreground="White"/>
+                                    Path=LocalizedResources.Favorites}" 
+                                   Style="{StaticResource TileTextStyle}"/>
                 </Grid>
                 </Button>
                 <Button HorizontalAlignment="Right" 
@@ -111,11 +111,8 @@
                     <Grid>
                         <Image Source="Resources/Images/search_map_menu_icon.png"/>
                         <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
-                            Path=LocalizedResources.SearchCache}" 
-                                   VerticalAlignment="Bottom"
-                                   HorizontalAlignment="Center"
-                                   FontSize="20"
-                                   Foreground="White"/>
+                                   Path=LocalizedResources.SearchCache}" 
+                                   Style="{StaticResource TileTextStyle}"/>
                     </Grid>
                 </Button>
             </Grid>
