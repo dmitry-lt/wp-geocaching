@@ -8,127 +8,86 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Globalization;
 
-public class MinCoordinateViewModel
+namespace CoordinateInput
 {
-    private const string FormatMinutesFraction = "{0:0.000}";
-    private const string DotPosition = "0.";
-    private const int MinLatitude = -90;
-    private const int MaxLatitude = 90;
-    private const int MinLongitude = -180;
-    private const int MaxLongitude = 180;
-
-    private int degrees;
-    private int minutes;
-    private double minutesFraction;
-    private bool positive;
-    private CoordinateType coordinateType;
-
-    public string Degrees
+    public class MinCoordinateViewModel : BaseCoordinateViewModel
     {
-        get
-        {
-            return degrees.ToString();
-        }
-    }
+        private const string FormatMinutesFraction = "{0:0.000}";
 
-    public string Minutes
-    {
-        get
-        {
-            return minutes.ToString();
-        }
-    }
+        private int minutes;
+        private double minutesFraction;
 
-    public string MinutesFraction
-    {
-        get
+        public string Minutes
         {
-            return String.Format(FormatMinutesFraction, minutesFraction).Substring(2);
-        }
-    }
-
-    public bool SetDegrees(string value)
-    {
-        int deg;
-
-        if (int.TryParse(value, out deg))
-        {
-            if (coordinateType == CoordinateType.Lat)
+            get
             {
-                if (deg > MinLatitude && deg < MaxLatitude)
-                {
-                    degrees = deg;
-                    positive = degrees > 0 ? true : false;
-                    return true;
-                }
-            }
-            else
-            {
-                if (deg > MinLongitude && deg < MaxLongitude)
-                {
-                    degrees = deg;
-                    positive = degrees > 0 ? true : false;
-                    return true;
-                }
+                return minutes.ToString();
             }
         }
 
-        return false;
-    }
-
-    public bool SetMinutes(string value)
-    {
-        int min;
-
-        if (int.TryParse(value, out min))
+        public string MinutesFraction
         {
-            if (min >= 0 && min < 60)
+            get
             {
-                minutes = min;
+                return String.Format(FormatMinutesFraction, minutesFraction).Substring(2);
+            }
+        }
+
+        public bool SetMinutes(string value)
+        {
+            int min;
+
+            if (int.TryParse(value, out min))
+            {
+                if (min >= 0 && min < 60)
+                {
+                    minutes = min;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool SetMinutesFraction(string value)
+        {
+            string val = DotPosition + value;
+            double minFraction;
+
+            if (double.TryParse(val, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out minFraction) && val != DotPosition)
+            {
+                minutesFraction = minFraction;
                 return true;
             }
+
+            return false;
         }
 
-        return false;
-    }
-
-    public bool SetMinutesFraction(string value)
-    {
-        string val = DotPosition + value;
-        double minFraction;
-
-        if (double.TryParse(val, out minFraction) && val != DotPosition)
+        public MinCoordinateViewModel(double coordinate, CoordinateType type)
         {
-            minutesFraction = minFraction;
-            return true;
+            coordinateType = type;
+            positive = coordinate > 0 ? true : false;
+            degrees = (int)coordinate;
+            minutes = Math.Abs((int)((coordinate - degrees) * 60));
+            minutesFraction = Math.Abs((coordinate - degrees)) * 60 - minutes;
+
+            if (1 - minutesFraction < Eps)
+            {
+                minutes++;
+                minutesFraction = 0;
+            }
         }
 
-        return false;
-    }
-
-    public MinCoordinateViewModel(double coordinate, CoordinateType type)
-    {
-        coordinateType = type;
-        positive = coordinate > 0 ? true : false;
-        degrees = (int)coordinate;
-        minutes = Math.Abs((int)((coordinate - degrees) * 60));
-        minutesFraction = Math.Abs((coordinate - degrees)) * 60 - minutes;
-
-        if (1 - minutesFraction < 0.0000001)
+        public double ToCoordinate()
         {
-            minutes++;
-            minutesFraction = 0;
-        }
-    }
+            if (positive)
+            {
+                return degrees + (minutes + minutesFraction) / 60.0;
+            }
 
-    public double ToCoordinate()
-    {
-        if (positive)
-        {
-            return degrees + (minutes + minutesFraction) / 60.0;
+            return degrees - (minutes + minutesFraction) / 60.0;
         }
-
-        return degrees - (minutes + minutesFraction) / 60.0;
     }
 }

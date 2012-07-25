@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoordinateInput", "CoordinateInput\CoordinateInput.csproj", "{E7EAB384-BBF0-4133-9892-5E119C237724}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoordinateInput.UnitTest", "CoordinateInput.UnitTests\CoordinateInput.UnitTest\CoordinateInput.UnitTest.csproj", "{7163E5B1-B937-4248-8A80-2DE7140DD846}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoordinateInput.UnitTests", "CoordinateInput.UnitTests\CoordinateInput.UnitTests.csproj", "{D6ED976B-44BE-4011-93CF-CD161A29B7A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,16 +29,16 @@ Global
 		{E7EAB384-BBF0-4133-9892-5E119C237724}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E7EAB384-BBF0-4133-9892-5E119C237724}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
 		{E7EAB384-BBF0-4133-9892-5E119C237724}.Release|x86.ActiveCfg = Release|Any CPU
-		{7163E5B1-B937-4248-8A80-2DE7140DD846}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{7163E5B1-B937-4248-8A80-2DE7140DD846}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{7163E5B1-B937-4248-8A80-2DE7140DD846}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{7163E5B1-B937-4248-8A80-2DE7140DD846}.Debug|x86.ActiveCfg = Debug|x86
-		{7163E5B1-B937-4248-8A80-2DE7140DD846}.Debug|x86.Build.0 = Debug|x86
-		{7163E5B1-B937-4248-8A80-2DE7140DD846}.Release|Any CPU.ActiveCfg = Release|x86
-		{7163E5B1-B937-4248-8A80-2DE7140DD846}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{7163E5B1-B937-4248-8A80-2DE7140DD846}.Release|Mixed Platforms.Build.0 = Release|x86
-		{7163E5B1-B937-4248-8A80-2DE7140DD846}.Release|x86.ActiveCfg = Release|x86
-		{7163E5B1-B937-4248-8A80-2DE7140DD846}.Release|x86.Build.0 = Release|x86
+		{D6ED976B-44BE-4011-93CF-CD161A29B7A7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D6ED976B-44BE-4011-93CF-CD161A29B7A7}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D6ED976B-44BE-4011-93CF-CD161A29B7A7}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D6ED976B-44BE-4011-93CF-CD161A29B7A7}.Debug|x86.ActiveCfg = Debug|x86
+		{D6ED976B-44BE-4011-93CF-CD161A29B7A7}.Debug|x86.Build.0 = Debug|x86
+		{D6ED976B-44BE-4011-93CF-CD161A29B7A7}.Release|Any CPU.ActiveCfg = Release|x86
+		{D6ED976B-44BE-4011-93CF-CD161A29B7A7}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D6ED976B-44BE-4011-93CF-CD161A29B7A7}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D6ED976B-44BE-4011-93CF-CD161A29B7A7}.Release|x86.ActiveCfg = Release|x86
+		{D6ED976B-44BE-4011-93CF-CD161A29B7A7}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

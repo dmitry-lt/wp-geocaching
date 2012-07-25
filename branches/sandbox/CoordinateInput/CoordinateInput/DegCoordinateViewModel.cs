@@ -8,95 +8,54 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Globalization;
 
-public class DegCoordinateViewModel
+namespace CoordinateInput
 {
-    private const string FormatDegreesFraction = "{0:0.000000}";
-    private const string DotPosition = "0.";
-    private const int MinLatitude = -90;
-    private const int MaxLatitude = 90;
-    private const int MinLongitude = -180;
-    private const int MaxLongitude = 180;
-
-    private int degrees;
-    private double degreesFraction;
-    private bool positive;
-    private CoordinateType coordinateType;
-
-    public string Degrees
+    public class DegCoordinateViewModel : BaseCoordinateViewModel
     {
-        get
-        {
-            return degrees.ToString();
-        }
-    }
+        private const string FormatDegreesFraction = "{0:0.000000}";
 
-    public string DegreesFraction
-    {
-        get
-        {
-            return String.Format(FormatDegreesFraction, degreesFraction).Substring(2);
-        }
-    }
+        private double degreesFraction;
 
-    public bool SetDegrees(string value)
-    {
-        int deg;
-
-        if (int.TryParse(value, out deg))
+        public string DegreesFraction
         {
-            if (coordinateType == CoordinateType.Lat)
+            get
             {
-                if (deg > MinLatitude && deg < MaxLatitude)
-                {
-                    degrees = deg;
-                    positive = degrees > 0 ? true : false;
-                    return true;
-                }
-            }
-            else
-            {
-                if (deg > MinLongitude && deg < MaxLongitude)
-                {
-                    degrees = deg;
-                    positive = degrees > 0 ? true : false;
-                    return true;
-                }
+                return String.Format(FormatDegreesFraction, degreesFraction).Substring(2);
             }
         }
 
-        return false;
-    }
-
-    public bool SetDegreesFraction(string value)
-    {
-        string val = DotPosition + value;
-        double degFraction;
-
-        if (double.TryParse(val, out degFraction) && val != DotPosition)
+        public bool SetDegreesFraction(string value)
         {
-            degreesFraction = degFraction;
-            return true;
+            string val = DotPosition + value;
+            double degFraction;
+
+            if (double.TryParse(val, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out degFraction) && val != DotPosition)
+            {
+                degreesFraction = degFraction;
+                return true;
+            }
+
+            return false;
         }
 
-        return false;
-    }
-
-    public DegCoordinateViewModel(double coordinate, CoordinateType type)
-    {
-        coordinateType = type;
-        positive = coordinate > 0 ? true : false;
-        degrees = (int)coordinate;
-        degreesFraction = Math.Abs(coordinate - (int)coordinate);
-    }
-
-    public double ToCoordinate()
-    {
-        if (positive)
+        public DegCoordinateViewModel(double coordinate, CoordinateType type)
         {
-            return degrees + degreesFraction;
+            coordinateType = type;
+            positive = coordinate > 0 ? true : false;
+            degrees = (int)coordinate;
+            degreesFraction = Math.Abs(coordinate - (int)coordinate);
         }
 
-        return degrees - degreesFraction;
+        public double ToCoordinate()
+        {
+            if (positive)
+            {
+                return degrees + degreesFraction;
+            }
+
+            return degrees - degreesFraction;
+        }
     }
 }

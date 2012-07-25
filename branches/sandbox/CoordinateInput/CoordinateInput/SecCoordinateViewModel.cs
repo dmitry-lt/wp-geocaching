@@ -8,155 +8,120 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Globalization;
 
-public class SecCoordinateViewModel
+namespace CoordinateInput
 {
-    private const string FormatSecondsFraction = "{0:0.000}";
-    private const string DotPosition = "0.";
-    private const int MinLatitude = -90;
-    private const int MaxLatitude = 90;
-    private const int MinLongitude = -180;
-    private const int MaxLongitude = 180;
-
-    private int degrees;
-    private int minutes;
-    private int seconds;
-    private double secondsFraction;
-    private bool positive;
-    private CoordinateType coordinateType;
-
-    public string Degrees
+    public class SecCoordinateViewModel : BaseCoordinateViewModel
     {
-        get
-        {
-            return degrees.ToString();
-        }
-    }
+        private const string FormatSecondsFraction = "{0:0.000}";
 
-    public string Minutes
-    {
-        get
-        {
-            return minutes.ToString();
-        }
-    }
+        private int minutes;
+        private int seconds;
+        private double secondsFraction;
 
-    public string Seconds
-    {
-        get
+        public string Minutes
         {
-            return seconds.ToString();
-        }
-    }
-
-    public string SecondsFraction
-    {
-        get
-        {
-            return String.Format(FormatSecondsFraction, secondsFraction).Substring(2);
-        }
-    }
-
-    public bool SetDegrees(string value)
-    {
-        int deg;
-
-        if (int.TryParse(value, out deg))
-        {
-            if (coordinateType == CoordinateType.Lat)
+            get
             {
-                if (deg > MinLatitude && deg < MaxLatitude)
+                return minutes.ToString();
+            }
+        }
+
+        public string Seconds
+        {
+            get
+            {
+                return seconds.ToString();
+            }
+        }
+
+        public string SecondsFraction
+        {
+            get
+            {
+                return String.Format(FormatSecondsFraction, secondsFraction).Substring(2);
+            }
+        }
+
+        public bool SetMinutes(string value)
+        {
+            int min;
+
+            if (int.TryParse(value, out min))
+            {
+                if (min >= 0 && min < 60)
                 {
-                    degrees = deg;
-                    positive = degrees > 0 ? true : false;
+                    minutes = min;
                     return true;
                 }
             }
-            else
+
+            return false;
+        }
+
+        public bool SetSeconds(string value)
+        {
+            int sec;
+
+            if (int.TryParse(value, out sec))
             {
-                if (deg > MinLongitude && deg < MaxLongitude)
+                if (sec >= 0 && sec < 60)
                 {
-                    degrees = deg;
-                    positive = degrees > 0 ? true : false;
+                    seconds = sec;
                     return true;
                 }
             }
+
+            return false;
         }
 
-        return false;
-    }
-
-    public bool SetMinutes(string value)
-    {
-        int min;
-
-        if (int.TryParse(value, out min))
+        public bool SetSecondsFraction(string value)
         {
-            if (min >= 0 && min < 60)
+            string val = DotPosition + value;
+            double secFraction;
+
+            if (double.TryParse(val, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out secFraction) && val != DotPosition)
             {
-                minutes = min;
+                secondsFraction = secFraction;
                 return true;
+            }
+
+            return false;
+        }
+
+        public SecCoordinateViewModel(double coordinate, CoordinateType type)
+        {
+            coordinateType = type;
+            positive = coordinate > 0 ? true : false;
+            degrees = (int)coordinate;
+            double minutesFraction = Math.Abs(coordinate - degrees) * 60;
+            minutes = (int)minutesFraction;
+            seconds = (int)((minutesFraction - minutes) * 60);
+            secondsFraction = ((minutesFraction - minutes) * 60) - seconds;
+
+            if (1 - (minutesFraction - minutes) < Eps)
+            {
+                minutes++;
+                seconds = 0;
+                secondsFraction = 0;
+            }
+
+            if (1 - ((minutesFraction - minutes) * 60 - seconds) < Eps)
+            {
+                seconds++;
+                secondsFraction = 0;
             }
         }
 
-        return false;
-    }
-
-    public bool SetSeconds(string value)
-    {
-        int sec;
-
-        if (int.TryParse(value, out sec))
+        public double ToCoordinate()
         {
-            if (sec >= 0 && sec < 60)
+            if (positive)
             {
-                seconds = sec;
-                return true;
+                return degrees + (minutes / 60.0 + (seconds + secondsFraction) / 3600.0);
             }
+
+            return degrees - (minutes / 60.0 + (seconds + secondsFraction) / 3600.0);
         }
-
-        return false;
-    }
-
-    public bool SetSecondsFraction(string value)
-    {
-        string val = DotPosition + value;
-        double secFraction;
-
-        if (double.TryParse(val, out secFraction) && val != DotPosition)
-        {
-            secondsFraction = secFraction;
-            return true;
-        }
-
-        return false;
-    }
-
-    public SecCoordinateViewModel(double coordinate, CoordinateType type)
-    {
-        coordinateType = type;
-        positive = coordinate > 0 ? true : false;
-        degrees = (int)coordinate;
-        double fractoinMinutes = Math.Abs(coordinate - degrees) * 60;
-        minutes = (int)fractoinMinutes;
-        seconds = (int)((fractoinMinutes - minutes) * 60);
-        secondsFraction = ((fractoinMinutes - minutes) * 60) - seconds;
-
-        if (1 - (fractoinMinutes - minutes) < 0.0000001)
-        {
-            minutes++;
-            seconds = 0;
-            secondsFraction = 0;
-        }
-    }
-
-    public double ToCoordinate()
-    {
-        if (positive)
-        {
-            return (degrees + (minutes / 60.0 + (seconds + secondsFraction) / 3600.0));
-        }
-
-        return (degrees - (minutes / 60.0 + (seconds + secondsFraction) / 3600.0));
     }
 }

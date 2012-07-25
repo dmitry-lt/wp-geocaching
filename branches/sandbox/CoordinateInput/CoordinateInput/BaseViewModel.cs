@@ -10,15 +10,18 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 
-public class BaseViewModel : INotifyPropertyChanged
+namespace CoordinateInput
 {
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected void NotifyPropertyChanged(string propertyName)
+    public class BaseViewModel : INotifyPropertyChanged
     {
-        if (PropertyChanged != null)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(string propertyName)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

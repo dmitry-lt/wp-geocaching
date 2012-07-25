@@ -63,7 +63,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BaseCoordinateViewModel.cs" />
     <Compile Include="BaseViewModel.cs" />
+    <Compile Include="CoordinateInputView.xaml.cs">
+      <DependentUpon>CoordinateInputView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SecCoordinateViewModel.cs" />
     <Compile Include="MinCoordinateViewModel.cs" />
     <Compile Include="DegCoordinateViewModel.cs" />
@@ -72,12 +76,17 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="CoordinateInputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

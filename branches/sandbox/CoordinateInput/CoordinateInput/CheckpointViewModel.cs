@@ -12,450 +12,798 @@ using System.ComponentModel;
 using System.Device.Location;
 using System.Globalization;
 
-public enum CoordinateType { Lat, Lng };
-
-public class CheckpointViewModel : BaseViewModel
+namespace CoordinateInput
 {
-    private GeoCoordinate currentInputPointLocation;
+    public enum CoordinateType { Lat, Lng };
 
-    private Visibility latDegreesValidate;
-    private Visibility latMinutesValidate;
-    private Visibility latMinutesFractionValidate;
-    private Visibility dLatDegreesValidate;
-    private Visibility dLatDegreesFractionValidate;
-    private Visibility sLatDegreesValidate;
-    private Visibility sLatMinutesValidate;
-    private Visibility sLatSecondsValidate;
-    private Visibility sLatSecondsFractionValidate;
-
-    public Visibility LatDegreesValidate
+    public class CheckpointViewModel : BaseViewModel
     {
-        get
-        {
-            return latDegreesValidate;
-        }
-        set
-        {
-            latDegreesValidate = value;
-            NotifyPropertyChanged("LatDegreesValidate");
-        }
-    }
+        private GeoCoordinate currentInputPointLocation;
 
-    public Visibility LatMinutesValidate
-    {
-        get
-        {
-            return latMinutesValidate;
-        }
-        set
-        {
-            latMinutesValidate = value;
-            NotifyPropertyChanged("LatMinutesValidate");
-        }
-    }
+        private bool latDegreesValid;
+        private bool latMinutesValid;
+        private bool latMinutesFractionValid;
+        private bool dLatDegreesValid;
+        private bool dLatDegreesFractionValid;
+        private bool sLatDegreesValid;
+        private bool sLatMinutesValid;
+        private bool sLatSecondsValid;
+        private bool sLatSecondsFractionValid;
+        private bool lngDegreesValid;
+        private bool lngMinutesValid;
+        private bool lngMinutesFractionValid;
+        private bool dLngDegreesValid;
+        private bool dLngDegreesFractionValid;
+        private bool sLngDegreesValid;
+        private bool sLngMinutesValid;
+        private bool sLngSecondsValid;
+        private bool sLngSecondsFractionValid;
 
-    public Visibility LatMinutesFractionValidate
-    {
-        get
-        {
-            return latMinutesFractionValidate;
-        }
-        set
-        {
-            latMinutesFractionValidate = value;
-            NotifyPropertyChanged("LatMinutesFractionValidate");
-        }
-    }
+        private string name;
 
-    public Visibility DLatDegreesValidate
-    {
-        get
+        public string Name
         {
-            return dLatDegreesValidate;
-        }
-        set
-        {
-            dLatDegreesValidate = value;
-            NotifyPropertyChanged("DLatDegreesValidate");
-        }
-    }
-
-    public Visibility DLatDegreesFractionValidate
-    {
-        get
-        {
-            return dLatDegreesFractionValidate;
-        }
-        set
-        {
-            dLatDegreesFractionValidate = value;
-            NotifyPropertyChanged("DLatDegreesFractionValidate");
-        }
-    }
-
-    public Visibility SLatDegreesValidate
-    {
-        get
-        {
-            return sLatDegreesValidate;
-        }
-        set
-        {
-            sLatDegreesValidate = value;
-            NotifyPropertyChanged("SLatDegreesValidate");
-        }
-    }
-
-    public Visibility SLatMinutesValidate
-    {
-        get
-        {
-            return sLatMinutesValidate;
-        }
-        set
-        {
-            sLatMinutesValidate = value;
-            NotifyPropertyChanged("SLatMinutesValidate");
-        }
-    }
-
-    public Visibility SLatSecondsValidate
-    {
-        get
-        {
-            return sLatSecondsValidate;
-        }
-        set
-        {
-            sLatSecondsValidate = value;
-            NotifyPropertyChanged("SLatSecondsValidate");
-        }
-    }
-
-    public Visibility SLatSecondsFractionValidate
-    {
-        get
-        {
-            return sLatSecondsFractionValidate;
-        }
-        set
-        {
-            sLatSecondsFractionValidate = value;
-            NotifyPropertyChanged("SLatSecondsFractionValidate");
-        }
-    }
-
-    public GeoCoordinate CurrentInputPointLocation
-    {
-        get
-        {
-            return currentInputPointLocation;
-        }
-    }
-
-    public string LatDegrees
-    {
-        get
-        {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-            LatDegreesValidate = Visibility.Collapsed;
-            return minCoordinateViewModel.Degrees;
-        }
-        set
-        {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-
-            if (minCoordinateViewModel.Degrees != value)
+            get { return name; }
+            set
             {
-                if (minCoordinateViewModel.SetDegrees(value))
+                name = value;
+                NotifyPropertyChanged("Name");
+            }
+        }
+
+        public bool LatDegreesValid
+        {
+            get
+            {
+                return latDegreesValid;
+            }
+            set
+            {
+                latDegreesValid = value;
+                NotifyPropertyChanged("LatDegreesValid");
+            }
+        }
+
+        public bool LatMinutesValid
+        {
+            get
+            {
+                return latMinutesValid;
+            }
+            set
+            {
+                latMinutesValid = value;
+                NotifyPropertyChanged("LatMinutesValid");
+            }
+        }
+
+        public bool LatMinutesFractionValid
+        {
+            get
+            {
+                return latMinutesFractionValid;
+            }
+            set
+            {
+                latMinutesFractionValid = value;
+                NotifyPropertyChanged("LatMinutesFractionValid");
+            }
+        }
+
+        public bool DLatDegreesValid
+        {
+            get
+            {
+                return dLatDegreesValid;
+            }
+            set
+            {
+                dLatDegreesValid = value;
+                NotifyPropertyChanged("DLatDegreesValid");
+            }
+        }
+
+        public bool DLatDegreesFractionValid
+        {
+            get
+            {
+                return dLatDegreesFractionValid;
+            }
+            set
+            {
+                dLatDegreesFractionValid = value;
+                NotifyPropertyChanged("DLatDegreesFractionValid");
+            }
+        }
+
+        public bool SLatDegreesValid
+        {
+            get
+            {
+                return sLatDegreesValid;
+            }
+            set
+            {
+                sLatDegreesValid = value;
+                NotifyPropertyChanged("SLatDegreesValid");
+            }
+        }
+
+        public bool SLatMinutesValid
+        {
+            get
+            {
+                return sLatMinutesValid;
+            }
+            set
+            {
+                sLatMinutesValid = value;
+                NotifyPropertyChanged("SLatMinutesValid");
+            }
+        }
+
+        public bool SLatSecondsValid
+        {
+            get
+            {
+                return sLatSecondsValid;
+            }
+            set
+            {
+                sLatSecondsValid = value;
+                NotifyPropertyChanged("SLatSecondsValid");
+            }
+        }
+
+        public bool SLatSecondsFractionValid
+        {
+            get
+            {
+                return sLatSecondsFractionValid;
+            }
+            set
+            {
+                sLatSecondsFractionValid = value;
+                NotifyPropertyChanged("SLatSecondsFractionValid");
+            }
+        }
+
+        public bool LngDegreesValid
+        {
+            get
+            {
+                return lngDegreesValid;
+            }
+            set
+            {
+                lngDegreesValid = value;
+                NotifyPropertyChanged("LngDegreesValid");
+            }
+        }
+
+        public bool LngMinutesValid
+        {
+            get
+            {
+                return lngMinutesValid;
+            }
+            set
+            {
+                lngMinutesValid = value;
+                NotifyPropertyChanged("LngMinutesValid");
+            }
+        }
+
+        public bool LngMinutesFractionValid
+        {
+            get
+            {
+                return lngMinutesFractionValid;
+            }
+            set
+            {
+                lngMinutesFractionValid = value;
+                NotifyPropertyChanged("LngMinutesFractionValid");
+            }
+        }
+
+        public bool DLngDegreesValid
+        {
+            get
+            {
+                return dLngDegreesValid;
+            }
+            set
+            {
+                dLngDegreesValid = value;
+                NotifyPropertyChanged("DLngDegreesValid");
+            }
+        }
+
+        public bool DLngDegreesFractionValid
+        {
+            get
+            {
+                return dLngDegreesFractionValid;
+            }
+            set
+            {
+                dLngDegreesFractionValid = value;
+                NotifyPropertyChanged("DLngDegreesFractionValid");
+            }
+        }
+
+        public bool SLngDegreesValid
+        {
+            get
+            {
+                return sLngDegreesValid;
+            }
+            set
+            {
+                sLngDegreesValid = value;
+                NotifyPropertyChanged("SLngDegreesValid");
+            }
+        }
+
+        public bool SLngMinutesValid
+        {
+            get
+            {
+                return sLngMinutesValid;
+            }
+            set
+            {
+                sLngMinutesValid = value;
+                NotifyPropertyChanged("SLngMinutesValid");
+            }
+        }
+
+        public bool SLngSecondsValid
+        {
+            get
+            {
+                return sLngSecondsValid;
+            }
+            set
+            {
+                sLngSecondsValid = value;
+                NotifyPropertyChanged("SLngSecondsValid");
+            }
+        }
+
+        public bool SLngSecondsFractionValid
+        {
+            get
+            {
+                return sLngSecondsFractionValid;
+            }
+            set
+            {
+                sLngSecondsFractionValid = value;
+                NotifyPropertyChanged("SLngSecondsFractionValid");
+            }
+        }
+
+        public GeoCoordinate CurrentInputPointLocation
+        {
+            get
+            {
+                return currentInputPointLocation;
+            }
+        }
+
+        public string LatDegrees
+        {
+            get
+            {
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                LatDegreesValid = true;
+                return minCoordinateViewModel.Degrees;
+            }
+            set
+            {
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+
+                if (minCoordinateViewModel.Degrees != value)
                 {
-                    currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
-                    LatDegreesValidate = Visibility.Collapsed;
+                    if (LatDegreesValid = minCoordinateViewModel.SetDegrees(value))
+                    {
+                        currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
+                    }
                 }
                 else
                 {
-                    LatDegreesValidate = Visibility.Visible;
+                    LatDegreesValid = true;
                 }
             }
-            else
+        }
+
+        public string LatMinutes
+        {
+            get
             {
-                LatDegreesValidate = Visibility.Collapsed;
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                LatMinutesValid = true;
+                return minCoordinateViewModel.Minutes;
             }
-        }
-    }
-
-    public string LatMinutes
-    {
-        get
-        {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-            LatMinutesValidate = Visibility.Collapsed;
-            return minCoordinateViewModel.Minutes;
-        }
-        set
-        {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-
-            if (minCoordinateViewModel.Minutes != value)
+            set
             {
-                if (minCoordinateViewModel.SetMinutes(value))
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+
+                if (minCoordinateViewModel.Minutes != value)
                 {
-                    currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
-                    LatMinutesValidate = Visibility.Collapsed;
+                    if (LatMinutesValid = minCoordinateViewModel.SetMinutes(value))
+                    {
+                        currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
+                    }
                 }
                 else
                 {
-                    LatMinutesValidate = Visibility.Visible;
+                    LatMinutesValid = true;
                 }
             }
-            else
+        }
+
+        public string LatMinutesFraction
+        {
+            get
             {
-                LatMinutesValidate = Visibility.Collapsed;
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                LatMinutesFractionValid = true;
+                return minCoordinateViewModel.MinutesFraction;
             }
-        }
-    }
-
-    public string LatMinutesFraction
-    {
-        get
-        {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-            LatMinutesFractionValidate = Visibility.Collapsed;
-            return minCoordinateViewModel.MinutesFraction;
-        }
-        set
-        {
-            MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-
-            if (minCoordinateViewModel.MinutesFraction != value)
+            set
             {
-                if (minCoordinateViewModel.SetMinutesFraction(value))
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+
+                if (minCoordinateViewModel.MinutesFraction != value)
                 {
-                    currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
-                    LatMinutesFractionValidate = Visibility.Collapsed;
+                    if (LatMinutesFractionValid = minCoordinateViewModel.SetMinutesFraction(value))
+                    {
+                        currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
+                    }
                 }
                 else
                 {
-                    LatMinutesFractionValidate = Visibility.Visible;
+                    LatMinutesFractionValid = true;
                 }
             }
-            else
+        }
+
+        public string DLatDegrees
+        {
+            get
             {
-                LatMinutesFractionValidate = Visibility.Collapsed;
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                DLatDegreesValid = true;
+                return degCoordinateViewModel.Degrees;
             }
-        }
-    }
-
-    public string DLatDegrees
-    {
-        get
-        {
-            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-            DLatDegreesValidate = Visibility.Collapsed;
-            return degCoordinateViewModel.Degrees;
-        }
-        set
-        {
-            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-
-            if (degCoordinateViewModel.Degrees != value)
+            set
             {
-                if (degCoordinateViewModel.SetDegrees(value))
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+
+                if (degCoordinateViewModel.Degrees != value)
                 {
-                    currentInputPointLocation.Latitude = degCoordinateViewModel.ToCoordinate();
-                    DLatDegreesValidate = Visibility.Collapsed;
+                    if (DLatDegreesValid = degCoordinateViewModel.SetDegrees(value))
+                    {
+                        currentInputPointLocation.Latitude = degCoordinateViewModel.ToCoordinate();
+                    }
                 }
                 else
                 {
-                    DLatDegreesValidate = Visibility.Visible;
+                    DLatDegreesValid = true;
                 }
             }
-            else
+        }
+
+        public string DLatDegreesFraction
+        {
+            get
             {
-                DLatDegreesValidate = Visibility.Collapsed;
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                DLatDegreesFractionValid = true;
+                return degCoordinateViewModel.DegreesFraction;
             }
-        }
-    }
-
-    public string DLatDegreesFraction
-    {
-        get
-        {
-            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-            DLatDegreesFractionValidate = Visibility.Collapsed;
-            return degCoordinateViewModel.DegreesFraction;
-        }
-        set
-        {
-            DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-
-            if (degCoordinateViewModel.DegreesFraction != value)
+            set
             {
-                if (degCoordinateViewModel.SetDegreesFraction(value))
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+
+                if (degCoordinateViewModel.DegreesFraction != value)
                 {
-                    currentInputPointLocation.Latitude = degCoordinateViewModel.ToCoordinate();
-                    DLatDegreesFractionValidate = Visibility.Collapsed;
+                    if (DLatDegreesFractionValid = degCoordinateViewModel.SetDegreesFraction(value))
+                    {
+                        currentInputPointLocation.Latitude = degCoordinateViewModel.ToCoordinate();
+                    }
                 }
                 else
                 {
-                    DLatDegreesFractionValidate = Visibility.Visible;
+                    DLatDegreesFractionValid = true;
                 }
             }
-            else
+        }
+
+        public string SLatDegrees
+        {
+            get
             {
-                DLatDegreesFractionValidate = Visibility.Collapsed;
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SLatDegreesValid = true;
+                return secCoordinateViewModel.Degrees;
             }
-        }
-    }
-
-    public string SLatDegrees
-    {
-        get
-        {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-            SLatDegreesValidate = Visibility.Collapsed;
-            return secCoordinateViewModel.Degrees;
-        }
-        set
-        {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-
-            if (secCoordinateViewModel.Degrees != value)
+            set
             {
-                if (secCoordinateViewModel.SetDegrees(value))
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+
+                if (secCoordinateViewModel.Degrees != value)
                 {
-                    currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
-                    SLatDegreesValidate = Visibility.Collapsed;
+                    if (SLatDegreesValid = secCoordinateViewModel.SetDegrees(value))
+                    {
+                        currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                    }
                 }
                 else
                 {
-                    SLatDegreesValidate = Visibility.Visible;
+                    SLatDegreesValid = true;
                 }
             }
-            else
+        }
+
+        public string SLatMinutes
+        {
+            get
             {
-                SLatDegreesValidate = Visibility.Collapsed;
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SLatMinutesValid = true;
+                return secCoordinateViewModel.Minutes;
             }
-        }
-    }
-
-    public string SLatMinutes
-    {
-        get
-        {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-            SLatMinutesValidate = Visibility.Collapsed;
-            return secCoordinateViewModel.Minutes;
-        }
-        set
-        {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-
-            if (secCoordinateViewModel.Minutes != value)
+            set
             {
-                if (secCoordinateViewModel.SetMinutes(value))
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+
+                if (secCoordinateViewModel.Minutes != value)
                 {
-                    currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
-                    SLatMinutesValidate = Visibility.Collapsed;
+                    if (SLatMinutesValid = secCoordinateViewModel.SetMinutes(value))
+                    {
+                        currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                    }
                 }
                 else
                 {
-                    SLatMinutesValidate = Visibility.Visible;
+                    SLatMinutesValid = true;
                 }
             }
-            else
+        }
+
+        public string SLatSeconds
+        {
+            get
             {
-                SLatMinutesValidate = Visibility.Collapsed;
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SLatSecondsValid = true;
+                return secCoordinateViewModel.Seconds;
             }
-        }
-    }
-
-    public string SLatSeconds
-    {
-        get
-        {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-            SLatSecondsValidate = Visibility.Collapsed;
-            return secCoordinateViewModel.Seconds;
-        }
-        set
-        {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-
-            if (secCoordinateViewModel.Seconds != value)
+            set
             {
-                if (secCoordinateViewModel.SetSeconds(value))
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+
+                if (secCoordinateViewModel.Seconds != value)
                 {
-                    currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
-                    SLatSecondsValidate = Visibility.Collapsed;
+                    if (SLatSecondsValid = secCoordinateViewModel.SetSeconds(value))
+                    {
+                        currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                    }
                 }
                 else
                 {
-                    SLatSecondsValidate = Visibility.Visible;
+                    SLatSecondsValid = true;
                 }
             }
-            else
+        }
+
+        public string SLatSecondsFraction
+        {
+            get
             {
-                SLatSecondsValidate = Visibility.Collapsed;
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SLatSecondsFractionValid = true;
+                return secCoordinateViewModel.SecondsFraction;
             }
-        }
-    }
-
-    public string SLatSecondsFraction
-    {
-        get
-        {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-            SLatSecondsFractionValidate = Visibility.Collapsed;
-            return secCoordinateViewModel.SecondsFraction;
-        }
-        set
-        {
-            SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
-
-            if (secCoordinateViewModel.SecondsFraction != value)
+            set
             {
-                if (secCoordinateViewModel.SetSecondsFraction(value))
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+
+                if (secCoordinateViewModel.SecondsFraction != value)
                 {
-                    currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
-                    SLatSecondsFractionValidate = Visibility.Collapsed;
+                    if (SLatSecondsFractionValid = secCoordinateViewModel.SetSecondsFraction(value))
+                    {
+                        currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                    }
                 }
                 else
                 {
-                    SLatSecondsFractionValidate = Visibility.Visible;
+                    SLatSecondsFractionValid = true;
                 }
             }
-            else
+        }
+
+        public string LngDegrees
+        {
+            get
             {
-                SLatSecondsFractionValidate = Visibility.Collapsed;
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                LngDegreesValid = true;
+                return minCoordinateViewModel.Degrees;
+            }
+            set
+            {
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+
+                if (minCoordinateViewModel.Degrees != value)
+                {
+                    if (LngDegreesValid = minCoordinateViewModel.SetDegrees(value))
+                    {
+                        currentInputPointLocation.Longitude = minCoordinateViewModel.ToCoordinate();
+                    }
+                }
+                else
+                {
+                    LngDegreesValid = true;
+                }
             }
         }
-    }
 
-    public CheckpointViewModel()
-    {
-        currentInputPointLocation = new GeoCoordinate(59.898580584384277, 30.285182952880845);
-        LatDegreesValidate = Visibility.Collapsed;
-        LatMinutesValidate = Visibility.Collapsed;
-        LatMinutesFractionValidate = Visibility.Collapsed;
-        DLatDegreesValidate = Visibility.Collapsed;
-        DLatDegreesFractionValidate = Visibility.Collapsed;
-        SLatDegreesValidate = Visibility.Collapsed;
-        SLatMinutesValidate = Visibility.Collapsed;
-        SLatSecondsValidate = Visibility.Collapsed;
-        sLatSecondsFractionValidate = Visibility.Collapsed;
-    }
+        public string LngMinutes
+        {
+            get
+            {
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                LngMinutesValid = true;
+                return minCoordinateViewModel.Minutes;
+            }
+            set
+            {
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
 
-    public void Refresh()
-    {
-        NotifyPropertyChanged("DLatDegrees");
-        NotifyPropertyChanged("DLatDegreesFraction");
-        NotifyPropertyChanged("LatDegrees");
-        NotifyPropertyChanged("LatMinutes");
-        NotifyPropertyChanged("LatMinutesFraction");
-        NotifyPropertyChanged("SLatDegrees");
-        NotifyPropertyChanged("SLatMinutes");
-        NotifyPropertyChanged("SLatSeconds");
-        NotifyPropertyChanged("SLatSecondsFraction");
+                if (minCoordinateViewModel.Minutes != value)
+                {
+                    if (LngMinutesValid = minCoordinateViewModel.SetMinutes(value))
+                    {
+                        currentInputPointLocation.Longitude = minCoordinateViewModel.ToCoordinate();
+                    }
+                }
+                else
+                {
+                    LngMinutesValid = true;
+                }
+            }
+        }
+
+        public string LngMinutesFraction
+        {
+            get
+            {
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                LngMinutesFractionValid = true;
+                return minCoordinateViewModel.MinutesFraction;
+            }
+            set
+            {
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+
+                if (minCoordinateViewModel.MinutesFraction != value)
+                {
+                    if (LngMinutesFractionValid = minCoordinateViewModel.SetMinutesFraction(value))
+                    {
+                        currentInputPointLocation.Longitude = minCoordinateViewModel.ToCoordinate();
+                    }
+                }
+                else
+                {
+                    LngMinutesFractionValid = true;
+                }
+            }
+        }
+
+        public string DLngDegrees
+        {
+            get
+            {
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                DLngDegreesValid = true;
+                return degCoordinateViewModel.Degrees;
+            }
+            set
+            {
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+
+                if (degCoordinateViewModel.Degrees != value)
+                {
+                    if (DLngDegreesValid = degCoordinateViewModel.SetDegrees(value))
+                    {
+                        currentInputPointLocation.Longitude = degCoordinateViewModel.ToCoordinate();
+                    }
+                }
+                else
+                {
+                    DLngDegreesValid = true;
+                }
+            }
+        }
+
+        public string DLngDegreesFraction
+        {
+            get
+            {
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                DLngDegreesFractionValid = true;
+                return degCoordinateViewModel.DegreesFraction;
+            }
+            set
+            {
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+
+                if (degCoordinateViewModel.DegreesFraction != value)
+                {
+                    if (DLngDegreesFractionValid = degCoordinateViewModel.SetDegreesFraction(value))
+                    {
+                        currentInputPointLocation.Longitude = degCoordinateViewModel.ToCoordinate();
+                    }
+                }
+                else
+                {
+                    DLngDegreesFractionValid = true;
+                }
+            }
+        }
+
+        public string SLngDegrees
+        {
+            get
+            {
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SLngDegreesValid = true;
+                return secCoordinateViewModel.Degrees;
+            }
+            set
+            {
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+
+                if (secCoordinateViewModel.Degrees != value)
+                {
+                    if (SLngDegreesValid = secCoordinateViewModel.SetDegrees(value))
+                    {
+                        currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
+                    }
+                }
+                else
+                {
+                    SLngDegreesValid = true;
+                }
+            }
+        }
+
+        public string SLngMinutes
+        {
+            get
+            {
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SLngMinutesValid = true;
+                return secCoordinateViewModel.Minutes;
+            }
+            set
+            {
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+
+                if (secCoordinateViewModel.Minutes != value)
+                {
+                    if (SLngMinutesValid = secCoordinateViewModel.SetMinutes(value))
+                    {
+                        currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
+                    }
+                }
+                else
+                {
+                    SLngMinutesValid = true;
+                }
+            }
+        }
+
+        public string SLngSeconds
+        {
+            get
+            {
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SLngSecondsValid = true;
+                return secCoordinateViewModel.Seconds;
+            }
+            set
+            {
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+
+                if (secCoordinateViewModel.Seconds != value)
+                {
+                    if (SLngSecondsValid = secCoordinateViewModel.SetSeconds(value))
+                    {
+                        currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
+                    }
+                }
+                else
+                {
+                    SLngSecondsValid = true;
+                }
+            }
+        }
+
+        public string SLngSecondsFraction
+        {
+            get
+            {
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SLngSecondsFractionValid = true;
+                return secCoordinateViewModel.SecondsFraction;
+            }
+            set
+            {
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+
+                if (secCoordinateViewModel.SecondsFraction != value)
+                {
+                    if (SLngSecondsFractionValid = secCoordinateViewModel.SetSecondsFraction(value))
+                    {
+                        currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
+                    }
+                }
+                else
+                {
+                    SLngSecondsFractionValid = true;
+                }
+            }
+        }
+
+        public CheckpointViewModel()
+        {
+            currentInputPointLocation = new GeoCoordinate(59.898580584384277, 30.285182952880845);
+            LatDegreesValid = true;
+            LatMinutesValid = true;
+            LatMinutesFractionValid = true;
+            DLatDegreesValid = true;
+            DLatDegreesFractionValid = true;
+            SLatDegreesValid = true;
+            SLatMinutesValid = true;
+            SLatSecondsValid = true;
+            SLatSecondsFractionValid = true;
+            LngDegreesValid = true;
+            LngMinutesValid = true;
+            LngMinutesFractionValid = true;
+            DLngDegreesValid = true;
+            DLngDegreesFractionValid = true;
+            SLngDegreesValid = true;
+            SLngMinutesValid = true;
+            SLngSecondsValid = true;
+            SLngSecondsFractionValid = true;
+        }
+
+        public void Refresh()
+        {
+            NotifyPropertyChanged("DLatDegrees");
+            NotifyPropertyChanged("DLatDegreesFraction");
+            NotifyPropertyChanged("LatDegrees");
+            NotifyPropertyChanged("LatMinutes");
+            NotifyPropertyChanged("LatMinutesFraction");
+            NotifyPropertyChanged("SLatDegrees");
+            NotifyPropertyChanged("SLatMinutes");
+            NotifyPropertyChanged("SLatSeconds");
+            NotifyPropertyChanged("SLatSecondsFraction");
+            NotifyPropertyChanged("DLngDegrees");
+            NotifyPropertyChanged("DLngDegreesFraction");
+            NotifyPropertyChanged("LngDegrees");
+            NotifyPropertyChanged("LngMinutes");
+            NotifyPropertyChanged("LngMinutesFraction");
+            NotifyPropertyChanged("SLngDegrees");
+            NotifyPropertyChanged("SLngMinutes");
+            NotifyPropertyChanged("SLngSeconds");
+            NotifyPropertyChanged("SLngSecondsFraction");
+        }
     }
 }
