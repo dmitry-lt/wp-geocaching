@@ -27,7 +27,7 @@
                     <StackPanel Orientation="Vertical">
                         <TextBox Height="70" TextWrapping="Wrap" Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top" Margin="-11, 0, 0, 0" TextChanged="TextChanged"/>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=LocalizedResources.Latitude, Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="105"/>
+                            <TextBlock Text="{Binding Path=LocalizedResources.Latitude, Source={StaticResource LocalizedStrings}}" FontSize="20" VerticalAlignment="Center" Width="95"/>
                             <Grid>
                                 <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding LatDegreesValid, Converter={StaticResource ValidConverter}}" Margin="5"/>
                                 <TextBox MaxLength="3" FontSize="22" Text="{Binding LatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
@@ -48,7 +48,7 @@
                             <TextBlock FontSize="22" Text="'" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=LocalizedResources.Longitude, Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="105"/>
+                            <TextBlock Text="{Binding Path=LocalizedResources.Longitude, Source={StaticResource LocalizedStrings}}" FontSize="20" VerticalAlignment="Center" Width="95"/>
                             <Grid>
                                 <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding LngDegreesValid, Converter={StaticResource ValidConverter}}" Margin="5"/>
                                 <TextBox MaxLength="4" FontSize="22" Text="{Binding LngDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
@@ -82,7 +82,7 @@
                     <StackPanel Orientation="Vertical">
                         <TextBox Height="70" TextWrapping="Wrap" Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top" Margin="-11, 0, 0, 0" TextChanged="TextChanged"/>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=LocalizedResources.Latitude, Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="105"/>
+                            <TextBlock Text="{Binding Path=LocalizedResources.Latitude, Source={StaticResource LocalizedStrings}}" FontSize="20" VerticalAlignment="Center" Width="95"/>
                             <Grid>
                                 <Border BorderThickness="3" BorderBrush="Red" Visibility="{Binding DLatDegreesValid, Converter={StaticResource ValidConverter}}" Margin="5"/>
                                 <TextBox FontSize="22" MaxLength="3" Text="{Binding DLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
@@ -97,7 +97,7 @@
                             <TextBlock Text="°" FontSize="22" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=LocalizedResources.Longitude, Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="105"/>
+                            <TextBlock Text="{Binding Path=LocalizedResources.Longitude, Source={StaticResource LocalizedStrings}}" FontSize="20" VerticalAlignment="Center" Width="95"/>
                             <Grid>
                                 <Border BorderThickness="3" BorderBrush="Red" Visibility="{Binding DLngDegreesValid, Converter={StaticResource ValidConverter}}" Margin="5"/>
                                 <TextBox FontSize="22" MaxLength="4" Text="{Binding DLngDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
@@ -125,7 +125,7 @@
                     <StackPanel Orientation="Vertical">
                         <TextBox Height="70" TextWrapping="Wrap" Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top" Margin="-11, 0, 0, 0" TextChanged="TextChanged"/>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=LocalizedResources.Latitude, Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="105"/>
+                            <TextBlock Text="{Binding Path=LocalizedResources.Latitude, Source={StaticResource LocalizedStrings}}" FontSize="20" VerticalAlignment="Center" Width="95"/>
                             <Grid>
                                 <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding SLatDegreesValid, Converter={StaticResource ValidConverter}}" Margin="5"/>
                                 <TextBox  FontSize="22" MaxLength="3" Text="{Binding SLatDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
@@ -152,7 +152,7 @@
                             <TextBlock FontSize="22" Text="''" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=LocalizedResources.Longitude, Source={StaticResource LocalizedStrings}}" FontSize="22" VerticalAlignment="Center" Width="105"/>
+                            <TextBlock Text="{Binding Path=LocalizedResources.Longitude, Source={StaticResource LocalizedStrings}}" FontSize="20" VerticalAlignment="Center" Width="95"/>
                             <Grid>
                                 <Border BorderThickness="3" BorderBrush="Red"  Visibility="{Binding SLngDegreesValid, Converter={StaticResource ValidConverter}}" Margin="5"/>
                                 <TextBox  FontSize="22" MaxLength="4" Text="{Binding SLngDegrees, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
