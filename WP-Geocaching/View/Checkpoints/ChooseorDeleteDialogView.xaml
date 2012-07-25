@@ -10,7 +10,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     >
 
-    <Grid x:Name="LayoutRoot" Width="350" Height="150" Background="{StaticResource PhoneChromeBrush}">
+    <Grid x:Name="LayoutRoot" Width="308" Height="150" Background="{StaticResource PhoneChromeBrush}">
         <Grid.Resources>
             <c:CacheSubtypeConverter x:Key="CacheSubtypeConverter"  x:Name="CacheSubtypeConverter"/>
             <c:LatitudeConverter x:Key="LatitudeConverter"/>
@@ -37,7 +37,7 @@
                             Foreground="{StaticResource PhoneSubtleBrush}"/>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="-11, 0, 0, 0">
                 <Button IsEnabled="{Binding IsDeleteEnabled}" 
                             Height="60" Width="160" FontSize="18" 
                             Command="{Binding DeleteCommand}"
