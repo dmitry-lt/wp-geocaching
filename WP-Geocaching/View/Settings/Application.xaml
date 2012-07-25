@@ -18,9 +18,13 @@
                 <TextBlock Text="{Binding Path=LocalizedResources.MapModeSettings, 
                 Source={StaticResource LocalizedStrings}}" Width="120" FontSize="22" VerticalAlignment="Center"/>
                 <RadioButton Content="{Binding Path=LocalizedResources.AerialModeSettings, 
-                Source={StaticResource LocalizedStrings}}" GroupName="MapMode"  FontSize="22"/>
+                             Source={StaticResource LocalizedStrings}}" GroupName="MapMode"  FontSize="22"
+                             Command="{Binding ChooseAerialModeCommand}"
+                             IsChecked="{Binding IsAerialChecked}"/>
                 <RadioButton Content="{Binding Path=LocalizedResources.RoadModeSettings, 
-                Source={StaticResource LocalizedStrings}}" GroupName="MapMode"  FontSize="22"/>
+                             Source={StaticResource LocalizedStrings}}" GroupName="MapMode"  FontSize="22"
+                             Command="{Binding ChooseRoadModeCommand}"
+                             IsChecked="{Binding IsRoadChecked}"/>
             </StackPanel>
         </StackPanel>
     </Grid>
