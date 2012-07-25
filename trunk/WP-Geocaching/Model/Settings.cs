@@ -1,11 +1,15 @@
 ﻿using System;
 using System.IO.IsolatedStorage;
-using System.Diagnostics;
-using System.Collections.Generic;
 using System.Device.Location;
 
 namespace WP_Geocaching.Model
 {
+    public enum MapMode
+    {
+        Road = 0,
+        Aerial = 1
+    }
+
     public class Settings
     {
         IsolatedStorageSettings settings;
@@ -14,44 +18,46 @@ namespace WP_Geocaching.Model
         const string LastSoughtCacheIdKeyName = "LastSoughtCacheId";
         const string LastLocationLatitudeDefaultKeyName = "LastLocationLatitude";
         const string LastLocationLongitudeDefaultKeyName = "LastLocationLongitude";
+        const string MapModeDefaultKeyName = "MapMode";
 
         // The default value of our settings
         const int LastSoughtCacheIdDefault = -1;
         const double LastLocationLatitudeDefault = 59.879904;
         const double LastLocationLongitudeDefault = 29.828674;
+        const int MapModeDefault = (int)MapMode.Road;
 
         public Settings()
         {
             settings = IsolatedStorageSettings.ApplicationSettings;
         }
 
-        public bool AddOrUpdateValue(string Key, Object value)
+        public bool AddOrUpdateValue(string key, Object value)
         {
             bool valueChanged = false;
 
-            if (settings.Contains(Key))
+            if (settings.Contains(key))
             {
-                if (settings[Key] != value)
+                if (settings[key] != value)
                 {
-                    settings[Key] = value;
+                    settings[key] = value;
                     valueChanged = true;
                 }
             }
             else
             {
-                settings.Add(Key, value);
+                settings.Add(key, value);
                 valueChanged = true;
             }
             return valueChanged;
         }
 
-        public T GetValueOrDefault<T>(string Key, T defaultValue)
+        public T GetValueOrDefault<T>(string key, T defaultValue)
         {
             T value;
 
-            if (settings.Contains(Key))
+            if (settings.Contains(key))
             {
-                value = (T)settings[Key];
+                value = (T)settings[key];
             }
             else
             {
@@ -70,7 +76,7 @@ namespace WP_Geocaching.Model
         {
             get
             {
-                return GetValueOrDefault<int>(LastSoughtCacheIdKeyName, LastSoughtCacheIdDefault);
+                return GetValueOrDefault(LastSoughtCacheIdKeyName, LastSoughtCacheIdDefault);
             }
             set
             {
@@ -85,13 +91,28 @@ namespace WP_Geocaching.Model
         {
             get
             {
-                return new GeoCoordinate(GetValueOrDefault<double>(LastLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
-                    GetValueOrDefault<double>(LastLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
+                return new GeoCoordinate(GetValueOrDefault(LastLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
+                    GetValueOrDefault(LastLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
             }
             set
             {
                 if ((AddOrUpdateValue(LastLocationLatitudeDefaultKeyName, value.Latitude)) &&
                     (AddOrUpdateValue(LastLocationLongitudeDefaultKeyName, value.Longitude)))
+                {
+                    Save();
+                }
+            }
+        }
+
+        public MapMode MapMode
+        {
+            get
+            {
+                return (MapMode)(GetValueOrDefault(MapModeDefaultKeyName, MapModeDefault));
+            }
+            set
+            {
+                if (AddOrUpdateValue(MapModeDefaultKeyName, value))
                 {
                     Save();
                 }
