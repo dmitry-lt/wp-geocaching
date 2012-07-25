@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Phone.Controls;
-using Microsoft.Phone.Controls.Maps.Core;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using Microsoft.Phone.Controls.Maps;
 using Microsoft.Phone.Shell;
 using WP_Geocaching.Resources.Localization;
+using WP_Geocaching.Model.Converters;
 
 namespace WP_Geocaching.View
 {
@@ -17,22 +19,23 @@ namespace WP_Geocaching.View
         public BingMap()
         {
             InitializeComponent();
-            this.bingMapViewModel = new BingMapViewModel(GeocahingSuApiManager.Instance);
-            this.DataContext = this.bingMapViewModel;
+            bingMapViewModel = new BingMapViewModel(GeocahingSuApiManager.Instance);
+            DataContext = bingMapViewModel;
+            var b = new Binding("MapMode");
+            SetBinding(MapModeProperty, b);
             SetMyLocationButton();
         }
 
-        private void Map_ViewChangeEnd(object sender, MapEventArgs e)
+        private void MapViewChangeEnd(object sender, MapEventArgs e)
         {
             var map = sender as Map;
-            map.Mode = new AerialMode();
-            this.bingMapViewModel.BoundingRectangle = map.BoundingRectangle;
+            bingMapViewModel.BoundingRectangle = map.BoundingRectangle;
         }
 
-        private void Pushpin_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void PushpinTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Pushpin pin = sender as Pushpin;
-            ICommand showDetails = ((ICommand)pin.Tag);
+            var pin = sender as Pushpin;
+            var showDetails = ((ICommand)pin.Tag);
             if (showDetails != null)
             {
                 showDetails.Execute(null);
@@ -41,16 +44,38 @@ namespace WP_Geocaching.View
 
         private void SetMyLocationButton()
         {
-            ApplicationBarIconButton button = new ApplicationBarIconButton();
-            button.IconUri = new Uri("Resources/Images/my.location.png", UriKind.Relative);
-            button.Text = AppResources.MyLocationButton;
-            button.Click += MyLocation_Click;
+            var button = new ApplicationBarIconButton
+                             {
+                                 IconUri = new Uri("Resources/Images/my.location.png", UriKind.Relative),
+                                 Text = AppResources.MyLocationButton
+                             };
+            button.Click += MyLocationClick;
             ApplicationBar.Buttons.Add(button);
         }
 
-        private void MyLocation_Click(object sender, EventArgs e)
+        private void MyLocationClick(object sender, EventArgs e)
         {
-            bingMapViewModel.SetMapCenterOnCurrentLocationOrShowMessage(this.Dispatcher);
+            bingMapViewModel.SetMapCenterOnCurrentLocationOrShowMessage(Dispatcher);
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            bingMapViewModel.UpdateMapChildrens();
+            base.OnNavigatedTo(e);
+        }
+
+        //DependencyProperty. No need for corresponding CLR-property.
+        public static readonly DependencyProperty MapModeProperty =
+            DependencyProperty.Register("MapMode", typeof(MapMode), typeof(BingMap),
+            new PropertyMetadata(OnMapModeChanged));
+
+
+        //Callback
+        private static void OnMapModeChanged(DependencyObject element,
+               DependencyPropertyChangedEventArgs e)
+        {
+            var mm = (new MapModeConverter()).Convert(e.NewValue, null, null, null);
+            ((BingMap)element).Map.Mode = (Microsoft.Phone.Controls.Maps.Core.MapMode)(mm);
         }
     }
 }

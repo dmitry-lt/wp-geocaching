@@ -1,13 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using System.Windows.Threading;
 using System.Threading;
 using System.Device.Location;
@@ -23,6 +14,8 @@ namespace WP_Geocaching.ViewModel
         protected GeoCoordinate currentLocation;
         protected Visibility undetectedLocationMessageVisibility = Visibility.Collapsed;
         protected double direction;
+        protected MapMode mapMode;
+        protected Settings settings;
 
         public virtual int Zoom { get; set; }
         public virtual ObservableCollection<CachePushpin> CachePushpins { get; set; }
@@ -31,7 +24,7 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.direction;
+                return direction;
             }
             set
             {
@@ -44,7 +37,7 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.undetectedLocationMessageVisibility;
+                return undetectedLocationMessageVisibility;
             }
             set
             {
@@ -57,7 +50,7 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.mapCenter;
+                return mapCenter;
             }
             set
             {
@@ -66,12 +59,25 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        public MapMode MapMode
+        {
+            get
+            {
+                return mapMode;
+            }
+            set
+            {
+                mapMode = value;
+                NotifyPropertyChanged("MapMode");
+            }
+        }
+
         public void SetMapCenterOnCurrentLocationOrShowMessage(Dispatcher dispatcher)
         {
             if (currentLocation == null)
             {
                 UndetectedLocationMessageVisibility = Visibility.Visible;
-                var timer = new Timer((state) =>
+                var timer = new Timer(state =>
                 {
                     var t = (Timer)state;
                     dispatcher.BeginInvoke(() =>
@@ -86,6 +92,17 @@ namespace WP_Geocaching.ViewModel
             {
                 MapCenter = currentLocation;
             }
+        }
+
+        protected void UpdateMapMode()
+        {
+            settings = new Settings();
+            MapMode = settings.MapMode;
+        }
+
+        public virtual void UpdateMapProperties()
+        {
+            UpdateMapMode();
         }
     }
 }

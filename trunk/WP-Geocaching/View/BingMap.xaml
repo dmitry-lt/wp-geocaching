@@ -58,7 +58,7 @@
                                            Grid.Row="1" 
                                            Center="{Binding MapCenter, Mode=TwoWay}" 
                                            ZoomLevel="{Binding Zoom}"
-                                           ViewChangeEnd="Map_ViewChangeEnd"
+                                           ViewChangeEnd="MapViewChangeEnd"
                                            CredentialsProvider ="AvLbzLZIOMHh3dDKm0l2Fak-Fpqpvv9t-YTbFir44CdP5QNXTTcj1GbDaLZMP_jr">
             <Microsoft_Phone_Controls_Maps:MapLayer>
                 <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpins, Mode=TwoWay}" Margin="0">
@@ -67,7 +67,7 @@
                             <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}"
                                                                    Style="{StaticResource PushpinStyle}"
                                                                    Tag="{Binding ShowDetails}"
-                                                                   Tap="Pushpin_Tap"
+                                                                   Tap="PushpinTap"
                                                                    >
                                 <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}"/>
                             </Microsoft_Phone_Controls_Maps:Pushpin>
