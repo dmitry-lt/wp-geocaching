@@ -309,7 +309,15 @@ namespace WP_Geocaching.Model
                         return;
                     }
 
-                    ProcessPhoto(PictureDecoder.DecodeJpeg(e.Result), processAction, index);
+                    var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
+
+                    if ((new CacheDataBase()).GetCache(cacheId) != null)
+                    {
+                        var fileName = (photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"))).Substring(1);
+                        helper.SavePhoto(cacheId, fileName, writableBitmap);
+                    }
+
+                    ProcessPhoto(writableBitmap, processAction, index);
                 };
 
                 webClient.OpenReadAsync(photoUri);
