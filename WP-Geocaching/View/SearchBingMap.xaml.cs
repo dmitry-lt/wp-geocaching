@@ -23,11 +23,17 @@ namespace WP_Geocaching.View
             DataContext = searchBingMapViewModel;
             var binding = new Binding("MapMode");
             SetBinding(MapModeProperty, binding);
-            SetCheckpointsButton();
-            //SetSetAllButton();
-            SetMyLocationButton();
+            SetAppBarItems();
+        }
+
+        private void SetAppBarItems()
+        {
+            SetInfoButton();
             SetCompassButton();
-            SetShowInfoButton();
+            SetCheckpointsButton();
+            SetMyLocationButton();
+            SetShowAllMenuItem();
+            SetSettingsMenuItem();
         }
 
         private void PushpinTap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -61,15 +67,24 @@ namespace WP_Geocaching.View
             SmoothCompassManager.Instance.RemoveSubscriber(searchBingMapViewModel);
         }
 
-        private void SetSetAllButton()
+        private void SetShowAllMenuItem()
         {
-            var button = new ApplicationBarIconButton
+            var menuItem = new ApplicationBarMenuItem
                              {
-                                 IconUri = new Uri("Resources/Images/appbar.refresh.rest.png", UriKind.Relative),
-                                 Text = AppResources.ShowAllButton
+                                 Text = AppResources.ShowAllMenuItem
                              };
-            button.Click += ShowAllClick;
-            ApplicationBar.Buttons.Add(button);
+            menuItem.Click += ShowAllClick;
+            ApplicationBar.MenuItems.Add(menuItem);
+        }
+
+        private void SetSettingsMenuItem()
+        {
+            var menuItem = new ApplicationBarMenuItem
+                            {
+                                Text = AppResources.SettingsMenuItem
+                            };
+            menuItem.Click += SettingsClick;
+            ApplicationBar.MenuItems.Add(menuItem);
         }
 
         private void SetMyLocationButton()
@@ -105,7 +120,7 @@ namespace WP_Geocaching.View
             ApplicationBar.Buttons.Add(button);
         }
 
-        private void SetShowInfoButton()
+        private void SetInfoButton()
         {
             var button = new ApplicationBarIconButton
             {
@@ -131,7 +146,7 @@ namespace WP_Geocaching.View
 
             foreach (var c in checkpoints)
             {
-                if ((Cache.Subtypes) c.Subtype != Cache.Subtypes.ActiveCheckpoint) continue;
+                if ((Cache.Subtypes)c.Subtype != Cache.Subtypes.ActiveCheckpoint) continue;
                 checkpointId = c.Id.ToString();
                 break;
             }
@@ -152,6 +167,11 @@ namespace WP_Geocaching.View
         private void MyLocationClick(object sender, EventArgs e)
         {
             searchBingMapViewModel.SetMapCenterOnCurrentLocationOrShowMessage(Dispatcher);
+        }
+
+        private void SettingsClick(object sender, EventArgs e)
+        {
+            NavigationManager.Instance.NavigateToSettings();
         }
 
         public static readonly DependencyProperty MapModeProperty =

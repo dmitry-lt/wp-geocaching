@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 
 namespace WP_Geocaching.Model
@@ -32,12 +24,12 @@ namespace WP_Geocaching.Model
 
         private void Navigate(string uri)
         {
-            this.Navigate(uri, null);
+            Navigate(uri, null);
         }
 
         private void Navigate(string uri, string currentId)
         {
-            PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
+            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
 
             if (frame == null)
             {
@@ -55,44 +47,49 @@ namespace WP_Geocaching.Model
 
         private void Navigate(string uri, string currentId, string checkpointId)
         {
-            PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
+            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
             frame.Navigate(new Uri(uri + "?CurrentId=" + currentId + "&CheckpointId=" + checkpointId, UriKind.RelativeOrAbsolute));
         }
 
         public void NavigateToInfoPivot(string CurrentId)
         {
-            this.Navigate("//View/Info/InfoPivot.xaml", CurrentId);
+            Navigate("//View/Info/InfoPivot.xaml", CurrentId);
         }
 
         public void NavigateToSearchBingMap(string CurrentId)
         {
-            this.Navigate("//View/SearchBingMap.xaml", CurrentId);
+            Navigate("//View/SearchBingMap.xaml", CurrentId);
         }
 
         public void NavigateToCheckpoints()
         {
-            this.Navigate("//View/Checkpoints/Checkpoints.xaml");
+            Navigate("//View/Checkpoints/Checkpoints.xaml");
         }
 
         public void NavigateToCreateCheckpoint()
         {
-            this.Navigate("//View/Checkpoints/CreateCheckpoint.xaml");
+            Navigate("//View/Checkpoints/CreateCheckpoint.xaml");
         }
 
         public void NavigateToNotebook(string CurrentId)
         {
-            this.Navigate("//View/Notebook.xaml", CurrentId);
+            Navigate("//View/Notebook.xaml", CurrentId);
         }
 
         public void NavigateToCompass(string currentId, string checkpointId)
         {
-            this.Navigate("//View/Compass/CompassPage.xaml", currentId, checkpointId);
+            Navigate("//View/Compass/CompassPage.xaml", currentId, checkpointId);
         }
 
         public void NavigateToPhotoGallery(int index)
         {
-            PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
+            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
             frame.Navigate(new Uri("//View/Info/PhotoGalleryPage.xaml" + "?Index=" + index, UriKind.RelativeOrAbsolute));
+        }
+
+        public void  NavigateToSettings()
+        {
+            Navigate("//View/Settings/Settings.xaml");
         }
     }
 }
