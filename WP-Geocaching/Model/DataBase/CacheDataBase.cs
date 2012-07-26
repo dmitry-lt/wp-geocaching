@@ -40,6 +40,7 @@ namespace WP_Geocaching.Model.DataBase
                                       Longitude = cache.Location.Longitude,
                                       Type = (int)cache.Type,
                                       Subtype = (int)cache.Subtype,
+                                      DateAdded = DateTime.Now,
                                       Details = details,
                                       Notebook = notebook
                                   };
