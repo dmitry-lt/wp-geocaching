@@ -31,7 +31,12 @@ namespace WP_Geocaching.ViewModel
 
             if ((item != null) && (item.Notebook != null))
             {
+                Notebook = item.Notebook;
                 notebookBrowser.NavigateToString(item.Notebook);
+            }
+            else if (Notebook != null)
+            {
+                LoadAndSaveNotebook(Notebook);
             }
             else
             {
@@ -44,7 +49,16 @@ namespace WP_Geocaching.ViewModel
             var db = new CacheDataBase();
             var item = db.GetCache(Cache.Id);
 
-            if (item.Notebook == null)
+            if (item.Notebook != null)
+            {
+                return;
+            }
+
+            if (Notebook != null)
+            {
+                LoadAndSaveNotebook(Notebook);
+            }
+            else
             {
                 GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache.Id);
             }
@@ -58,7 +72,12 @@ namespace WP_Geocaching.ViewModel
 
             if ((item != null) && (item.Details != null))
             {
+                Details = item.Details;
                 detailsBrowser.NavigateToString(item.Details);
+            }
+            else if (Details != null)
+            {
+                LoadAndSaveCacheInfo(Details);
             }
             else
             {
@@ -71,9 +90,18 @@ namespace WP_Geocaching.ViewModel
             var db = new CacheDataBase();
             var item = db.GetCache(Cache.Id);
 
-            if (item.Details == null)
+            if (item.Details != null)
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
+                return;
+            }
+
+            if (Details != null)
+            {
+                LoadAndSaveCacheInfo(Details);
+            }
+            else
+            {
+                GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveCacheInfo, Cache.Id);
             }
         }
 
