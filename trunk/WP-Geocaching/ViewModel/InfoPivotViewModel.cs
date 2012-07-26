@@ -35,7 +35,18 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(ProcessNotebook, Cache.Id);
+                GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache.Id);
+            }
+        }
+
+        public void DownloadAndSaveNotebook()
+        {
+            var db = new CacheDataBase();
+            var item = db.GetCache(Cache.Id);
+
+            if (item.Notebook == null)
+            {
+                GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache.Id);
             }
         }
 
@@ -51,7 +62,18 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessInfo(ProcessCacheInfo, Cache.Id);
+                GeocahingSuApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
+            }
+        }
+
+        public void DownloadAndSaveCacheInfo()
+        {
+            var db = new CacheDataBase();
+            var item = db.GetCache(Cache.Id);
+
+            if (item.Details == null)
+            {
+                GeocahingSuApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
             }
         }
 
@@ -75,7 +97,7 @@ namespace WP_Geocaching.ViewModel
             ProcessPhotos(uriList, GeocahingSuApiManager.Instance.SaveAndProcessPhoto);
         }
 
-        private void ProcessNotebook(string notebook)
+        private void LoadAndSaveNotebook(string notebook)
         {
             var db = new CacheDataBase();
             Notebook = notebook;
@@ -85,10 +107,13 @@ namespace WP_Geocaching.ViewModel
                 db.UpdateCacheNotebook(notebook, Cache.Id);
             }
 
-            notebookBrowser.NavigateToString(notebook);
+            if (notebookBrowser != null)
+            {
+                notebookBrowser.NavigateToString(notebook);
+            }
         }
 
-        private void ProcessCacheInfo(string info)
+        private void LoadAndSaveCacheInfo(string info)
         {
             var db = new CacheDataBase();
             Details = info;
@@ -98,7 +123,10 @@ namespace WP_Geocaching.ViewModel
                 db.UpdateCacheInfo(info, Cache.Id);
             }
 
-            detailsBrowser.NavigateToString(info);
+            if (detailsBrowser != null)
+            {
+                detailsBrowser.NavigateToString(info);
+            }
         }
 
         public void LoadPhotos(List<string> uriList)

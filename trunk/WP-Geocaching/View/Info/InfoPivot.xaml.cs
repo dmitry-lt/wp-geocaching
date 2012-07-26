@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -9,8 +8,6 @@ using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Resources.Localization;
-using System.Collections.Generic;
-using System.Windows.Media.Imaging;
 
 namespace WP_Geocaching.View.Info
 {
@@ -24,8 +21,8 @@ namespace WP_Geocaching.View.Info
         {
             InitializeComponent();
             infoPivotViewModel = new InfoPivotViewModel();
-            this.DataContext = infoPivotViewModel;
-            this.db = new CacheDataBase();
+            DataContext = infoPivotViewModel;
+            db = new CacheDataBase();
             SetApplicationBarItems();
         }
 
@@ -132,6 +129,8 @@ namespace WP_Geocaching.View.Info
         {
             db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Details, infoPivotViewModel.Notebook);
             infoPivotViewModel.DownloadAndSavePhotos();
+            infoPivotViewModel.DownloadAndSaveNotebook();
+            infoPivotViewModel.DownloadAndSaveCacheInfo();
             GetDeleteButton();
         }
 
