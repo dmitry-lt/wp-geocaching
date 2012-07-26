@@ -24,6 +24,7 @@ namespace WP_Geocaching.View
             var b = new Binding("MapMode");
             SetBinding(MapModeProperty, b);
             SetMyLocationButton();
+            SetSettingsMenuItem();
         }
 
         private void MapViewChangeEnd(object sender, MapEventArgs e)
@@ -53,9 +54,24 @@ namespace WP_Geocaching.View
             ApplicationBar.Buttons.Add(button);
         }
 
+        private void SetSettingsMenuItem()
+        {
+            var menuItem = new ApplicationBarMenuItem
+            {
+                Text = AppResources.SettingsMenuItem
+            };
+            menuItem.Click += SettingsClick;
+            ApplicationBar.MenuItems.Add(menuItem);
+        }
+
         private void MyLocationClick(object sender, EventArgs e)
         {
             bingMapViewModel.SetMapCenterOnCurrentLocationOrShowMessage(Dispatcher);
+        }
+
+        private void SettingsClick(object sender, EventArgs e)
+        {
+            NavigationManager.Instance.NavigateToSettings();
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)

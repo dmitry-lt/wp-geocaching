@@ -180,7 +180,7 @@
   <data name="SearchButton" xml:space="preserve">
     <value>искать</value>
   </data>
-  <data name="ShowAllButton" xml:space="preserve">
+  <data name="ShowAllMenuItem" xml:space="preserve">
     <value>показать всё</value>
   </data>
   <data name="Subtype" xml:space="preserve">
@@ -287,5 +287,8 @@
   </data>
   <data name="InfoButton" xml:space="preserve">
     <value>инфо</value>
+  </data>
+  <data name="SettingsMenuItem" xml:space="preserve">
+    <value>настройки</value>
   </data>
 </root>

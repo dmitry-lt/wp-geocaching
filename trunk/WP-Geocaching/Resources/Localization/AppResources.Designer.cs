@@ -493,11 +493,20 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to settings.
+        /// </summary>
+        public static string SettingsMenuItem {
+            get {
+                return ResourceManager.GetString("SettingsMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to show all.
         /// </summary>
-        public static string ShowAllButton {
+        public static string ShowAllMenuItem {
             get {
-                return ResourceManager.GetString("ShowAllButton", resourceCulture);
+                return ResourceManager.GetString("ShowAllMenuItem", resourceCulture);
             }
         }
         
