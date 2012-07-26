@@ -4,8 +4,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
+using WP_Geocaching.ViewModel;
 using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.View.Info
@@ -55,9 +55,6 @@ namespace WP_Geocaching.View.Info
         private double contentPanelHalfWidth;
         private double contentPanelHalfHight;
         private double panelDragHorizontal;
-        private double panelDragVertical;
-        private double initialTranslateX;
-        private double initialTranslateY;
 
         private void GestureListenerDragCompleted(object sender, DragCompletedGestureEventArgs e)
         {
@@ -73,29 +70,13 @@ namespace WP_Geocaching.View.Info
         {
             if (imageTransform.ScaleX > 1)
             {
-                panelDragHorizontal += e.HorizontalChange;
                 var limitTranslate = (image.ActualWidth) * imageTransform.ScaleX / 2 - contentPanelHalfWidth;
-                var newTranslate = initialTranslateX + panelDragHorizontal;
-                if (IsNormalTranslate(newTranslate, limitTranslate, e.HorizontalChange))
-                {
-                    imageTransform.TranslateX = newTranslate;
-                }
-                else
-                {
-                    panelDragHorizontal -= e.HorizontalChange;
-                }
+                imageTransform.TranslateX = SetNormalizeTranslate(imageTransform.TranslateX, limitTranslate,
+                                                                  e.HorizontalChange);
 
-                panelDragVertical += e.VerticalChange;
                 limitTranslate = (image.ActualHeight) * imageTransform.ScaleX / 2 - contentPanelHalfHight;
-                newTranslate = initialTranslateY + panelDragVertical;
-                if (IsNormalTranslate(newTranslate, limitTranslate, e.VerticalChange))
-                {
-                    imageTransform.TranslateY = newTranslate;
-                }
-                else
-                {
-                    panelDragVertical -= e.VerticalChange;
-                }
+                imageTransform.TranslateY = SetNormalizeTranslate(imageTransform.TranslateY, limitTranslate,
+                                                                  e.VerticalChange);
             }
             else
             {
@@ -107,23 +88,32 @@ namespace WP_Geocaching.View.Info
         private void GestureListenerDragStarted(object sender, DragStartedGestureEventArgs e)
         {
             panelDragHorizontal = 0;
-            panelDragVertical = 0;
-
-            initialTranslateX = imageTransform.TranslateX;
-            initialTranslateY = imageTransform.TranslateY;
 
             contentPanelHalfWidth = ContentPanel.ActualWidth / 2;
             contentPanelHalfHight = ContentPanel.ActualHeight / 2;
         }
 
-
-        private bool IsNormalTranslate(double translate, double limitTranslate, double difference)
+        private double SetNormalizeTranslate(double previousTranslate, double limitTranslate, double change)
         {
-            if (limitTranslate < translate && difference >= 0)
+            var newTranslate = previousTranslate + change;
+            if (IsNormalTranslate(newTranslate, limitTranslate))
+            {
+                return newTranslate;
+            }
+            else
+            {
+                return previousTranslate * limitTranslate > 0 ? limitTranslate : -limitTranslate;
+            }
+        }
+
+        private bool IsNormalTranslate(double translate, double limitTranslate)
+        {
+
+            if (Math.Abs(limitTranslate) < translate)
             {
                 return false;
             }
-            if (-limitTranslate > translate && difference <= 0)
+            if (-Math.Abs(limitTranslate) > translate)
             {
                 return false;
             }
@@ -174,11 +164,11 @@ namespace WP_Geocaching.View.Info
                 case PageOrientation.PortraitUp:
                 case PageOrientation.PortraitDown:
                 case PageOrientation.Portrait:
-                    return Math.Max(1, ((BitmapSource)image.Source).PixelWidth / ContentPanel.ActualWidth) * Math.Sqrt(2);
+                    return Math.Max(1, ((BitmapSource)image.Source).PixelWidth / ContentPanel.ActualWidth * Math.Sqrt(2));
                 case PageOrientation.LandscapeRight:
                 case PageOrientation.LandscapeLeft:
                 case PageOrientation.Landscape:
-                    return Math.Max(1, ((BitmapSource)image.Source).PixelHeight / ContentPanel.ActualHeight) * Math.Sqrt(2);
+                    return Math.Max(1, ((BitmapSource)image.Source).PixelHeight / ContentPanel.ActualHeight * Math.Sqrt(2));
             }
             return 1;
         }
@@ -187,8 +177,13 @@ namespace WP_Geocaching.View.Info
         {
             var difference = imageTransform.ScaleX - previousScale;
 
-            imageTransform.TranslateX += (imageHalfWidth - midPoint.X) * difference;
-            imageTransform.TranslateY += (imageHalfHight - midPoint.Y) * difference;
+            var limitTranslate = (image.ActualWidth) * imageTransform.ScaleX / 2 - imageHalfWidth;
+            var change = (imageHalfWidth - midPoint.X) * difference;
+            imageTransform.TranslateX = SetNormalizeTranslate(imageTransform.TranslateX, limitTranslate, change);
+
+            limitTranslate = (image.ActualHeight) * imageTransform.ScaleX / 2 - imageHalfHight;
+            change = (imageHalfHight - midPoint.Y) * difference;
+            imageTransform.TranslateY = SetNormalizeTranslate(imageTransform.TranslateY, limitTranslate, change);
         }
 
         private double GetNormalizeScale(double scale)
@@ -224,16 +219,16 @@ namespace WP_Geocaching.View.Info
 
         private void ContentPanelLoaded(object sender, RoutedEventArgs e)
         {
-            SetContentPanelCLlip();
+            SetContentPanelClip();
         }
 
         protected override void OnOrientationChanged(OrientationChangedEventArgs e)
         {
             base.OnOrientationChanged(e);
-            SetContentPanelCLlip();
+            SetContentPanelClip();
         }
 
-        private void SetContentPanelCLlip()
+        private void SetContentPanelClip()
         {
             if (ContentPanel == null)
             {

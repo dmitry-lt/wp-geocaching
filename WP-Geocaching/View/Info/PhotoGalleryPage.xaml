@@ -32,20 +32,20 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" Loaded="ContentPanelLoaded">
-            <Image x:Name="image" Source="{Binding ImageSource}" RenderTransformOrigin="0.5, 0.5" MaxHeight="{Binding MaxHeight}">
-                <Image.RenderTransform>
-                    <CompositeTransform x:Name="imageTransform"/>
-                </Image.RenderTransform>
-                <toolkit:GestureService.GestureListener>
-                    <toolkit:GestureListener  x:Name="listener" 
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" Loaded="ContentPanelLoaded" Background="Transparent">
+            <toolkit:GestureService.GestureListener>
+                <toolkit:GestureListener  x:Name="listener" 
                                               DragStarted="GestureListenerDragStarted" 
                                               DragDelta="GestureListenerDragDelta" 
                                               DragCompleted="GestureListenerDragCompleted"
                                               PinchStarted="GestureListenerPinchStarted"
                                               PinchDelta="GestureListenerPinchDelta"/>
-                </toolkit:GestureService.GestureListener>
-            </Image>
+            </toolkit:GestureService.GestureListener>
+            <Image x:Name="image" Source="{Binding ImageSource}" RenderTransformOrigin="0.5, 0.5" MaxHeight="{Binding MaxHeight}">
+                <Image.RenderTransform>
+                    <CompositeTransform x:Name="imageTransform"/>
+                </Image.RenderTransform>
+            </Image>          
         </Grid>
     </Grid>
 
