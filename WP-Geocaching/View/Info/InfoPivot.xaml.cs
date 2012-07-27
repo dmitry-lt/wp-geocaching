@@ -49,7 +49,7 @@ namespace WP_Geocaching.View.Info
 
             if (e.AddedItems.Contains(DetailsPivotItem) && (NotebookBrowser.SaveToString() == ""))
             {
-                infoPivotViewModel.LoadDetailsPivotItem(DetailsBrowser);
+                infoPivotViewModel.LoadDetailsPivotItem(InfoBrowser);
             }
 
             if (e.AddedItems.Contains(PhotosPivotItem))
@@ -60,7 +60,7 @@ namespace WP_Geocaching.View.Info
 
         private void SearchCacheButtonClick(object sender, EventArgs e)
         {
-            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Details, infoPivotViewModel.Notebook);
+            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Info, infoPivotViewModel.Notebook);
             NavigationManager.Instance.NavigateToSearchBingMap(infoPivotViewModel.Cache.Id.ToString());
         }
 
@@ -127,7 +127,7 @@ namespace WP_Geocaching.View.Info
 
         private void AddButtonClick(object sender, EventArgs e)
         {
-            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Details, infoPivotViewModel.Notebook);
+            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Info, infoPivotViewModel.Notebook);
             infoPivotViewModel.DownloadAndSavePhotos();
             infoPivotViewModel.DownloadAndSaveNotebook();
             infoPivotViewModel.DownloadAndSaveCacheInfo();

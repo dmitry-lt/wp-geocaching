@@ -13,12 +13,12 @@ namespace WP_Geocaching.ViewModel
     public class InfoPivotViewModel : BaseViewModel
     {
         private WebBrowser notebookBrowser;
-        private WebBrowser detailsBrowser;
+        private WebBrowser infoBrowser;
         private Visibility noPhotosMessageVisibility = Visibility.Visible;
         private Visibility noNotebookMessageVisibility = Visibility.Visible;
         private Visibility noInfoMessageVisibility = Visibility.Visible;
 
-        public string Details { get; set; }
+        public string Info { get; set; }
         public string Notebook { get; set; }
         public Cache Cache { get; set; }
         public ObservableCollection<Photo> Previews { get; set; }
@@ -65,10 +65,10 @@ namespace WP_Geocaching.ViewModel
         public InfoPivotViewModel()
         {
             Previews = new ObservableCollection<Photo>();
-            Previews.CollectionChanged += Previews_CollectionChanged;
+            Previews.CollectionChanged += PreviewsCollectionChanged;
         }
 
-        private void Previews_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void PreviewsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems.Count != 0)
             {
@@ -122,17 +122,17 @@ namespace WP_Geocaching.ViewModel
         {
             var db = new CacheDataBase();
             var item = db.GetCache(Cache.Id);
-            this.detailsBrowser = detailsBrowser;
+            this.infoBrowser = detailsBrowser;
 
             if ((item != null) && (item.Details != null))
             {
-                Details = item.Details;
+                Info = item.Details;
                 NoInfoMessageVisibility = Visibility.Collapsed;
                 detailsBrowser.NavigateToString(item.Details);
             }
-            else if (Details != null)
+            else if (Info != null)
             {
-                LoadAndSaveCacheInfo(Details);
+                LoadAndSaveCacheInfo(Info);
             }
             else
             {
@@ -150,9 +150,9 @@ namespace WP_Geocaching.ViewModel
                 return;
             }
 
-            if (Details != null)
+            if (Info != null)
             {
-                LoadAndSaveCacheInfo(Details);
+                LoadAndSaveCacheInfo(Info);
             }
             else
             {
@@ -203,7 +203,7 @@ namespace WP_Geocaching.ViewModel
         private void LoadAndSaveCacheInfo(string info)
         {
             var db = new CacheDataBase();
-            Details = info;
+            Info = info;
             if (info != "")
             {
                 NoInfoMessageVisibility = Visibility.Collapsed;
@@ -214,9 +214,9 @@ namespace WP_Geocaching.ViewModel
                 db.UpdateCacheInfo(info, Cache.Id);
             }
 
-            if (detailsBrowser != null)
+            if (infoBrowser != null)
             {
-                detailsBrowser.NavigateToString(info);
+                infoBrowser.NavigateToString(info);
             }
         }
 
