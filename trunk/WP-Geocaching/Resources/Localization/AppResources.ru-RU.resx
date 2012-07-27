@@ -298,6 +298,6 @@
     <value>Нет информации</value>
   </data>
   <data name="NoNotebookMessage" xml:space="preserve">
-    <value>Блокнота нет</value>
+    <value>Нет блокнота</value>
   </data>
 </root>
