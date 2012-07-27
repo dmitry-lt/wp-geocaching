@@ -46,7 +46,7 @@
                 </Style>
             </Grid.Resources>
 
-            <controls:Pivot x:Name="Info" SelectionChanged="InfoSelectionChanged">
+            <controls:Pivot x:Name="Info" SelectionChanged="InfoSelectionChanged" IsEnabled="{Binding IsPivotEnabled}">
                 <controls:PivotItem x:Name="DetailsPivotItem">
                     <controls:PivotItem.Header>
                         <Grid>
@@ -128,7 +128,7 @@
 
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True"/>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" />
     </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>

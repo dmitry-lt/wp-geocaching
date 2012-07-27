@@ -145,6 +145,7 @@ namespace WP_Geocaching.View.Info
         private void DeleteButtonClick(object sender, EventArgs e)
         {
             infoPivotViewModel.DeleteDialogVisibility = Visibility.Visible;
+            infoPivotViewModel.IsPivotEnabled = false;
         }
 
         private void ImageGotFocus(object sender, RoutedEventArgs e)
@@ -155,7 +156,8 @@ namespace WP_Geocaching.View.Info
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            infoPivotViewModel.DeleteDialogVisibility = Visibility.Collapsed;        
+            infoPivotViewModel.DeleteDialogVisibility = Visibility.Collapsed;
+            infoPivotViewModel.IsPivotEnabled = true;
             base.OnNavigatedFrom(e);
         }
 
@@ -164,6 +166,7 @@ namespace WP_Geocaching.View.Info
             if (infoPivotViewModel.DeleteDialogVisibility == Visibility.Visible)
             {
                 infoPivotViewModel.DeleteDialogVisibility = Visibility.Collapsed;
+                infoPivotViewModel.IsPivotEnabled = true;
                 e.Cancel = true;
             } 
             else

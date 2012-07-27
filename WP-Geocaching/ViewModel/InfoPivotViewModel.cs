@@ -25,6 +25,7 @@ namespace WP_Geocaching.ViewModel
         private ICommand cancelCommand;
 
         private Action afterDeleteAction;
+        private bool isPivotEnabled = true;
 
         public string Info { get; set; }
         public string Notebook { get; set; }
@@ -90,11 +91,25 @@ namespace WP_Geocaching.ViewModel
                 return deleteCommand;
             }
         }
+
         public ICommand CancelCommand
         {
             get
             {
                 return cancelCommand;
+            }
+        }
+
+        public bool IsPivotEnabled
+        {
+            get
+            {
+                return isPivotEnabled;
+            }
+            set
+            {
+                isPivotEnabled = value;
+                NotifyPropertyChanged("IsPivotEnabled");
             }
         }
 
@@ -316,11 +331,13 @@ namespace WP_Geocaching.ViewModel
             DeletePhotos();
             afterDeleteAction();
             DeleteDialogVisibility = Visibility.Collapsed;
+            IsPivotEnabled = true;
         }
 
         public void Cancel(object p)
         {
             DeleteDialogVisibility = Visibility.Collapsed;
+            IsPivotEnabled = true;
         }
     }
 }
