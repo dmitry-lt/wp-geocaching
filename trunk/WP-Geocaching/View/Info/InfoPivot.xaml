@@ -55,7 +55,7 @@
                         </Grid>
                     </controls:PivotItem.Header>
                     <Grid Grid.Row="1" Margin="12,0,12,0">
-                        <phone:WebBrowser x:Name="DetailsBrowser" Margin="0,0,0,0" Grid.Row="1"/>
+                        <phone:WebBrowser x:Name="InfoBrowser" Margin="0,0,0,0" Grid.Row="1"/>
                         <Grid x:Name="NoInfoCacheMessage"
                               Visibility="{Binding NoInfoMessageVisibility}"
                               Style="{StaticResource GridMessageStyle}">
