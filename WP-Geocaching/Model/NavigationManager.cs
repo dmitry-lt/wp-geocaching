@@ -51,14 +51,16 @@ namespace WP_Geocaching.Model
             frame.Navigate(new Uri(uri + "?CurrentId=" + currentId + "&CheckpointId=" + checkpointId, UriKind.RelativeOrAbsolute));
         }
 
-        public void NavigateToInfoPivot(string CurrentId)
+        public void NavigateToInfoPivot(string currentId, bool isAppBarEnabled)
         {
-            Navigate("//View/Info/InfoPivot.xaml", CurrentId);
+            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
+            frame.Navigate(new Uri("//View/Info/InfoPivot.xaml?ID=" + currentId + "&IsAppBarEnabled=" + isAppBarEnabled, UriKind.RelativeOrAbsolute));
         }
 
-        public void NavigateToSearchBingMap(string CurrentId)
+        public void NavigateToSearchBingMap(string currentId)
         {
-            Navigate("//View/SearchBingMap.xaml", CurrentId);
+            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
+            frame.Navigate(new Uri("//View/SearchBingMap.xaml?ID=" + currentId, UriKind.RelativeOrAbsolute));
         }
 
         public void NavigateToCheckpoints()

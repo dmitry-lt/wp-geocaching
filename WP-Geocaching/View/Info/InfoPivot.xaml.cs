@@ -23,20 +23,28 @@ namespace WP_Geocaching.View.Info
             infoPivotViewModel = new InfoPivotViewModel(GetAddButton);
             DataContext = infoPivotViewModel;
             db = new CacheDataBase();
-            SetApplicationBarItems();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.New)
             {
-                int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
+                var cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
                 infoPivotViewModel.Cache = GeocahingSuApiManager.Instance.GetCacheById(cacheId);
-                UpdateFavoriteButton();
+                var isAppBarEnabled = Convert.ToBoolean(NavigationContext.QueryString["IsAppBarEnabled"]);
+                ApplicationBar.IsVisible = isAppBarEnabled;
+                if (ApplicationBar.IsVisible)
+                {
+                    SetApplicationBarItems();
+                    UpdateFavoriteButton();
+                }
             }
             else
             {
-                UpdateFavoriteButton();
+                if (ApplicationBar.IsVisible)
+                {
+                    UpdateFavoriteButton();
+                }
             }
         }
 

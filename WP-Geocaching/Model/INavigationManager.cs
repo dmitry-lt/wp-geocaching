@@ -13,6 +13,6 @@ namespace WP_Geocaching.Model
 {
     public interface INavigationManager
     {
-        void NavigateToInfoPivot(string currentId);
+        void NavigateToInfoPivot(string currentId, bool isAppBarEnabled);
     }
 }
