@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:items="clr-namespace:WP_Geocaching.View.Info"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -37,15 +38,14 @@
                 <Style x:Name="TextMessageStyle" TargetType="TextBlock">
                     <Setter Property="HorizontalAlignment" Value="Left"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
-                    <Setter Property="FontSize" Value="30"/>                    
+                    <Setter Property="FontSize" Value="30"/>
                 </Style>
                 <Style x:Name="GridMessageStyle" TargetType="Grid">
                     <Setter Property="Background" Value="{StaticResource PhoneChromeBrush}"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
             </Grid.Resources>
-            
-            
+
             <controls:Pivot x:Name="Info" SelectionChanged="InfoSelectionChanged">
                 <controls:PivotItem x:Name="DetailsPivotItem">
                     <controls:PivotItem.Header>
@@ -118,7 +118,12 @@
                     </Grid>
                 </controls:PivotItem>
             </controls:Pivot>
+
+            <items:DeleteDialog Visibility="{Binding DeleteDialogVisibility}" 
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center"/>
         </Grid>
+
     </Grid>
 
 
