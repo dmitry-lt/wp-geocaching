@@ -152,5 +152,24 @@ namespace WP_Geocaching.View.Info
             var index = (int)(((Image)sender).Tag);
             NavigationManager.Instance.NavigateToPhotoGallery(index);
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            infoPivotViewModel.DeleteDialogVisibility = Visibility.Collapsed;        
+            base.OnNavigatedFrom(e);
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            if (infoPivotViewModel.DeleteDialogVisibility == Visibility.Visible)
+            {
+                infoPivotViewModel.DeleteDialogVisibility = Visibility.Collapsed;
+                e.Cancel = true;
+            } 
+            else
+            {
+                base.OnBackKeyPress(e);
+            }
+        }   
     }
 }
