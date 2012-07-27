@@ -23,7 +23,7 @@ namespace WP_Geocaching.ViewModel
         private int subtype;
         private string details;
         private Enum[] iconUri;
-        private DateTime dateAdded;
+        private DateTime updateTime;
 
         public int Id
         {
@@ -113,15 +113,15 @@ namespace WP_Geocaching.ViewModel
                 this.iconUri = value;
             }
         }
-        public DateTime DateAdded
+        public DateTime UpdateTime
         {
             get 
             {
-                return this.dateAdded;
+                return this.updateTime;
             }
             set
             {
-                this.dateAdded = value;
+                this.updateTime = value;
             }
         }
 
@@ -133,7 +133,7 @@ namespace WP_Geocaching.ViewModel
             Name = item.Name;
             Subtype = item.Subtype;
             Type = item.Type;
-            DateAdded = item.DateAdded;
+            UpdateTime = item.UpdateTime;
             Details = item.Details;
             IconUri = new Enum[2] { (Cache.Types)item.Type, (Cache.Subtypes)item.Subtype };
         }
