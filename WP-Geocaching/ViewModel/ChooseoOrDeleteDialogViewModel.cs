@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model;
-using System.ComponentModel;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -31,14 +22,14 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.deleteCommand;
+                return deleteCommand;
             }
         }
         public ICommand ChooseCommand
         {
             get
             {
-                return this.chooseCommand;
+                return chooseCommand;
             }
         }
 
@@ -46,33 +37,33 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return this.subtype;
+                return subtype;
             }
             set
             {
-                this.subtype = value;
+                subtype = value;
             }
         }
         public double Latitude
         {
             get
             {
-                return this.latitude;
+                return latitude;
             }
             set
             {
-                this.latitude = value;
+                latitude = value;
             }
         }
         public double Longitude
         {
             get
             {
-                return this.longitude;
+                return longitude;
             }
             set
             {
-                this.longitude = value;
+                longitude = value;
             }
         }
         public bool IsDeleteEnabled
@@ -80,12 +71,13 @@ namespace WP_Geocaching.ViewModel
             get { return isDeleteEnabled; }
             set
             {
-                bool changed = isDeleteEnabled != value;
-                if (changed)
+                var changed = isDeleteEnabled != value;
+                if (!changed)
                 {
-                    isDeleteEnabled = value;
-                    NotifyPropertyChanged("IsDeleteEnabled");
+                    return;
                 }
+                isDeleteEnabled = value;
+                NotifyPropertyChanged("IsDeleteEnabled");
             }
         }
 
@@ -100,26 +92,19 @@ namespace WP_Geocaching.ViewModel
             deleteCommand = new ButtonCommand(DeletefromBd);
             chooseCommand = new ButtonCommand(MakeActive);
             this.closeDialog = closeDialog;
-            if (type != (int)Cache.Types.Checkpoint)
-            {
-                IsDeleteEnabled = false;
-            }
-            else
-            {
-                IsDeleteEnabled = true;
-            }
+            IsDeleteEnabled = type == (int)Cache.Types.Checkpoint;
         }
 
         public void DeletefromBd(object p)
         {
-            CacheDataBase db = new CacheDataBase();
+            var db = new CacheDataBase();
             db.DeleteCheckpoint(cacheId, id);
             closeDialog();
         }
 
         public void MakeActive(object p)
         {
-            CacheDataBase db = new CacheDataBase();
+            var db = new CacheDataBase();
             if (type != (int)Cache.Types.Checkpoint)
             {
                 db.MakeCacheActive(id);

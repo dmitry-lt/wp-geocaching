@@ -20,7 +20,7 @@ namespace WP_Geocaching.View.Info
         public InfoPivot()
         {
             InitializeComponent();
-            infoPivotViewModel = new InfoPivotViewModel();
+            infoPivotViewModel = new InfoPivotViewModel(GetAddButton);
             DataContext = infoPivotViewModel;
             db = new CacheDataBase();
             SetApplicationBarItems();
@@ -136,9 +136,7 @@ namespace WP_Geocaching.View.Info
 
         private void DeleteButtonClick(object sender, EventArgs e)
         {
-            db.DeleteCache(infoPivotViewModel.Cache.Id);
-            infoPivotViewModel.DeletePhotos();
-            GetAddButton();
+            infoPivotViewModel.DeleteDialogVisibility = Visibility.Visible;
         }
 
         private void ImageGotFocus(object sender, RoutedEventArgs e)

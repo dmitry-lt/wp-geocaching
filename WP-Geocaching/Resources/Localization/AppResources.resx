@@ -300,4 +300,10 @@
   <data name="NoNotebookMessage" xml:space="preserve">
     <value>No notebook</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DeleteConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete a cache?</value>
+  </data>
 </root>

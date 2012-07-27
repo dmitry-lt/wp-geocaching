@@ -300,4 +300,10 @@
   <data name="NoNotebookMessage" xml:space="preserve">
     <value>Нет блокнота</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="DeleteConfirmation" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить тайник?</value>
+  </data>
 </root>

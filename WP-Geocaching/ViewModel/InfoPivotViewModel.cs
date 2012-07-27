@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Phone.Controls;
 using System.Collections.Generic;
@@ -14,9 +15,16 @@ namespace WP_Geocaching.ViewModel
     {
         private WebBrowser notebookBrowser;
         private WebBrowser infoBrowser;
+
         private Visibility noPhotosMessageVisibility = Visibility.Visible;
         private Visibility noNotebookMessageVisibility = Visibility.Visible;
         private Visibility noInfoMessageVisibility = Visibility.Visible;
+        private Visibility deleteDialogVisibility = Visibility.Collapsed;
+
+        private ICommand deleteCommand;
+        private ICommand cancelCommand;
+
+        private Action afterDeleteAction;
 
         public string Info { get; set; }
         public string Notebook { get; set; }
@@ -62,10 +70,43 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public InfoPivotViewModel()
+        public Visibility DeleteDialogVisibility
         {
+            get
+            {
+                return deleteDialogVisibility;
+            }
+            set
+            {
+                deleteDialogVisibility = value;
+                NotifyPropertyChanged("DeleteDialogVisibility");
+            }
+        }
+
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                return deleteCommand;
+            }
+        }
+        public ICommand CancelCommand
+        {
+            get
+            {
+                return cancelCommand;
+            }
+        }
+
+        public InfoPivotViewModel(Action afterDeleteAction)
+        {
+            this.afterDeleteAction = afterDeleteAction;
+
             Previews = new ObservableCollection<Photo>();
             Previews.CollectionChanged += PreviewsCollectionChanged;
+
+            deleteCommand = new ButtonCommand(Delete);
+            cancelCommand = new ButtonCommand(Cancel);
         }
 
         private void PreviewsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -266,6 +307,20 @@ namespace WP_Geocaching.ViewModel
             {
                 Previews.Add(new Photo());
             }
+        }
+
+        public void Delete(object p)
+        {
+            var db = new CacheDataBase();
+            db.DeleteCache(Cache.Id);
+            DeletePhotos();
+            afterDeleteAction();
+            DeleteDialogVisibility = Visibility.Collapsed;
+        }
+
+        public void Cancel(object p)
+        {
+            DeleteDialogVisibility = Visibility.Collapsed;
         }
     }
 }
