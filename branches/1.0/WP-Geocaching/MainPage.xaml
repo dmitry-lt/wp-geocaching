@@ -1,0 +1,134 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="WP_Geocaching.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28" Orientation="Horizontal">
+            <StackPanel Background="{StaticResource PhoneAccentBrush}">
+            <Image Source="Resources/Images/application_logo_big_white.png"/>
+            </StackPanel>
+            <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
+                Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"
+                FontSize="58" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,12">
+
+            <Grid.Resources>
+                <Style x:Key="TileTextStyle" TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Style>
+            </Grid.Resources>
+            
+            <Grid x:Name="NoSouhgtCacheMessage" Width="Auto"
+                Background="{StaticResource PhoneChromeBrush}" 
+                VerticalAlignment="Bottom" Visibility="Collapsed">
+                <TextBlock Text="{Binding Path=LocalizedResources.NoSouhgtCacheMessage, 
+                    Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" FontSize="22"/>
+            </Grid>
+
+            <Grid x:Name="NoFavoriteCachesMessage" Width="Auto"
+                Background="{StaticResource PhoneChromeBrush}" 
+                VerticalAlignment="Bottom" Visibility="Collapsed">
+                <TextBlock Text="{Binding Path=LocalizedResources.NoFavoriteCachesMessage, 
+                    Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" FontSize="22"/>
+            </Grid>
+
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Height="420" Width="420">
+                <Button HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                    Width="200" 
+                    Height="200"
+                    Background="{StaticResource PhoneAccentBrush}"
+                    BorderThickness="0"
+                    Click="ChooseCacheClick">
+                <Grid>
+                        <Image Source="Resources/Images/choose_cache_menu_icon.png"/>
+                        <TextBlock Text="{Binding Path=LocalizedResources.ChooseCache, 
+                                   Source={StaticResource LocalizedStrings}}" 
+                                   Style="{StaticResource TileTextStyle}"/>
+                </Grid>
+                </Button>
+                <Button HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom"
+                    Width="200" 
+                    Height="200"
+                    Background="{StaticResource PhoneAccentBrush}"
+                    BorderThickness="0"
+                    Click="SettingsClick">
+                <Grid>
+                        <Image Source="Resources/Images/settings_menu_icon.png"/>
+                        <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
+                                   Path=LocalizedResources.Settings}" 
+                                   Style="{StaticResource TileTextStyle}"/>
+                </Grid>
+                </Button>
+                <Button HorizontalAlignment="Left" 
+                    VerticalAlignment="Bottom"
+                    Width="200" 
+                    Height="200"
+                    Background="{StaticResource PhoneAccentBrush}"
+                    BorderThickness="0"
+                    Click="FavoritesClick">
+                <Grid>
+                        <Image Source="Resources/Images/favorites_menu_icon.png"/>
+                        <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
+                                    Path=LocalizedResources.Favorites}" 
+                                   Style="{StaticResource TileTextStyle}"/>
+                </Grid>
+                </Button>
+                <Button HorizontalAlignment="Right" 
+                    VerticalAlignment="Top"
+                    Width="200" 
+                    Height="200"
+                    Background="{StaticResource PhoneAccentBrush}"
+                    BorderThickness="0"
+                    Click="SearchCacheClick">
+                    <Grid>
+                        <Image Source="Resources/Images/search_map_menu_icon.png"/>
+                        <TextBlock Text="{Binding Source={StaticResource LocalizedStrings}, 
+                                   Path=LocalizedResources.SearchCache}" 
+                                   Style="{StaticResource TileTextStyle}"/>
+                    </Grid>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+
+    <!--Sample code showing usage of ApplicationBar-->
+    <!--<phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
+                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>-->
+
+</phone:PhoneApplicationPage>

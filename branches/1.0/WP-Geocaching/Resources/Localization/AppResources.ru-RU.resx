@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddCheckpointButton" xml:space="preserve">
+    <value>добавить</value>
+  </data>
+  <data name="AddFavoritesButton" xml:space="preserve">
+    <value>добавить</value>
+  </data>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>ГЕОКЭШИНГ</value>
+  </data>
+  <data name="CheckpointsButton" xml:space="preserve">
+    <value>контрольные точки</value>
+  </data>
+  <data name="Choose" xml:space="preserve">
+    <value>Выбрать</value>
+  </data>
+  <data name="ChooseCache" xml:space="preserve">
+    <value>Выбрать тайник</value>
+  </data>
+  <data name="CompassSearchButton" xml:space="preserve">
+    <value>компас</value>
+  </data>
+  <data name="Coordinates" xml:space="preserve">
+    <value>гг° мм.ммм'</value>
+  </data>
+  <data name="DCoordinates" xml:space="preserve">
+    <value>гг.гггггг°</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeleteFavoritesButton" xml:space="preserve">
+    <value>удалить</value>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>Избранное</value>
+  </data>
+  <data name="Kilometres" xml:space="preserve">
+    <value>км</value>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>Широта</value>
+  </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>Долгота</value>
+  </data>
+  <data name="Metres" xml:space="preserve">
+    <value>м</value>
+  </data>
+  <data name="CheckpointName" xml:space="preserve">
+    <value>Название точки</value>
+  </data>
+  <data name="SurpassedCacheCountMessage" xml:space="preserve">
+    <value>Слишком много тайников на экране. Увеличьте масштаб</value>
+  </data>
+  <data name="SaveCheckpointButton" xml:space="preserve">
+    <value>сохранить</value>
+  </data>
+  <data name="SCoordinates" xml:space="preserve">
+    <value>гг° мм' сс.ссс''</value>
+  </data>
+  <data name="SearchButton" xml:space="preserve">
+    <value>искать</value>
+  </data>
+  <data name="ShowAllMenuItem" xml:space="preserve">
+    <value>показать всё</value>
+  </data>
+  <data name="Subtype" xml:space="preserve">
+    <value>Подтип</value>
+  </data>
+  <data name="SearchCache" xml:space="preserve">
+    <value>Искать тайник</value>
+  </data>
+  <data name="NoSouhgtCacheMessage" xml:space="preserve">
+    <value>Перед поиском выберите тайник</value>
+  </data>
+  <data name="DefaultCheckpointName" xml:space="preserve">
+    <value>Контрольная точка {0}</value>
+  </data>
+  <data name="MyLocationButton" xml:space="preserve">
+    <value>моё положение</value>
+  </data>
+  <data name="UndetectedLocationMessage" xml:space="preserve">
+    <value>Местоположение не определено</value>
+  </data>
+  <data name="NotebookButton" xml:space="preserve">
+    <value>блокнот</value>
+  </data>
+  <data name="Compass" xml:space="preserve">
+    <value>Компас</value>
+  </data>
+  <data name="DetailsTitle" xml:space="preserve">
+    <value>Детали</value>
+  </data>
+  <data name="NotebookTitle" xml:space="preserve">
+    <value>Блокнот</value>
+  </data>
+  <data name="PhotosTitle" xml:space="preserve">
+    <value>Фотографии</value>
+  </data>
+  <data name="NextButton" xml:space="preserve">
+    <value>вперед</value>
+  </data>
+  <data name="PreviousButton" xml:space="preserve">
+    <value>назад</value>
+  </data>
+  <data name="CoordinateFormat" xml:space="preserve">
+    <value>{0}° {1:F3}' {2} | {3}° {4:F3}' {5}</value>
+  </data>
+  <data name="EastLongitude" xml:space="preserve">
+    <value>в.д.</value>
+  </data>
+  <data name="NorthLatitude" xml:space="preserve">
+    <value>с.ш.</value>
+  </data>
+  <data name="SouthLatitude" xml:space="preserve">
+    <value>ю.ш.</value>
+  </data>
+  <data name="WestLongitude" xml:space="preserve">
+    <value>з.д.</value>
+  </data>
+  <data name="NoFavoriteCachesMessage" xml:space="preserve">
+    <value>В избранном пока нет тайников</value>
+  </data>
+  <data name="LatitudeFormat" xml:space="preserve">
+    <value>{0}° {1:F3}' {2}</value>
+  </data>
+  <data name="LongitudeFormat" xml:space="preserve">
+    <value>{0}° {1:F3}' {2}</value>
+  </data>
+  <data name="AboutTitle" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="AerialModeSettings" xml:space="preserve">
+    <value>Спутник</value>
+  </data>
+  <data name="ApplicationPivotTitle" xml:space="preserve">
+    <value>Приложение</value>
+  </data>
+  <data name="AppNameAbout" xml:space="preserve">
+    <value>Геокэшинг</value>
+  </data>
+  <data name="InfoAbout" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="MapModeSettings" xml:space="preserve">
+    <value>Тип карты</value>
+  </data>
+  <data name="MapSettings" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="RoadModeSettings" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="SupportAbout" xml:space="preserve">
+    <value>Поддержка</value>
+  </data>
+  <data name="SupportEmail" xml:space="preserve">
+    <value>wp-geocaching-support@googlegroups.com</value>
+  </data>
+  <data name="VersionAbout" xml:space="preserve">
+    <value>Версия 1.0</value>
+  </data>
+  <data name="EmailSubject" xml:space="preserve">
+    <value>[Geocaching]</value>
+  </data>
+  <data name="InfoButton" xml:space="preserve">
+    <value>инфо</value>
+  </data>
+  <data name="SettingsMenuItem" xml:space="preserve">
+    <value>настройки</value>
+  </data>
+  <data name="NoPhotosMessage" xml:space="preserve">
+    <value>Нет фотографий</value>
+  </data>
+  <data name="NoInfoMessage" xml:space="preserve">
+    <value>Нет информации</value>
+  </data>
+  <data name="NoNotebookMessage" xml:space="preserve">
+    <value>Нет блокнота</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="DeleteConfirmation" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить тайник?</value>
+  </data>
+</root>
