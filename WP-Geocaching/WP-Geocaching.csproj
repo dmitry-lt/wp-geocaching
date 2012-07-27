@@ -334,6 +334,7 @@
     <Resource Include="Resources\Images\search_map_menu_icon.png" />
     <Content Include="Resources\Images\appbar.compass.png" />
     <Content Include="Resources\Images\appbar.info.png" />
+    <Resource Include="Resources\Images\compass_needle.png" />
     <Content Include="Resources\Images\my.location.png" />
     <Resource Include="Resources\Images\settings_menu_icon.png" />
     <Content Include="SplashScreenImage.jpg" />

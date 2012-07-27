@@ -291,4 +291,13 @@
   <data name="SettingsMenuItem" xml:space="preserve">
     <value>settings</value>
   </data>
+  <data name="NoPhotosMessage" xml:space="preserve">
+    <value>No photos</value>
+  </data>
+  <data name="NoInfoMessage" xml:space="preserve">
+    <value>No info</value>
+  </data>
+  <data name="NoNotebookMessage" xml:space="preserve">
+    <value>No notebook</value>
+  </data>
 </root>

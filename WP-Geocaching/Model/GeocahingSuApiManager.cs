@@ -165,6 +165,10 @@ namespace WP_Geocaching.Model
             {
                 if (e.Error != null)
                 {
+                    if (processAction != null)
+                    {
+                        processAction(null);
+                    }
                     return;
                 }
 

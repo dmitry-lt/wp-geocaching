@@ -291,4 +291,13 @@
   <data name="SettingsMenuItem" xml:space="preserve">
     <value>настройки</value>
   </data>
+  <data name="NoPhotosMessage" xml:space="preserve">
+    <value>Нет фотографий</value>
+  </data>
+  <data name="NoInfoMessage" xml:space="preserve">
+    <value>Нет информации</value>
+  </data>
+  <data name="NoNotebookMessage" xml:space="preserve">
+    <value>Блокнота нет</value>
+  </data>
 </root>
