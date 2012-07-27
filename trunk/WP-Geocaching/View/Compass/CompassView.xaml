@@ -30,11 +30,14 @@
                         <RotateTransform x:Name="CompassRoseRotatingBlack" Angle="{Binding NorthDirection, Mode=OneWay}" CenterX="240" CenterY="240" />
                     </Image.RenderTransform>
                 </Image>
-                <Line x:Name="CacheNiddle" X1="240" Y1="240" X2="240" Y2="40" Stroke="Green" StrokeThickness="5">
-                    <Line.RenderTransform>
-                        <RotateTransform Angle="{Binding CacheDirection, Mode=OneWay}" CenterX="240" CenterY="240" />
-                    </Line.RenderTransform>
-                </Line>
+
+                <Image x:Name="CacheNiddle"
+                       Source="../../Resources/Images/compass_needle.png"
+                       >
+                    <Image.RenderTransform>
+                        <CompositeTransform TranslateX="232.5" TranslateY="47" CenterX="8" CenterY="195" Rotation="{Binding CacheDirection, Mode=OneWay}"/>
+                    </Image.RenderTransform>
+                </Image>
             </Canvas>
         </StackPanel>
     </Grid>

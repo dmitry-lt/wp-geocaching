@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Windows;
 using System.Windows.Media;
 using Microsoft.Phone.Controls;
 using System.Collections.Generic;
@@ -12,15 +14,66 @@ namespace WP_Geocaching.ViewModel
     {
         private WebBrowser notebookBrowser;
         private WebBrowser detailsBrowser;
+        private Visibility noPhotosMessageVisibility = Visibility.Visible;
+        private Visibility noNotebookMessageVisibility = Visibility.Visible;
+        private Visibility noInfoMessageVisibility = Visibility.Visible;
 
         public string Details { get; set; }
         public string Notebook { get; set; }
         public Cache Cache { get; set; }
         public ObservableCollection<Photo> Previews { get; set; }
 
+        public Visibility NoPhotosMessageVisibility
+        {
+            get
+            {
+                return noPhotosMessageVisibility;
+            }
+            set
+            {
+                noPhotosMessageVisibility = value;
+                NotifyPropertyChanged("NoPhotosMessageVisibility");
+            }
+        }
+
+        public Visibility NoNotebookMessageVisibility
+        {
+            get
+            {
+                return noNotebookMessageVisibility;
+            }
+            set
+            {
+                noNotebookMessageVisibility = value;
+                NotifyPropertyChanged("NoNotebookMessageVisibility");
+            }
+        }
+
+        public Visibility NoInfoMessageVisibility
+        {
+            get
+            {
+                return noInfoMessageVisibility;
+            }
+            set
+            {
+                noInfoMessageVisibility = value;
+                NotifyPropertyChanged("NoInfoMessageVisibility");
+            }
+        }
+
         public InfoPivotViewModel()
         {
             Previews = new ObservableCollection<Photo>();
+            Previews.CollectionChanged += Previews_CollectionChanged;
+        }
+
+        private void Previews_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems.Count != 0)
+            {
+                NoPhotosMessageVisibility = Visibility.Collapsed;
+            }
         }
 
         public void LoadNotebookPivotItem(WebBrowser notebookBrowser)
@@ -32,6 +85,7 @@ namespace WP_Geocaching.ViewModel
             if ((item != null) && (item.Notebook != null))
             {
                 Notebook = item.Notebook;
+                NoNotebookMessageVisibility = Visibility.Collapsed;
                 notebookBrowser.NavigateToString(item.Notebook);
             }
             else if (Notebook != null)
@@ -73,6 +127,7 @@ namespace WP_Geocaching.ViewModel
             if ((item != null) && (item.Details != null))
             {
                 Details = item.Details;
+                NoInfoMessageVisibility = Visibility.Collapsed;
                 detailsBrowser.NavigateToString(item.Details);
             }
             else if (Details != null)
@@ -101,7 +156,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveCacheInfo, Cache.Id);
+                GeocahingSuApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
             }
         }
 
@@ -129,6 +184,10 @@ namespace WP_Geocaching.ViewModel
         {
             var db = new CacheDataBase();
             Notebook = notebook;
+            if (notebook != "")
+            {
+                NoNotebookMessageVisibility = Visibility.Collapsed;
+            }
 
             if (db.GetCache(Cache.Id) != null)
             {
@@ -145,6 +204,10 @@ namespace WP_Geocaching.ViewModel
         {
             var db = new CacheDataBase();
             Details = info;
+            if (info != "")
+            {
+                NoInfoMessageVisibility = Visibility.Collapsed;
+            }
 
             if (db.GetCache(Cache.Id) != null)
             {
@@ -164,9 +227,20 @@ namespace WP_Geocaching.ViewModel
 
         private void ProcessPhotos(List<string> uriList, Action<string, Action<ImageSource, int>, int> processPhotos)
         {
-            if (uriList == null || Previews == null)
+            if (Previews == null)
             {
                 return;
+            }
+
+            if (uriList == null)
+            {
+                //todo save photos
+                return;
+            }
+
+            if (uriList.Count == Previews.Count)
+            {
+                //todo save potos
             }
 
             if (Previews.Count == 0)

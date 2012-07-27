@@ -385,6 +385,33 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No info.
+        /// </summary>
+        public static string NoInfoMessage {
+            get {
+                return ResourceManager.GetString("NoInfoMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No notebook.
+        /// </summary>
+        public static string NoNotebookMessage {
+            get {
+                return ResourceManager.GetString("NoNotebookMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No photos.
+        /// </summary>
+        public static string NoPhotosMessage {
+            get {
+                return ResourceManager.GetString("NoPhotosMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to N.
         /// </summary>
         public static string NorthLatitude {

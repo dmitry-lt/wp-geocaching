@@ -33,6 +33,19 @@
 
         <!--Pivot Control-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
+            <Grid.Resources>
+                <Style x:Name="TextMessageStyle" TargetType="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="FontSize" Value="22"/>                    
+                </Style>
+                <Style x:Name="GridMessageStyle" TargetType="Grid">
+                    <Setter Property="Background" Value="{StaticResource PhoneChromeBrush}"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </Grid.Resources>
+            
+            
             <controls:Pivot x:Name="Info" SelectionChanged="InfoSelectionChanged">
                 <controls:PivotItem x:Name="DetailsPivotItem">
                     <controls:PivotItem.Header>
@@ -43,6 +56,13 @@
                     </controls:PivotItem.Header>
                     <Grid Grid.Row="1" Margin="0,0,0,0">
                         <phone:WebBrowser x:Name="DetailsBrowser" Margin="12,0,12,0" Grid.Row="1"/>
+                        <Grid x:Name="NoInfoCacheMessage"
+                              Visibility="{Binding NoInfoMessageVisibility}"
+                              Style="{StaticResource GridMessageStyle}">
+                            <TextBlock Text="{Binding Path=LocalizedResources.NoInfoMessage, 
+                                       Source={StaticResource LocalizedStrings}}" 
+                                       Style="{StaticResource TextMessageStyle}"/>
+                        </Grid>
                     </Grid>
                 </controls:PivotItem>
 
@@ -55,6 +75,13 @@
                     </controls:PivotItem.Header>
                     <Grid Grid.Row="1" Margin="0,0,0,0">
                         <phone:WebBrowser x:Name="NotebookBrowser" Margin="12,0,12,0" Grid.Row="1"/>
+                        <Grid x:Name="NoNotebookCacheMessage"
+                              Visibility="{Binding NoNotebookMessageVisibility}"
+                              Style="{StaticResource GridMessageStyle}">
+                            <TextBlock Text="{Binding Path=LocalizedResources.NoNotebookMessage, 
+                                       Source={StaticResource LocalizedStrings}}" 
+                                       Style="{StaticResource TextMessageStyle}"/>
+                        </Grid>
                     </Grid>
                 </controls:PivotItem>
 
@@ -68,7 +95,8 @@
                     <Grid x:Name="PhotoGrid" Grid.Row="1" Margin="0,0,0,0">
                         <ListBox Margin="0,0,0,0" 
                                  x:Name="List"
-                                 ItemsSource="{Binding Previews, Mode=TwoWay}">
+                                 ItemsSource="{Binding Previews, Mode=TwoWay}"
+                                 >
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <toolkit:WrapPanel ItemWidth="152" ItemHeight="152"/>
@@ -80,6 +108,13 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
+                        <Grid x:Name="NoSouhgtCacheMessage"
+                              Visibility="{Binding NoPhotosMessageVisibility}"
+                              Style="{StaticResource GridMessageStyle}">
+                            <TextBlock Text="{Binding Path=LocalizedResources.NoPhotosMessage, 
+                                       Source={StaticResource LocalizedStrings}}" 
+                                       Style="{StaticResource TextMessageStyle}"/>
+                        </Grid>
                     </Grid>
                 </controls:PivotItem>
             </controls:Pivot>
