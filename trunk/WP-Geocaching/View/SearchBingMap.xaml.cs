@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls.Maps;
 using System.Windows.Navigation;
 using Microsoft.Phone.Shell;
 using WP_Geocaching.Resources.Localization;
+using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.View
 {
@@ -42,13 +43,15 @@ namespace WP_Geocaching.View
             var showDetails = ((ICommand)pin.Tag);
             if (showDetails != null)
             {
-                showDetails.Execute(null);
+                showDetails.Execute(false);
             }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             SmoothCompassManager.Instance.AddSubscriber(searchBingMapViewModel);
+
+            
 
             if (e.NavigationMode == NavigationMode.New)
             {
@@ -133,7 +136,7 @@ namespace WP_Geocaching.View
 
         void ShowInfo(object sender, EventArgs e)
         {
-            NavigationManager.Instance.NavigateToInfoPivot(searchBingMapViewModel.SoughtCache.Id.ToString());
+            NavigationManager.Instance.NavigateToInfoPivot(searchBingMapViewModel.SoughtCache.Id.ToString(), false);
         }
 
         void CompassClick(object sender, EventArgs e)

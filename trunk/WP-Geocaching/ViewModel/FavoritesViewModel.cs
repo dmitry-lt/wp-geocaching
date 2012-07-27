@@ -76,7 +76,7 @@ namespace WP_Geocaching.ViewModel
 
         private void ShowDetails(string cacheId)
         {
-            NavigationManager.Instance.NavigateToInfoPivot(cacheId);
+            NavigationManager.Instance.NavigateToInfoPivot(cacheId, true);
         }
     }
 }
