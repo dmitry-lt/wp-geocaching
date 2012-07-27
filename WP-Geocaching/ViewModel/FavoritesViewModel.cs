@@ -70,7 +70,7 @@ namespace WP_Geocaching.ViewModel
             {
                 dataSource.Add(new ListCacheItem(c));
             }
-            dataSource.Sort((a, b) => b.DateAdded.CompareTo(a.DateAdded));
+            dataSource.Sort((a, b) => b.UpdateTime.CompareTo(a.UpdateTime));
             return dataSource;
         }
 
