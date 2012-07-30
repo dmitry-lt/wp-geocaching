@@ -1,12 +1,12 @@
 ﻿using System.Windows.Media;
 using System.ComponentModel;
+using System.Windows.Media.Imaging;
 
 namespace WP_Geocaching.Model
 {
     public class Photo : INotifyPropertyChanged
     {
         private ImageSource photoSource;
-        private int index;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -23,25 +23,37 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public int Index
-        {
-            get
-            {
-                return index;
-            }
-            set
-            {
-                index = value;
-                NotifyPropertyChanged("Index");
-            }
-        }
-
         private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public static implicit operator Photo(ImageSource source)
+        {
+            return new Photo {PhotoSource = source};
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof(Photo)) return false;
+            return Equals((Photo)obj);
+        }
+
+        public bool Equals(Photo other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.photoSource, photoSource);
+        }
+
+        public override int GetHashCode()
+        {
+            return (photoSource != null ? photoSource.GetHashCode() : 0);
         }
     }
 }

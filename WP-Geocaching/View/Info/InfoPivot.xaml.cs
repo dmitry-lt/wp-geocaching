@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Navigation;
@@ -150,8 +151,10 @@ namespace WP_Geocaching.View.Info
 
         private void ImageGotFocus(object sender, RoutedEventArgs e)
         {
-            var index = (int)(((Image)sender).Tag);
+            Photo photo = ((Image) sender).Source;
+            var index = infoPivotViewModel.Previews.IndexOf(photo);
             NavigationManager.Instance.NavigateToPhotoGallery(index);
+            
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

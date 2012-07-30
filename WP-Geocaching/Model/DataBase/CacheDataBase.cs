@@ -2,7 +2,6 @@
 using System.Data.Linq;
 using System.Linq;
 using System.Collections.Generic;
-using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.Model.DataBase
 {

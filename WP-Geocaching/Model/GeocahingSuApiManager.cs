@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -134,10 +135,20 @@ namespace WP_Geocaching.Model
 
         private List<String> photoUrls;
         private List<String> photoNames;
-        private List<ImageSource> images;
+        private ObservableCollection<Photo> images;
         private int cacheId;
 
-        public void ProcessPhotos(int cacheId, Action<List<string>> processAction)
+        public void LoadPhotos(int cacheId, Action<ObservableCollection<Photo>> processAction)
+        {
+            ProcessPhotos(cacheId, processAction, LoadAndProcessPhoto);
+        }
+
+        public void SavePhotos(int cacheId, Action<ObservableCollection<Photo>> processAction)
+        {
+            ProcessPhotos(cacheId, processAction, SaveAndProcessPhoto);
+        }
+
+        public void ProcessPhotos(int cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var db = new CacheDataBase();
             var helper = new FileStorageHelper();
@@ -149,15 +160,15 @@ namespace WP_Geocaching.Model
 
             if ((db.GetCache(cacheId) != null) && helper.IsPhotosExist(cacheId))
             {
-                ProcessPhotosFromIsolatedStorage(cacheId, processAction);
+                ProcessPhotosFromIsolatedStorage(cacheId, processAction, processIdentifier);
             }
             else
             {
-                ProcessPhotosFromWeb(cacheId, processAction);
+                ProcessPhotosFromWeb(cacheId, processAction, processIdentifier);
             }
-        }   
+        }
 
-        private void ProcessPhotosFromWeb(int cacheId, Action<List<string>> processAction)
+        private void ProcessPhotosFromWeb(int cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var webClient = new WebClient();
 
@@ -175,9 +186,21 @@ namespace WP_Geocaching.Model
                 ResetPhotoUrls(e.Result);
                 InitializeImages(photoUrls.Count);
 
-                if (processAction != null)
+                if (processAction == null)
                 {
-                    processAction(photoUrls);
+                    return;
+                }
+
+                processAction(images);
+
+                if (processIdentifier == null)
+                {
+                    return;
+                }
+
+                for (var i = 0; i < photoUrls.Count; i++)
+                {
+                    processIdentifier(photoUrls[i], i);
                 }
             };
 
@@ -186,7 +209,7 @@ namespace WP_Geocaching.Model
             webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cacheId), UriKind.Absolute));
         }
 
-        private void ProcessPhotosFromIsolatedStorage(int cacheId, Action<List<string>> processAction)
+        private void ProcessPhotosFromIsolatedStorage(int cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var helper = new FileStorageHelper();
 
@@ -197,9 +220,21 @@ namespace WP_Geocaching.Model
 
             InitializeImages(photoNames.Count);
 
-            if (processAction != null)
+            if (processAction == null)
             {
-                processAction(photoNames);
+                return;
+            }
+
+            processAction(images);
+
+            if (processIdentifier == null)
+            {
+                return;
+            }
+
+            for (var i = 0; i < photoNames.Count; i++)
+            {
+                processIdentifier(photoNames[i], i);
             }
         }
 
@@ -238,7 +273,7 @@ namespace WP_Geocaching.Model
                 return;
             }
 
-            images = new List<ImageSource>();
+            images = new ObservableCollection<Photo>();
 
             for (var i = 0; i < count; i++)
             {
@@ -246,7 +281,7 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public void SaveAndProcessPhoto(string photoIdentifier, Action<ImageSource, int> processAction, int index)
+        public void SaveAndProcessPhoto(string photoIdentifier, int index)
         {
             if (!IsUrl(photoIdentifier)) //parallel threads error
             {
@@ -280,20 +315,13 @@ namespace WP_Geocaching.Model
 
                     var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
                     helper.SavePhoto(cacheId, fileName, writableBitmap);
-                    ProcessPhoto(writableBitmap, processAction, index);
-
+                    images[index] = writableBitmap;
                 };
                 webClient.OpenReadAsync(photoUri);
             }
-            else
-            {
-                var image = (WriteableBitmap) images[index];
-                helper.SavePhoto(cacheId, fileName, image);
-                ProcessPhoto(image, processAction, index);
-            }
         }
 
-        public void LoadAndProcessPhoto(string photoIdentifier, Action<ImageSource, int> processAction, int index)
+        public void LoadAndProcessPhoto(string photoIdentifier, int index)
         {
             if (photoIdentifier == null) // theoretically impossible
             {
@@ -321,14 +349,14 @@ namespace WP_Geocaching.Model
                         helper.SavePhoto(cacheId, fileName, writableBitmap);
                     }
 
-                    ProcessPhoto(writableBitmap, processAction, index);
+                    images[index] = writableBitmap;
                 };
 
                 webClient.OpenReadAsync(photoUri);
             }
             else
             {
-                ProcessPhoto(helper.GetPhoto(cacheId, photoIdentifier), processAction, index);
+                images[index] = helper.GetPhoto(cacheId, photoIdentifier);
             }
         }
 
@@ -337,17 +365,15 @@ namespace WP_Geocaching.Model
             return data != null && data.Contains("http://");
         }
 
-        private void ProcessPhoto(ImageSource image, Action<ImageSource, int> processAction, int index)
+        private void AddPhotoToList(ImageSource image, Action<ImageSource, int> processAction, int index)
         {
             if (images[index] == null)
             {
                 images[index] = image;
             }
-
-            processAction(image, index);
         }
 
-        public void ProcessPhoto(Action<ImageSource> processAction, int index)
+        public void ProcessPhoto(Action<Photo> processAction, int index)
         {
             if (images == null)
             {
