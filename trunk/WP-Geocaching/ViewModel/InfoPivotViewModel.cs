@@ -26,11 +26,29 @@ namespace WP_Geocaching.ViewModel
 
         private Action afterDeleteAction;
         private bool isPivotEnabled = true;
+        public ObservableCollection<Photo> previews;
 
         public string Info { get; set; }
         public string Notebook { get; set; }
         public Cache Cache { get; set; }
-        public ObservableCollection<Photo> Previews { get; set; }
+
+        public ObservableCollection<Photo> Previews 
+        { 
+            get
+            {
+                return previews;
+            }
+
+            set 
+            { 
+                previews = value;
+                if (value.Count != 0)
+                {
+                    NoPhotosMessageVisibility = Visibility.Collapsed;
+                }
+                NotifyPropertyChanged("Previews");
+            }
+        }
 
         public Visibility NoPhotosMessageVisibility
         {
@@ -118,18 +136,9 @@ namespace WP_Geocaching.ViewModel
             this.afterDeleteAction = afterDeleteAction;
 
             Previews = new ObservableCollection<Photo>();
-            Previews.CollectionChanged += PreviewsCollectionChanged;
 
             deleteCommand = new ButtonCommand(Delete);
             cancelCommand = new ButtonCommand(Cancel);
-        }
-
-        private void PreviewsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems.Count != 0)
-            {
-                NoPhotosMessageVisibility = Visibility.Collapsed;
-            }
         }
 
         public void LoadNotebookPivotItem(WebBrowser notebookBrowser)
@@ -218,12 +227,12 @@ namespace WP_Geocaching.ViewModel
 
         public void LoadPreviews()
         {
-            GeocahingSuApiManager.Instance.ProcessPhotos(Cache.Id, LoadPhotos);
+            GeocahingSuApiManager.Instance.LoadPhotos(Cache.Id, LoadPhotos);
         }
 
         public void DownloadAndSavePhotos()
         {
-            GeocahingSuApiManager.Instance.ProcessPhotos(Cache.Id, SavePhotos);
+            GeocahingSuApiManager.Instance.SavePhotos(Cache.Id, SavePhotos);
         }
 
         public void DeletePhotos()
@@ -231,9 +240,9 @@ namespace WP_Geocaching.ViewModel
             GeocahingSuApiManager.Instance.DeletePhotos(Cache.Id);
         }
 
-        private void SavePhotos(List<string> uriList)
+        private void SavePhotos(ObservableCollection<Photo> photos)
         {
-            ProcessPhotos(uriList, GeocahingSuApiManager.Instance.SaveAndProcessPhoto);
+            ProcessPhotos(photos);
         }
 
         private void LoadAndSaveNotebook(string notebook)
@@ -276,51 +285,32 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public void LoadPhotos(List<string> uriList)
+        public void LoadPhotos(ObservableCollection<Photo> photos)
         {
-            ProcessPhotos(uriList, GeocahingSuApiManager.Instance.LoadAndProcessPhoto);
+            ProcessPhotos(photos);
         }
 
-        private void ProcessPhotos(List<string> uriList, Action<string, Action<ImageSource, int>, int> processPhotos)
+        private void ProcessPhotos(ObservableCollection<Photo> photos)
         {
             if (Previews == null)
             {
                 return;
             }
 
-            if (uriList == null)
+            if (photos == null)
             {
                 //todo save photos
                 return;
             }
 
-            if (uriList.Count == Previews.Count)
+            if (photos.Count == Previews.Count)
             {
-                //todo save potos
+                //todo save photos
             }
 
             if (Previews.Count == 0)
             {
-                FillPreviews(uriList.Count);
-            }
-
-            for (var i = 0; i < uriList.Count; i++)
-            {
-                processPhotos(uriList[i], AddPhotoToPreviews, i);
-            }
-        }
-
-        private void AddPhotoToPreviews(ImageSource photo, int index)
-        {
-            Previews[index].PhotoSource = photo;
-            Previews[index].Index = index;
-        }
-
-        private void FillPreviews(int count)
-        {
-            for (var i = 0; i < count; i++)
-            {
-                Previews.Add(new Photo());
+                Previews = photos;
             }
         }
 
@@ -339,5 +329,7 @@ namespace WP_Geocaching.ViewModel
             DeleteDialogVisibility = Visibility.Collapsed;
             IsPivotEnabled = true;
         }
+
+
     }
 }
