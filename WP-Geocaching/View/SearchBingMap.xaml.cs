@@ -55,7 +55,7 @@ namespace WP_Geocaching.View
 
             if (e.NavigationMode == NavigationMode.New)
             {
-                int cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
+                int cacheId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.Id.ToString()]);
                 searchBingMapViewModel.SoughtCache = GeocahingSuApiManager.Instance.GetCacheById(cacheId);
             }
 

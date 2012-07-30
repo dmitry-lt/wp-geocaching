@@ -1,12 +1,10 @@
-﻿using System.Windows;
-using Microsoft.Phone.Controls;
+﻿using Microsoft.Phone.Controls;
 using System.Device.Location;
 using System.Windows.Navigation;
 using System;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
-using System.Collections.Generic;
 
 namespace WP_Geocaching.View.Compass
 {
@@ -25,12 +23,12 @@ namespace WP_Geocaching.View.Compass
         {
             SmoothCompassManager.Instance.AddSubscriber(compassPageViewModal);
 
-            var currentId = Convert.ToInt32(NavigationContext.QueryString["CurrentId"]);
-            var checkpointId = Convert.ToInt32(NavigationContext.QueryString["CheckpointId"]);
+            var currentId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.Id.ToString()]);
+            var checkpointId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.CheckpointId.ToString()]);
 
-            if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
+            if (e.NavigationMode == NavigationMode.New)
             {
-                CacheDataBase db = new CacheDataBase();
+                var db = new CacheDataBase();
 
                 if (checkpointId != -1)
                 {

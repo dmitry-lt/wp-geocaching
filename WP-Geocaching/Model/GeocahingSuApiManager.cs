@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,7 +11,6 @@ using WP_Geocaching.Model.Utils;
 using WP_Geocaching.Model.DataBase;
 using System.Text.RegularExpressions;
 using Microsoft.Phone;
-using WP_Geocaching.Model;
 
 namespace WP_Geocaching.Model
 {
@@ -363,14 +361,6 @@ namespace WP_Geocaching.Model
         private bool IsUrl(string data)
         {
             return data != null && data.Contains("http://");
-        }
-
-        private void AddPhotoToList(ImageSource image, Action<ImageSource, int> processAction, int index)
-        {
-            if (images[index] == null)
-            {
-                images[index] = image;
-            }
         }
 
         public void ProcessPhoto(Action<Photo> processAction, int index)

@@ -6,17 +6,24 @@ namespace WP_Geocaching.Model
 {
     public class NavigationManager : INavigationManager
     {
+        public enum Params
+        {
+            Id = 0,
+            CheckpointId = 1,
+            IsAppBarEnabled = 2,
+            Index = 3
+        }
+
+        private static string OneParamsPattern = "{0}?{1}={2}";
+        private static string TwoParamsPattern = "{0}?{1}={2}&{3}={4}";
+
         private static NavigationManager instance;
 
         public static NavigationManager Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new NavigationManager();
-                }
-                return instance;
+                return instance ?? (instance = new NavigationManager());
             }
         }
 
@@ -24,43 +31,27 @@ namespace WP_Geocaching.Model
 
         private void Navigate(string uri)
         {
-            Navigate(uri, null);
-        }
-
-        private void Navigate(string uri, string currentId)
-        {
             var frame = Application.Current.RootVisual as PhoneApplicationFrame;
 
             if (frame == null)
             {
                 return;
             }
-            if (currentId == null)
-            {
-                frame.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
-            }
-            else
-            {
-                frame.Navigate(new Uri(uri + "?ID=" + currentId, UriKind.RelativeOrAbsolute));
-            }
-        }
 
-        private void Navigate(string uri, string currentId, string checkpointId)
-        {
-            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
-            frame.Navigate(new Uri(uri + "?CurrentId=" + currentId + "&CheckpointId=" + checkpointId, UriKind.RelativeOrAbsolute));
+            frame.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
         public void NavigateToInfoPivot(string currentId, bool isAppBarEnabled)
         {
-            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
-            frame.Navigate(new Uri("//View/Info/InfoPivot.xaml?ID=" + currentId + "&IsAppBarEnabled=" + isAppBarEnabled, UriKind.RelativeOrAbsolute));
+            Navigate(String.Format(TwoParamsPattern, "//View/Info/InfoPivot.xaml",
+                Params.Id, currentId,
+                Params.IsAppBarEnabled, isAppBarEnabled));
         }
 
         public void NavigateToSearchBingMap(string currentId)
         {
-            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
-            frame.Navigate(new Uri("//View/SearchBingMap.xaml?ID=" + currentId, UriKind.RelativeOrAbsolute));
+            Navigate(String.Format(OneParamsPattern, "//View/SearchBingMap.xaml",
+                Params.Id, currentId));
         }
 
         public void NavigateToCheckpoints()
@@ -73,25 +64,38 @@ namespace WP_Geocaching.Model
             Navigate("//View/Checkpoints/CreateCheckpoint.xaml");
         }
 
-        public void NavigateToNotebook(string CurrentId)
+        public void NavigateToNotebook(string currentId)
         {
-            Navigate("//View/Notebook.xaml", CurrentId);
+            Navigate(String.Format(OneParamsPattern, "//View/Info/PhotoGalleryPage.xaml",
+                Params.Id, currentId));
         }
 
         public void NavigateToCompass(string currentId, string checkpointId)
         {
-            Navigate("//View/Compass/CompassPage.xaml", currentId, checkpointId);
+            Navigate(String.Format(TwoParamsPattern, "//View/Compass/CompassPage.xaml",
+                Params.Id, currentId, 
+                Params.CheckpointId, checkpointId));
         }
 
         public void NavigateToPhotoGallery(int index)
         {
-            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
-            frame.Navigate(new Uri("//View/Info/PhotoGalleryPage.xaml" + "?Index=" + index, UriKind.RelativeOrAbsolute));
+            Navigate(String.Format(OneParamsPattern, "//View/Info/PhotoGalleryPage.xaml",
+                Params.Index, index));
         }
 
         public void  NavigateToSettings()
         {
             Navigate("//View/Settings/Settings.xaml");
+        }
+
+        public void NavigateToFavorites()
+        {
+            Navigate("/View/Favorites/FavoritesPage.xaml");
+        }
+
+        public void NavigateToBingMap()
+        {
+            Navigate("/View/BingMap.xaml");
         }
     }
 }

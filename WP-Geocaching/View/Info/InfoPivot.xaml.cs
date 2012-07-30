@@ -30,9 +30,9 @@ namespace WP_Geocaching.View.Info
         {
             if (e.NavigationMode == NavigationMode.New)
             {
-                var cacheId = Convert.ToInt32(NavigationContext.QueryString["ID"]);
+                var cacheId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.Id.ToString()]);
                 infoPivotViewModel.Cache = GeocahingSuApiManager.Instance.GetCacheById(cacheId);
-                var isAppBarEnabled = Convert.ToBoolean(NavigationContext.QueryString["IsAppBarEnabled"]);
+                var isAppBarEnabled = Convert.ToBoolean(NavigationContext.QueryString[NavigationManager.Params.IsAppBarEnabled.ToString()]);
                 ApplicationBar.IsVisible = isAppBarEnabled;
                 if (ApplicationBar.IsVisible)
                 {
