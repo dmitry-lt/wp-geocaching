@@ -16,12 +16,12 @@ namespace WP_Geocaching
 
         private void ChooseCacheClick(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/View/BingMap.xaml", UriKind.Relative));
+            NavigationManager.Instance.NavigateToBingMap();
         }
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/View/Settings/Settings.xaml", UriKind.Relative));
+            NavigationManager.Instance.NavigateToSettings();
         }
 
         private void FavoritesClick(object sender, RoutedEventArgs e)
@@ -31,7 +31,7 @@ namespace WP_Geocaching
 
             if (dbCacheList.Count > 0)
             {
-                NavigationService.Navigate(new Uri("/View/Favorites/FavoritesPage.xaml", UriKind.Relative));
+                NavigationManager.Instance.NavigateToFavorites();
             }
             else
             {

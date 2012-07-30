@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using Microsoft.Phone.Controls;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
@@ -187,7 +184,7 @@ namespace WP_Geocaching.ViewModel
         {
             var db = new CacheDataBase();
             var item = db.GetCache(Cache.Id);
-            this.infoBrowser = detailsBrowser;
+            infoBrowser = detailsBrowser;
 
             if ((item != null) && (item.Details != null))
             {

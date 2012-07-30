@@ -25,7 +25,7 @@ namespace WP_Geocaching.View.Info
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            int index = Convert.ToInt16(NavigationContext.QueryString["Index"]);
+            int index = Convert.ToInt16(NavigationContext.QueryString[NavigationManager.Params.Index.ToString()]);
             photoGalleryPageViewModel.LoadFullsizePhoto(index);
             base.OnNavigatedTo(e);
         }
