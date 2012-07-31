@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
-using WP_Geocaching.Model.DataBase;
+using System.Linq;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.DataBase;
+using WP_Geocaching.Model.Dialogs;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -8,27 +10,22 @@ namespace WP_Geocaching.ViewModel
     {
         private int cacheId;
         private ListCacheItem selectedCheckpoint;
+        private ChooseOrDeleteDialog chooseOrDeleteDialog;
         private List<ListCacheItem> dataSource;
-        private string dialogVisibility;
-        private bool isListEnabled;
-        private ChooseoOrDeleteDialogViewModel dialogContent;
 
         public List<ListCacheItem> DataSource
         {
             get
             {
-                return this.dataSource;
+                return dataSource;
             }
             private set
             {
-                bool changed = dataSource != value;
-                if (changed)
-                {
-                    dataSource = value;
-                    NotifyPropertyChanged("DataSource");
-                }
+                dataSource = value;
+                NotifyPropertyChanged("DataSource");
             }
         }
+
         public ListCacheItem SelectedCheckpoint
         {
             get { return selectedCheckpoint; }
@@ -37,83 +34,36 @@ namespace WP_Geocaching.ViewModel
                 selectedCheckpoint = value;
                 if (value != null)
                 {
-                    ShowMakeActiveorDeleteDialogDialog();
-                }
-            }
-        }
-        public string DialogVisibility
-        {
-            get { return dialogVisibility; }
-            set
-            {
-                bool changed = dialogVisibility != value;
-                if (changed)
-                {
-                    dialogVisibility = value;
-                    NotifyPropertyChanged("DialogVisibility");
-                }
-            }
-        }
-        public bool IsListEnabled
-        {
-            get { return isListEnabled; }
-            set
-            {
-                bool changed = isListEnabled != value;
-                if (changed)
-                {
-                    isListEnabled = value;
-                    NotifyPropertyChanged("IsListEnabled");
-                }
-            }
-        }
-        public ChooseoOrDeleteDialogViewModel DialogContent
-        {
-            get { return dialogContent; }
-            set
-            {
-                bool changed = dialogContent != value;
-                if (changed)
-                {
-                    dialogContent = value;
-                    NotifyPropertyChanged("DialogContent");
+                    ShowMakeActiveOrDeleteDialogDialog();
                 }
             }
         }
 
         public CheckpointsViewModel()
         {
-            DialogVisibility = "Collapsed";
-            IsListEnabled = true;
             cacheId = MapManager.Instance.CacheId;
+            chooseOrDeleteDialog = new ChooseOrDeleteDialog(cacheId, CloseMakeActiveOrDeleteDialogDialog);
             UpdateDataSource();
         }
 
         public void UpdateDataSource()
         {
-            CacheDataBase db = new CacheDataBase();
-            List<DbCheckpointsItem> dbCheckpointsList = db.GetCheckpointsByCacheId(cacheId);
-            List<ListCacheItem> newDataSource = new List<ListCacheItem>();
+            var db = new CacheDataBase();
+            var dbCheckpointsList = db.GetCheckpointsByCacheId(cacheId);
+            var newDataSource = new List<ListCacheItem>();
             newDataSource.Add(new ListCacheItem(db.GetCache(cacheId)));
-            foreach (DbCheckpointsItem c in dbCheckpointsList)
-            {
-                newDataSource.Add(new ListCacheItem(c));
-            }
-            this.DataSource = newDataSource;
+            newDataSource.AddRange(dbCheckpointsList.Select(c => new ListCacheItem(c)));
+            DataSource = newDataSource;
         }
 
-        public void CloseMakeActiveorDeleteDialogDialog()
+        public void CloseMakeActiveOrDeleteDialogDialog()
         {
-            DialogVisibility = "Collapsed";
-            IsListEnabled = true;
             UpdateDataSource();
         }
 
-        private void ShowMakeActiveorDeleteDialogDialog()
+        private void ShowMakeActiveOrDeleteDialogDialog()
         {
-            DialogVisibility = "Visible";
-            DialogContent = new ChooseoOrDeleteDialogViewModel(cacheId, SelectedCheckpoint, CloseMakeActiveorDeleteDialogDialog);
-            IsListEnabled = false;
+            chooseOrDeleteDialog.ShowMessage(SelectedCheckpoint);
         }
     }
 }

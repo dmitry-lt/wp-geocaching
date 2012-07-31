@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:item="clr-namespace:WP_Geocaching.View.Checkpoints"
@@ -39,7 +40,6 @@
                      ItemsSource="{Binding DataSource}"
                      SelectionMode="Single"
                      SelectedItem ="{Binding SelectedCheckpoint, Mode=TwoWay}"
-                     IsEnabled="{Binding IsListEnabled}"
                      >
                 <ListBox.ItemTemplate>
                     <DataTemplate x:Name="ItemTemplate">
@@ -47,9 +47,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <item:ChooseOrDeleteDialogView Visibility="{Binding DialogVisibility}" 
-                                           VerticalAlignment="Center" 
-                                           HorizontalAlignment="Center" />
         </Grid>
     </Grid>
 
