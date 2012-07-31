@@ -5,6 +5,7 @@ using Microsoft.Phone.Controls;
 using System.Collections.ObjectModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
+using WP_Geocaching.Model.Dialogs;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -16,14 +17,10 @@ namespace WP_Geocaching.ViewModel
         private Visibility noPhotosMessageVisibility = Visibility.Visible;
         private Visibility noNotebookMessageVisibility = Visibility.Visible;
         private Visibility noInfoMessageVisibility = Visibility.Visible;
-        private Visibility deleteDialogVisibility = Visibility.Collapsed;
 
-        private ICommand deleteCommand;
-        private ICommand cancelCommand;
-
-        private Action afterDeleteAction;
-        private bool isPivotEnabled = true;
-        public ObservableCollection<Photo> previews;
+        private ObservableCollection<Photo> previews;
+        private Action closeAction;
+        private ConfirmDeleteDialog confirmDeleteDialog;
 
         public string Info { get; set; }
         public string Notebook { get; set; }
@@ -86,56 +83,11 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public Visibility DeleteDialogVisibility
+        public InfoPivotViewModel(Action closeAction)
         {
-            get
-            {
-                return deleteDialogVisibility;
-            }
-            set
-            {
-                deleteDialogVisibility = value;
-                NotifyPropertyChanged("DeleteDialogVisibility");
-            }
-        }
-
-        public ICommand DeleteCommand
-        {
-            get
-            {
-                return deleteCommand;
-            }
-        }
-
-        public ICommand CancelCommand
-        {
-            get
-            {
-                return cancelCommand;
-            }
-        }
-
-        public bool IsPivotEnabled
-        {
-            get
-            {
-                return isPivotEnabled;
-            }
-            set
-            {
-                isPivotEnabled = value;
-                NotifyPropertyChanged("IsPivotEnabled");
-            }
-        }
-
-        public InfoPivotViewModel(Action afterDeleteAction)
-        {
-            this.afterDeleteAction = afterDeleteAction;
+            this.closeAction = closeAction;
 
             Previews = new ObservableCollection<Photo>();
-
-            deleteCommand = new ButtonCommand(Delete);
-            cancelCommand = new ButtonCommand(Cancel);
         }
 
         public void LoadNotebookPivotItem(WebBrowser notebookBrowser)
@@ -232,11 +184,6 @@ namespace WP_Geocaching.ViewModel
             GeocahingSuApiManager.Instance.SavePhotos(Cache.Id, SavePhotos);
         }
 
-        public void DeletePhotos()
-        {
-            GeocahingSuApiManager.Instance.DeletePhotos(Cache.Id);
-        }
-
         private void SavePhotos(ObservableCollection<Photo> photos)
         {
             ProcessPhotos(photos);
@@ -311,22 +258,13 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public void Delete(object p)
+        public void ShowConfirmDeleteDialog()
         {
-            var db = new CacheDataBase();
-            db.DeleteCache(Cache.Id);
-            DeletePhotos();
-            afterDeleteAction();
-            DeleteDialogVisibility = Visibility.Collapsed;
-            IsPivotEnabled = true;
+            if (confirmDeleteDialog == null)
+            {
+                confirmDeleteDialog = new ConfirmDeleteDialog(Cache, closeAction);
+            }
+            confirmDeleteDialog.Show();
         }
-
-        public void Cancel(object p)
-        {
-            DeleteDialogVisibility = Visibility.Collapsed;
-            IsPivotEnabled = true;
-        }
-
-
     }
 }

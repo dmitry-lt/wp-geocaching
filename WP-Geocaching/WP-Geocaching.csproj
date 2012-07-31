@@ -93,6 +93,7 @@
     <Compile Include="Model\ButtonCommand.cs" />
     <Compile Include="Model\Dialogs\AbstractDialog.cs" />
     <Compile Include="Model\Dialogs\ChooseOrDeleteDialog.cs" />
+    <Compile Include="Model\Dialogs\ConfirmDeleteDialog.cs" />
     <Compile Include="Model\HashSet.cs" />
     <Compile Include="Model\INavigationManager.cs" />
     <Compile Include="Model\LogManager.cs" />
@@ -181,9 +182,6 @@
     <Compile Include="View\Favorites\FavoritesPage.xaml.cs">
       <DependentUpon>FavoritesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Info\DeleteDialog.xaml.cs">
-      <DependentUpon>DeleteDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Info\InfoPivot.xaml.cs">
       <DependentUpon>InfoPivot.xaml</DependentUpon>
     </Compile>
@@ -245,10 +243,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Favorites\FavoritesPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Info\DeleteDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

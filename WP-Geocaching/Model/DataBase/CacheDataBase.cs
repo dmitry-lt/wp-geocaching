@@ -145,6 +145,13 @@ namespace WP_Geocaching.Model.DataBase
                 db.Caches.DeleteOnSubmit(itemForDeleting);
                 db.SubmitChanges();
             }
+
+            DeletePhotos(id);
+        }
+
+        public void DeletePhotos(int cacheId)
+        {
+            GeocahingSuApiManager.Instance.DeletePhotos(cacheId);
         }
 
         public List<DbCacheItem> GetCacheList()

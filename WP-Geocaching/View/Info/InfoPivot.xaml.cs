@@ -21,7 +21,7 @@ namespace WP_Geocaching.View.Info
         public InfoPivot()
         {
             InitializeComponent();
-            infoPivotViewModel = new InfoPivotViewModel(GetAddButton);
+            infoPivotViewModel = new InfoPivotViewModel(UpdateFavoriteButton);
             DataContext = infoPivotViewModel;
             db = new CacheDataBase();
         }
@@ -145,37 +145,14 @@ namespace WP_Geocaching.View.Info
 
         private void DeleteButtonClick(object sender, EventArgs e)
         {
-            infoPivotViewModel.DeleteDialogVisibility = Visibility.Visible;
-            infoPivotViewModel.IsPivotEnabled = false;
+            infoPivotViewModel.ShowConfirmDeleteDialog();
         }
 
         private void ImageGotFocus(object sender, RoutedEventArgs e)
         {
             Photo photo = ((Image) sender).Source;
             var index = infoPivotViewModel.Previews.IndexOf(photo);
-            NavigationManager.Instance.NavigateToPhotoGallery(index);
-            
+            NavigationManager.Instance.NavigateToPhotoGallery(index);   
         }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            infoPivotViewModel.DeleteDialogVisibility = Visibility.Collapsed;
-            infoPivotViewModel.IsPivotEnabled = true;
-            base.OnNavigatedFrom(e);
-        }
-
-        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
-        {
-            if (infoPivotViewModel.DeleteDialogVisibility == Visibility.Visible)
-            {
-                infoPivotViewModel.DeleteDialogVisibility = Visibility.Collapsed;
-                infoPivotViewModel.IsPivotEnabled = true;
-                e.Cancel = true;
-            } 
-            else
-            {
-                base.OnBackKeyPress(e);
-            }
-        }   
     }
 }
