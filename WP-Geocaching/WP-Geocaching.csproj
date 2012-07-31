@@ -149,6 +149,8 @@
     <Compile Include="ViewModel\InfoPivotViewModel.cs" />
     <Compile Include="ViewModel\ListCacheItem.cs" />
     <Compile Include="ViewModel\FavoritesViewModel.cs" />
+    <Compile Include="ViewModel\MainPageViewModel\MainPageViewModel.cs" />
+    <Compile Include="ViewModel\MainPageViewModel\TileSource.cs" />
     <Compile Include="ViewModel\MinCoordinateViewModel.cs" />
     <Compile Include="ViewModel\PhotoGalleryPageViewModel.cs" />
     <Compile Include="ViewModel\SearchBingMapViewModel.cs" />
@@ -319,20 +321,20 @@
     <Content Include="Resources\Images\appbar.favs.deletefrom.rest.png" />
     <Content Include="Resources\Images\appbar.refresh.rest.png" />
     <Content Include="Resources\Images\appbar.save.rest.png" />
-    <Resource Include="Resources\Images\choose_cache_menu_icon.png" />
-    <Resource Include="Resources\Images\compass_menu_icon.png" />
+    <Content Include="Resources\Images\choose_cache_menu_icon.png" />
+    <Content Include="Resources\Images\compass_menu_icon.png" />
     <Resource Include="Resources\Images\application_logo_big_white.png" />
     <Resource Include="Resources\Images\application_logo_small_white.png" />
     <Resource Include="Resources\Images\compass_rose_black.png" />
     <Resource Include="Resources\Images\compass_rose_white.png" />
     <Content Include="Resources\Images\appbar.feature.search.rest.png" />
-    <Resource Include="Resources\Images\favorites_menu_icon.png" />
+    <Content Include="Resources\Images\favorites_menu_icon.png" />
     <Resource Include="Resources\Images\search_map_menu_icon.png" />
     <Content Include="Resources\Images\appbar.compass.png" />
     <Content Include="Resources\Images\appbar.info.png" />
     <Resource Include="Resources\Images\compass_needle.png" />
     <Content Include="Resources\Images\my.location.png" />
-    <Resource Include="Resources\Images\settings_menu_icon.png" />
+    <Content Include="Resources\Images\settings_menu_icon.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
