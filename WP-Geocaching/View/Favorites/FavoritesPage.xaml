@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:item="clr-namespace:WP_Geocaching.View.Favorites"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -40,6 +41,7 @@
                      ItemsSource="{Binding DataSource, Mode=TwoWay}"
                      SelectionMode="Single"
                      SelectedItem ="{Binding SelectedCache, Mode=TwoWay}"
+                     toolkit:TiltEffect.IsTiltEnabled="True"
                      >
                 <ListBox.ItemTemplate>
                     <DataTemplate x:Name="ItemTemplate">

@@ -95,6 +95,7 @@
                         <ListBox Margin="0,0,0,0" 
                                  x:Name="List"
                                  ItemsSource="{Binding Previews, Mode=TwoWay}"
+                                 toolkit:TiltEffect.IsTiltEnabled="True"
                                  >
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -103,7 +104,12 @@
                             </ListBox.ItemsPanel>
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:Name="ItemTemplate">
-                                    <Image Source="{Binding PhotoSource}" HorizontalAlignment="Center" Grid.Column="0" Tap="ImageGotFocus" Height="120" Width="120"/>
+                                    <Image Source="{Binding PhotoSource}" 
+                                           HorizontalAlignment="Center" 
+                                           Grid.Column="0" 
+                                           Tap="ImageGotFocus"
+                                           Height="120" 
+                                           Width="120"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
