@@ -19,11 +19,10 @@ namespace WP_Geocaching.Model.Dialogs
         public ChooseOrDeleteDialog(int cacheId, Action closeAction)
         {
             this.cacheId = cacheId;
-            this.closeAction = closeAction;
-            
+            this.closeAction = closeAction;          
         }
 
-        public void ShowMessage(ListCacheItem selectedItem)
+        public void Show(ListCacheItem selectedItem)
         {
             if (CommandDistionary == null)
             {
@@ -34,7 +33,7 @@ namespace WP_Geocaching.Model.Dialogs
             ShowDialog(item.Name, GetResultMessage(), GetResultButtons());
         }
 
-        private string GetResultMessage()
+        protected override string GetResultMessage()
         {
             var resultMessage = String.Format(Message,
                                               AppResources.Subtype,
@@ -46,7 +45,7 @@ namespace WP_Geocaching.Model.Dialogs
             return resultMessage;
         }
 
-        private List<string> GetResultButtons()
+        protected override List<string> GetResultButtons()
         {
             return CommandDistionary.Keys.Where(p => item.Type == (int) Cache.Types.Checkpoint ||
                 p != AppResources.Delete).ToList();
@@ -57,12 +56,12 @@ namespace WP_Geocaching.Model.Dialogs
         {
             CommandDistionary = new Dictionary<string, ButtonCommand>
                                     {
-                                        {AppResources.Delete, new ButtonCommand(DeletefromBd)},
+                                        {AppResources.Delete, new ButtonCommand(DeleteFromBd)},
                                         {AppResources.Choose, new ButtonCommand(MakeActive)}
                                     };
         }
 
-        private void DeletefromBd(object p)
+        private void DeleteFromBd(object p)
         {
             var db = new CacheDataBase();
             db.DeleteCheckpoint(cacheId, item.Id);

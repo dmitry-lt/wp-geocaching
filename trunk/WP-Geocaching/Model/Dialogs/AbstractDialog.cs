@@ -34,12 +34,14 @@ namespace WP_Geocaching.Model.Dialogs
 
                         CommandDistionary.TryGetValue(buttonKeys[result.Value], out command);
                         
-                    }, null);
-
-            
+                    }, null);     
         }
 
         protected abstract void FillDictionary();
+
+        protected abstract string GetResultMessage();
+
+        protected abstract List<string> GetResultButtons();
 
         private void TimerTick(object sender, EventArgs e)
         {

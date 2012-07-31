@@ -63,7 +63,7 @@ namespace WP_Geocaching.ViewModel
 
         private void ShowMakeActiveOrDeleteDialogDialog()
         {
-            chooseOrDeleteDialog.ShowMessage(SelectedCheckpoint);
+            chooseOrDeleteDialog.Show(SelectedCheckpoint);
         }
     }
 }
