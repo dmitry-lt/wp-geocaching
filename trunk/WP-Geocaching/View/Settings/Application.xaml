@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+             xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+             mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -20,11 +21,13 @@
                 <RadioButton Content="{Binding Path=LocalizedResources.AerialModeSettings, 
                              Source={StaticResource LocalizedStrings}}" GroupName="MapMode"  FontSize="22"
                              Command="{Binding ChooseAerialModeCommand}"
-                             IsChecked="{Binding IsAerialChecked}"/>
+                             IsChecked="{Binding IsAerialChecked}"
+                             toolkit:TiltEffect.IsTiltEnabled="True"/>
                 <RadioButton Content="{Binding Path=LocalizedResources.RoadModeSettings, 
                              Source={StaticResource LocalizedStrings}}" GroupName="MapMode"  FontSize="22"
                              Command="{Binding ChooseRoadModeCommand}"
-                             IsChecked="{Binding IsRoadChecked}"/>
+                             IsChecked="{Binding IsRoadChecked}"
+                             toolkit:TiltEffect.IsTiltEnabled="True"/>
             </StackPanel>
         </StackPanel>
     </Grid>
