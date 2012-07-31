@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Windows.Data;
 using WP_Geocaching.Resources.Localization;
-using System.Device.Location;
 
 namespace WP_Geocaching.Model.Converters
 {
@@ -23,11 +13,11 @@ namespace WP_Geocaching.Model.Converters
                 return null;
             }
 
-            double longitude = (double)value;
+            var longitude = (double)value;
 
-            string directionLongitude = longitude > 0 ? AppResources.EastLongitude : AppResources.WestLongitude;
-            int degreeLongitude = Math.Abs((int)longitude);
-            double minuteLongitude = Math.Abs(longitude - (int)longitude) * 60;
+            var directionLongitude = longitude > 0 ? AppResources.EastLongitude : AppResources.WestLongitude;
+            var degreeLongitude = Math.Abs((int)longitude);
+            var minuteLongitude = Math.Abs(longitude - (int)longitude) * 60;
 
             return String.Format(AppResources.LongitudeFormat, degreeLongitude, minuteLongitude, directionLongitude);
         }
