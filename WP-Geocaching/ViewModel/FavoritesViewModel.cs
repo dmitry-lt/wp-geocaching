@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model;
 
@@ -50,13 +51,9 @@ namespace WP_Geocaching.ViewModel
 
         private List<ListCacheItem> GetDataSource()
         {
-            CacheDataBase db = new CacheDataBase();
-            List<DbCacheItem> dbCacheList = db.GetCacheList();
-            List<ListCacheItem> dataSource = new List<ListCacheItem>();
-            foreach (DbCacheItem c in dbCacheList)
-            {
-                dataSource.Add(new ListCacheItem(c));
-            }
+            var db = new CacheDataBase();
+            var dbCacheList = db.GetCacheList();
+            var dataSource = dbCacheList.Select(c => new ListCacheItem(c)).ToList();
             dataSource.Sort((a, b) => b.UpdateTime.CompareTo(a.UpdateTime));
             return dataSource;
         }
