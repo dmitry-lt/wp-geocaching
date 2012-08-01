@@ -14,7 +14,7 @@ namespace WP_Geocaching.View.Checkpoints
         public Checkpoints()
         {
             InitializeComponent();
-            checkpointsViewModel = new CheckpointsViewModel();
+            checkpointsViewModel = new CheckpointsViewModel(Dispatcher);
             DataContext = checkpointsViewModel;
             SetAddCheckpointButton();
         }
@@ -26,11 +26,11 @@ namespace WP_Geocaching.View.Checkpoints
                                  IconUri = new Uri("Resources/Images/appbar.add.checkpoint.png", UriKind.Relative),
                                  Text = AppResources.AddCheckpointButton
                              };
-            button.Click += AddCheckpoint_Click;
+            button.Click += (sender, e) => AddCheckpointClick(sender, e);
             ApplicationBar.Buttons.Add(button);
         }
 
-        private void AddCheckpoint_Click(object sender, EventArgs e)
+        private void AddCheckpointClick(object sender, EventArgs e)
         {
             NavigationManager.Instance.NavigateToCreateCheckpoint();
         }

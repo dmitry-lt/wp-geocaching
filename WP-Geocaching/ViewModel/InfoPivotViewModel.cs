@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Microsoft.Phone.Controls;
 using System.Collections.ObjectModel;
 using WP_Geocaching.Model;
@@ -258,11 +259,11 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public void ShowConfirmDeleteDialog()
+        public void ShowConfirmDeleteDialog(Dispatcher dispatcher)
         {
             if (confirmDeleteDialog == null)
             {
-                confirmDeleteDialog = new ConfirmDeleteDialog(Cache, closeAction);
+                confirmDeleteDialog = new ConfirmDeleteDialog(Cache, closeAction, dispatcher);
             }
             confirmDeleteDialog.Show();
         }

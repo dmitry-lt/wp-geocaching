@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Threading;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model.Dialogs;
@@ -12,6 +13,7 @@ namespace WP_Geocaching.ViewModel
         private ListCacheItem selectedCheckpoint;
         private ChooseOrDeleteDialog chooseOrDeleteDialog;
         private List<ListCacheItem> dataSource;
+        private Dispatcher dispatcher;
 
         public List<ListCacheItem> DataSource
         {
@@ -39,10 +41,11 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public CheckpointsViewModel()
+        public CheckpointsViewModel(Dispatcher dispatcher)
         {
+            this.dispatcher = dispatcher;
             cacheId = MapManager.Instance.CacheId;
-            chooseOrDeleteDialog = new ChooseOrDeleteDialog(cacheId, CloseMakeActiveOrDeleteDialogDialog);
+            chooseOrDeleteDialog = new ChooseOrDeleteDialog(cacheId, CloseMakeActiveOrDeleteDialogDialog, dispatcher);
             UpdateDataSource();
         }
 

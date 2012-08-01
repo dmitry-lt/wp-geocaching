@@ -27,6 +27,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate>
+                            
                             <ContentPresenter Width="48">
                                 <ContentPresenter.RenderTransform>
                                     <CompositeTransform TranslateX="-24"
