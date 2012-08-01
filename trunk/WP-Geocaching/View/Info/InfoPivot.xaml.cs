@@ -145,7 +145,7 @@ namespace WP_Geocaching.View.Info
 
         private void DeleteButtonClick(object sender, EventArgs e)
         {
-            infoPivotViewModel.ShowConfirmDeleteDialog();
+            infoPivotViewModel.ShowConfirmDeleteDialog(Dispatcher);
         }
 
         private void ImageGotFocus(object sender, RoutedEventArgs e)

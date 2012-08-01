@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Threading;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Resources.Localization;
 
@@ -10,11 +11,14 @@ namespace WP_Geocaching.Model.Dialogs
     {
         private Action closeAction;
         private Cache cache;
+        private Dispatcher dispatcher;
 
-        public ConfirmDeleteDialog(Cache cache, Action closeAction)
+
+        public ConfirmDeleteDialog(Cache cache, Action closeAction, Dispatcher dispatcher)
         {
             this.cache = cache;
             this.closeAction = closeAction;
+            this.dispatcher = dispatcher;
         }
 
         public void Show()
@@ -39,21 +43,24 @@ namespace WP_Geocaching.Model.Dialogs
 
         protected override void FillDictionary()
         {
-            CommandDistionary = new Dictionary<string, ButtonCommand>
+            CommandDistionary = new Dictionary<string, Action>
                                     {
-                                        {AppResources.Delete, new ButtonCommand(Delete)},
-                                        {AppResources.Cancel, new ButtonCommand(Cancel)}
+                                        {AppResources.Delete, Delete},
+                                        {AppResources.Cancel, Cancel}
                                     };
         }
 
-        private void Delete(object p)
+        private void Delete()
         {
-            var db = new CacheDataBase();
-            db.DeleteCache(cache.Id);
-            closeAction();
+            dispatcher.BeginInvoke(() =>
+                                        {
+                                            var db = new CacheDataBase();
+                                            db.DeleteCache(cache.Id);
+                                            closeAction();
+                                        });
         }
 
-        private void Cancel(object p)
+        private void Cancel()
         {
         }
     }

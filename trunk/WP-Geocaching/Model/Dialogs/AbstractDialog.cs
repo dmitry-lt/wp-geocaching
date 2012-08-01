@@ -7,22 +7,10 @@ namespace WP_Geocaching.Model.Dialogs
 {
     public abstract class AbstractDialog
     {
-        private DispatcherTimer timer;
-        private ButtonCommand command;
-
-        protected Dictionary<string, ButtonCommand> CommandDistionary;
+        protected Dictionary<string, Action> CommandDistionary;
 
         protected void ShowDialog(string messageTitle, string message, List<string> buttonKeys)
         {
-            command = null;
-
-            timer = new DispatcherTimer
-                        {
-                            Interval = TimeSpan.FromMilliseconds(10)
-                        };
-            timer.Tick += TimerTick;
-            timer.Start();
-
             Guide.BeginShowMessageBox(messageTitle, message, buttonKeys, 0, MessageBoxIcon.Error,
                 asyncResult =>
                     {
@@ -32,8 +20,12 @@ namespace WP_Geocaching.Model.Dialogs
                             return;
                         }
 
-                        CommandDistionary.TryGetValue(buttonKeys[result.Value], out command);
-                        
+                        Action action;
+
+                        CommandDistionary.TryGetValue(buttonKeys[result.Value], out action);
+
+                        action.Invoke();
+
                     }, null);     
         }
 
@@ -42,16 +34,5 @@ namespace WP_Geocaching.Model.Dialogs
         protected abstract string GetResultMessage();
 
         protected abstract List<string> GetResultButtons();
-
-        private void TimerTick(object sender, EventArgs e)
-        {
-            if (command == null)
-            {
-                return;
-            }
-
-            command.Execute(null);
-            timer.Stop();
-        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Threading;
 using WP_Geocaching.Model.Converters;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Resources.Localization;
@@ -15,11 +16,13 @@ namespace WP_Geocaching.Model.Dialogs
         private ListCacheItem item;
         private readonly int cacheId;
         private readonly Action closeAction;
+        private Dispatcher dispatcher;
 
-        public ChooseOrDeleteDialog(int cacheId, Action closeAction)
+        public ChooseOrDeleteDialog(int cacheId, Action closeAction, Dispatcher dispatcher)
         {
             this.cacheId = cacheId;
-            this.closeAction = closeAction;          
+            this.closeAction = closeAction;
+            this.dispatcher = dispatcher;
         }
 
         public void Show(ListCacheItem selectedItem)
@@ -47,39 +50,45 @@ namespace WP_Geocaching.Model.Dialogs
 
         protected override List<string> GetResultButtons()
         {
-            return CommandDistionary.Keys.Where(p => item.Type == (int) Cache.Types.Checkpoint ||
+            return CommandDistionary.Keys.Where(p => item.Type == (int)Cache.Types.Checkpoint ||
                 p != AppResources.Delete).ToList();
         }
 
 
         protected override void FillDictionary()
         {
-            CommandDistionary = new Dictionary<string, ButtonCommand>
+            CommandDistionary = new Dictionary<string, Action>
                                     {
-                                        {AppResources.Delete, new ButtonCommand(DeleteFromBd)},
-                                        {AppResources.Choose, new ButtonCommand(MakeActive)}
+                                        {AppResources.Delete, DeleteFromBd},
+                                        {AppResources.Choose, MakeActive}
                                     };
         }
 
-        private void DeleteFromBd(object p)
+        private void DeleteFromBd()
         {
-            var db = new CacheDataBase();
-            db.DeleteCheckpoint(cacheId, item.Id);
-            closeAction();
+            dispatcher.BeginInvoke(() =>
+                                         {
+                                             var db = new CacheDataBase();
+                                             db.DeleteCheckpoint(cacheId, item.Id);
+                                             closeAction();
+                                         });
         }
 
-        private void MakeActive(object p)
+        private void MakeActive()
         {
-            var db = new CacheDataBase();
-            if (item.Type != (int)Cache.Types.Checkpoint)
-            {
-                db.MakeCacheActive(item.Id);
-            }
-            else
-            {
-                db.MakeCheckpointActive(cacheId, item.Id);
-            }
-            closeAction();
+            dispatcher.BeginInvoke(() =>
+                                        {
+                                            var db = new CacheDataBase();
+                                            if (item.Type != (int)Cache.Types.Checkpoint)
+                                            {
+                                                db.MakeCacheActive(item.Id);
+                                            }
+                                            else
+                                            {
+                                                db.MakeCheckpointActive(cacheId, item.Id);
+                                            }
+                                            closeAction();
+                                        });
         }
     }
 }
