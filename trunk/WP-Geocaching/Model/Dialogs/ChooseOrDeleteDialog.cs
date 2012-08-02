@@ -11,7 +11,7 @@ namespace WP_Geocaching.Model.Dialogs
 {
     public class ChooseOrDeleteDialog : AbstractDialog
     {
-        private const string Message = "{0}\t{1}\v{2}\t{3}\v{4}\t{5}";
+        private const string Message = "{0} {1}\n{2} {3}\n{4} {5}";
 
         private ListCacheItem item;
         private readonly int cacheId;
