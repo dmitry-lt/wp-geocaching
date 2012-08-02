@@ -11,10 +11,18 @@
     d:DesignHeight="480" d:DesignWidth="480">
 
     <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <Style x:Name="HeaderTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="35"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            </Style>
+        </Grid.Resources>
+        
 
         <StackPanel Orientation="Vertical">
             <TextBlock Text="{Binding Path=LocalizedResources.MapSettings, 
-                Source={StaticResource LocalizedStrings}}" FontSize="35" HorizontalAlignment="Left"/>
+                Source={StaticResource LocalizedStrings}}"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Path=LocalizedResources.MapModeSettings, 
                 Source={StaticResource LocalizedStrings}}" Width="120" FontSize="22" VerticalAlignment="Center"/>
@@ -29,6 +37,16 @@
                              IsChecked="{Binding IsRoadChecked}"
                              toolkit:TiltEffect.IsTiltEnabled="True"/>
             </StackPanel>
+
+            <TextBlock Text="{Binding Path=LocalizedResources.Services, 
+                Source={StaticResource LocalizedStrings}}"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            
+            <CheckBox Content="{Binding Path=LocalizedResources.Location, 
+                Source={StaticResource LocalizedStrings}}" 
+                      FontSize="22" 
+                      HorizontalAlignment="Left"
+                      IsChecked="{Binding IsLocationEnabled, Mode=TwoWay}"/>
         </StackPanel>
     </Grid>
 </UserControl>

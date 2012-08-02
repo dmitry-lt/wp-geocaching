@@ -306,4 +306,10 @@
   <data name="DeleteConfirmation" xml:space="preserve">
     <value>Вы уверены, что хотите удалить тайник?</value>
   </data>
+  <data name="Location" xml:space="preserve">
+    <value>Использовать местоположение</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Службы</value>
+  </data>
 </root>

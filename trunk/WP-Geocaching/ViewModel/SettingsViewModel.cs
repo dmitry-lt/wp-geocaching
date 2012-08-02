@@ -8,12 +8,27 @@ namespace WP_Geocaching.ViewModel
     public class SettingsViewModel : BaseMapViewModel
     {
         private Settings settings;
+        private bool isLocationEnabled;
 
         public ICommand SendEmailCommand { get; private set; }
         public ICommand ChooseRoadModeCommand { get; private set; }
         public ICommand ChooseAerialModeCommand { get; private set; }
         public bool IsAerialChecked { get; private set; }
         public bool IsRoadChecked { get; private set; }
+
+        public bool IsLocationEnabled
+        {
+            get 
+            {
+                return isLocationEnabled;
+ }
+            set 
+            {
+                isLocationEnabled = value;
+                settings.IsLocationEnabled = value;
+                NotifyPropertyChanged("IsLocationEnabled");
+            }
+        }
 
         public SettingsViewModel()
         {
@@ -31,6 +46,8 @@ namespace WP_Geocaching.ViewModel
             {
                 IsAerialChecked = true;
             }
+
+            IsLocationEnabled = settings.IsLocationEnabled;
         }
 
         private void SendEmail(object p)

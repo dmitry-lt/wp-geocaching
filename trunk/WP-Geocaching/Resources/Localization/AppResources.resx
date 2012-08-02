@@ -306,4 +306,10 @@
   <data name="DeleteConfirmation" xml:space="preserve">
     <value>Are you sure you want to delete a cache?</value>
   </data>
+  <data name="Location" xml:space="preserve">
+    <value>Enable location</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Services</value>
+  </data>
 </root>
