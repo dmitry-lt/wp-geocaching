@@ -53,15 +53,43 @@ namespace WP_Geocaching.ViewModel
             CachePushpins = new ObservableCollection<CachePushpin>();
             isFirstSettingView = true;
 
+            if (settings.IsLocationEnabled)
+            {
+                StartWatcher();
+            }
+        }
+
+        public void UpdateMapChildrens()
+        {
+            UpdateMapMode();
+            if (settings.IsLocationEnabled &&  watcher == null)
+            {
+                StartWatcher();
+            }
+            else
+            {
+                StopWatcher();
+            }
+        }
+
+        private void StartWatcher()
+        {
             watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
             watcher.MovementThreshold = 20;
             watcher.PositionChanged += PositionChanged;
             watcher.Start();
         }
 
-        public void UpdateMapChildrens()
+
+        private void StopWatcher()
         {
-            UpdateMapMode();
+            if (watcher == null)
+            {
+                return;
+            }
+
+            watcher.Stop();
+            watcher = null;
         }
 
         private void ProcessCacheList(List<Cache> caches)
