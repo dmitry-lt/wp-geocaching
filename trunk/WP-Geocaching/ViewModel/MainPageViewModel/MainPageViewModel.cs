@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Threading;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
+using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.ViewModel.MainPageViewModel
@@ -68,6 +69,13 @@ namespace WP_Geocaching.ViewModel.MainPageViewModel
 
         public MainPageViewModel()
         {
+            var settings = new Settings();
+            if (settings.IsFirstLaunching)
+            {
+                PrivacyStatementDialog.Show();
+                settings.IsFirstLaunching = false;
+            }
+
             Source = new ObservableCollection<TileSource>
                          {
                              GetChooseCacheTile(),

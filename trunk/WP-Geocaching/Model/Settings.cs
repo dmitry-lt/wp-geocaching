@@ -20,6 +20,7 @@ namespace WP_Geocaching.Model
         private const string LastLocationLongitudeDefaultKeyName = "LastLocationLongitude";
         private const string MapModeDefaultKeyName = "MapMode";
         private const string IsLocationEnabledKeyName = "IsLocationEnabled";
+        private const string IsFirstLaunchingKeyName = "IsFirstLaunching";
 
         // The default value of our settings
         private const int LastSoughtCacheIdDefault = -1;
@@ -27,6 +28,7 @@ namespace WP_Geocaching.Model
         private const double LastLocationLongitudeDefault = 29.828674;
         private const int MapModeDefault = (int)MapMode.Road;
         private const bool IsLocationEnabledDefault = true;
+        private const bool IsFirstLaunchingDefault = true;
 
         public Settings()
         {
@@ -130,6 +132,21 @@ namespace WP_Geocaching.Model
             set
             {
                 if (AddOrUpdateValue(IsLocationEnabledKeyName, value))
+                {
+                    Save();
+                }
+            }
+        }
+
+        public bool IsFirstLaunching
+        {
+            get
+            {
+                return GetValueOrDefault(IsFirstLaunchingKeyName, IsFirstLaunchingDefault);
+            }
+            set
+            {
+                if (AddOrUpdateValue(IsFirstLaunchingKeyName, value))
                 {
                     Save();
                 }
