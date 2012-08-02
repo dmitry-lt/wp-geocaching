@@ -12,19 +12,21 @@ namespace WP_Geocaching.Model
 
     public class Settings
     {
-        IsolatedStorageSettings settings;
+        private IsolatedStorageSettings settings;
 
         // The isolated storage key names of our settings
-        const string LastSoughtCacheIdKeyName = "LastSoughtCacheId";
-        const string LastLocationLatitudeDefaultKeyName = "LastLocationLatitude";
-        const string LastLocationLongitudeDefaultKeyName = "LastLocationLongitude";
-        const string MapModeDefaultKeyName = "MapMode";
+        private const string LastSoughtCacheIdKeyName = "LastSoughtCacheId";
+        private const string LastLocationLatitudeDefaultKeyName = "LastLocationLatitude";
+        private const string LastLocationLongitudeDefaultKeyName = "LastLocationLongitude";
+        private const string MapModeDefaultKeyName = "MapMode";
+        private const string IsLocationEnabledKeyName = "IsLocationEnabled";
 
         // The default value of our settings
-        const int LastSoughtCacheIdDefault = -1;
-        const double LastLocationLatitudeDefault = 59.879904;
-        const double LastLocationLongitudeDefault = 29.828674;
-        const int MapModeDefault = (int)MapMode.Road;
+        private const int LastSoughtCacheIdDefault = -1;
+        private const double LastLocationLatitudeDefault = 59.879904;
+        private const double LastLocationLongitudeDefault = 29.828674;
+        private const int MapModeDefault = (int)MapMode.Road;
+        private const bool IsLocationEnabledDefault = true;
 
         public Settings()
         {
@@ -113,6 +115,21 @@ namespace WP_Geocaching.Model
             set
             {
                 if (AddOrUpdateValue(MapModeDefaultKeyName, value))
+                {
+                    Save();
+                }
+            }
+        }
+
+        public bool IsLocationEnabled
+        {
+            get
+            {
+                return GetValueOrDefault(IsLocationEnabledKeyName, IsLocationEnabledDefault);
+            }
+            set
+            {
+                if (AddOrUpdateValue(IsLocationEnabledKeyName, value))
                 {
                     Save();
                 }
