@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using Microsoft.Phone.Tasks;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.ViewModel
@@ -13,6 +14,7 @@ namespace WP_Geocaching.ViewModel
         public ICommand SendEmailCommand { get; private set; }
         public ICommand ChooseRoadModeCommand { get; private set; }
         public ICommand ChooseAerialModeCommand { get; private set; }
+        public ICommand ShowPrivacyStatementDialogCommand { get; private set; }
         public bool IsAerialChecked { get; private set; }
         public bool IsRoadChecked { get; private set; }
 
@@ -37,6 +39,7 @@ namespace WP_Geocaching.ViewModel
             SendEmailCommand = new ButtonCommand(SendEmail);
             ChooseRoadModeCommand = new ButtonCommand(ChooseRoadMode);
             ChooseAerialModeCommand = new ButtonCommand(ChooseAerialMode);
+            ShowPrivacyStatementDialogCommand = new ButtonCommand(ShowPrivacyStatementDialog);
 
             if (settings.MapMode == MapMode.Road)
             {
@@ -69,6 +72,11 @@ namespace WP_Geocaching.ViewModel
         private void ChooseAerialMode(object p)
         {
             settings.MapMode = MapMode.Aerial;
+        }
+
+        private void ShowPrivacyStatementDialog(object p)
+        {
+            PrivacyStatementDialog.Show();
         }
     }
 

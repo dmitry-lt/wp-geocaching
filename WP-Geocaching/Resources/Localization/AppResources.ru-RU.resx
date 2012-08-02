@@ -312,4 +312,16 @@
   <data name="Services" xml:space="preserve">
     <value>Службы</value>
   </data>
+  <data name="Ok" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="PrivacyPolicyTitle" xml:space="preserve">
+    <value>Конфиденциальность</value>
+  </data>
+  <data name="PrivacyStatement" xml:space="preserve">
+    <value>Служба определения местоположения требуется приложению для использования большинства важных функций (отображение ваших GPS-координат на карте, измерение расстояния до тайника). Последнее местоположение сохраняется локально для того, чтобы в дальнейшем можно было открыть карту в этой точке. Данные о вашем местоположении не распространяются. В любой момент вы можете отключить эту функцию на странице настроек.</value>
+  </data>
+  <data name="PrivacyStatementTitle" xml:space="preserve">
+    <value>Заявление о конфиденциальности</value>
+  </data>
 </root>

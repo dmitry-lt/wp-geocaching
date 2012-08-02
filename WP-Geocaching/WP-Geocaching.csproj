@@ -94,6 +94,7 @@
     <Compile Include="Model\Dialogs\AbstractDialog.cs" />
     <Compile Include="Model\Dialogs\ChooseOrDeleteDialog.cs" />
     <Compile Include="Model\Dialogs\ConfirmDeleteDialog.cs" />
+    <Compile Include="Model\Dialogs\PrivacyStatementDialog.cs" />
     <Compile Include="Model\HashSet.cs" />
     <Compile Include="Model\INavigationManager.cs" />
     <Compile Include="Model\LogManager.cs" />

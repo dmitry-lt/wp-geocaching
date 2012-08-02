@@ -312,4 +312,16 @@
   <data name="Services" xml:space="preserve">
     <value>Services</value>
   </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="PrivacyPolicyTitle" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="PrivacyStatement" xml:space="preserve">
+    <value>The application uses location services for its major functions, such as displaying your GPS coordinates on a map or calculating distance to a cache. Latest location is stored locally to be able to open a map in that point. Your location data is not published. You can disable this function at any time in the settings page.</value>
+  </data>
+  <data name="PrivacyStatementTitle" xml:space="preserve">
+    <value>Privacy statement</value>
+  </data>
 </root>
