@@ -62,13 +62,15 @@ namespace WP_Geocaching.ViewModel
         public void UpdateMapChildrens()
         {
             UpdateMapMode();
-            if (settings.IsLocationEnabled &&  watcher == null)
+
+            if (settings.IsLocationEnabled && watcher == null)
             {
                 StartWatcher();
             }
-            else
+            else if (!settings.IsLocationEnabled && watcher != null)
             {
                 StopWatcher();
+                // todo show dialog
             }
         }
 
@@ -79,7 +81,6 @@ namespace WP_Geocaching.ViewModel
             watcher.PositionChanged += PositionChanged;
             watcher.Start();
         }
-
 
         private void StopWatcher()
         {

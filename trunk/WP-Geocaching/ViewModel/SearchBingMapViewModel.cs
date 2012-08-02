@@ -124,10 +124,10 @@ namespace WP_Geocaching.ViewModel
             currentLocation = settings.LastLocation;
             ShowAll();
 
-            watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
-            watcher.MovementThreshold = 20;
-            watcher.PositionChanged += PositionChanged;
-            watcher.Start();
+            if (settings.IsLocationEnabled)
+            {
+                StartWatcher();
+            }         
         }
 
         public override void UpdateMapProperties()
@@ -136,6 +136,35 @@ namespace WP_Geocaching.ViewModel
             UpdateConnectingLine();
             UpdateConnectingLineLength();
             UpdateMapMode();
+
+            if (settings.IsLocationEnabled && watcher == null)
+            {
+                StartWatcher();
+            }
+            else if ( !settings.IsLocationEnabled && watcher != null)
+            {
+                StopWatcher();
+                // todo show dialog
+            }
+        }
+
+        private void StartWatcher()
+        {
+            watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
+            watcher.MovementThreshold = 20;
+            watcher.PositionChanged += PositionChanged;
+            watcher.Start();
+        }
+
+        private void StopWatcher()
+        {
+            if (watcher == null)
+            {
+                return;
+            }
+
+            watcher.Stop();
+            watcher = null;
         }
 
         public void ShowAll()
