@@ -3,11 +3,11 @@ using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.Model.Dialogs
 {
-    public static class PrivacyStatementDialog
+    public static class DisabledLocationDialog
     {
         public static void Show()
         {
-            MessageBox.Show(AppResources.PrivacyStatement, AppResources.PrivacyStatementTitle, MessageBoxButton.OK);
+            MessageBox.Show(AppResources.DisabledLocationMessage, AppResources.DisabledLocationTitle, MessageBoxButton.OK);
         }
     }
 }

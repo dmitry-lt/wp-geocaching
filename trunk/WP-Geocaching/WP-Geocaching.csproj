@@ -94,6 +94,7 @@
     <Compile Include="Model\Dialogs\AbstractDialog.cs" />
     <Compile Include="Model\Dialogs\ChooseOrDeleteDialog.cs" />
     <Compile Include="Model\Dialogs\ConfirmDeleteDialog.cs" />
+    <Compile Include="Model\Dialogs\DisabledLocationDialog.cs" />
     <Compile Include="Model\Dialogs\PrivacyStatementDialog.cs" />
     <Compile Include="Model\HashSet.cs" />
     <Compile Include="Model\INavigationManager.cs" />
@@ -146,7 +147,6 @@
     <Compile Include="ViewModel\CompassPageViewModal.cs" />
     <Compile Include="ViewModel\CreateCheckpointViewModel.cs" />
     <Compile Include="ViewModel\DegCoordinateViewModel.cs" />
-    <Compile Include="ViewModel\DetailsViewModel.cs" />
     <Compile Include="ViewModel\InfoPivotViewModel.cs" />
     <Compile Include="ViewModel\ListCacheItem.cs" />
     <Compile Include="ViewModel\FavoritesViewModel.cs" />

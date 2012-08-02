@@ -139,19 +139,23 @@ namespace WP_Geocaching.ViewModel.MainPageViewModel
         private void SearchCache()
         {
             var settings = new Settings();
-            if (settings.LastSoughtCacheId > 0)
+            if (settings.LastSoughtCacheId < 0)
+            {
+                NoSouhgtCacheMessageVisibility = Visibility.Visible;
+                var timer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromSeconds(3)
+                };
+                timer.Tick += SearchMessageTimerTick;
+                timer.Start();
+            }
+            else if (settings.IsLocationEnabled)
             {
                 NavigationManager.Instance.NavigateToSearchBingMap(settings.LastSoughtCacheId.ToString());
             }
             else
             {
-                NoSouhgtCacheMessageVisibility = Visibility.Visible;
-                var timer = new DispatcherTimer
-                                {
-                                    Interval = TimeSpan.FromSeconds(3)
-                                };
-                timer.Tick += SearchMessageTimerTick;
-                timer.Start();
+                DisabledLocationDialog.Show();
             }
         }
 

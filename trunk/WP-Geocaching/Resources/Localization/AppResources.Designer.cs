@@ -259,6 +259,24 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location service is disabled. You can enable it in the settings page..
+        /// </summary>
+        public static string DisabledLocationMessage {
+            get {
+                return ResourceManager.GetString("DisabledLocationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        public static string DisabledLocationTitle {
+            get {
+                return ResourceManager.GetString("DisabledLocationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E.
         /// </summary>
         public static string EastLongitude {
