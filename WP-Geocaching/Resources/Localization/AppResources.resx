@@ -324,4 +324,10 @@
   <data name="PrivacyStatementTitle" xml:space="preserve">
     <value>Privacy statement</value>
   </data>
+  <data name="DisabledLocationMessage" xml:space="preserve">
+    <value>Location service is disabled. You can enable it in the settings page.</value>
+  </data>
+  <data name="DisabledLocationTitle" xml:space="preserve">
+    <value>Location</value>
+  </data>
 </root>

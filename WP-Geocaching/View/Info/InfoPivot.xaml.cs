@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Navigation;
 using System.Windows.Controls;
+using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
@@ -70,7 +70,15 @@ namespace WP_Geocaching.View.Info
         private void SearchCacheButtonClick(object sender, EventArgs e)
         {
             db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Info, infoPivotViewModel.Notebook);
-            NavigationManager.Instance.NavigateToSearchBingMap(infoPivotViewModel.Cache.Id.ToString());
+            if (new Model.Settings().IsLocationEnabled)
+            {
+                NavigationManager.Instance.NavigateToSearchBingMap(infoPivotViewModel.Cache.Id.ToString());
+            }
+            else
+            {
+                DisabledLocationDialog.Show();
+            }
+            
         }
 
         private void SetApplicationBarItems()

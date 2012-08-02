@@ -4,6 +4,7 @@ using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
 using WP_Geocaching.Model.DataBase;
+using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.View.Compass;
 
 namespace WP_Geocaching.ViewModel
@@ -144,7 +145,7 @@ namespace WP_Geocaching.ViewModel
             else if ( !settings.IsLocationEnabled && watcher != null)
             {
                 StopWatcher();
-                // todo show dialog
+                DisabledLocationDialog.Show();
             }
         }
 
