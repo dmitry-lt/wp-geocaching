@@ -475,6 +475,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Photos.
         /// </summary>
         public static string PhotosTitle {
@@ -489,6 +498,33 @@ namespace WP_Geocaching.Resources.Localization {
         public static string PreviousButton {
             get {
                 return ResourceManager.GetString("PreviousButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Privacy.
+        /// </summary>
+        public static string PrivacyPolicyTitle {
+            get {
+                return ResourceManager.GetString("PrivacyPolicyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The application uses location services for its major functions, such as displaying your GPS coordinates on a map or calculating distance to a cache. Latest location is stored locally to be able to open a map in that point. Your location data is not published. You can disable this function at any time in the settings page..
+        /// </summary>
+        public static string PrivacyStatement {
+            get {
+                return ResourceManager.GetString("PrivacyStatement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Privacy statement.
+        /// </summary>
+        public static string PrivacyStatementTitle {
+            get {
+                return ResourceManager.GetString("PrivacyStatementTitle", resourceCulture);
             }
         }
         

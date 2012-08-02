@@ -11,19 +11,37 @@
     d:DesignHeight="480" d:DesignWidth="460">
 
     <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <Style x:Name="HeaderTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="35"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            </Style>
+        </Grid.Resources>
+        
         <StackPanel Orientation="Vertical">
             <TextBlock Text="{Binding Path=LocalizedResources.InfoAbout, 
-                Source={StaticResource LocalizedStrings}}" FontSize="35" HorizontalAlignment="Left"/>
+                Source={StaticResource LocalizedStrings}}"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
             <TextBlock Text="{Binding Path=LocalizedResources.AppNameAbout, 
                 Source={StaticResource LocalizedStrings}}" FontSize="22" HorizontalAlignment="Left"/>
             <TextBlock Text="{Binding Path=LocalizedResources.VersionAbout, 
                 Source={StaticResource LocalizedStrings}}" FontSize="22" HorizontalAlignment="Left"/>
             <TextBlock Text="{Binding Path=LocalizedResources.SupportAbout, 
-                Source={StaticResource LocalizedStrings}}" FontSize="35" HorizontalAlignment="Left"/>
+                Source={StaticResource LocalizedStrings}}"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
             <HyperlinkButton Content="{Binding Path=LocalizedResources.SupportEmail, 
-                Source={StaticResource LocalizedStrings}}" FontSize="22" Margin="-15, 0, 0, 0" 
-                       Command="{Binding SendEmailCommand}" Height="30"
-                       toolkit:TiltEffect.IsTiltEnabled="True"/>
+                Source={StaticResource LocalizedStrings}}" FontSize="22" Margin="-12, 0, 0, 0" 
+                             HorizontalAlignment="Left"
+                             Command="{Binding SendEmailCommand}" Height="30"
+                             toolkit:TiltEffect.IsTiltEnabled="True"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.PrivacyPolicyTitle, 
+                Source={StaticResource LocalizedStrings}}"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <HyperlinkButton Content="{Binding Path=LocalizedResources.PrivacyStatementTitle, 
+                Source={StaticResource LocalizedStrings}}" FontSize="22" Margin="-12, 0, 0, 0" 
+                             HorizontalAlignment="Left"
+                             Command="{Binding ShowPrivacyStatementDialogCommand}" Height="30"
+                             toolkit:TiltEffect.IsTiltEnabled="True"/>
         </StackPanel>
     </Grid>
 </UserControl>

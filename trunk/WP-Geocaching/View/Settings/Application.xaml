@@ -46,7 +46,8 @@
                 Source={StaticResource LocalizedStrings}}" 
                       FontSize="22" 
                       HorizontalAlignment="Left"
-                      IsChecked="{Binding IsLocationEnabled, Mode=TwoWay}"/>
+                      IsChecked="{Binding IsLocationEnabled, Mode=TwoWay}"
+                      toolkit:TiltEffect.IsTiltEnabled="True"/>
         </StackPanel>
     </Grid>
 </UserControl>
