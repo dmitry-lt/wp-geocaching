@@ -1,6 +1,4 @@
-﻿using System.Device.Location;
-
-namespace WP_Geocaching.Model
+﻿namespace WP_Geocaching.Model
 {
     /// <summary>
     /// Contains information for BingMap
@@ -8,9 +6,7 @@ namespace WP_Geocaching.Model
     public class MapManager
     {
         private static MapManager instance;
-        private GeoCoordinate defaultMapCenter = new GeoCoordinate(59.879904, 29.828674);
-        private int cacheId;
-        private int defaultZoom = 13;
+        private const int defaultZoom = 13;
 
         public static MapManager Instance
         {
@@ -24,24 +20,7 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public GeoCoordinate DefaulMapCenter
-        {
-            get
-            {
-                return defaultMapCenter;
-            }
-        }
-        public int CacheId
-        {
-            get
-            {
-                return cacheId;
-            }
-            set
-            {
-                cacheId = value;
-            }
-        }
+        public int CacheId { get; set; }
         public int DefaultZoom
         {
             get

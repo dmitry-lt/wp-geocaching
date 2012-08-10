@@ -134,6 +134,7 @@ namespace WP_Geocaching.Model
                 if (AddOrUpdateValue(IsLocationEnabledKeyName, value))
                 {
                     Save();
+                    LocationManager.Instance.UpdateIsLocationEnabled(value);
                 }
             }
         }

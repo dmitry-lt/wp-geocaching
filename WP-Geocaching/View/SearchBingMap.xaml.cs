@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Phone.Controls;
+using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using Microsoft.Phone.Controls.Maps;
@@ -50,8 +51,13 @@ namespace WP_Geocaching.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             SmoothCompassManager.Instance.AddSubscriber(searchBingMapViewModel);
+            LocationManager.Instance.AddSubscriber(searchBingMapViewModel);
 
-            
+            var setting = new Model.Settings();
+            if (!setting.IsLocationEnabled)
+            {
+                DisabledLocationDialog.Show();
+            }
 
             if (e.NavigationMode == NavigationMode.New)
             {
@@ -68,6 +74,8 @@ namespace WP_Geocaching.View
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             SmoothCompassManager.Instance.RemoveSubscriber(searchBingMapViewModel);
+            LocationManager.Instance.RemoveSubscriber(searchBingMapViewModel);
+            base.OnNavigatedFrom(e);
         }
 
         private void SetShowAllMenuItem()
@@ -144,7 +152,7 @@ namespace WP_Geocaching.View
             var id = -1;
             var cacheId = searchBingMapViewModel.SoughtCache.Id.ToString();
             var checkpointId = id.ToString();
-            var db = new Model.DataBase.CacheDataBase();
+            var db = new CacheDataBase();
             var checkpoints = db.GetCheckpointsByCacheId(Convert.ToInt32(cacheId));
 
             foreach (var c in checkpoints)
