@@ -4,12 +4,11 @@ using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
 using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.View.Compass;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class SearchBingMapViewModel : BaseMapViewModel, ICompassAware
+    public class SearchBingMapViewModel : BaseMapViewModel, ICompassAware, ILocationAware
     {
         private const int MinLatitude = -90;
         private const int MaxLatitude = 90;
@@ -17,7 +16,6 @@ namespace WP_Geocaching.ViewModel
         private const int MaxLongitude = 180;
 
         private bool isFirstSettingView;
-        private GeoCoordinateWatcher watcher;
         private int zoom;
         private ObservableCollection<CachePushpin> cachePushpins;
         private Cache soughtCache;
@@ -112,6 +110,15 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        public bool IsNeedHighAccuracy
+        {
+            get
+            {
+                return true;
+            }
+            set { }
+        }
+
         public SearchBingMapViewModel(IApiManager apiManager, Action<LocationRect> setView)
         {
             this.apiManager = apiManager;
@@ -124,11 +131,6 @@ namespace WP_Geocaching.ViewModel
             MapMode = settings.MapMode;
             currentLocation = settings.LastLocation;
             ShowAll();
-
-            if (settings.IsLocationEnabled)
-            {
-                StartWatcher();
-            }         
         }
 
         public override void UpdateMapProperties()
@@ -137,35 +139,6 @@ namespace WP_Geocaching.ViewModel
             UpdateConnectingLine();
             UpdateConnectingLineLength();
             UpdateMapMode();
-
-            if (settings.IsLocationEnabled && watcher == null)
-            {
-                StartWatcher();
-            }
-            else if ( !settings.IsLocationEnabled && watcher != null)
-            {
-                StopWatcher();
-                DisabledLocationDialog.Show();
-            }
-        }
-
-        private void StartWatcher()
-        {
-            watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
-            watcher.MovementThreshold = 20;
-            watcher.PositionChanged += PositionChanged;
-            watcher.Start();
-        }
-
-        private void StopWatcher()
-        {
-            if (watcher == null)
-            {
-                return;
-            }
-
-            watcher.Stop();
-            watcher = null;
         }
 
         public void ShowAll()
@@ -192,17 +165,6 @@ namespace WP_Geocaching.ViewModel
             northwest.Longitude = Math.Min(coordinate.Longitude, northwest.Longitude);
             southeast.Latitude = Math.Min(coordinate.Latitude, southeast.Latitude);
             southeast.Longitude = Math.Max(coordinate.Longitude, southeast.Longitude);
-        }
-
-        private void PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
-        {
-            CurrentLocation = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
-
-            if ((isFirstSettingView) && (CachePushpins.Count != 0))
-            {
-                ShowAll();
-                isFirstSettingView = false;
-            }
         }
 
         private void UpdateCurrentLocationInConnectingLine(GeoCoordinate newCurrentLocation)
@@ -245,7 +207,7 @@ namespace WP_Geocaching.ViewModel
 
         private GeoCoordinate GetSoughtPoint()
         {
-            foreach (CachePushpin c in CachePushpins)
+            foreach (var c in CachePushpins)
             {
                 var subtype = (Cache.Subtypes)c.IconUri[1];
                 if ((subtype == Cache.Subtypes.ActiveCheckpoint))
@@ -254,6 +216,17 @@ namespace WP_Geocaching.ViewModel
                 }
             }
             return SoughtCache.Location;
+        }
+
+        public void ProcessLocation(GeoCoordinate location)
+        {
+            CurrentLocation = location;
+
+            if ((isFirstSettingView) && (CachePushpins.Count != 0))
+            {
+                ShowAll();
+                isFirstSettingView = false;
+            }
         }
     }
 }

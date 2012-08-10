@@ -8,7 +8,7 @@ using Microsoft.Phone.Controls.Maps;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class BingMapViewModel : BaseMapViewModel
+    public class BingMapViewModel : BaseMapViewModel, ILocationAware
     {
 
         private const int maxCacheCount = 50;
@@ -43,6 +43,17 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        public bool IsNeedHighAccuracy
+        {
+            get
+            {
+                return false;
+            }
+            set
+            {
+            }
+        }
+
         public BingMapViewModel(IApiManager apiManager)
         {
             var settings = new Settings();
@@ -52,45 +63,11 @@ namespace WP_Geocaching.ViewModel
             this.apiManager = apiManager;
             CachePushpins = new ObservableCollection<CachePushpin>();
             isFirstSettingView = true;
-
-            if (settings.IsLocationEnabled)
-            {
-                StartWatcher();
-            }
         }
 
         public void UpdateMapChildrens()
         {
             UpdateMapMode();
-
-            if (settings.IsLocationEnabled && watcher == null)
-            {
-                StartWatcher();
-            }
-            else if (!settings.IsLocationEnabled && watcher != null)
-            {
-                StopWatcher();
-                // todo show dialog
-            }
-        }
-
-        private void StartWatcher()
-        {
-            watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
-            watcher.MovementThreshold = 20;
-            watcher.PositionChanged += PositionChanged;
-            watcher.Start();
-        }
-
-        private void StopWatcher()
-        {
-            if (watcher == null)
-            {
-                return;
-            }
-
-            watcher.Stop();
-            watcher = null;
         }
 
         private void ProcessCacheList(List<Cache> caches)
@@ -133,11 +110,11 @@ namespace WP_Geocaching.ViewModel
             apiManager.UpdateCacheList(ProcessCacheList, BoundingRectangle.East,
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
-
-        private void PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        
+        public void ProcessLocation(GeoCoordinate location)
         {
             var settings = new Settings();
-            var currentLocation = new GeoCoordinate(e.Position.Location.Latitude, e.Position.Location.Longitude);
+            var currentLocation = location;
             settings.LastLocation = currentLocation;
             this.currentLocation = currentLocation;
             if (!isFirstSettingView)
@@ -145,7 +122,6 @@ namespace WP_Geocaching.ViewModel
                 return;
             }
             MapCenter = currentLocation;
-            NotifyPropertyChanged("MapCenter");
             isFirstSettingView = false;
         }
     }

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using WP_Geocaching.Model;
 using WP_Geocaching.View.Compass;
 using System.Device.Location;
 using WP_Geocaching.Model.Utils;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class CompassPageViewModal : BaseViewModel, ICompassAware
+    public class CompassPageViewModel : BaseViewModel, ICompassAware
     {
         private double northDirection;
         private double cacheDirection;
@@ -80,7 +76,7 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public CompassPageViewModal()
+        public CompassPageViewModel()
         {
             watcher = new GeoCoordinateWatcher();
             watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(PositionChanged);

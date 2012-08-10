@@ -10,12 +10,12 @@ namespace WP_Geocaching.View.Compass
 {
     public partial class CompassPage : PhoneApplicationPage
     {
-        private CompassPageViewModal compassPageViewModal;
+        private CompassPageViewModel compassPageViewModal;
 
         public CompassPage()
         {
             InitializeComponent();
-            compassPageViewModal = new CompassPageViewModal();
+            compassPageViewModal = new CompassPageViewModel();
             DataContext = compassPageViewModal;
         }
 

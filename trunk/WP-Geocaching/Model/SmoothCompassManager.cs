@@ -50,7 +50,7 @@ namespace WP_Geocaching.Model
 
             if (subscribers.Count == 1)
             {
-                this.Start();
+                Start();
             }
         }
 
@@ -60,7 +60,7 @@ namespace WP_Geocaching.Model
 
             if (subscribers.Count == 0)
             {
-                this.Stop();
+                Stop();
             }
         }
 
