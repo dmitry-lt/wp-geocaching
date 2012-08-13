@@ -13,8 +13,8 @@ Russian:
 Наше приложение упростит вам поиск тайников, с его помощью вы сможете:
 - увидеть существующие тайники прямо на карте
 - прочитать дополнительную информацию о тайнике
-- искать тайники с помощью карты и компаса
 - сохранять тайники в избранное
+- искать тайники с помощью карты и компаса
 
 Сайт проекта http://code.google.com/p/wp-geocaching/
 
@@ -24,7 +24,7 @@ Geocaching is a mobile client for the http://www.geocaching.su service. Please n
 This app will improve your geocaching experience by letting you
 - view caches on a live map
 - see detailed cache information
-- search for a cache using map and compass
-- save caches for offline use
+- add caches to favorites for further searching
+- physically search caches with the help of map and compass
 
 Project site: http://code.google.com/p/wp-geocaching/
