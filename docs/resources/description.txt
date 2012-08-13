@@ -14,7 +14,7 @@ Russian:
 - увидеть существующие тайники прямо на карте
 - прочитать дополнительную информацию о тайнике
 - сохранять тайники в избранное
-- искать тайники с помощью карты и компаса
+- искать избранные тайники с помощью карты и компаса
 
 Сайт проекта http://code.google.com/p/wp-geocaching/
 
@@ -25,6 +25,6 @@ This app will improve your geocaching experience by letting you
 - view caches on a live map
 - see detailed cache information
 - add caches to favorites for further searching
-- physically search caches with the help of map and compass
+- physically search favorite caches with the help of map and compass
 
 Project site: http://code.google.com/p/wp-geocaching/
