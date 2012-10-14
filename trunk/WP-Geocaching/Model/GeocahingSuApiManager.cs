@@ -3,7 +3,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Globalization;
@@ -363,11 +365,15 @@ namespace WP_Geocaching.Model
             return data != null && data.Contains("http://");
         }
 
-        public void ProcessPhoto(Action<Photo> processAction, int index)
+        private static string NoImageUriDark = "/Resources/Images/NoPhotoWhite.png";
+        private static string NoImageUriLight = "/Resources/Images/NoPhotoBlack.png";
+        private static int NoImageHeight = 200;
+
+        public void ProcessPhoto(Action<Photo, int> processAction, int index)
         {
             if (images == null)
             {
-                processAction(null);
+                processAction(GetNoImageBitmap(), NoImageHeight);
                 return;
             }
 
@@ -380,7 +386,29 @@ namespace WP_Geocaching.Model
                 index += count;
             }
 
-            processAction(images[index]);
+            if (images[index] != null)
+            {
+                processAction(images[index], ((BitmapSource)images[index].PhotoSource).PixelHeight);
+            }
+            else
+            {
+                processAction(GetNoImageBitmap(), NoImageHeight);
+            }
+        }
+
+        private BitmapImage GetNoImageBitmap()
+        {
+            Visibility darkBackgroundVisibility = (Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"];
+
+            if (darkBackgroundVisibility == Visibility.Visible)
+            {
+                return new BitmapImage(new Uri(NoImageUriDark, UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                return new BitmapImage(new Uri(NoImageUriLight, UriKind.RelativeOrAbsolute));
+            }
+
         }
 
         public void DeletePhotos(int cacheId)
