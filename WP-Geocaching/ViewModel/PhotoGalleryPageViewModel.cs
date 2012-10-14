@@ -43,10 +43,10 @@ namespace WP_Geocaching.ViewModel
             GeocahingSuApiManager.Instance.ProcessPhoto(SetImageSource, index);
         }
 
-        public void SetImageSource(Photo source)
+        public void SetImageSource(Photo source, int maxHeight)
         {
             ImageSource = source.PhotoSource;
-            MaxHeight = ((BitmapSource)ImageSource).PixelHeight * Math.Sqrt(2);
+            MaxHeight = maxHeight * Math.Sqrt(2);
         }
 
         public void LoadNext(Action action)
