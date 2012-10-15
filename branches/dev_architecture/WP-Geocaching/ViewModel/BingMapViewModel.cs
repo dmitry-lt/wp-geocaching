@@ -98,6 +98,7 @@ namespace WP_Geocaching.ViewModel
             CachePushpins.Remove(pushpin);
         }
 
+        // TODO: refactor
         private void ProcessCaches(List<Cache> caches)
         {
             lock (_lock)
