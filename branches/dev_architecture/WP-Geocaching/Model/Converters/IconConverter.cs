@@ -137,7 +137,13 @@ namespace WP_Geocaching.Model.Converters
                         break;
                     }
             }
-            return null;
+
+
+            // TODO: implement icons for opencaching.com
+            return new Uri(String.Format(IconUri, "traditional", "valid"), UriKind.Relative);
+//            return null;
+
+
         }
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

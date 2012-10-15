@@ -61,8 +61,8 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
                                                {
                                                    Latitude = Convert.ToDouble(parsedCache.location.lat, CultureInfo.InvariantCulture),
                                                    Longitude = Convert.ToDouble(parsedCache.location.lon, CultureInfo.InvariantCulture),
-                                               }
-
+                                               },
+                                CacheProvider = CacheProvider.OpenCachingCom,
                             });
                     }
 
