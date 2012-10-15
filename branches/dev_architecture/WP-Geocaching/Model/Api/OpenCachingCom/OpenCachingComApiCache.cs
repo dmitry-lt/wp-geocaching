@@ -76,5 +76,18 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
         [DataMember]
         public string type { get; set; }
 
+        [DataMember]
+        public OpenCachingComApiLocation location { get; set; }
+
+    }
+
+    [DataContract]
+    public class OpenCachingComApiLocation
+    {
+        [DataMember]
+        public string lat { get; set; }
+
+        [DataMember]
+        public string lon { get; set; }
     }
 }

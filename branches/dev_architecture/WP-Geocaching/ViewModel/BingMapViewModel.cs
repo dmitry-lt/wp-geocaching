@@ -71,45 +71,90 @@ namespace WP_Geocaching.ViewModel
             UpdateMapMode();
         }
 
-        private void ProcessCacheList(List<Cache> caches)
+        private Dictionary<Cache, CachePushpin> _currentPushpins = new Dictionary<Cache, CachePushpin>();
+        private object _lock = new object();
+
+        private void AddPushpin(Cache cache)
         {
-
-            CachePushpins.Clear();
-
-            if (caches.Count >= maxCacheCount)
+            var pushpin = new CachePushpin()
             {
+                Location = cache.Location,
+                Id = cache.Id,
+                CacheProvider = cache.CacheProvider,
+                IconUri = new Enum[2] { cache.Type, cache.Subtype }
+            };
 
-                if (surpassedCacheCountMessageVisibility.Equals(Visibility.Collapsed))
-                {
-                    SurpassedCacheCountMessageVisibility = Visibility.Visible;
-                }
-            }
-            else
+            _currentPushpins.Add(cache, pushpin);
+
+            CachePushpins.Add(pushpin);
+        }
+
+        private void RemovePushpin(Cache cache)
+        {
+            var pushpin = _currentPushpins[cache];
+            
+            _currentPushpins.Remove(cache);
+
+            CachePushpins.Remove(pushpin);
+        }
+
+        private void ProcessCaches(List<Cache> caches)
+        {
+            lock (_lock)
             {
-
-                foreach (var p in caches)
+                // Remove pushpins that are out of screen
+                var cachesToRemove = new HashSet<Cache>();
+                foreach (var c in _currentPushpins.Keys)
                 {
-                    var pushpin = new CachePushpin()
+                    if ((c.Location.Latitude > BoundingRectangle.North) ||
+                        (c.Location.Latitude < BoundingRectangle.South) ||
+                        (c.Location.Longitude > BoundingRectangle.East) ||
+                        (c.Location.Longitude < BoundingRectangle.West))
                     {
-                        Location = p.Location,
-                        Id = p.Id.ToString(),
-                        CacheProvider = p.CacheProvider,
-                        IconUri = new Enum[2] { p.Type, p.Subtype }
-                    };
-
-                    CachePushpins.Add(pushpin);
+                        cachesToRemove.Add(c);
+                    }
                 }
 
-                if (surpassedCacheCountMessageVisibility.Equals(Visibility.Visible))
+                foreach (var c in cachesToRemove)
                 {
-                    SurpassedCacheCountMessageVisibility = Visibility.Collapsed;
+                    RemovePushpin((Cache)c);
+                }
+
+                var cachesToAdd = new HashSet<Cache>();
+                foreach (var c in caches)
+                {
+                    if (!_currentPushpins.ContainsKey(c))
+                    {
+                        cachesToAdd.Add(c);
+                    }
+                }
+
+                if (_currentPushpins.Count + cachesToAdd.Count >= maxCacheCount)
+                {
+                    if (surpassedCacheCountMessageVisibility.Equals(Visibility.Collapsed))
+                    {
+                        SurpassedCacheCountMessageVisibility = Visibility.Visible;
+                    }
+                }
+                else
+                {
+
+                    foreach (var c in cachesToAdd)
+                    {
+                        AddPushpin((Cache) c);
+                    }
+
+                    if (surpassedCacheCountMessageVisibility.Equals(Visibility.Visible))
+                    {
+                        SurpassedCacheCountMessageVisibility = Visibility.Collapsed;
+                    }
                 }
             }
         }
 
         private void SetPushpinsOnMap()
         {
-            apiManager.UpdateCaches(ProcessCacheList, BoundingRectangle.East,
+            apiManager.UpdateCaches(ProcessCaches, BoundingRectangle.East,
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
         

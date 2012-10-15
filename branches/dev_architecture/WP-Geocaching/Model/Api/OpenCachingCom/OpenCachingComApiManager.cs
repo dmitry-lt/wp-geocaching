@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -55,6 +56,13 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
                             {
                                 Id = parsedCache.oxcode,
                                 Name = parsedCache.name,
+                                Location = new 
+                                    GeoCoordinate()
+                                               {
+                                                   Latitude = Convert.ToDouble(parsedCache.location.lat, CultureInfo.InvariantCulture),
+                                                   Longitude = Convert.ToDouble(parsedCache.location.lon, CultureInfo.InvariantCulture),
+                                               }
+
                             });
                     }
 
