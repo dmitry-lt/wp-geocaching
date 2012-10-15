@@ -62,12 +62,15 @@ namespace WP_Geocaching.Model.Api
 
         public Cache GetCache(string cacheId, CacheProvider cacheProvider)
         {
-            return _geocahingSuApiManager.GetCache(cacheId, cacheProvider);
+            return _managers[cacheProvider].GetCache(cacheId, cacheProvider);
         }
 
         public void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
         {
-            _geocahingSuApiManager.UpdateCaches(processCaches, lngmax, lgnmin, latmax, latmin);
+            foreach (var apiManager in _managers.Values)
+            {
+                apiManager.UpdateCaches(processCaches, lngmax, lgnmin, latmax, latmin);
+            }
         }
 
         #endregion

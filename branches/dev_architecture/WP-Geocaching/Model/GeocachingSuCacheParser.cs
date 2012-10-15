@@ -10,7 +10,7 @@ namespace WP_Geocaching.Model
     /// <summary>
     /// Parses xml for get cache list
     /// </summary>
-    public class CacheParser
+    public class GeocachingSuCacheParser
     {
         public List<Cache> Parse(XElement caches)
         {

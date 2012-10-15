@@ -49,7 +49,7 @@ namespace WP_Geocaching.Model.Api
             {
                 if (e.Error != null) return;
                 var caches = XElement.Parse(e.Result);
-                var parser = new CacheParser();
+                var parser = new GeocachingSuCacheParser();
                 var downloadedCaches = parser.Parse(caches);
 
                 foreach (var p in downloadedCaches)
