@@ -78,6 +78,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Api\ApiManager.cs" />
+    <Compile Include="Model\Api\CacheProvider.cs" />
+    <Compile Include="Model\Api\OpenCachingComApiManager.cs" />
     <Compile Include="Model\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="Model\Converters\CacheTypeConverter.cs" />
     <Compile Include="Model\Converters\CoordinateConverter.cs" />

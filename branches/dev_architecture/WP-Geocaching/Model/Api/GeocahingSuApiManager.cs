@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using System.Collections.Generic;
@@ -14,14 +13,13 @@ using WP_Geocaching.Model.DataBase;
 using System.Text.RegularExpressions;
 using Microsoft.Phone;
 
-namespace WP_Geocaching.Model
+namespace WP_Geocaching.Model.Api
 {
     /// <summary>
     /// IApiManager implementation for Geocaching.su
     /// </summary>
     public class GeocahingSuApiManager : IApiManager
     {
-        private static GeocahingSuApiManager instance;
         private static readonly Encoding CP1251Encoding = new CP1251Encoding();
         private const string LinkPattern = "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
         private const string InfoUrl = "http://pda.geocaching.su/cache.php?cid={0}";
@@ -31,24 +29,16 @@ namespace WP_Geocaching.Model
             "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax={0}&lngmin={1}&latmax={2}&latmin={3}&cacheId={4}&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
         private int id;
 
-        public HashSet<Cache> CacheList { get; set; }
+        public HashSet<Cache> Caches { get; private set; }
 
-        private GeocahingSuApiManager()
+        internal GeocahingSuApiManager()
         {
             var random = new Random();
             id = random.Next(100000000);
-            CacheList = new HashSet<Cache>();
+            Caches = new HashSet<Cache>();
         }
 
-        public static GeocahingSuApiManager Instance
-        {
-            get
-            {
-                return instance ?? (instance = new GeocahingSuApiManager());
-            }
-        }
-
-        public void UpdateCacheList(Action<List<Cache>> processCacheList, double lngmax, double lngmin, double latmax, double latmin)
+        public void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, lngmax, lngmin, latmax, latmin, id);
             var client = new WebClient
@@ -64,20 +54,20 @@ namespace WP_Geocaching.Model
 
                 foreach (var p in downloadedCaches)
                 {
-                    if (!CacheList.Contains(p))
+                    if (!Caches.Contains(p))
                     {
-                        CacheList.Add(p);
+                        Caches.Add(p);
                     }
                 }
 
-                if (processCacheList == null) return;
-                var list = (from cache in CacheList
+                if (processCaches == null) return;
+                var list = (from cache in Caches
                             where ((cache.Location.Latitude <= latmax) &&
                                    (cache.Location.Latitude >= latmin) &&
                                    (cache.Location.Longitude <= lngmax) &&
                                    (cache.Location.Longitude >= lngmin))
                             select cache).ToList<Cache>();
-                processCacheList(list);
+                processCaches(list);
             };
             client.DownloadStringAsync(new Uri(sUrl));
         }
@@ -123,7 +113,7 @@ namespace WP_Geocaching.Model
 
         public Cache GetCacheById(int cacheId)
         {
-            foreach (var p in CacheList.Where(p => p.Id == cacheId))
+            foreach (var p in Caches.Where(p => p.Id == cacheId))
             {
                 return p;
             }

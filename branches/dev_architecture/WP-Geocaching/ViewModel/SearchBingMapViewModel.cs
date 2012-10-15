@@ -3,6 +3,7 @@ using WP_Geocaching.Model;
 using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
+using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.View.Compass;
 

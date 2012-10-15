@@ -4,6 +4,7 @@ using System.Windows.Threading;
 using Microsoft.Phone.Controls;
 using System.Collections.ObjectModel;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model.Dialogs;
 
@@ -108,7 +109,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache.Id);
             }
         }
 
@@ -128,7 +129,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache.Id);
             }
         }
 
@@ -150,7 +151,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
             }
         }
 
@@ -170,18 +171,18 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
             }
         }
 
         public void LoadPreviews()
         {
-            GeocahingSuApiManager.Instance.LoadPhotos(Cache.Id, LoadPhotos);
+            ApiManager.Instance.LoadPhotos(Cache.Id, LoadPhotos);
         }
 
         public void DownloadAndSavePhotos()
         {
-            GeocahingSuApiManager.Instance.SavePhotos(Cache.Id, SavePhotos);
+            ApiManager.Instance.SavePhotos(Cache.Id, SavePhotos);
         }
 
         private void SavePhotos(ObservableCollection<Photo> photos)

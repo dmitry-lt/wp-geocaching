@@ -2,6 +2,7 @@
 using System.Data.Linq;
 using System.Linq;
 using System.Collections.Generic;
+using WP_Geocaching.Model.Api;
 
 namespace WP_Geocaching.Model.DataBase
 {
@@ -151,7 +152,7 @@ namespace WP_Geocaching.Model.DataBase
 
         public void DeletePhotos(int cacheId)
         {
-            GeocahingSuApiManager.Instance.DeletePhotos(cacheId);
+            ApiManager.Instance.DeletePhotos(cacheId);
         }
 
         public List<DbCacheItem> GetCacheList()

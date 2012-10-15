@@ -4,6 +4,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Navigation;
 using System.Windows.Controls;
+using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
@@ -31,7 +32,7 @@ namespace WP_Geocaching.View.Info
             if (e.NavigationMode == NavigationMode.New)
             {
                 var cacheId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.Id.ToString()]);
-                infoPivotViewModel.Cache = GeocahingSuApiManager.Instance.GetCacheById(cacheId);
+                infoPivotViewModel.Cache = ApiManager.Instance.GetCacheById(cacheId);
                 var isAppBarEnabled = Convert.ToBoolean(NavigationContext.QueryString[NavigationManager.Params.IsAppBarEnabled.ToString()]);
                 ApplicationBar.IsVisible = isAppBarEnabled;
                 if (ApplicationBar.IsVisible)

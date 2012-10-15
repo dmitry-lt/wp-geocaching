@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
+using WP_Geocaching.Model.Api;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -107,7 +108,7 @@ namespace WP_Geocaching.ViewModel
 
         private void SetPushpinsOnMap()
         {
-            apiManager.UpdateCacheList(ProcessCacheList, BoundingRectangle.East,
+            apiManager.UpdateCaches(ProcessCacheList, BoundingRectangle.East,
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
         

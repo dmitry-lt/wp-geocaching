@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Phone.Controls;
+using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
@@ -21,7 +22,7 @@ namespace WP_Geocaching.View
         public SearchBingMap()
         {
             InitializeComponent();
-            searchBingMapViewModel = new SearchBingMapViewModel(GeocahingSuApiManager.Instance, Map.SetView);
+            searchBingMapViewModel = new SearchBingMapViewModel(ApiManager.Instance, Map.SetView);
             DataContext = searchBingMapViewModel;
             var binding = new Binding("MapMode");
             SetBinding(MapModeProperty, binding);
@@ -62,7 +63,7 @@ namespace WP_Geocaching.View
             if (e.NavigationMode == NavigationMode.New)
             {
                 int cacheId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.Id.ToString()]);
-                searchBingMapViewModel.SoughtCache = GeocahingSuApiManager.Instance.GetCacheById(cacheId);
+                searchBingMapViewModel.SoughtCache = ApiManager.Instance.GetCacheById(cacheId);
             }
 
             if (e.NavigationMode == NavigationMode.Back)
