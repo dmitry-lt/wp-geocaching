@@ -10,12 +10,12 @@ namespace WP_Geocaching.Model.Api
 
         private readonly GeocahingSuApiManager _geocahingSuApiManager = new GeocahingSuApiManager();
 
-        public void LoadPhotos(int cacheId, Action<ObservableCollection<Photo>> processAction)
+        public void LoadPhotos(string cacheId, Action<ObservableCollection<Photo>> processAction)
         {
             _geocahingSuApiManager.LoadPhotos(cacheId, processAction);
         }
 
-        public void SavePhotos(int cacheId, Action<ObservableCollection<Photo>> processAction)
+        public void SavePhotos(string cacheId, Action<ObservableCollection<Photo>> processAction)
         {
             _geocahingSuApiManager.SavePhotos(cacheId, processAction);
         }
@@ -25,17 +25,17 @@ namespace WP_Geocaching.Model.Api
             _geocahingSuApiManager.ProcessPhoto(processAction, index);
         }
 
-        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, int cacheId)
+        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, string cacheId)
         {
             _geocahingSuApiManager.DownloadAndProcessNotebook(processCacheNotebook, cacheId);
         }
 
-        public void DownloadAndProcessInfo(Action<string> processCacheInfo, int cacheId)
+        public void DownloadAndProcessInfo(Action<string> processCacheInfo, string cacheId)
         {
             _geocahingSuApiManager.DownloadAndProcessInfo(processCacheInfo, cacheId);
         }
 
-        public void DeletePhotos(int cacheId)
+        public void DeletePhotos(string cacheId)
         {
             _geocahingSuApiManager.DeletePhotos(cacheId);
         }
@@ -60,9 +60,9 @@ namespace WP_Geocaching.Model.Api
             _managers.Add(CacheProvider.OpenCachingCom, new OpenCachingComApiManager());
         }
 
-        public Cache GetCacheById(int cacheId)
+        public Cache GetCache(string cacheId, CacheProvider cacheProvider)
         {
-            return _geocahingSuApiManager.GetCacheById(cacheId);
+            return _geocahingSuApiManager.GetCache(cacheId, cacheProvider);
         }
 
         public void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)

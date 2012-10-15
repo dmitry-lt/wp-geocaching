@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Device.Location;
 using System.Collections.Generic;
+using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.Model
@@ -31,14 +32,15 @@ namespace WP_Geocaching.Model
             Checkpoint = 9
         }
 
-        private int id;
+        private string id;
+        private CacheProvider cacheProvider;
         private GeoCoordinate location;
         private string name;
         private Types type;
         private Subtypes subtype;
         private List<int> cClass;
 
-        public int Id
+        public string Id
         {
             get
             {
@@ -48,7 +50,18 @@ namespace WP_Geocaching.Model
             {
                 this.id = value;
             }
-        }       
+        }
+        public CacheProvider CacheProvider
+        {
+            get
+            {
+                return this.cacheProvider;
+            }
+            set
+            {
+                this.cacheProvider = value;
+            }
+        }
         public GeoCoordinate Location
         {
             get
@@ -134,7 +147,7 @@ namespace WP_Geocaching.Model
 
         public override int GetHashCode()
         {
-            return id;
+            return id.GetHashCode();
         }
     }
 }

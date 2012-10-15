@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO.IsolatedStorage;
 using System.Device.Location;
+using WP_Geocaching.Model.Api;
 
 namespace WP_Geocaching.Model
 {
@@ -16,6 +17,7 @@ namespace WP_Geocaching.Model
 
         // The isolated storage key names of our settings
         private const string LastSoughtCacheIdKeyName = "LastSoughtCacheId";
+        private const string LastSoughtCacheProviderKeyName = "LastSoughtCacheProvider";
         private const string LastLocationLatitudeDefaultKeyName = "LastLocationLatitude";
         private const string LastLocationLongitudeDefaultKeyName = "LastLocationLongitude";
         private const string MapModeDefaultKeyName = "MapMode";
@@ -23,7 +25,7 @@ namespace WP_Geocaching.Model
         private const string IsFirstLaunchingKeyName = "IsFirstLaunching";
 
         // The default value of our settings
-        private const int LastSoughtCacheIdDefault = -1;
+        private const string LastSoughtCacheIdDefault = "";
         private const double LastLocationLatitudeDefault = 59.879904;
         private const double LastLocationLongitudeDefault = 29.828674;
         private const int MapModeDefault = (int)MapMode.Road;
@@ -76,15 +78,35 @@ namespace WP_Geocaching.Model
         }
 
 
-        public int LastSoughtCacheId
+        public string LastSoughtCacheId
         {
             get
             {
+
                 return GetValueOrDefault(LastSoughtCacheIdKeyName, LastSoughtCacheIdDefault);
             }
             set
             {
                 if (AddOrUpdateValue(LastSoughtCacheIdKeyName, value))
+                {
+                    Save();
+                }
+            }
+        }
+
+        public CacheProvider LastSoughtCacheProvider
+        {
+            get
+            {
+                if (settings.Contains(LastSoughtCacheProviderKeyName))
+                {
+                    return (CacheProvider)settings[LastSoughtCacheProviderKeyName];
+                }
+                return CacheProvider.GeocachingSu;
+            }
+            set
+            {
+                if (AddOrUpdateValue(LastSoughtCacheProviderKeyName, value))
                 {
                     Save();
                 }

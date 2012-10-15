@@ -31,8 +31,9 @@ namespace WP_Geocaching.View.Info
         {
             if (e.NavigationMode == NavigationMode.New)
             {
-                var cacheId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.Id.ToString()]);
-                infoPivotViewModel.Cache = ApiManager.Instance.GetCacheById(cacheId);
+                var cacheId = NavigationContext.QueryString[NavigationManager.Params.Id.ToString()];
+                var cacheProvider = (CacheProvider)Enum.Parse(typeof(CacheProvider), NavigationContext.QueryString[NavigationManager.Params.CacheProvider.ToString()], false);
+                infoPivotViewModel.Cache = ApiManager.Instance.GetCache(cacheId, cacheProvider);
                 var isAppBarEnabled = Convert.ToBoolean(NavigationContext.QueryString[NavigationManager.Params.IsAppBarEnabled.ToString()]);
                 ApplicationBar.IsVisible = isAppBarEnabled;
                 if (ApplicationBar.IsVisible)
@@ -73,7 +74,7 @@ namespace WP_Geocaching.View.Info
             db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Info, infoPivotViewModel.Notebook);
             if (new Model.Settings().IsLocationEnabled)
             {
-                NavigationManager.Instance.NavigateToSearchBingMap(infoPivotViewModel.Cache.Id.ToString());
+                NavigationManager.Instance.NavigateToSearchBingMap(infoPivotViewModel.Cache.Id.ToString(), infoPivotViewModel.Cache.CacheProvider);
             }
             else
             {

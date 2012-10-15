@@ -76,7 +76,7 @@ namespace WP_Geocaching.Model.Api
         /// Downloads data at the url by cacheId
         /// </summary>
         /// <param name="processData">processes downloaded result</param>
-        private static void DownloadAndProcessData(string url, Action<string> processData, int cacheId)
+        private static void DownloadAndProcessData(string url, Action<string> processData, string cacheId)
         {
             var webClient = new WebClient();
 
@@ -97,7 +97,7 @@ namespace WP_Geocaching.Model.Api
         /// Downloads cache info by cacheId
         /// </summary>
         /// <param name="processCacheInfo">processes downloaded result</param>
-        public void DownloadAndProcessInfo(Action<string> processCacheInfo, int cacheId)
+        public void DownloadAndProcessInfo(Action<string> processCacheInfo, string cacheId)
         {
             DownloadAndProcessData(InfoUrl, processCacheInfo, cacheId);
         }
@@ -106,12 +106,12 @@ namespace WP_Geocaching.Model.Api
         /// Downloads cache notebook by cacheId
         /// </summary>
         /// <param name="processCacheInfo">processes downloaded result</param>
-        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, int cacheId)
+        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, string cacheId)
         {
             DownloadAndProcessData(NotebookUrl, processCacheNotebook, cacheId);
         }
 
-        public Cache GetCacheById(int cacheId)
+        public Cache GetCache(string cacheId, CacheProvider cacheProvider)
         {
             foreach (var p in Caches.Where(p => p.Id == cacheId))
             {
@@ -126,19 +126,19 @@ namespace WP_Geocaching.Model.Api
         private List<String> photoUrls;
         private List<String> photoNames;
         private ObservableCollection<Photo> images;
-        private int cacheId;
+        private string cacheId;
 
-        public void LoadPhotos(int cacheId, Action<ObservableCollection<Photo>> processAction)
+        public void LoadPhotos(string cacheId, Action<ObservableCollection<Photo>> processAction)
         {
             ProcessPhotos(cacheId, processAction, LoadAndProcessPhoto);
         }
 
-        public void SavePhotos(int cacheId, Action<ObservableCollection<Photo>> processAction)
+        public void SavePhotos(string cacheId, Action<ObservableCollection<Photo>> processAction)
         {
             ProcessPhotos(cacheId, processAction, SaveAndProcessPhoto);
         }
 
-        public void ProcessPhotos(int cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
+        public void ProcessPhotos(string cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var db = new CacheDataBase();
             var helper = new FileStorageHelper();
@@ -158,7 +158,7 @@ namespace WP_Geocaching.Model.Api
             }
         }
 
-        private void ProcessPhotosFromWeb(int cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
+        private void ProcessPhotosFromWeb(string cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var webClient = new WebClient();
 
@@ -199,7 +199,7 @@ namespace WP_Geocaching.Model.Api
             webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cacheId), UriKind.Absolute));
         }
 
-        private void ProcessPhotosFromIsolatedStorage(int cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
+        private void ProcessPhotosFromIsolatedStorage(string cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var helper = new FileStorageHelper();
 
@@ -228,7 +228,7 @@ namespace WP_Geocaching.Model.Api
             }
         }
 
-        private void ResetPhotoCacheData(int cacheId)
+        private void ResetPhotoCacheData(string cacheId)
         {
             this.cacheId = cacheId;
             photoUrls = photoNames = null;
@@ -401,7 +401,7 @@ namespace WP_Geocaching.Model.Api
 
         }
 
-        public void DeletePhotos(int cacheId)
+        public void DeletePhotos(string cacheId)
         {
             var helper = new FileStorageHelper();
             helper.DeletePhotos(cacheId);

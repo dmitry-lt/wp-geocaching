@@ -12,7 +12,7 @@ namespace WP_Geocaching.Model.Api
 
         public HashSet<Cache> Caches { get; private set; }
 
-        public Cache GetCacheById(int cacheId)
+        public Cache GetCache(string cacheId, CacheProvider cacheProvider)
         {
             throw new NotImplementedException();
         }

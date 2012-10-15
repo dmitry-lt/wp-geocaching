@@ -23,7 +23,7 @@ namespace WP_Geocaching.View.Compass
         {
             SmoothCompassManager.Instance.AddSubscriber(compassPageViewModal);
 
-            var currentId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.Id.ToString()]);
+            var currentId = NavigationContext.QueryString[NavigationManager.Params.Id.ToString()];
             var checkpointId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.CheckpointId.ToString()]);
 
             if (e.NavigationMode == NavigationMode.New)

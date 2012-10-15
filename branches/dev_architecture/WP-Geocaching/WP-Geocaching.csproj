@@ -101,7 +101,6 @@
     <Compile Include="Model\Dialogs\PrivacyStatementDialog.cs" />
     <Compile Include="Model\HashSet.cs" />
     <Compile Include="Model\ILocationAware.cs" />
-    <Compile Include="Model\INavigationManager.cs" />
     <Compile Include="Model\LocationManager.cs" />
     <Compile Include="Model\LogManager.cs" />
     <Compile Include="Model\NavigationManager.cs" />

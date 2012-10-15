@@ -16,7 +16,7 @@ namespace WP_Geocaching.Model
         {
             return caches.Elements("c").Select(p => new Cache
                    {
-                       Id = Convert.ToInt32(p.Element("id").Value),
+                       Id = p.Element("id").Value,
                        Location = new GeoCoordinate(Convert.ToDouble(p.Element("la").Value, 
                            CultureInfo.InvariantCulture), Convert.ToDouble(p.Element("ln").Value, 
                            CultureInfo.InvariantCulture)),

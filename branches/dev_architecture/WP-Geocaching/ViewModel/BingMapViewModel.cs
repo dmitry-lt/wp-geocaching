@@ -93,6 +93,7 @@ namespace WP_Geocaching.ViewModel
                     {
                         Location = p.Location,
                         Id = p.Id.ToString(),
+                        CacheProvider = p.CacheProvider,
                         IconUri = new Enum[2] { p.Type, p.Subtype }
                     };
 

@@ -62,8 +62,9 @@ namespace WP_Geocaching.View
 
             if (e.NavigationMode == NavigationMode.New)
             {
-                int cacheId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.Id.ToString()]);
-                searchBingMapViewModel.SoughtCache = ApiManager.Instance.GetCacheById(cacheId);
+                var cacheId = NavigationContext.QueryString[NavigationManager.Params.Id.ToString()];
+                var cacheProvider = (CacheProvider)Enum.Parse(typeof(CacheProvider), NavigationContext.QueryString[NavigationManager.Params.CacheProvider.ToString()], false);
+                searchBingMapViewModel.SoughtCache = ApiManager.Instance.GetCache(cacheId, cacheProvider);
             }
 
             if (e.NavigationMode == NavigationMode.Back)
@@ -145,16 +146,17 @@ namespace WP_Geocaching.View
 
         void ShowInfo(object sender, EventArgs e)
         {
-            NavigationManager.Instance.NavigateToInfoPivot(searchBingMapViewModel.SoughtCache.Id.ToString(), false);
+            NavigationManager.Instance.NavigateToInfoPivot(searchBingMapViewModel.SoughtCache.Id.ToString(), searchBingMapViewModel.SoughtCache.CacheProvider, false);
         }
 
         void CompassClick(object sender, EventArgs e)
         {
             var id = -1;
-            var cacheId = searchBingMapViewModel.SoughtCache.Id.ToString();
+            var cacheId = searchBingMapViewModel.SoughtCache.Id;
+            var cacheProvider = searchBingMapViewModel.SoughtCache.CacheProvider;
             var checkpointId = id.ToString();
             var db = new CacheDataBase();
-            var checkpoints = db.GetCheckpointsByCacheId(Convert.ToInt32(cacheId));
+            var checkpoints = db.GetCheckpointsByCacheId(cacheId);
 
             foreach (var c in checkpoints)
             {
@@ -163,7 +165,7 @@ namespace WP_Geocaching.View
                 break;
             }
 
-            NavigationManager.Instance.NavigateToCompass(cacheId, checkpointId);
+            NavigationManager.Instance.NavigateToCompass(cacheId, cacheProvider, checkpointId);
         }
 
         private void ShowAllClick(object sender, EventArgs e)

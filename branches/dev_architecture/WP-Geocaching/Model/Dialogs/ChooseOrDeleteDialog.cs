@@ -14,11 +14,11 @@ namespace WP_Geocaching.Model.Dialogs
         private const string Message = "{0} {1}\n{2} {3}\n{4} {5}";
 
         private ListCacheItem item;
-        private readonly int cacheId;
+        private readonly string cacheId;
         private readonly Action closeAction;
         private Dispatcher dispatcher;
 
-        public ChooseOrDeleteDialog(int cacheId, Action closeAction, Dispatcher dispatcher)
+        public ChooseOrDeleteDialog(string cacheId, Action closeAction, Dispatcher dispatcher)
         {
             this.cacheId = cacheId;
             this.closeAction = closeAction;

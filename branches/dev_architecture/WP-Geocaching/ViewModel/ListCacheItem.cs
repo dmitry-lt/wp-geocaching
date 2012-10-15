@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model;
 
@@ -15,7 +7,8 @@ namespace WP_Geocaching.ViewModel
 {
     public class ListCacheItem
     {
-        private int id;
+        private string id;
+        private CacheProvider cacheProvider;
         private string name;
         private double latitude;
         private double longitude;
@@ -25,7 +18,7 @@ namespace WP_Geocaching.ViewModel
         private Enum[] iconUri;
         private DateTime updateTime;
 
-        public int Id
+        public string Id
         {
             get
             {
@@ -34,6 +27,17 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 this.id = value;
+            }
+        }
+        public CacheProvider CacheProvider
+        {
+            get
+            {
+                return this.cacheProvider;
+            }
+            set
+            {
+                this.cacheProvider = value;
             }
         }
         public string Name
@@ -137,9 +141,11 @@ namespace WP_Geocaching.ViewModel
             Details = item.Details;
             IconUri = new Enum[2] { (Cache.Types)item.Type, (Cache.Subtypes)item.Subtype };
         }
+
         public ListCacheItem(DbCheckpointsItem item)
         {
-            Id = item.Id;
+            Id = item.Id.ToString();
+            CacheProvider = item.CacheProvider;
             Latitude = item.Latitude;
             Longitude = item.Longitude;
             Name = item.Name;
