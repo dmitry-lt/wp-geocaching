@@ -138,8 +138,8 @@
     <Compile Include="ViewModel\BaseMapViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CachePushpin.cs" />
-    <Compile Include="Model\GeocahingSuApiManager.cs" />
-    <Compile Include="Model\IApiManager.cs" />
+    <Compile Include="Model\Api\GeocahingSuApiManager.cs" />
+    <Compile Include="Model\Api\IApiManager.cs" />
     <Compile Include="Model\Converters\IconConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Localization\LocalizedStrings.cs" />
