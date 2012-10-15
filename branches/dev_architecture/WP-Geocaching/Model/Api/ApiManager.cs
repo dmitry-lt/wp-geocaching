@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using WP_Geocaching.Model.Api.GeocachingSu;
+using WP_Geocaching.Model.Api.OpenCachingCom;
 
 namespace WP_Geocaching.Model.Api
 {

@@ -13,7 +13,7 @@ using WP_Geocaching.Model.DataBase;
 using System.Text.RegularExpressions;
 using Microsoft.Phone;
 
-namespace WP_Geocaching.Model.Api
+namespace WP_Geocaching.Model.Api.GeocachingSu
 {
     /// <summary>
     /// IApiManager implementation for Geocaching.su
