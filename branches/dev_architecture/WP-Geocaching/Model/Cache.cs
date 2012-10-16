@@ -142,12 +142,12 @@ namespace WP_Geocaching.Model
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return other.id == id;
+            return other.id == id && other.CacheProvider == CacheProvider;
         }
 
         public override int GetHashCode()
         {
-            return id.GetHashCode();
+            return (CacheProvider.GetHashCode() * 17) ^ id.GetHashCode();
         }
     }
 }

@@ -71,8 +71,9 @@ namespace WP_Geocaching.ViewModel
             UpdateMapMode();
         }
 
-        private Dictionary<Cache, CachePushpin> _currentPushpins = new Dictionary<Cache, CachePushpin>();
-        private object _lock = new object();
+        private readonly HashSet<Cache> _allCaches = new HashSet<Cache>();
+        private readonly Dictionary<Cache, CachePushpin> _currentPushpins = new Dictionary<Cache, CachePushpin>();
+        private readonly object _lock = new object();
 
         private void AddPushpin(Cache cache)
         {
@@ -92,62 +93,80 @@ namespace WP_Geocaching.ViewModel
         private void RemovePushpin(Cache cache)
         {
             var pushpin = _currentPushpins[cache];
-            
+
             _currentPushpins.Remove(cache);
 
             CachePushpins.Remove(pushpin);
         }
 
-        // TODO: refactor
+        private void RemoveAllPushpins()
+        {
+            _currentPushpins.Clear();
+            CachePushpins.Clear();
+        }
+
         private void ProcessCaches(List<Cache> caches)
         {
             lock (_lock)
             {
-                // Remove pushpins that are out of screen
-                var cachesToRemove = new HashSet<Cache>();
-                foreach (var c in _currentPushpins.Keys)
+                if (null != caches)
                 {
-                    if ((c.Location.Latitude > BoundingRectangle.North) ||
-                        (c.Location.Latitude < BoundingRectangle.South) ||
-                        (c.Location.Longitude > BoundingRectangle.East) ||
-                        (c.Location.Longitude < BoundingRectangle.West))
+                    foreach (var c in caches)
                     {
-                        cachesToRemove.Add(c);
+                        if (!_allCaches.Contains(c))
+                        {
+                            _allCaches.Add(c);
+                        }
                     }
                 }
 
-                foreach (var c in cachesToRemove)
+                var cachesOnScreen = new HashSet<Cache>();
+                foreach (Cache c in _allCaches)
                 {
-                    RemovePushpin((Cache)c);
-                }
-
-                var cachesToAdd = new HashSet<Cache>();
-                foreach (var c in caches)
-                {
-                    if (!_currentPushpins.ContainsKey(c))
+                    if ((c.Location.Latitude <= BoundingRectangle.North) &&
+                        (c.Location.Latitude >= BoundingRectangle.South) &&
+                        (c.Location.Longitude <= BoundingRectangle.East) &&
+                        (c.Location.Longitude >= BoundingRectangle.West))
                     {
-                        cachesToAdd.Add(c);
+                        cachesOnScreen.Add(c);
                     }
                 }
 
-                if (_currentPushpins.Count + cachesToAdd.Count >= maxCacheCount)
+                if (cachesOnScreen.Count >= maxCacheCount)
                 {
                     if (surpassedCacheCountMessageVisibility.Equals(Visibility.Collapsed))
                     {
                         SurpassedCacheCountMessageVisibility = Visibility.Visible;
                     }
+                    RemoveAllPushpins();
                 }
                 else
                 {
-
-                    foreach (var c in cachesToAdd)
-                    {
-                        AddPushpin((Cache) c);
-                    }
-
                     if (surpassedCacheCountMessageVisibility.Equals(Visibility.Visible))
                     {
                         SurpassedCacheCountMessageVisibility = Visibility.Collapsed;
+                    }
+
+                    var cachesToRemove = new HashSet<Cache>();
+                    foreach (var c in _currentPushpins.Keys)
+                    {
+                        if (!cachesOnScreen.Contains(c))
+                        {
+                            cachesToRemove.Add(c);
+                        }
+                    }
+
+                    foreach (Cache c in cachesToRemove)
+                    {
+                        RemovePushpin(c);
+                    }
+
+                    foreach (Cache c in cachesOnScreen)
+                    {
+                        if (!_currentPushpins.ContainsKey(c))
+                        {
+                            AddPushpin((Cache) c);
+                        }
                     }
                 }
             }
@@ -155,6 +174,7 @@ namespace WP_Geocaching.ViewModel
 
         private void SetPushpinsOnMap()
         {
+            ProcessCaches(null);
             apiManager.UpdateCaches(ProcessCaches, BoundingRectangle.East,
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
