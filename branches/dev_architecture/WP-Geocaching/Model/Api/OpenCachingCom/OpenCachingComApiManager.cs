@@ -167,5 +167,45 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
 
             client.DownloadStringAsync(new Uri(sUrl));
         }
+
+        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, Cache cache)
+        {
+            var sUrl = String.Format(CultureInfo.InvariantCulture, CacheDescriptionUrl, cache.Id);
+
+            var client = CreateWebClient();
+
+            client.DownloadStringCompleted += (sender, e) =>
+            {
+                if (e.Error != null) return;
+
+                var jsonResult = e.Result;
+
+                var serializer = new DataContractJsonSerializer(typeof(OpenCachingComApiCache));
+
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonResult)))
+                {
+                    var parsedCache = (OpenCachingComApiCache)serializer.ReadObject(ms);
+
+                    var logs = parsedCache.logs;
+
+                    var notebook = "";
+
+                    if (null != logs)
+                    {
+                        foreach (var log in logs)
+                        {
+                            notebook += log.user.name + ":<br/>";
+                            notebook += log.comment + "<br/><br/>";
+                        }
+                    }
+
+                    if (processCacheNotebook == null) return;
+
+                    processCacheNotebook(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(notebook)));
+                }
+            };
+
+            client.DownloadStringAsync(new Uri(sUrl));
+        }
     }
 }
