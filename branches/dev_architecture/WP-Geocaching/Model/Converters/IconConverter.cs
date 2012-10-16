@@ -9,11 +9,10 @@ namespace WP_Geocaching.Model.Converters
         private const string GeocachingSuIconUri = "/Resources/Icons/GeocachingSu/ic_cache_custom_{0}_{1}.png";
         private const string CheckpointUri = "/Resources/Icons/ic_checkpoint_{0}.png";
 
-        private object ConverGeocachingSu(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        private object ConverGeocachingSu(GeocachingSuCache value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            Enum[] iconIdentifier = value as Enum[];
-            GeocachingSuCache.Types type = (GeocachingSuCache.Types)iconIdentifier[0];
-            GeocachingSuCache.Subtypes subtype = (GeocachingSuCache.Subtypes)iconIdentifier[1];
+            GeocachingSuCache.Types type = value.Type;
+            GeocachingSuCache.Subtypes subtype = value.Subtype;
             switch (type)
             {
                 case GeocachingSuCache.Types.Traditional:
@@ -145,7 +144,12 @@ namespace WP_Geocaching.Model.Converters
                 return new Uri(String.Format(GeocachingSuIconUri, "traditional", "valid"), UriKind.Relative);
             }
 
-            return ConverGeocachingSu(value, targetType, parameter, culture);
+            if (value is GeocachingSuCache)
+            {
+                return ConverGeocachingSu(value as GeocachingSuCache, targetType, parameter, culture);
+            }
+
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

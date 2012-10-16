@@ -80,18 +80,8 @@ namespace WP_Geocaching.ViewModel
         {
             var pushpin = new CachePushpin()
             {
-                Location = cache.Location,
-                Id = cache.Id,
-                CacheProvider = cache.CacheProvider,
+                Cache = cache
             };
-
-            // TODO: refactor IconUri
-            if (cache is GeocachingSuCache)
-            {
-                var c = cache as GeocachingSuCache;
-                pushpin.IconUri = new Enum[] { c.Type, c.Subtype };
-            }
-
 
             _currentPushpins.Add(cache, pushpin);
 
