@@ -5,26 +5,28 @@ using System.Xml.Linq;
 using System.Device.Location;
 using System.Globalization;
 
-namespace WP_Geocaching.Model
+namespace WP_Geocaching.Model.Api.GeocachingSu
 {
     /// <summary>
     /// Parses xml for get cache list
     /// </summary>
-    public class CacheParser
+    public class GeocachingSuCacheParser
     {
         public List<Cache> Parse(XElement caches)
         {
-            return caches.Elements("c").Select(p => new Cache
+            var cachesEnum = caches.Elements("c").Select(p => new GeocachingSuCache
                    {
-                       Id = Convert.ToInt32(p.Element("id").Value),
+                       Id = p.Element("id").Value,
                        Location = new GeoCoordinate(Convert.ToDouble(p.Element("la").Value, 
                            CultureInfo.InvariantCulture), Convert.ToDouble(p.Element("ln").Value, 
                            CultureInfo.InvariantCulture)),
                        Name = p.Element("n").Value,
-                       Subtype = (Cache.Subtypes)Convert.ToInt32(p.Element("st").Value),
-                       Type = (Cache.Types)Convert.ToInt32(p.Element("ct").Value),
-                       CClass = getCClassList(p.Element("cc").Value)
-                   }).ToList();
+                       Subtype = (GeocachingSuCache.Subtypes)Convert.ToInt32(p.Element("st").Value),
+                       Type = (GeocachingSuCache.Types)Convert.ToInt32(p.Element("ct").Value),
+                       CClass = getCClassList(p.Element("cc").Value),
+                   });
+            var result = cachesEnum.Cast<Cache>().ToList();
+            return result;
         }
 
         private List<int> getCClassList(string st)

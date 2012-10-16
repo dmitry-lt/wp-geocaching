@@ -40,7 +40,7 @@ namespace WP_Geocaching.Model
 
         public IEnumerator GetEnumerator()
         {
-            throw new NotImplementedException();
+            return dictionary.Keys.GetEnumerator();
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()

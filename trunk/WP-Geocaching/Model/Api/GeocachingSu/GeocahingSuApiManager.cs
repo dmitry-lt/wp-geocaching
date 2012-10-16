@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using System.Collections.Generic;
@@ -14,14 +13,13 @@ using WP_Geocaching.Model.DataBase;
 using System.Text.RegularExpressions;
 using Microsoft.Phone;
 
-namespace WP_Geocaching.Model
+namespace WP_Geocaching.Model.Api.GeocachingSu
 {
     /// <summary>
     /// IApiManager implementation for Geocaching.su
     /// </summary>
     public class GeocahingSuApiManager : IApiManager
     {
-        private static GeocahingSuApiManager instance;
         private static readonly Encoding CP1251Encoding = new CP1251Encoding();
         private const string LinkPattern = "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
         private const string InfoUrl = "http://pda.geocaching.su/cache.php?cid={0}";
@@ -31,24 +29,16 @@ namespace WP_Geocaching.Model
             "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax={0}&lngmin={1}&latmax={2}&latmin={3}&cacheId={4}&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
         private int id;
 
-        public HashSet<Cache> CacheList { get; set; }
+        public HashSet<Cache> Caches { get; private set; }
 
-        private GeocahingSuApiManager()
+        internal GeocahingSuApiManager()
         {
             var random = new Random();
             id = random.Next(100000000);
-            CacheList = new HashSet<Cache>();
+            Caches = new HashSet<Cache>();
         }
 
-        public static GeocahingSuApiManager Instance
-        {
-            get
-            {
-                return instance ?? (instance = new GeocahingSuApiManager());
-            }
-        }
-
-        public void UpdateCacheList(Action<List<Cache>> processCacheList, double lngmax, double lngmin, double latmax, double latmin)
+        public void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, lngmax, lngmin, latmax, latmin, id);
             var client = new WebClient
@@ -59,25 +49,25 @@ namespace WP_Geocaching.Model
             {
                 if (e.Error != null) return;
                 var caches = XElement.Parse(e.Result);
-                var parser = new CacheParser();
+                var parser = new GeocachingSuCacheParser();
                 var downloadedCaches = parser.Parse(caches);
 
                 foreach (var p in downloadedCaches)
                 {
-                    if (!CacheList.Contains(p))
+                    if (!Caches.Contains(p))
                     {
-                        CacheList.Add(p);
+                        Caches.Add(p);
                     }
                 }
 
-                if (processCacheList == null) return;
-                var list = (from cache in CacheList
+                if (processCaches == null) return;
+                var list = (from cache in Caches
                             where ((cache.Location.Latitude <= latmax) &&
                                    (cache.Location.Latitude >= latmin) &&
                                    (cache.Location.Longitude <= lngmax) &&
                                    (cache.Location.Longitude >= lngmin))
                             select cache).ToList<Cache>();
-                processCacheList(list);
+                processCaches(list);
             };
             client.DownloadStringAsync(new Uri(sUrl));
         }
@@ -86,7 +76,7 @@ namespace WP_Geocaching.Model
         /// Downloads data at the url by cacheId
         /// </summary>
         /// <param name="processData">processes downloaded result</param>
-        private static void DownloadAndProcessData(string url, Action<string> processData, int cacheId)
+        private static void DownloadAndProcessData(string url, Action<string> processData, string cacheId)
         {
             var webClient = new WebClient();
 
@@ -104,31 +94,32 @@ namespace WP_Geocaching.Model
         }
 
         /// <summary>
-        /// Downloads cache info by cacheId
+        /// Downloads cache info
         /// </summary>
         /// <param name="processCacheInfo">processes downloaded result</param>
-        public void DownloadAndProcessInfo(Action<string> processCacheInfo, int cacheId)
+        /// <param name="cache"> </param>
+        public void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache)
         {
-            DownloadAndProcessData(InfoUrl, processCacheInfo, cacheId);
+            DownloadAndProcessData(InfoUrl, processCacheInfo, cache.Id);
         }
 
         /// <summary>
-        /// Downloads cache notebook by cacheId
+        /// Downloads cache notebook
         /// </summary>
-        /// <param name="processCacheInfo">processes downloaded result</param>
-        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, int cacheId)
+        /// <param name="processCacheNotebook"> </param>
+        /// <param name="cache"> </param>
+        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, Cache cache)
         {
-            DownloadAndProcessData(NotebookUrl, processCacheNotebook, cacheId);
+            DownloadAndProcessData(NotebookUrl, processCacheNotebook, cache.Id);
         }
 
-        public Cache GetCacheById(int cacheId)
+        public Cache GetCache(string cacheId, CacheProvider cacheProvider)
         {
-            foreach (var p in CacheList.Where(p => p.Id == cacheId))
+            foreach (var p in Caches.Where(p => p.Id == cacheId))
             {
                 return p;
             }
-            var db = new CacheDataBase();
-            return new Cache(db.GetCache(cacheId));
+            return null;
         }
 
         #region Photo Downloading
@@ -136,19 +127,19 @@ namespace WP_Geocaching.Model
         private List<String> photoUrls;
         private List<String> photoNames;
         private ObservableCollection<Photo> images;
-        private int cacheId;
+        private string cacheId;
 
-        public void LoadPhotos(int cacheId, Action<ObservableCollection<Photo>> processAction)
+        public void LoadPhotos(string cacheId, Action<ObservableCollection<Photo>> processAction)
         {
             ProcessPhotos(cacheId, processAction, LoadAndProcessPhoto);
         }
 
-        public void SavePhotos(int cacheId, Action<ObservableCollection<Photo>> processAction)
+        public void SavePhotos(string cacheId, Action<ObservableCollection<Photo>> processAction)
         {
             ProcessPhotos(cacheId, processAction, SaveAndProcessPhoto);
         }
 
-        public void ProcessPhotos(int cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
+        public void ProcessPhotos(string cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var db = new CacheDataBase();
             var helper = new FileStorageHelper();
@@ -168,7 +159,7 @@ namespace WP_Geocaching.Model
             }
         }
 
-        private void ProcessPhotosFromWeb(int cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
+        private void ProcessPhotosFromWeb(string cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var webClient = new WebClient();
 
@@ -209,7 +200,7 @@ namespace WP_Geocaching.Model
             webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cacheId), UriKind.Absolute));
         }
 
-        private void ProcessPhotosFromIsolatedStorage(int cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
+        private void ProcessPhotosFromIsolatedStorage(string cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var helper = new FileStorageHelper();
 
@@ -238,7 +229,7 @@ namespace WP_Geocaching.Model
             }
         }
 
-        private void ResetPhotoCacheData(int cacheId)
+        private void ResetPhotoCacheData(string cacheId)
         {
             this.cacheId = cacheId;
             photoUrls = photoNames = null;
@@ -411,7 +402,7 @@ namespace WP_Geocaching.Model
 
         }
 
-        public void DeletePhotos(int cacheId)
+        public void DeletePhotos(string cacheId)
         {
             var helper = new FileStorageHelper();
             helper.DeletePhotos(cacheId);

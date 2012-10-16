@@ -64,12 +64,12 @@
                 <Microsoft_Phone_Controls_Maps:MapItemsControl ItemsSource="{Binding CachePushpins, Mode=TwoWay}" Margin="0">
                     <Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Location}"
+                            <Microsoft_Phone_Controls_Maps:Pushpin Location="{Binding Cache.Location}"
                                                                    Style="{StaticResource PushpinStyle}"
                                                                    Tag="{Binding ShowDetails}"
                                                                    Tap="PushpinTap"
                                                                    >
-                                <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}"/>
+                                <Image Source="{Binding Cache, Converter={StaticResource IconConverter}}"/>
                             </Microsoft_Phone_Controls_Maps:Pushpin>
                         </DataTemplate>
                     </Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>

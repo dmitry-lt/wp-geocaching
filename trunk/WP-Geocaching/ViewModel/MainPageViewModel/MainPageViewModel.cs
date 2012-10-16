@@ -139,7 +139,7 @@ namespace WP_Geocaching.ViewModel.MainPageViewModel
         private void SearchCache()
         {
             var settings = new Settings();
-            if (settings.LastSoughtCacheId < 0)
+            if (String.IsNullOrEmpty(settings.LastSoughtCacheId))
             {
                 NoSouhgtCacheMessageVisibility = Visibility.Visible;
                 var timer = new DispatcherTimer
@@ -151,7 +151,7 @@ namespace WP_Geocaching.ViewModel.MainPageViewModel
             }
             else if (settings.IsLocationEnabled)
             {
-                NavigationManager.Instance.NavigateToSearchBingMap(settings.LastSoughtCacheId.ToString());
+                NavigationManager.Instance.NavigateToSearchBingMap(settings.LastSoughtCacheId, settings.LastSoughtCacheProvider);
             }
             else
             {

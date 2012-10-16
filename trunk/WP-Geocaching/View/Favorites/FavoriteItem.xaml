@@ -17,12 +17,12 @@
             <c:CacheSubtypeConverter x:Key="CacheSubtypeConverter"  x:Name="CacheSubtypeConverter"/>
         </Grid.Resources>
         <StackPanel Orientation="Horizontal" Height="Auto">
-            <Image Source="{Binding IconUri, Converter={StaticResource IconConverter}}" VerticalAlignment="Center" Width="48"/>
+            <Image Source="{Binding Cache, Converter={StaticResource IconConverter}}" VerticalAlignment="Center" Width="48"/>
             <StackPanel Width="370" Margin="10,0,0,0">
-                <TextBlock Text="{Binding Name}" TextWrapping="Wrap"
+                <TextBlock Text="{Binding Cache.Name}" TextWrapping="Wrap"
                            FontSize="22" VerticalAlignment="Center" 
                            Width="380" Height="Auto"/>
-                <TextBlock Text="{Binding Type, Converter={StaticResource CacheTypeConverter}}" 
+                <TextBlock Text="{Binding Cache, Converter={StaticResource CacheTypeConverter}}" 
                            Foreground="{StaticResource PhoneSubtleBrush}"
                            FontSize="18" VerticalAlignment="Center" Width="380" Height="Auto"/>
                 <TextBlock Text="{Binding Subtype, Converter={StaticResource CacheSubtypeConverter}}" 

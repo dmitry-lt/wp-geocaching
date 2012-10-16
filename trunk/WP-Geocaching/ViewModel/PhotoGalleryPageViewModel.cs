@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.Api;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -40,7 +41,7 @@ namespace WP_Geocaching.ViewModel
         public void LoadFullsizePhoto(int index)
         {
             currentIndex = index;
-            GeocahingSuApiManager.Instance.ProcessPhoto(SetImageSource, index);
+            ApiManager.Instance.ProcessPhoto(SetImageSource, index);
         }
 
         public void SetImageSource(Photo source, int maxHeight)

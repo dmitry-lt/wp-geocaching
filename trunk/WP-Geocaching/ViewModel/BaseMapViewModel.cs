@@ -4,6 +4,7 @@ using System.Threading;
 using System.Device.Location;
 using System.Collections.ObjectModel;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.Api;
 
 namespace WP_Geocaching.ViewModel
 {

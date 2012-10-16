@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Windows;
 using Microsoft.Phone.Controls;
+using WP_Geocaching.Model.Api;
 
 namespace WP_Geocaching.Model
 {
-    public class NavigationManager : INavigationManager
+    public class NavigationManager
     {
         public enum Params
         {
             Id = 0,
             CheckpointId = 1,
             IsAppBarEnabled = 2,
-            Index = 3
+            Index = 3,
+            CacheProvider = 4,
         }
 
         private static string OneParamsPattern = "{0}?{1}={2}";
         private static string TwoParamsPattern = "{0}?{1}={2}&{3}={4}";
+        private static string ThreeParamsPattern = "{0}?{1}={2}&{3}={4}&{5}={6}";
 
         private static NavigationManager instance;
 
@@ -41,16 +44,18 @@ namespace WP_Geocaching.Model
             frame.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
-        public void NavigateToInfoPivot(string currentId, bool isAppBarEnabled)
+        public void NavigateToInfoPivot(string currentId, CacheProvider cacheProvider, bool isAppBarEnabled)
         {
-            Navigate(String.Format(TwoParamsPattern, "//View/Info/InfoPivot.xaml",
+            Navigate(String.Format(ThreeParamsPattern, "//View/Info/InfoPivot.xaml",
                 Params.Id, currentId,
+                Params.CacheProvider, cacheProvider,
                 Params.IsAppBarEnabled, isAppBarEnabled));
         }
 
-        public void NavigateToSearchBingMap(string currentId)
+        public void NavigateToSearchBingMap(string currentId, CacheProvider cacheProvider)
         {
-            Navigate(String.Format(OneParamsPattern, "//View/SearchBingMap.xaml",
+            Navigate(String.Format(TwoParamsPattern, "//View/SearchBingMap.xaml",
+                Params.CacheProvider, cacheProvider,
                 Params.Id, currentId));
         }
 
@@ -64,16 +69,18 @@ namespace WP_Geocaching.Model
             Navigate("//View/Checkpoints/CreateCheckpoint.xaml");
         }
 
-        public void NavigateToNotebook(string currentId)
+        public void NavigateToNotebook(string currentId, CacheProvider cacheProvider)
         {
-            Navigate(String.Format(OneParamsPattern, "//View/Info/PhotoGalleryPage.xaml",
+            Navigate(String.Format(TwoParamsPattern, "//View/Info/PhotoGalleryPage.xaml",
+                Params.CacheProvider, cacheProvider,
                 Params.Id, currentId));
         }
 
-        public void NavigateToCompass(string currentId, string checkpointId)
+        public void NavigateToCompass(string currentId, CacheProvider cacheProvider, string checkpointId)
         {
-            Navigate(String.Format(TwoParamsPattern, "//View/Compass/CompassPage.xaml",
-                Params.Id, currentId, 
+            Navigate(String.Format(ThreeParamsPattern, "//View/Compass/CompassPage.xaml",
+                Params.Id, currentId,
+                Params.CacheProvider, cacheProvider,
                 Params.CheckpointId, checkpointId));
         }
 

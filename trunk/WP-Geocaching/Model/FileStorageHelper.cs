@@ -41,12 +41,12 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public ImageSource GetPhoto(int cacheId, string fileName)
+        public ImageSource GetPhoto(string cacheId, string fileName)
         {
             return GetImage(String.Format(FilePath, cacheId, fileName));
         }
 
-        public bool IsOnePhotoExists(int cacheId, string fileName)
+        public bool IsOnePhotoExists(string cacheId, string fileName)
         {
             var imagePath = String.Format(FilePath, cacheId, fileName);
 
@@ -56,15 +56,15 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public bool IsPhotosExist(int cacheId)
+        public bool IsPhotosExist(string cacheId)
         {
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                return fileStore.DirectoryExists(cacheId.ToString());
+                return fileStore.DirectoryExists(cacheId);
             }
         }
 
-        public void SavePhoto(int cacheId, string fileName, WriteableBitmap bitmap)
+        public void SavePhoto(string cacheId, string fileName, WriteableBitmap bitmap)
         {
             CreateCacheDirectories(cacheId);
             var newFilePath = String.Format(FilePath, cacheId, fileName);
@@ -84,21 +84,21 @@ namespace WP_Geocaching.Model
             }
         }
 
-        private void CreateCacheDirectories(int cacheId)
+        private void CreateCacheDirectories(string cacheId)
         {
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
 
-                if (fileStore.DirectoryExists(cacheId.ToString()))
+                if (fileStore.DirectoryExists(cacheId))
                 {
                     return;
                 }
 
-                fileStore.CreateDirectory(cacheId.ToString());
+                fileStore.CreateDirectory(cacheId);
             }
         }
 
-        public List<string> GetPhotoNames(int cacheId)
+        public List<string> GetPhotoNames(string cacheId)
         {
             if (!IsPhotosExist(cacheId))
             {
@@ -112,7 +112,7 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public void DeletePhotos(int cacheId)
+        public void DeletePhotos(string cacheId)
         {
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {

@@ -3,6 +3,8 @@ using WP_Geocaching.Model;
 using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
+using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.View.Compass;
 
@@ -147,7 +149,7 @@ namespace WP_Geocaching.ViewModel
             var southeast = new GeoCoordinate(MaxLatitude, MinLongitude);
             foreach (var c in cachePushpins)
             {
-                UpdateToSetData(c.Location, northwest, southeast);
+                UpdateToSetData(c.Cache.Location, northwest, southeast);
             }
             UpdateToSetData(CurrentLocation, northwest, southeast);
             setView(new LocationRect(northwest.Latitude, northwest.Longitude, southeast.Latitude, southeast.Longitude));
@@ -209,10 +211,14 @@ namespace WP_Geocaching.ViewModel
         {
             foreach (var c in CachePushpins)
             {
-                var subtype = (Cache.Subtypes)c.IconUri[1];
-                if ((subtype == Cache.Subtypes.ActiveCheckpoint))
+                // TODO: refactor
+                if (c.Cache is GeocachingSuCache)
                 {
-                    return c.Location;
+                    var subtype = (c.Cache as GeocachingSuCache).Subtype;
+                    if ((subtype == GeocachingSuCache.Subtypes.ActiveCheckpoint))
+                    {
+                        return c.Cache.Location;
+                    }
                 }
             }
             return SoughtCache.Location;
