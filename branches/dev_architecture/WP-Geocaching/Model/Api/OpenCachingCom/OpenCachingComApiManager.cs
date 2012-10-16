@@ -161,7 +161,7 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
 
                     if (processCacheInfo == null) return;
 
-                    processCacheInfo(ConvertExtendedASCII(String.Format(CacheDescriptionTemplate, cacheInfo)));
+                    processCacheInfo(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(cacheInfo)));
                 }
             };
 
