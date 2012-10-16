@@ -67,7 +67,8 @@ namespace WP_Geocaching.ViewModel
                         Id = item.Id + "",
                         Location = new GeoCoordinate(item.Latitude, item.Longitude),
                         Name = item.Name,
-                        Type = GeocachingSuCache.Types.Checkpoint
+                        Type = GeocachingSuCache.Types.Checkpoint,
+                        Subtype = (GeocachingSuCache.Subtypes)item.Subtype,
                     };
 
             Subtype = item.Subtype;
