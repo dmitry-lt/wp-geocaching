@@ -68,10 +68,10 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
 
         public GeocachingSuCache()
         {
-            
+            CacheProvider = CacheProvider.GeocachingSu;
         }
 
-        public GeocachingSuCache(DbCacheItem item)
+        public GeocachingSuCache(DbCacheItem item) : this()
         {
             Id = item.Id;
             Location = new GeoCoordinate(item.Latitude, item.Longitude);

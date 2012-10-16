@@ -34,7 +34,7 @@ namespace WP_Geocaching.Model
             {
                 return this.cacheProvider;
             }
-            set
+            protected set
             {
                 this.cacheProvider = value;
             }

@@ -24,7 +24,6 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
                        Subtype = (GeocachingSuCache.Subtypes)Convert.ToInt32(p.Element("st").Value),
                        Type = (GeocachingSuCache.Types)Convert.ToInt32(p.Element("ct").Value),
                        CClass = getCClassList(p.Element("cc").Value),
-                       CacheProvider = CacheProvider.GeocachingSu,
                    });
             var result = cachesEnum.Cast<Cache>().ToList();
             return result;

@@ -2,6 +2,10 @@
 {
     public class OpenCachingComCache : Cache
     {
+        public OpenCachingComCache()
+        {
+            CacheProvider = CacheProvider.OpenCachingCom;
+        }
 
     }
 }

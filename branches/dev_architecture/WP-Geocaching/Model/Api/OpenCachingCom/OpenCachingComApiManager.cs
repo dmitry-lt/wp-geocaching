@@ -52,7 +52,7 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
                     foreach (var parsedCache in parsedCaches)
                     {
                         downloadedCaches.Add(
-                            new Cache()
+                            new OpenCachingComCache()
                             {
                                 Id = parsedCache.oxcode,
                                 Name = parsedCache.name,
@@ -62,7 +62,6 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
                                                    Latitude = Convert.ToDouble(parsedCache.location.lat, CultureInfo.InvariantCulture),
                                                    Longitude = Convert.ToDouble(parsedCache.location.lon, CultureInfo.InvariantCulture),
                                                },
-                                CacheProvider = CacheProvider.OpenCachingCom,
                             });
                     }
 
