@@ -27,6 +27,24 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
             throw new NotImplementedException();
         }
 
+        private OpenCachingComCache.Types ParseType(string type)
+        {
+            switch(type)
+            {
+                case "Multi-cache":
+                    return OpenCachingComCache.Types.Multi;
+
+                case "Unknown Cache":
+                    return OpenCachingComCache.Types.Puzzle;
+
+                case "Virtual Cache":
+                    return OpenCachingComCache.Types.Virtual;
+
+                default:
+                    return OpenCachingComCache.Types.Traditional;
+            }
+        }
+
         public void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, latmin, lngmin, latmax, lngmax);
@@ -62,6 +80,7 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
                                                    Latitude = Convert.ToDouble(parsedCache.location.lat, CultureInfo.InvariantCulture),
                                                    Longitude = Convert.ToDouble(parsedCache.location.lon, CultureInfo.InvariantCulture),
                                                },
+                                Type = ParseType(parsedCache.type),
                             });
                     }
 

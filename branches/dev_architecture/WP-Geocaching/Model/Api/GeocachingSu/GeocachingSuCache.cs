@@ -28,11 +28,11 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             Checkpoint = 9
         }
 
-        private GeocachingSuCache.Types type;
-        private GeocachingSuCache.Subtypes subtype;
+        private Types type;
+        private Subtypes subtype;
         private List<int> cClass;
 
-        public GeocachingSuCache.Types Type
+        public Types Type
         {
             get
             {
@@ -43,7 +43,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
                 this.type = value;
             }
         }
-        public GeocachingSuCache.Subtypes Subtype
+        public Subtypes Subtype
         {
             get
             {
@@ -76,8 +76,8 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             Id = item.Id;
             Location = new GeoCoordinate(item.Latitude, item.Longitude);
             Name = item.Name;
-            Subtype = (GeocachingSuCache.Subtypes)item.Subtype;
-            Type = (GeocachingSuCache.Types)item.Type;
+            Subtype = (Subtypes)item.Subtype;
+            Type = (Types)item.Type;
         }
 
     }

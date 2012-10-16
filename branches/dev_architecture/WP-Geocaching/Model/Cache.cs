@@ -68,7 +68,7 @@ namespace WP_Geocaching.Model
         {
             if (ReferenceEquals(null, cache)) return false;
             if (ReferenceEquals(this, cache)) return true;
-            if (cache.GetType() != typeof(Cache)) return false;
+            if (!(cache is Cache)) return false;
             return Equals((Cache)cache);
         }
 
