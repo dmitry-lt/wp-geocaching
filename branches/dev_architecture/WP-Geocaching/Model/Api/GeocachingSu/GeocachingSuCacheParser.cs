@@ -14,18 +14,20 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
     {
         public List<Cache> Parse(XElement caches)
         {
-            return caches.Elements("c").Select(p => new Cache
+            var cachesEnum = caches.Elements("c").Select(p => new GeocachingSuCache
                    {
                        Id = p.Element("id").Value,
                        Location = new GeoCoordinate(Convert.ToDouble(p.Element("la").Value, 
                            CultureInfo.InvariantCulture), Convert.ToDouble(p.Element("ln").Value, 
                            CultureInfo.InvariantCulture)),
                        Name = p.Element("n").Value,
-                       Subtype = (Cache.Subtypes)Convert.ToInt32(p.Element("st").Value),
-                       Type = (Cache.Types)Convert.ToInt32(p.Element("ct").Value),
+                       Subtype = (GeocachingSuCache.Subtypes)Convert.ToInt32(p.Element("st").Value),
+                       Type = (GeocachingSuCache.Types)Convert.ToInt32(p.Element("ct").Value),
                        CClass = getCClassList(p.Element("cc").Value),
                        CacheProvider = CacheProvider.GeocachingSu,
-                   }).ToList();
+                   });
+            var result = cachesEnum.Cast<Cache>().ToList();
+            return result;
         }
 
         private List<int> getCClassList(string st)

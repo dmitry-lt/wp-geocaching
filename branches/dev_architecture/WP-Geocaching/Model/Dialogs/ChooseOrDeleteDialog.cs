@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
+using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.Converters;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Resources.Localization;
@@ -50,7 +51,7 @@ namespace WP_Geocaching.Model.Dialogs
 
         protected override List<string> GetResultButtons()
         {
-            return CommandDistionary.Keys.Where(p => item.Type == (int)Cache.Types.Checkpoint ||
+            return CommandDistionary.Keys.Where(p => item.Type == (int)GeocachingSuCache.Types.Checkpoint ||
                 p != AppResources.Delete).ToList();
         }
 
@@ -79,7 +80,7 @@ namespace WP_Geocaching.Model.Dialogs
             dispatcher.BeginInvoke(() =>
                                         {
                                             var db = new CacheDataBase();
-                                            if (item.Type != (int)Cache.Types.Checkpoint)
+                                            if (item.Type != (int)GeocachingSuCache.Types.Checkpoint)
                                             {
                                                 db.MakeCacheActive(item.Id);
                                             }

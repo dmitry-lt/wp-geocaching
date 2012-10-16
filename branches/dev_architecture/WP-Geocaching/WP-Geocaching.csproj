@@ -81,8 +81,10 @@
     </Compile>
     <Compile Include="Model\Api\ApiManager.cs" />
     <Compile Include="Model\Api\CacheProvider.cs" />
+    <Compile Include="Model\Api\GeocachingSu\GeocachingSuCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
+    <Compile Include="Model\Api\OpenCachingCom\OpenCachingComCache.cs" />
     <Compile Include="Model\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="Model\Converters\CacheTypeConverter.cs" />
     <Compile Include="Model\Converters\CoordinateConverter.cs" />

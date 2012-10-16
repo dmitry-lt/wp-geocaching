@@ -4,6 +4,7 @@ using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
 using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.View.Compass;
 
@@ -210,8 +211,8 @@ namespace WP_Geocaching.ViewModel
         {
             foreach (var c in CachePushpins)
             {
-                var subtype = (Cache.Subtypes)c.IconUri[1];
-                if ((subtype == Cache.Subtypes.ActiveCheckpoint))
+                var subtype = (GeocachingSuCache.Subtypes)c.IconUri[1];
+                if ((subtype == GeocachingSuCache.Subtypes.ActiveCheckpoint))
                 {
                     return c.Location;
                 }

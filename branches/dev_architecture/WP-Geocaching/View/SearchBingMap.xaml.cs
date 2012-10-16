@@ -4,6 +4,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
@@ -160,7 +161,7 @@ namespace WP_Geocaching.View
 
             foreach (var c in checkpoints)
             {
-                if ((Cache.Subtypes)c.Subtype != Cache.Subtypes.ActiveCheckpoint) continue;
+                if ((GeocachingSuCache.Subtypes)c.Subtype != GeocachingSuCache.Subtypes.ActiveCheckpoint) continue;
                 checkpointId = c.Id.ToString();
                 break;
             }

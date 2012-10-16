@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Data;
+using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.Model.Converters
@@ -23,25 +24,25 @@ namespace WP_Geocaching.Model.Converters
                 return null;
             }
 
-            switch ((Cache.Types)value)
+            switch ((GeocachingSuCache.Types)value)
             {
-                case Cache.Types.Traditional:
+                case GeocachingSuCache.Types.Traditional:
                     return CacheTypeResources.traditional;
-                case Cache.Types.StepbyStepTraditional:
+                case GeocachingSuCache.Types.StepbyStepTraditional:
                     return CacheTypeResources.step_by_step_traditional;
-                case Cache.Types.Virtual:
+                case GeocachingSuCache.Types.Virtual:
                     return CacheTypeResources.cVirtual;
-                case Cache.Types.Event:
+                case GeocachingSuCache.Types.Event:
                     return CacheTypeResources.cEvent;
-                case Cache.Types.Camera:
+                case GeocachingSuCache.Types.Camera:
                     return CacheTypeResources.camera;
-                case Cache.Types.Extreme:
+                case GeocachingSuCache.Types.Extreme:
                     return CacheTypeResources.extreme;
-                case Cache.Types.StepbyStepVirtual:
+                case GeocachingSuCache.Types.StepbyStepVirtual:
                     return CacheTypeResources.step_by_step_virtual;
-                case Cache.Types.Competition:
+                case GeocachingSuCache.Types.Competition:
                     return CacheTypeResources.competition;
-                case Cache.Types.Checkpoint:
+                case GeocachingSuCache.Types.Checkpoint:
                     return CacheTypeResources.checkpoint;
             }
             return null;

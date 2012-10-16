@@ -6,6 +6,7 @@ using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
 using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Api.GeocachingSu;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -82,8 +83,15 @@ namespace WP_Geocaching.ViewModel
                 Location = cache.Location,
                 Id = cache.Id,
                 CacheProvider = cache.CacheProvider,
-                IconUri = new Enum[2] { cache.Type, cache.Subtype }
             };
+
+            // TODO: refactor IconUri
+            if (cache is GeocachingSuCache)
+            {
+                var c = cache as GeocachingSuCache;
+                pushpin.IconUri = new Enum[] { c.Type, c.Subtype };
+            }
+
 
             _currentPushpins.Add(cache, pushpin);
 

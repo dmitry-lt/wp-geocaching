@@ -3,6 +3,7 @@ using System.Windows.Input;
 using System.Device.Location;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.ViewModel
@@ -75,9 +76,16 @@ namespace WP_Geocaching.ViewModel
         public CachePushpin(Cache cache)
         {
             Location = cache.Location;
-            Id = cache.Id.ToString();
+            Id = cache.Id;
             CacheProvider = cache.CacheProvider;
-            IconUri = new Enum[] { cache.Type, cache.Subtype };
+
+            // TODO: refactor IconUri
+            if (cache is GeocachingSuCache)
+            {
+                var c = cache as GeocachingSuCache;
+                IconUri = new Enum[] { c.Type, c.Subtype };
+            }
+
             showDetails = new ButtonCommand(DefaultShowDetails);
         }
 
@@ -85,7 +93,7 @@ namespace WP_Geocaching.ViewModel
         {
             Location = new GeoCoordinate(item.Latitude, item.Longitude);
             Id = "-1";
-            IconUri = new Enum[] { (Cache.Types)item.Type, (Cache.Subtypes)item.Subtype };
+            IconUri = new Enum[] { (GeocachingSuCache.Types)item.Type, (GeocachingSuCache.Subtypes)item.Subtype };
         }
 
         private void DefaultShowDetails(object p)

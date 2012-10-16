@@ -3,6 +3,7 @@ using System.Data.Linq;
 using System.Linq;
 using System.Collections.Generic;
 using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Api.GeocachingSu;
 
 namespace WP_Geocaching.Model.DataBase
 {
@@ -38,12 +39,16 @@ namespace WP_Geocaching.Model.DataBase
                                       Name = cache.Name,
                                       Latitude = cache.Location.Latitude,
                                       Longitude = cache.Location.Longitude,
-                                      Type = (int)cache.Type,
-                                      Subtype = (int)cache.Subtype,
                                       UpdateTime = DateTime.Now,
                                       Details = details,
                                       Notebook = notebook
                                   };
+                if (cache is GeocachingSuCache)
+                {
+                    var c = cache as GeocachingSuCache;
+                    newItem.Type = (int) c.Type;
+                    newItem.Subtype = (int) c.Subtype;
+                }
                 db.Caches.InsertOnSubmit(newItem);
                 db.SubmitChanges();
             }
@@ -61,8 +66,8 @@ namespace WP_Geocaching.Model.DataBase
                 newItem.CacheId = cacheId;
                 newItem.Latitude = latitude;
                 newItem.Longitude = longitude;
-                newItem.Type = (int)Cache.Types.Checkpoint;
-                newItem.Subtype = (int)Cache.Subtypes.ActiveCheckpoint;
+                newItem.Type = (int)GeocachingSuCache.Types.Checkpoint;
+                newItem.Subtype = (int)GeocachingSuCache.Subtypes.ActiveCheckpoint;
 
                 db.Checkpoints.InsertOnSubmit(newItem);
                 db.SubmitChanges();
@@ -84,7 +89,7 @@ namespace WP_Geocaching.Model.DataBase
                 var query = GetCheckpointsQueryByCacheId(db.Checkpoints, cacheId);
                 foreach (DbCheckpointsItem c in query)
                 {
-                    c.Subtype = (int)Cache.Subtypes.NotActiveCheckpoint;
+                    c.Subtype = (int)GeocachingSuCache.Subtypes.NotActiveCheckpoint;
                 }
                 db.SubmitChanges();
             }
@@ -96,10 +101,10 @@ namespace WP_Geocaching.Model.DataBase
             {
                 var query = GetCheckpointQuery(db.Checkpoints, cacheId, id);
                 DbCheckpointsItem checkpoint = query.FirstOrDefault();
-                if ((checkpoint != null) && (checkpoint.Subtype != (int)Cache.Subtypes.ActiveCheckpoint))
+                if ((checkpoint != null) && (checkpoint.Subtype != (int)GeocachingSuCache.Subtypes.ActiveCheckpoint))
                 {
                     MakeAllCheckpointsNotActive(checkpoint.CacheId);
-                    checkpoint.Subtype = (int)Cache.Subtypes.ActiveCheckpoint;
+                    checkpoint.Subtype = (int)GeocachingSuCache.Subtypes.ActiveCheckpoint;
                 }
                 db.SubmitChanges();
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model;
 
@@ -139,7 +140,7 @@ namespace WP_Geocaching.ViewModel
             Type = item.Type;
             UpdateTime = item.UpdateTime;
             Details = item.Details;
-            IconUri = new Enum[2] { (Cache.Types)item.Type, (Cache.Subtypes)item.Subtype };
+            IconUri = new Enum[2] { (GeocachingSuCache.Types)item.Type, (GeocachingSuCache.Subtypes)item.Subtype };
         }
 
         public ListCacheItem(DbCheckpointsItem item)
@@ -151,7 +152,7 @@ namespace WP_Geocaching.ViewModel
             Name = item.Name;
             Subtype = item.Subtype;
             Type = item.Type;
-            IconUri = new Enum[2] { (Cache.Types)item.Type, (Cache.Subtypes)item.Subtype };
+            IconUri = new Enum[2] { (GeocachingSuCache.Types)item.Type, (GeocachingSuCache.Subtypes)item.Subtype };
         }
     }
 }
