@@ -17,7 +17,7 @@
             <c:CacheSubtypeConverter x:Key="CacheSubtypeConverter"  x:Name="CacheSubtypeConverter"/>
         </Grid.Resources>
         <StackPanel Orientation="Horizontal" Height="Auto">
-            <Image Source="{Binding IconUri, 
+            <Image Source="{Binding ., 
                 Converter={StaticResource IconConverter}}" 
                    VerticalAlignment="Center" 
                    Width="48"/>
