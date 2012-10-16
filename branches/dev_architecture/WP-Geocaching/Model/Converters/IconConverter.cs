@@ -6,7 +6,7 @@ namespace WP_Geocaching.Model.Converters
 {
     public class IconConverter : IValueConverter
     {
-        private const string IconUri = "/Resources/Icons/ic_cache_custom_{0}_{1}.png";
+        private const string IconUri = "/Resources/Icons/GeocachingSu/ic_cache_custom_{0}_{1}.png";
         private const string CheckpointUri = "/Resources/Icons/ic_checkpoint_{0}.png";
 
         public object Convert(object value, Type targetType, object parameter,
