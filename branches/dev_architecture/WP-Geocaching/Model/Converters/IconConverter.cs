@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using WP_Geocaching.Model.Api.GeocachingSu;
+using WP_Geocaching.Model.Api.OpenCachingCom;
 using WP_Geocaching.ViewModel;
 
 namespace WP_Geocaching.Model.Converters
@@ -9,6 +10,8 @@ namespace WP_Geocaching.Model.Converters
     {
         private const string GeocachingSuIconUri = "/Resources/Icons/GeocachingSu/ic_cache_custom_{0}_{1}.png";
         private const string CheckpointUri = "/Resources/Icons/ic_checkpoint_{0}.png";
+
+        private const string OpenCachingComIconUri = "/Resources/Icons/OpenCachingCom/ic_cache_custom_{0}_valid.png";
 
         private object ConvertGeocachingSu(GeocachingSuCache.Types type, GeocachingSuCache.Subtypes subtype)
         {
@@ -135,22 +138,41 @@ namespace WP_Geocaching.Model.Converters
 
         }
 
-        private object ConvertGeocachingSu(GeocachingSuCache value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        private object ConvertGeocachingSu(GeocachingSuCache value)
         {
             return ConvertGeocachingSu(value.Type, value.Subtype);
         }
 
+        private object ConvertOpenCachingCom(OpenCachingComCache cache)
+        {
+            switch (cache.Type)
+            {
+                case OpenCachingComCache.Types.Traditional:
+                    return new Uri(String.Format(OpenCachingComIconUri, "traditional"), UriKind.Relative);
+
+                case OpenCachingComCache.Types.Multi:
+                    return new Uri(String.Format(OpenCachingComIconUri, "multi"), UriKind.Relative);
+
+                case OpenCachingComCache.Types.Puzzle:
+                    return new Uri(String.Format(OpenCachingComIconUri, "puzzle"), UriKind.Relative);
+
+                case OpenCachingComCache.Types.Virtual:
+                    return new Uri(String.Format(OpenCachingComIconUri, "virtual"), UriKind.Relative);
+
+            }
+            return null;
+        }
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value == null)
+            if (value is OpenCachingComCache)
             {
-                // TODO: implement icons for opencaching.com
-                return new Uri(String.Format(GeocachingSuIconUri, "traditional", "valid"), UriKind.Relative);
+                return ConvertOpenCachingCom(value as OpenCachingComCache);
             }
 
             if (value is GeocachingSuCache)
             {
-                return ConvertGeocachingSu(value as GeocachingSuCache, targetType, parameter, culture);
+                return ConvertGeocachingSu(value as GeocachingSuCache);
             }
 
             // TODO: refactor
