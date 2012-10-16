@@ -12,8 +12,10 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
 {
     public class OpenCachingComApiManager : IApiManager
     {
-        private const string DownloadUrl =
+        private const string CachesUrl =
             "http://www.opencaching.com/api/geocache?bbox={0}%2C{1}%2C{2}%2C{3}&type=Traditional+Cache%2CMulti-cache%2CUnknown+Cache%2CVirtual+Cache";
+
+        private const string CacheDescriptionUrl = "http://www.opencaching.com/api/geocache/{0}?description=html";
 
         internal OpenCachingComApiManager()
         {
@@ -22,14 +24,16 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
 
         public HashSet<Cache> Caches { get; private set; }
 
-        public Cache GetCache(string cacheId, CacheProvider cacheProvider)
+        private WebClient CreateWebClient()
         {
-            throw new NotImplementedException();
+            var client = new WebClient();
+            client.Headers["Authorization"] = "jammerwww";
+            return client;
         }
 
         private OpenCachingComCache.Types ParseType(string type)
         {
-            switch(type)
+            switch (type)
             {
                 case "Multi-cache":
                     return OpenCachingComCache.Types.Multi;
@@ -45,13 +49,16 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
             }
         }
 
+        public Cache GetCache(string cacheId, CacheProvider cacheProvider)
+        {
+            return Caches.FirstOrDefault(c => c.Id == cacheId);
+        }
+
         public void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
-            var sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, latmin, lngmin, latmax, lngmax);
+            var sUrl = String.Format(CultureInfo.InvariantCulture, CachesUrl, latmin, lngmin, latmax, lngmax);
 
-            var client = new WebClient();
-
-            client.Headers["Authorization"] = "jammerwww";
+            var client = CreateWebClient();
 
             client.DownloadStringCompleted += (sender, e) =>
             {
