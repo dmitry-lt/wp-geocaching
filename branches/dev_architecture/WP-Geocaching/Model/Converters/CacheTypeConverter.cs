@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using WP_Geocaching.Model.Api.GeocachingSu;
+using WP_Geocaching.Model.Api.OpenCachingCom;
 using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.Model.Converters
@@ -40,6 +41,24 @@ namespace WP_Geocaching.Model.Converters
                         return null;
                 }
             }
+
+            if (value is OpenCachingComCache)
+            {
+                switch ((value as OpenCachingComCache).Type)
+                {
+                    case OpenCachingComCache.Types.Traditional:
+                        return OpenCachingComCacheType.Traditional;
+                    case OpenCachingComCache.Types.Multi:
+                        return OpenCachingComCacheType.Multi;
+                    case OpenCachingComCache.Types.Virtual:
+                        return OpenCachingComCacheType.Virtual;
+                    case OpenCachingComCache.Types.Puzzle:
+                        return OpenCachingComCacheType.Puzzle;
+                    default:
+                        return null;
+                }
+            }
+
             return null;
         }
 

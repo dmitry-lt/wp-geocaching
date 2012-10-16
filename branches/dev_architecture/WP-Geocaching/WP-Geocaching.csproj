@@ -142,6 +142,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CacheTypeResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Localization\OpenCachingComCacheType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OpenCachingComCacheType.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\BaseCoordinateViewModel.cs" />
     <Compile Include="ViewModel\BaseMapViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
@@ -383,6 +388,11 @@
     <EmbeddedResource Include="Resources\Localization\CacheTypeResources.ru-RU.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\OpenCachingComCacheType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OpenCachingComCacheType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\OpenCachingComCacheType.ru-Ru.resx" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
