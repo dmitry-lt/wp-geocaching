@@ -6,18 +6,11 @@ namespace WP_Geocaching.Model.Converters
 {
     public class IconConverter : IValueConverter
     {
-        private const string IconUri = "/Resources/Icons/GeocachingSu/ic_cache_custom_{0}_{1}.png";
+        private const string GeocachingSuIconUri = "/Resources/Icons/GeocachingSu/ic_cache_custom_{0}_{1}.png";
         private const string CheckpointUri = "/Resources/Icons/ic_checkpoint_{0}.png";
 
-        public object Convert(object value, Type targetType, object parameter,
-            System.Globalization.CultureInfo culture)
+        private object ConverGeocachingSu(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value == null)
-            {
-                // TODO: implement icons for opencaching.com
-                return new Uri(String.Format(IconUri, "traditional", "valid"), UriKind.Relative);
-            }
-
             Enum[] iconIdentifier = value as Enum[];
             GeocachingSuCache.Types type = (GeocachingSuCache.Types)iconIdentifier[0];
             GeocachingSuCache.Subtypes subtype = (GeocachingSuCache.Subtypes)iconIdentifier[1];
@@ -28,11 +21,11 @@ namespace WP_Geocaching.Model.Converters
                         switch (subtype)
                         {
                             case GeocachingSuCache.Subtypes.NotConfirmed:
-                                return new Uri(String.Format(IconUri, "traditional", "not_confirmed"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "traditional", "not_confirmed"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.NotValid:
-                                return new Uri(String.Format(IconUri, "traditional", "not_valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "traditional", "not_valid"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.Valid:
-                                return new Uri(String.Format(IconUri, "traditional", "valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "traditional", "valid"), UriKind.Relative);
                         }
                         break;
                     }
@@ -41,11 +34,11 @@ namespace WP_Geocaching.Model.Converters
                         switch (subtype)
                         {
                             case GeocachingSuCache.Subtypes.NotConfirmed:
-                                return new Uri(String.Format(IconUri, "step_by_step_traditional", "not_confirmed"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "step_by_step_traditional", "not_confirmed"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.NotValid:
-                                return new Uri(String.Format(IconUri, "step_by_step_traditional", "not_valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "step_by_step_traditional", "not_valid"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.Valid:
-                                return new Uri(String.Format(IconUri, "step_by_step_traditional", "valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "step_by_step_traditional", "valid"), UriKind.Relative);
                         }
                         break;
                     }
@@ -54,11 +47,11 @@ namespace WP_Geocaching.Model.Converters
                         switch (subtype)
                         {
                             case GeocachingSuCache.Subtypes.NotConfirmed:
-                                return new Uri(String.Format(IconUri, "virtual", "not_confirmed"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "virtual", "not_confirmed"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.NotValid:
-                                return new Uri(String.Format(IconUri, "virtual", "not_valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "virtual", "not_valid"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.Valid:
-                                return new Uri(String.Format(IconUri, "virtual", "valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "virtual", "valid"), UriKind.Relative);
                         }
                         break;
                     }
@@ -67,11 +60,11 @@ namespace WP_Geocaching.Model.Converters
                         switch (subtype)
                         {
                             case GeocachingSuCache.Subtypes.NotConfirmed:
-                                return new Uri(String.Format(IconUri, "event", "not_confirmed"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "event", "not_confirmed"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.NotValid:
-                                return new Uri(String.Format(IconUri, "event", "not_valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "event", "not_valid"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.Valid:
-                                return new Uri(String.Format(IconUri, "event", "valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "event", "valid"), UriKind.Relative);
                         }
                         break;
                     }
@@ -80,11 +73,11 @@ namespace WP_Geocaching.Model.Converters
                         switch (subtype)
                         {
                             case GeocachingSuCache.Subtypes.NotConfirmed:
-                                return new Uri(String.Format(IconUri, "camera", "not_confirmed"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "camera", "not_confirmed"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.NotValid:
-                                return new Uri(String.Format(IconUri, "camera", "not_valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "camera", "not_valid"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.Valid:
-                                return new Uri(String.Format(IconUri, "camera", "valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "camera", "valid"), UriKind.Relative);
                         }
                         break;
                     }
@@ -93,11 +86,11 @@ namespace WP_Geocaching.Model.Converters
                         switch (subtype)
                         {
                             case GeocachingSuCache.Subtypes.NotConfirmed:
-                                return new Uri(String.Format(IconUri, "extreme", "not_confirmed"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "extreme", "not_confirmed"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.NotValid:
-                                return new Uri(String.Format(IconUri, "extreme", "not_valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "extreme", "not_valid"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.Valid:
-                                return new Uri(String.Format(IconUri, "extreme", "valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "extreme", "valid"), UriKind.Relative);
                         }
                         break;
                     }
@@ -106,11 +99,11 @@ namespace WP_Geocaching.Model.Converters
                         switch (subtype)
                         {
                             case GeocachingSuCache.Subtypes.NotConfirmed:
-                                return new Uri(String.Format(IconUri, "step_by_step_virtual", "not_confirmed"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "step_by_step_virtual", "not_confirmed"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.NotValid:
-                                return new Uri(String.Format(IconUri, "step_by_step_virtual", "not_valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "step_by_step_virtual", "not_valid"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.Valid:
-                                return new Uri(String.Format(IconUri, "step_by_step_virtual", "valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "step_by_step_virtual", "valid"), UriKind.Relative);
                         }
                         break;
                     }
@@ -119,11 +112,11 @@ namespace WP_Geocaching.Model.Converters
                         switch (subtype)
                         {
                             case GeocachingSuCache.Subtypes.NotConfirmed:
-                                return new Uri(String.Format(IconUri, "competition", "not_confirmed"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "competition", "not_confirmed"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.NotValid:
-                                return new Uri(String.Format(IconUri, "competition", "not_valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "competition", "not_valid"), UriKind.Relative);
                             case GeocachingSuCache.Subtypes.Valid:
-                                return new Uri(String.Format(IconUri, "competition", "valid"), UriKind.Relative);
+                                return new Uri(String.Format(GeocachingSuIconUri, "competition", "valid"), UriKind.Relative);
                         }
                         break;
                     }
@@ -141,6 +134,18 @@ namespace WP_Geocaching.Model.Converters
             }
 
             return null;
+
+        }
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                // TODO: implement icons for opencaching.com
+                return new Uri(String.Format(GeocachingSuIconUri, "traditional", "valid"), UriKind.Relative);
+            }
+
+            return ConverGeocachingSu(value, targetType, parameter, culture);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
