@@ -32,11 +32,6 @@ namespace WP_Geocaching.Model.Api
             _geocahingSuApiManager.DownloadAndProcessNotebook(processCacheNotebook, cache);
         }
 
-        public void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache)
-        {
-            _managers[cache.CacheProvider].DownloadAndProcessInfo(processCacheInfo, cache);
-        }
-
         public void DeletePhotos(string cacheId)
         {
             _geocahingSuApiManager.DeletePhotos(cacheId);
@@ -73,6 +68,11 @@ namespace WP_Geocaching.Model.Api
             {
                 apiManager.UpdateCaches(processCaches, lngmax, lgnmin, latmax, latmin);
             }
+        }
+
+        public void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache)
+        {
+            _managers[cache.CacheProvider].DownloadAndProcessInfo(processCacheInfo, cache);
         }
 
         #endregion
