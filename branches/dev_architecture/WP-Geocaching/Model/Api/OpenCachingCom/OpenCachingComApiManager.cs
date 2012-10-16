@@ -157,7 +157,7 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
                 {
                     var parsedCache = (OpenCachingComApiCache)serializer.ReadObject(ms);
 
-                    var cacheInfo = parsedCache.description;
+                    var cacheInfo = parsedCache.name + "<br/><br/>" + parsedCache.description;
 
                     if (processCacheInfo == null) return;
 
