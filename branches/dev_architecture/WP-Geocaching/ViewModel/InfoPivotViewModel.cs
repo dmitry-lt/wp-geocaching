@@ -109,7 +109,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache);
             }
         }
 
@@ -129,7 +129,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache);
             }
         }
 
@@ -151,7 +151,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache);
             }
         }
 
@@ -171,7 +171,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache);
             }
         }
 

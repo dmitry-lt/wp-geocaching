@@ -27,14 +27,14 @@ namespace WP_Geocaching.Model.Api
             _geocahingSuApiManager.ProcessPhoto(processAction, index);
         }
 
-        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, string cacheId)
+        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, Cache cache)
         {
-            _geocahingSuApiManager.DownloadAndProcessNotebook(processCacheNotebook, cacheId);
+            _geocahingSuApiManager.DownloadAndProcessNotebook(processCacheNotebook, cache);
         }
 
-        public void DownloadAndProcessInfo(Action<string> processCacheInfo, string cacheId)
+        public void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache)
         {
-            _geocahingSuApiManager.DownloadAndProcessInfo(processCacheInfo, cacheId);
+            _managers[cache.CacheProvider].DownloadAndProcessInfo(processCacheInfo, cache);
         }
 
         public void DeletePhotos(string cacheId)

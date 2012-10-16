@@ -10,5 +10,6 @@ namespace WP_Geocaching.Model.Api
     {
         Cache GetCache(string cacheId, CacheProvider cacheProvider);
         void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin);
+        void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache);
     }
 }

@@ -94,21 +94,23 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
         }
 
         /// <summary>
-        /// Downloads cache info by cacheId
+        /// Downloads cache info
         /// </summary>
         /// <param name="processCacheInfo">processes downloaded result</param>
-        public void DownloadAndProcessInfo(Action<string> processCacheInfo, string cacheId)
+        /// <param name="cache"> </param>
+        public void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache)
         {
-            DownloadAndProcessData(InfoUrl, processCacheInfo, cacheId);
+            DownloadAndProcessData(InfoUrl, processCacheInfo, cache.Id);
         }
 
         /// <summary>
-        /// Downloads cache notebook by cacheId
+        /// Downloads cache notebook
         /// </summary>
-        /// <param name="processCacheInfo">processes downloaded result</param>
-        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, string cacheId)
+        /// <param name="processCacheNotebook"> </param>
+        /// <param name="cache"> </param>
+        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, Cache cache)
         {
-            DownloadAndProcessData(NotebookUrl, processCacheNotebook, cacheId);
+            DownloadAndProcessData(NotebookUrl, processCacheNotebook, cache.Id);
         }
 
         public Cache GetCache(string cacheId, CacheProvider cacheProvider)

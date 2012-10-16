@@ -112,5 +112,10 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
 
             client.DownloadStringAsync(new Uri(sUrl));
         }
+
+        public void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
