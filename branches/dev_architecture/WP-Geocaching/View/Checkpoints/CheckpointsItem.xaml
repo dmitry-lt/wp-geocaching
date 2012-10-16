@@ -17,18 +17,18 @@
             <c:CacheSubtypeConverter x:Key="CacheSubtypeConverter"  x:Name="CacheSubtypeConverter"/>
         </Grid.Resources>
         <StackPanel Orientation="Horizontal" Height="Auto">
-            <Image Source="{Binding ., 
+            <Image Source="{Binding Cache, 
                 Converter={StaticResource IconConverter}}" 
                    VerticalAlignment="Center" 
                    Width="48"/>
             <StackPanel Width="370" Margin="10,0,0,0">
-                <TextBlock Text="{Binding Name}" 
+                <TextBlock Text="{Binding Cache.Name}" 
                            TextWrapping="Wrap" 
                            FontSize="22" 
                            VerticalAlignment="Center" 
                            Width="380" 
                            Height="Auto"/>
-                <TextBlock Text="{Binding Type, 
+                <TextBlock Text="{Binding Cache, 
                     Converter={StaticResource CacheTypeConverter}}" 
                            FontSize="18" 
                            VerticalAlignment="Center" 
