@@ -17,6 +17,14 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
 
         private const string CacheDescriptionUrl = "http://www.opencaching.com/api/geocache/{0}?description=html";
 
+        private const string CacheDescriptionTemplate = @"<html>
+<head>
+<meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">
+</head>
+<body>
+{0}
+</body></html>";
+
         internal OpenCachingComApiManager()
         {
             Caches = new HashSet<Cache>();
@@ -47,6 +55,24 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
                 default:
                     return OpenCachingComCache.Types.Traditional;
             }
+        }
+
+        // International UTF-8 Characters in Windows Phone 7 WebBrowser Control
+        // See http://matthiasshapiro.com/2010/10/25/international-utf-8-characters-in-windows-phone-7-webbrowser-control/
+        private static string ConvertExtendedASCII(string html)
+        {
+            string retVal = "";
+            char[] s = html.ToCharArray();
+
+            foreach (char c in s)
+            {
+                if (Convert.ToInt32(c) > 127)
+                    retVal += "&#" + Convert.ToInt32(c) + ";";
+                else
+                    retVal += c;
+            }
+
+            return retVal;
         }
 
         public Cache GetCache(string cacheId, CacheProvider cacheProvider)
@@ -81,7 +107,7 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
                             {
                                 Id = parsedCache.oxcode,
                                 Name = parsedCache.name,
-                                Location = new 
+                                Location = new
                                     GeoCoordinate()
                                                {
                                                    Latitude = Convert.ToDouble(parsedCache.location.lat, CultureInfo.InvariantCulture),
@@ -115,7 +141,31 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
 
         public void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache)
         {
-            throw new NotImplementedException();
+            var sUrl = String.Format(CultureInfo.InvariantCulture, CacheDescriptionUrl, cache.Id);
+
+            var client = CreateWebClient();
+
+            client.DownloadStringCompleted += (sender, e) =>
+            {
+                if (e.Error != null) return;
+
+                var jsonResult = e.Result;
+
+                var serializer = new DataContractJsonSerializer(typeof(OpenCachingComApiCache));
+
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonResult)))
+                {
+                    var parsedCache = (OpenCachingComApiCache)serializer.ReadObject(ms);
+
+                    var cacheInfo = parsedCache.description;
+
+                    if (processCacheInfo == null) return;
+
+                    processCacheInfo(ConvertExtendedASCII(String.Format(CacheDescriptionTemplate, cacheInfo)));
+                }
+            };
+
+            client.DownloadStringAsync(new Uri(sUrl));
         }
     }
 }
