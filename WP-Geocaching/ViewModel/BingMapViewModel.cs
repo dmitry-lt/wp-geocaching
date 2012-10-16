@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
+using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Api.GeocachingSu;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -70,44 +72,108 @@ namespace WP_Geocaching.ViewModel
             UpdateMapMode();
         }
 
-        private void ProcessCacheList(List<Cache> caches)
+        private readonly HashSet<Cache> _allCaches = new HashSet<Cache>();
+        private readonly Dictionary<Cache, CachePushpin> _currentPushpins = new Dictionary<Cache, CachePushpin>();
+        private readonly object _lock = new object();
+
+        private void AddPushpin(Cache cache)
         {
+            var pushpin = new CachePushpin()
+            {
+                Cache = cache
+            };
 
+            _currentPushpins.Add(cache, pushpin);
+
+            CachePushpins.Add(pushpin);
+        }
+
+        private void RemovePushpin(Cache cache)
+        {
+            var pushpin = _currentPushpins[cache];
+
+            _currentPushpins.Remove(cache);
+
+            CachePushpins.Remove(pushpin);
+        }
+
+        private void RemoveAllPushpins()
+        {
+            _currentPushpins.Clear();
             CachePushpins.Clear();
+        }
 
-            if (caches.Count >= maxCacheCount)
+        private void ProcessCaches(List<Cache> caches)
+        {
+            lock (_lock)
             {
-
-                if (surpassedCacheCountMessageVisibility.Equals(Visibility.Collapsed))
+                if (null != caches)
                 {
-                    SurpassedCacheCountMessageVisibility = Visibility.Visible;
-                }
-            }
-            else
-            {
-
-                foreach (var p in caches)
-                {
-                    var pushpin = new CachePushpin()
+                    foreach (var c in caches)
                     {
-                        Location = p.Location,
-                        Id = p.Id.ToString(),
-                        IconUri = new Enum[2] { p.Type, p.Subtype }
-                    };
-
-                    CachePushpins.Add(pushpin);
+                        if (!_allCaches.Contains(c))
+                        {
+                            _allCaches.Add(c);
+                        }
+                    }
                 }
 
-                if (surpassedCacheCountMessageVisibility.Equals(Visibility.Visible))
+                var cachesOnScreen = new HashSet<Cache>();
+                foreach (Cache c in _allCaches)
                 {
-                    SurpassedCacheCountMessageVisibility = Visibility.Collapsed;
+                    if ((c.Location.Latitude <= BoundingRectangle.North) &&
+                        (c.Location.Latitude >= BoundingRectangle.South) &&
+                        (c.Location.Longitude <= BoundingRectangle.East) &&
+                        (c.Location.Longitude >= BoundingRectangle.West))
+                    {
+                        cachesOnScreen.Add(c);
+                    }
+                }
+
+                if (cachesOnScreen.Count >= maxCacheCount)
+                {
+                    if (surpassedCacheCountMessageVisibility.Equals(Visibility.Collapsed))
+                    {
+                        SurpassedCacheCountMessageVisibility = Visibility.Visible;
+                    }
+                    RemoveAllPushpins();
+                }
+                else
+                {
+                    if (surpassedCacheCountMessageVisibility.Equals(Visibility.Visible))
+                    {
+                        SurpassedCacheCountMessageVisibility = Visibility.Collapsed;
+                    }
+
+                    var cachesToRemove = new HashSet<Cache>();
+                    foreach (var c in _currentPushpins.Keys)
+                    {
+                        if (!cachesOnScreen.Contains(c))
+                        {
+                            cachesToRemove.Add(c);
+                        }
+                    }
+
+                    foreach (Cache c in cachesToRemove)
+                    {
+                        RemovePushpin(c);
+                    }
+
+                    foreach (Cache c in cachesOnScreen)
+                    {
+                        if (!_currentPushpins.ContainsKey(c))
+                        {
+                            AddPushpin((Cache) c);
+                        }
+                    }
                 }
             }
         }
 
         private void SetPushpinsOnMap()
         {
-            apiManager.UpdateCacheList(ProcessCacheList, BoundingRectangle.East,
+            ProcessCaches(null);
+            apiManager.UpdateCaches(ProcessCaches, BoundingRectangle.East,
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
         

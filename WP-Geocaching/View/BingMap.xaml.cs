@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Phone.Controls;
+using WP_Geocaching.Model.Api;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using Microsoft.Phone.Controls.Maps;
@@ -19,7 +20,7 @@ namespace WP_Geocaching.View
         public BingMap()
         {
             InitializeComponent();
-            bingMapViewModel = new BingMapViewModel(GeocahingSuApiManager.Instance);
+            bingMapViewModel = new BingMapViewModel(ApiManager.Instance);
             DataContext = bingMapViewModel;
             var b = new Binding("MapMode");
             SetBinding(MapModeProperty, b);

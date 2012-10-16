@@ -1,15 +1,5 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.Data.Linq;
-using System.Data.Linq.Mapping;
+﻿using System.Data.Linq.Mapping;
+using WP_Geocaching.Model.Api;
 
 namespace WP_Geocaching.Model.DataBase
 {
@@ -18,16 +8,25 @@ namespace WP_Geocaching.Model.DataBase
     {
         [Column(IsPrimaryKey = true)]
         public int Id { get; set; }
+
         [Column(IsPrimaryKey = true)]
-        public int CacheId { get; set; }
+        public string CacheId { get; set; }
+
+        [Column(IsPrimaryKey = true)]
+        public CacheProvider CacheProvider { get; set; }
+
         [Column()]
         public string Name { get; set; }
+
         [Column()]
         public int Type { get; set; }
+
         [Column()]
         public int Subtype { get; set; }
+
         [Column()]
         public double Latitude { get; set; }
+
         [Column()]
         public double Longitude { get; set; }
     }

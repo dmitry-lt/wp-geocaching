@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.Model.Converters
@@ -14,17 +15,17 @@ namespace WP_Geocaching.Model.Converters
                 return null;
             }
 
-            switch ((Cache.Subtypes)value)
+            switch ((GeocachingSuCache.Subtypes)value)
             {
-                case Cache.Subtypes.NotConfirmed:
+                case GeocachingSuCache.Subtypes.NotConfirmed:
                     return CacheSubtypeResources.not_confirmed;
-                case Cache.Subtypes.NotValid:
+                case GeocachingSuCache.Subtypes.NotValid:
                     return CacheSubtypeResources.not_valid;
-                case Cache.Subtypes.Valid:
+                case GeocachingSuCache.Subtypes.Valid:
                     return CacheSubtypeResources.valid;
-                case Cache.Subtypes.ActiveCheckpoint:
+                case GeocachingSuCache.Subtypes.ActiveCheckpoint:
                     return CacheSubtypeResources.active;
-                case Cache.Subtypes.NotActiveCheckpoint:
+                case GeocachingSuCache.Subtypes.NotActiveCheckpoint:
                     return CacheSubtypeResources.not_active;
             }
             return null;

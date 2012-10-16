@@ -4,6 +4,8 @@ using System.Windows.Threading;
 using Microsoft.Phone.Controls;
 using System.Collections.ObjectModel;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Api.OpenCachingCom;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model.Dialogs;
 
@@ -24,7 +26,25 @@ namespace WP_Geocaching.ViewModel
 
         public string Info { get; set; }
         public string Notebook { get; set; }
-        public Cache Cache { get; set; }
+
+        private Cache _cache;
+        public Cache Cache
+        {
+            get { return _cache; }
+            set
+            {
+                _cache = value;
+                NotifyPropertyChanged("Cache");
+            
+                // TODO: refactor
+                if (_cache is OpenCachingComCache)
+                {
+                    HidePhotos(this, new EventArgs());
+                }
+            }
+        }
+
+        public event EventHandler HidePhotos;
 
         public ObservableCollection<Photo> Previews 
         { 
@@ -108,7 +128,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache);
             }
         }
 
@@ -128,7 +148,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache);
             }
         }
 
@@ -150,7 +170,7 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache);
             }
         }
 
@@ -170,18 +190,18 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                GeocahingSuApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache.Id);
+                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache);
             }
         }
 
         public void LoadPreviews()
         {
-            GeocahingSuApiManager.Instance.LoadPhotos(Cache.Id, LoadPhotos);
+            ApiManager.Instance.LoadPhotos(Cache.Id, LoadPhotos);
         }
 
         public void DownloadAndSavePhotos()
         {
-            GeocahingSuApiManager.Instance.SavePhotos(Cache.Id, SavePhotos);
+            ApiManager.Instance.SavePhotos(Cache.Id, SavePhotos);
         }
 
         private void SavePhotos(ObservableCollection<Photo> photos)

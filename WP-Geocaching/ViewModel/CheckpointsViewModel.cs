@@ -9,7 +9,7 @@ namespace WP_Geocaching.ViewModel
 {
     public class CheckpointsViewModel : BaseViewModel
     {
-        private int cacheId;
+        private string cacheId;
         private ListCacheItem selectedCheckpoint;
         private ChooseOrDeleteDialog chooseOrDeleteDialog;
         private List<ListCacheItem> dataSource;

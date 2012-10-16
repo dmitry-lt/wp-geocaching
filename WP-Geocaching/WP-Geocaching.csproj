@@ -62,6 +62,7 @@
     <Reference Include="System.Device" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Servicemodel" />
+    <Reference Include="System.Servicemodel.Web" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -78,6 +79,13 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Api\ApiManager.cs" />
+    <Compile Include="Model\Api\CacheProvider.cs" />
+    <Compile Include="Model\Api\GeocachingSu\GeocachingSuCache.cs" />
+    <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiCache.cs" />
+    <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
+    <Compile Include="Model\Api\OpenCachingCom\OpenCachingComCache.cs" />
+    <Compile Include="Model\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Model\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="Model\Converters\CacheTypeConverter.cs" />
     <Compile Include="Model\Converters\CoordinateConverter.cs" />
@@ -91,6 +99,7 @@
     <Compile Include="Model\DataBase\CacheDataBase.cs" />
     <Compile Include="Model\DataBase\DbCheckpointsItem.cs" />
     <Compile Include="Model\ButtonCommand.cs" />
+    <Compile Include="Model\DataBase\DbConvert.cs" />
     <Compile Include="Model\Dialogs\AbstractDialog.cs" />
     <Compile Include="Model\Dialogs\ChooseOrDeleteDialog.cs" />
     <Compile Include="Model\Dialogs\ConfirmDeleteDialog.cs" />
@@ -98,7 +107,6 @@
     <Compile Include="Model\Dialogs\PrivacyStatementDialog.cs" />
     <Compile Include="Model\HashSet.cs" />
     <Compile Include="Model\ILocationAware.cs" />
-    <Compile Include="Model\INavigationManager.cs" />
     <Compile Include="Model\LocationManager.cs" />
     <Compile Include="Model\LogManager.cs" />
     <Compile Include="Model\NavigationManager.cs" />
@@ -123,7 +131,7 @@
     </Compile>
     <Compile Include="Model\MapManager.cs" />
     <Compile Include="Model\Cache.cs" />
-    <Compile Include="Model\CacheParser.cs" />
+    <Compile Include="Model\Api\GeocachingSu\GeocachingSuCacheParser.cs" />
     <Compile Include="Resources\Localization\CacheSubtypeResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -134,12 +142,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CacheTypeResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Localization\OpenCachingComCacheType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OpenCachingComCacheType.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\BaseCoordinateViewModel.cs" />
     <Compile Include="ViewModel\BaseMapViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CachePushpin.cs" />
-    <Compile Include="Model\GeocahingSuApiManager.cs" />
-    <Compile Include="Model\IApiManager.cs" />
+    <Compile Include="Model\Api\GeocachingSu\GeocahingSuApiManager.cs" />
+    <Compile Include="Model\Api\IApiManager.cs" />
     <Compile Include="Model\Converters\IconConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Localization\LocalizedStrings.cs" />
@@ -291,6 +304,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Libs\Microsoft.Phone.Controls.Toolkit.dll" />
+    <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_multi_valid.png" />
+    <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_puzzle_valid.png" />
+    <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_traditional_valid.png" />
+    <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_virtual_valid.png" />
     <Content Include="Resources\Images\appbar.back.rest.png" />
     <Content Include="Resources\Images\appbar.next.rest.png" />
     <Content Include="Resources\Icons\ic_arrow.png" />
@@ -299,28 +316,28 @@
     <Content Include="Resources\Images\appbar.add.checkpoint.png" />
     <Content Include="Resources\Images\appbar.checkpoints.png" />
     <Content Include="Resources\Images\appbar.favs.addto.rest.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_competition_not_confirmed.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_competition_not_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_competition_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_event_not_confirmed.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_event_not_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_event_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_extreme_not_confirmed.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_extreme_not_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_extreme_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_group.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_step_by_step_traditional_not_confir.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_step_by_step_traditional_not_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_step_by_step_traditional_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_step_by_step_virtual_not_confirmed.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_step_by_step_virtual_not_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_step_by_step_virtual_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_traditional_not_confirmed.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_traditional_not_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_traditional_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_virtual_not_confirmed.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_virtual_not_valid.png" />
-    <Content Include="Resources\Icons\ic_cache_custom_virtual_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_competition_not_confirmed.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_competition_not_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_competition_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_event_not_confirmed.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_event_not_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_event_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_extreme_not_confirmed.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_extreme_not_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_extreme_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_group.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_step_by_step_traditional_not_confir.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_step_by_step_traditional_not_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_step_by_step_traditional_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_step_by_step_virtual_not_confirmed.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_step_by_step_virtual_not_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_step_by_step_virtual_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_traditional_not_confirmed.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_traditional_not_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_traditional_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_virtual_not_confirmed.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_virtual_not_valid.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_virtual_valid.png" />
     <Content Include="Resources\Images\appbar.favs.deletefrom.rest.png" />
     <Content Include="Resources\Images\appbar.refresh.rest.png" />
     <Content Include="Resources\Images\appbar.save.rest.png" />
@@ -371,6 +388,11 @@
     <EmbeddedResource Include="Resources\Localization\CacheTypeResources.ru-RU.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\OpenCachingComCacheType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OpenCachingComCacheType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\OpenCachingComCacheType.ru-Ru.resx" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
