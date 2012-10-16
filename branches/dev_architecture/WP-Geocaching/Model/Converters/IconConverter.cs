@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using WP_Geocaching.Model.Api.GeocachingSu;
+using WP_Geocaching.ViewModel;
 
 namespace WP_Geocaching.Model.Converters
 {
@@ -9,10 +10,8 @@ namespace WP_Geocaching.Model.Converters
         private const string GeocachingSuIconUri = "/Resources/Icons/GeocachingSu/ic_cache_custom_{0}_{1}.png";
         private const string CheckpointUri = "/Resources/Icons/ic_checkpoint_{0}.png";
 
-        private object ConverGeocachingSu(GeocachingSuCache value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        private object ConvertGeocachingSu(GeocachingSuCache.Types type, GeocachingSuCache.Subtypes subtype)
         {
-            GeocachingSuCache.Types type = value.Type;
-            GeocachingSuCache.Subtypes subtype = value.Subtype;
             switch (type)
             {
                 case GeocachingSuCache.Types.Traditional:
@@ -136,6 +135,11 @@ namespace WP_Geocaching.Model.Converters
 
         }
 
+        private object ConvertGeocachingSu(GeocachingSuCache value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return ConvertGeocachingSu(value.Type, value.Subtype);
+        }
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value == null)
@@ -146,7 +150,14 @@ namespace WP_Geocaching.Model.Converters
 
             if (value is GeocachingSuCache)
             {
-                return ConverGeocachingSu(value as GeocachingSuCache, targetType, parameter, culture);
+                return ConvertGeocachingSu(value as GeocachingSuCache, targetType, parameter, culture);
+            }
+
+            // TODO: refactor
+            if (value is ListCacheItem)
+            {
+                var lci = value as ListCacheItem;
+                return ConvertGeocachingSu((GeocachingSuCache.Types)lci.Type, (GeocachingSuCache.Subtypes)lci.Subtype);
             }
 
             return null;
