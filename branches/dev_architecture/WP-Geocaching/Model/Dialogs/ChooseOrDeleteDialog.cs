@@ -34,7 +34,7 @@ namespace WP_Geocaching.Model.Dialogs
             }
 
             item = selectedItem;
-            ShowDialog(item.Name, GetResultMessage(), GetResultButtons());
+            ShowDialog(item.Cache.Name, GetResultMessage(), GetResultButtons());
         }
 
         protected override string GetResultMessage()
@@ -43,16 +43,19 @@ namespace WP_Geocaching.Model.Dialogs
                                               AppResources.Subtype,
                                               (new CacheSubtypeConverter()).Convert(item.Subtype, null, null, null),
                                               AppResources.Latitude,
-                                              (new LatitudeConverter()).Convert(item.Latitude, null, null, null),
+                                              (new LatitudeConverter()).Convert(item.Cache.Location.Latitude, null, null, null),
                                               AppResources.Longitude,
-                                              (new LongitudeConverter()).Convert(item.Longitude, null, null, null));
+                                              (new LongitudeConverter()).Convert(item.Cache.Location.Longitude, null, null, null));
             return resultMessage;
         }
 
         protected override List<string> GetResultButtons()
         {
-            return CommandDistionary.Keys.Where(p => item.Type == (int)GeocachingSuCache.Types.Checkpoint ||
-                p != AppResources.Delete).ToList();
+            // TODO: refactor
+            return CommandDistionary.Keys.Where(
+                p => (
+                (item.Cache is GeocachingSuCache) && ((GeocachingSuCache)item.Cache).Type == GeocachingSuCache.Types.Checkpoint) 
+                || p != AppResources.Delete).ToList();
         }
 
 
@@ -60,36 +63,37 @@ namespace WP_Geocaching.Model.Dialogs
         {
             CommandDistionary = new Dictionary<string, Action>
                                     {
-                                        {AppResources.Delete, DeleteFromBd},
+                                        {AppResources.Delete, DeleteFromDb},
                                         {AppResources.Choose, MakeActive}
                                     };
         }
 
-        private void DeleteFromBd()
+        private void DeleteFromDb()
         {
             dispatcher.BeginInvoke(() =>
                                          {
                                              var db = new CacheDataBase();
-                                             db.DeleteCheckpoint(cacheId, item.Id);
+                                             db.DeleteCheckpoint(cacheId, item.Cache.Id);
                                              closeAction();
                                          });
         }
 
         private void MakeActive()
         {
+            // TODO: refactor
             dispatcher.BeginInvoke(() =>
-                                        {
-                                            var db = new CacheDataBase();
-                                            if (item.Type != (int)GeocachingSuCache.Types.Checkpoint)
-                                            {
-                                                db.MakeCacheActive(item.Id);
-                                            }
-                                            else
-                                            {
-                                                db.MakeCheckpointActive(cacheId, item.Id);
-                                            }
-                                            closeAction();
-                                        });
+            {
+                var db = new CacheDataBase();
+                if ((item.Cache is GeocachingSuCache) && ((GeocachingSuCache)item.Cache).Type == GeocachingSuCache.Types.Checkpoint)
+                {
+                    db.MakeCheckpointActive(cacheId, item.Cache.Id);
+                }
+                else
+                {
+                    db.MakeCacheActive(item.Cache.Id);
+                }
+                closeAction();
+            });
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.Api.OpenCachingCom;
+using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.Model.Api
 {
@@ -54,7 +55,17 @@ namespace WP_Geocaching.Model.Api
 
         public Cache GetCache(string cacheId, CacheProvider cacheProvider)
         {
-            return _managers[cacheProvider].GetCache(cacheId, cacheProvider);
+            var cache = _managers[cacheProvider].GetCache(cacheId, cacheProvider);
+
+            if (null == cache)
+            {
+                var db = new CacheDataBase();
+                // TODO: id and provider
+                cache = DbConvert.ToCache(db.GetCache(cacheId));
+            }
+
+            return cache;
+
         }
 
         public void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)

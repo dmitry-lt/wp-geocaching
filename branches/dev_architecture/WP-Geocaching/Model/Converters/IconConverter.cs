@@ -175,13 +175,6 @@ namespace WP_Geocaching.Model.Converters
                 return ConvertGeocachingSu(value as GeocachingSuCache);
             }
 
-            // TODO: refactor
-            if (value is ListCacheItem)
-            {
-                var lci = value as ListCacheItem;
-                return ConvertGeocachingSu((GeocachingSuCache.Types)lci.Type, (GeocachingSuCache.Subtypes)lci.Subtype);
-            }
-
             return null;
         }
 

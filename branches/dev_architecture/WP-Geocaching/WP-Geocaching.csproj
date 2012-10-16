@@ -99,6 +99,7 @@
     <Compile Include="Model\DataBase\CacheDataBase.cs" />
     <Compile Include="Model\DataBase\DbCheckpointsItem.cs" />
     <Compile Include="Model\ButtonCommand.cs" />
+    <Compile Include="Model\DataBase\DbConvert.cs" />
     <Compile Include="Model\Dialogs\AbstractDialog.cs" />
     <Compile Include="Model\Dialogs\ChooseOrDeleteDialog.cs" />
     <Compile Include="Model\Dialogs\ConfirmDeleteDialog.cs" />

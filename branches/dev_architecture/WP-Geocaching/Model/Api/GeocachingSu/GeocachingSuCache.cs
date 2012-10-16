@@ -71,14 +71,5 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             CacheProvider = CacheProvider.GeocachingSu;
         }
 
-        public GeocachingSuCache(DbCacheItem item) : this()
-        {
-            Id = item.Id;
-            Location = new GeoCoordinate(item.Latitude, item.Longitude);
-            Name = item.Name;
-            Subtype = (Subtypes)item.Subtype;
-            Type = (Types)item.Type;
-        }
-
     }
 }

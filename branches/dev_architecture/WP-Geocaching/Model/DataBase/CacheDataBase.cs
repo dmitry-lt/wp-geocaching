@@ -33,22 +33,9 @@ namespace WP_Geocaching.Model.DataBase
             using (var db = new CacheDataContext(ConnectionString))
             {
                 if (GetCache(cache.Id) != null) return;
-                var newItem = new DbCacheItem
-                                  {
-                                      Id = cache.Id,
-                                      Name = cache.Name,
-                                      Latitude = cache.Location.Latitude,
-                                      Longitude = cache.Location.Longitude,
-                                      UpdateTime = DateTime.Now,
-                                      Details = details,
-                                      Notebook = notebook
-                                  };
-                if (cache is GeocachingSuCache)
-                {
-                    var c = cache as GeocachingSuCache;
-                    newItem.Type = (int) c.Type;
-                    newItem.Subtype = (int) c.Subtype;
-                }
+
+                var newItem = DbConvert.ToDbCacheItem(cache, details, notebook);
+
                 db.Caches.InsertOnSubmit(newItem);
                 db.SubmitChanges();
             }

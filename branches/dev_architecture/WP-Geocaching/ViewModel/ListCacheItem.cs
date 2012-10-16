@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Device.Location;
 using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.DataBase;
@@ -8,83 +9,12 @@ namespace WP_Geocaching.ViewModel
 {
     public class ListCacheItem
     {
-        private string id;
-        private CacheProvider cacheProvider;
-        private string name;
-        private double latitude;
-        private double longitude;
-        private int type;
         private int subtype;
         private string details;
-        private Enum[] iconUri;
         private DateTime updateTime;
 
-        public string Id
-        {
-            get
-            {
-                return this.id;
-            }
-            set
-            {
-                this.id = value;
-            }
-        }
-        public CacheProvider CacheProvider
-        {
-            get
-            {
-                return this.cacheProvider;
-            }
-            set
-            {
-                this.cacheProvider = value;
-            }
-        }
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
-        }
-        public double Latitude
-        {
-            get
-            {
-                return this.latitude;
-            }
-            set
-            {
-                this.latitude = value;
-            }
-        }
-        public double Longitude
-        {
-            get
-            {
-                return this.longitude;
-            }
-            set
-            {
-                this.longitude = value;
-            }
-        }
-        public int Type
-        {
-            get
-            {
-                return this.type;
-            }
-            set
-            {
-                this.type = value;
-            }
-        }
+        public Cache Cache { get; private set; }
+
         public int Subtype
         {
             get
@@ -107,17 +37,6 @@ namespace WP_Geocaching.ViewModel
                 this.details = value;
             }
         }
-        public Enum[] IconUri
-        {
-            get
-            {
-                return this.iconUri;
-            }
-            set
-            {
-                this.iconUri = value;
-            }
-        }
         public DateTime UpdateTime
         {
             get 
@@ -132,27 +51,26 @@ namespace WP_Geocaching.ViewModel
 
         public ListCacheItem(DbCacheItem item)
         {
-            Id = item.Id;
-            Latitude = item.Latitude;
-            Longitude = item.Longitude;
-            Name = item.Name;
+            Cache = DbConvert.ToCache(item);
+
             Subtype = item.Subtype;
-            Type = item.Type;
             UpdateTime = item.UpdateTime;
             Details = item.Details;
-            IconUri = new Enum[2] { (GeocachingSuCache.Types)item.Type, (GeocachingSuCache.Subtypes)item.Subtype };
         }
 
         public ListCacheItem(DbCheckpointsItem item)
         {
-            Id = item.Id.ToString();
-            CacheProvider = item.CacheProvider;
-            Latitude = item.Latitude;
-            Longitude = item.Longitude;
-            Name = item.Name;
+            //TODO: refactor
+            Cache =
+                new GeocachingSuCache
+                    {
+                        Id = item.Id + "",
+                        Location = new GeoCoordinate(item.Latitude, item.Longitude),
+                        Name = item.Name,
+                        Type = GeocachingSuCache.Types.Checkpoint
+                    };
+
             Subtype = item.Subtype;
-            Type = item.Type;
-            IconUri = new Enum[2] { (GeocachingSuCache.Types)item.Type, (GeocachingSuCache.Subtypes)item.Subtype };
         }
     }
 }

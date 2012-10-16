@@ -35,7 +35,7 @@ namespace WP_Geocaching.ViewModel
                 selectedCache = value;
                 if (value != null)
                 {
-                    ShowDetails(value.Id.ToString(), value.CacheProvider);
+                    ShowDetails(value.Cache.Id, value.Cache.CacheProvider);
                 }
             }
         }

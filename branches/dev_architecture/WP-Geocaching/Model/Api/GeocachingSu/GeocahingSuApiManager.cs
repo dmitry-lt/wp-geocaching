@@ -119,8 +119,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             {
                 return p;
             }
-            var db = new CacheDataBase();
-            return new GeocachingSuCache(db.GetCache(cacheId));
+            return null;
         }
 
         #region Photo Downloading
