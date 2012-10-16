@@ -25,6 +25,8 @@ namespace WP_Geocaching.View.Info
             infoPivotViewModel = new InfoPivotViewModel(UpdateFavoriteButton);
             DataContext = infoPivotViewModel;
             db = new CacheDataBase();
+
+            infoPivotViewModel.HidePhotos += (s, e) => Info.Items.Remove(PhotosPivotItem);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

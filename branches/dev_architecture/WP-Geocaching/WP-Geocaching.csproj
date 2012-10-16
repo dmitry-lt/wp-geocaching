@@ -85,6 +85,7 @@
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComCache.cs" />
+    <Compile Include="Model\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Model\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="Model\Converters\CacheTypeConverter.cs" />
     <Compile Include="Model\Converters\CoordinateConverter.cs" />

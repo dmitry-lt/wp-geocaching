@@ -5,6 +5,7 @@ using Microsoft.Phone.Controls;
 using System.Collections.ObjectModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Api.OpenCachingCom;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model.Dialogs;
 
@@ -25,7 +26,25 @@ namespace WP_Geocaching.ViewModel
 
         public string Info { get; set; }
         public string Notebook { get; set; }
-        public Cache Cache { get; set; }
+
+        private Cache _cache;
+        public Cache Cache
+        {
+            get { return _cache; }
+            set
+            {
+                _cache = value;
+                NotifyPropertyChanged("Cache");
+            
+                // TODO: refactor
+                if (_cache is OpenCachingComCache)
+                {
+                    HidePhotos(this, new EventArgs());
+                }
+            }
+        }
+
+        public event EventHandler HidePhotos;
 
         public ObservableCollection<Photo> Previews 
         { 
