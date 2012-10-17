@@ -223,7 +223,7 @@ namespace WP_Geocaching.Model.DataBase
         private IQueryable<DbCheckpointsItem> GetCheckpointsQueryByCache(Table<DbCheckpointsItem> table, Cache cache)
         {
             var query = from e in table
-                        where (e.CacheId == cache.Id)
+                        where (e.CacheId == cache.Id && e.CacheProvider == cache.CacheProvider)
                         select e;
             return query;
         }
