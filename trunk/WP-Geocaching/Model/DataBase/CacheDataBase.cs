@@ -32,7 +32,7 @@ namespace WP_Geocaching.Model.DataBase
             }
             using (var db = new CacheDataContext(ConnectionString))
             {
-                if (GetCache(cache.Id) != null) return;
+                if (GetCache(cache.Id, cache.CacheProvider) != null) return;
 
                 var newItem = DbConvert.ToDbCacheItem(cache, details, notebook);
 
@@ -41,16 +41,16 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        public void AddActiveCheckpoint(string cacheId, string name, double latitude, double longitude)
+        public void AddActiveCheckpoint(Cache cache, string name, double latitude, double longitude)
         {
-            MakeAllCheckpointsNotActive(cacheId);
+            MakeAllCheckpointsNotActive(cache);
             using (var db = new CacheDataContext(ConnectionString))
             {
-                int maxId = GetMaxCheckpointIdByCacheId(db.Checkpoints, cacheId);
+                int maxId = GetMaxCheckpointIdByCache(db.Checkpoints, cache);
                 var newItem = new DbCheckpointsItem {Id = maxId + 1};
 
                 newItem.Name = name;
-                newItem.CacheId = cacheId;
+                newItem.CacheId = cache.Id;
                 newItem.Latitude = latitude;
                 newItem.Longitude = longitude;
                 newItem.Type = (int)GeocachingSuCache.Types.Checkpoint;
@@ -61,19 +61,19 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        public int GetMaxCheckpointId(string cacheId)
+        public int GetMaxCheckpointId(Cache cache)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                return GetMaxCheckpointIdByCacheId(db.Checkpoints, cacheId);
+                return GetMaxCheckpointIdByCache(db.Checkpoints, cache);
             }
         }
 
-        private void MakeAllCheckpointsNotActive(string cacheId)
+        private void MakeAllCheckpointsNotActive(Cache cache)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCheckpointsQueryByCacheId(db.Checkpoints, cacheId);
+                var query = GetCheckpointsQueryByCache(db.Checkpoints, cache);
                 foreach (DbCheckpointsItem c in query)
                 {
                     c.Subtype = (int)GeocachingSuCache.Subtypes.NotActiveCheckpoint;
@@ -82,69 +82,64 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        public void MakeCheckpointActive(string cacheId, string id)
+        public void MakeCheckpointActive(Cache cache, string id)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCheckpointQuery(db.Checkpoints, cacheId, id);
+                var query = GetCheckpointQuery(db.Checkpoints, cache, id);
                 DbCheckpointsItem checkpoint = query.FirstOrDefault();
                 if ((checkpoint != null) && (checkpoint.Subtype != (int)GeocachingSuCache.Subtypes.ActiveCheckpoint))
                 {
-                    MakeAllCheckpointsNotActive(checkpoint.CacheId);
+                    MakeAllCheckpointsNotActive(cache);
                     checkpoint.Subtype = (int)GeocachingSuCache.Subtypes.ActiveCheckpoint;
                 }
                 db.SubmitChanges();
             }
         }
 
-        public void MakeCacheActive(string cacheId)
+        public void MakeCacheActive(Cache cache)
         {
-            MakeAllCheckpointsNotActive(cacheId);
+            MakeAllCheckpointsNotActive(cache);
         }
 
-        public void UpdateCacheInfo(String details, string id)
+        public void UpdateCacheInfo(String details, Cache cache)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCacheQueryById(db.Caches, id);
+                var query = GetCacheQuery(db.Caches, cache);
                 query.FirstOrDefault().Details = details;
                 db.SubmitChanges();
             }
         }
 
-        public void UpdateCacheNotebook(String notebook, string id)
+        public void UpdateCacheNotebook(String notebook, Cache cache)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCacheQueryById(db.Caches, id);
+                var query = GetCacheQuery(db.Caches, cache);
                 query.FirstOrDefault().Notebook = notebook;
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteCache(string id)
+        public void DeleteCache(Cache cache)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCacheQueryById(db.Caches, id);
+                var query = GetCacheQuery(db.Caches, cache);
                 var itemForDeleting = query.FirstOrDefault();
                 if (itemForDeleting == null) return;
                 var settings = new Settings();
-                if (settings.LastSoughtCacheId == id)
+                if (settings.LastSoughtCacheId == cache.Id)
                 {
                     settings.SetDefaultLastSoughtCacheId();
                 }
-                DeleteAllCheckpoints(id);
+                DeleteAllCheckpoints(cache);
                 db.Caches.DeleteOnSubmit(itemForDeleting);
                 db.SubmitChanges();
             }
 
-            DeletePhotos(id);
-        }
-
-        public void DeletePhotos(string cacheId)
-        {
-            ApiManager.Instance.DeletePhotos(cacheId);
+            ApiManager.Instance.DeletePhotos(cache);
         }
 
         public List<DbCacheItem> GetCacheList()
@@ -157,83 +152,88 @@ namespace WP_Geocaching.Model.DataBase
             return cacheList;
         }
 
-        public DbCacheItem GetCache(string id)
+        public DbCacheItem GetCache(string id, CacheProvider cacheProvider)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCacheQueryById(db.Caches, id);
+                var query = GetCacheQuery(db.Caches, id, cacheProvider);
                 return query.FirstOrDefault();
             }
         }
 
-        public List<DbCheckpointsItem> GetCheckpointsByCacheId(string cacheId)
+        public List<DbCheckpointsItem> GetCheckpointsByCache(Cache cache)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCheckpointsQueryByCacheId(db.Checkpoints, cacheId);
+                var query = GetCheckpointsQueryByCache(db.Checkpoints, cache);
                 return query.ToList();
             }
         }
 
-        public DbCheckpointsItem GetCheckpointByCacheIdAndCheckpointId(string cacheId, int checkpointId)
+        public DbCheckpointsItem GetCheckpointByCacheAndCheckpointId(Cache cache, int checkpointId)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCheckpointQuery(db.Checkpoints, cacheId, checkpointId.ToString());
+                var query = GetCheckpointQuery(db.Checkpoints, cache, checkpointId.ToString());
                 return query.FirstOrDefault();
             }
         }
 
-        public void DeleteCheckpoint(string cacheId, string id)
+        public void DeleteCheckpoint(Cache cache, string id)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCheckpointQuery(db.Checkpoints, cacheId, id);
+                var query = GetCheckpointQuery(db.Checkpoints, cache, id);
                 db.Checkpoints.DeleteOnSubmit(query.FirstOrDefault());
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteAllCheckpoints(string cacheId)
+        public void DeleteAllCheckpoints(Cache cache)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCheckpointsQueryByCacheId(db.Checkpoints, cacheId);
+                var query = GetCheckpointsQueryByCache(db.Checkpoints, cache);
                 db.Checkpoints.DeleteAllOnSubmit(query);
                 db.SubmitChanges();
             }
         }
 
-        private IQueryable<DbCacheItem> GetCacheQueryById(Table<DbCacheItem> table, string id)
+        private IQueryable<DbCacheItem> GetCacheQuery(Table<DbCacheItem> table, Cache cache)
+        {
+            return GetCacheQuery(table, cache.Id, cache.CacheProvider);
+        }
+
+        private IQueryable<DbCacheItem> GetCacheQuery(Table<DbCacheItem> table, string cacheId, CacheProvider cacheProvider)
         {
             var query = from e in table
-                        where (e.Id == id)
+                        where (e.Id == cacheId && e.CacheProvider == cacheProvider)
                         select e;
             return query;
         }
 
-        private IQueryable<DbCheckpointsItem> GetCheckpointQuery(Table<DbCheckpointsItem> table, string cacheId, string id)
+        private IQueryable<DbCheckpointsItem> GetCheckpointQuery(Table<DbCheckpointsItem> table, Cache cache, string id)
         {
-            var query = from e in GetCheckpointsQueryByCacheId(table, cacheId)
+            var query = from e in GetCheckpointsQueryByCache(table, cache)
                         where (e.Id == Convert.ToInt32(id))
                         select e;
             return query;
         }
 
-        private IQueryable<DbCheckpointsItem> GetCheckpointsQueryByCacheId(Table<DbCheckpointsItem> table, string cacheId)
+        private IQueryable<DbCheckpointsItem> GetCheckpointsQueryByCache(Table<DbCheckpointsItem> table, Cache cache)
         {
             var query = from e in table
-                        where (e.CacheId == cacheId)
+                        where (e.CacheId == cache.Id)
                         select e;
             return query;
         }
 
-        private int GetMaxCheckpointIdByCacheId(Table<DbCheckpointsItem> table, string cacheId)
+        private int GetMaxCheckpointIdByCache(Table<DbCheckpointsItem> table, Cache cache)
         {
             int maxId = 0;
 
             var query = (from e in table
-                         where (e.CacheId == cacheId)
+                         where (e.CacheId == cache.Id && e.CacheProvider == cache.CacheProvider)
                          select e.Id);
             if (query.Count() != 0)
             {
@@ -243,14 +243,5 @@ namespace WP_Geocaching.Model.DataBase
             return maxId;
         }
 
-        public bool IsContainsCache(string cacheId)
-        {
-            if (GetCache(cacheId) != null)
-            {
-                return true;
-            }
-
-            return false;
-        }
     }
 }

@@ -88,5 +88,10 @@ namespace WP_Geocaching.Model.DataBase
             return result;
         }
 
+        public static DbCacheItem ToDbCacheItem(Cache cache)
+        {
+            return ToDbCacheItem(cache, null, null);
+        }
+
     }
 }

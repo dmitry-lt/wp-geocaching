@@ -153,11 +153,11 @@ namespace WP_Geocaching.View
         void CompassClick(object sender, EventArgs e)
         {
             var id = -1;
-            var cacheId = searchBingMapViewModel.SoughtCache.Id;
+            var cache = searchBingMapViewModel.SoughtCache;
             var cacheProvider = searchBingMapViewModel.SoughtCache.CacheProvider;
             var checkpointId = id.ToString();
             var db = new CacheDataBase();
-            var checkpoints = db.GetCheckpointsByCacheId(cacheId);
+            var checkpoints = db.GetCheckpointsByCache(cache);
 
             foreach (var c in checkpoints)
             {
@@ -166,7 +166,7 @@ namespace WP_Geocaching.View
                 break;
             }
 
-            NavigationManager.Instance.NavigateToCompass(cacheId, cacheProvider, checkpointId);
+            NavigationManager.Instance.NavigateToCompass(cache.Id, cacheProvider, checkpointId);
         }
 
         private void ShowAllClick(object sender, EventArgs e)

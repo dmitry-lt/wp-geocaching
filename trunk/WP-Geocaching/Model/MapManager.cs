@@ -20,7 +20,7 @@
             }
         }
 
-        public string CacheId { get; set; }
+        public Cache Cache { get; set; }
 
         public int DefaultZoom
         {

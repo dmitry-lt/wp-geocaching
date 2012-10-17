@@ -28,9 +28,9 @@ namespace WP_Geocaching.Model.Api
             _geocahingSuApiManager.ProcessPhoto(processAction, index);
         }
 
-        public void DeletePhotos(string cacheId)
+        public void DeletePhotos(Cache cache)
         {
-            _geocahingSuApiManager.DeletePhotos(cacheId);
+            _geocahingSuApiManager.DeletePhotos(cache.Id);
         }
 
         #endregion
@@ -60,8 +60,7 @@ namespace WP_Geocaching.Model.Api
             if (null == cache)
             {
                 var db = new CacheDataBase();
-                // TODO: id and provider
-                cache = DbConvert.ToCache(db.GetCache(cacheId));
+                cache = DbConvert.ToCache(db.GetCache(cacheId, cacheProvider));
             }
 
             return cache;

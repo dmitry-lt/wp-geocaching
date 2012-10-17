@@ -113,7 +113,7 @@ namespace WP_Geocaching.ViewModel
         public void LoadNotebookPivotItem(WebBrowser notebookBrowser)
         {
             var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id);
+            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
             this.notebookBrowser = notebookBrowser;
 
             if ((item != null) && (item.Notebook != null))
@@ -135,7 +135,7 @@ namespace WP_Geocaching.ViewModel
         public void DownloadAndSaveNotebook()
         {
             var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id);
+            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
 
             if (item.Notebook != null)
             {
@@ -155,7 +155,7 @@ namespace WP_Geocaching.ViewModel
         public void LoadDetailsPivotItem(WebBrowser detailsBrowser)
         {
             var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id);
+            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
             infoBrowser = detailsBrowser;
 
             if ((item != null) && (item.Details != null))
@@ -177,7 +177,7 @@ namespace WP_Geocaching.ViewModel
         public void DownloadAndSaveCacheInfo()
         {
             var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id);
+            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
 
             if (item.Details != null)
             {
@@ -218,9 +218,9 @@ namespace WP_Geocaching.ViewModel
                 NoNotebookMessageVisibility = Visibility.Collapsed;
             }
 
-            if (db.GetCache(Cache.Id) != null)
+            if (db.GetCache(Cache.Id, Cache.CacheProvider) != null)
             {
-                db.UpdateCacheNotebook(notebook, Cache.Id);
+                db.UpdateCacheNotebook(notebook, Cache);
             }
 
             if (notebookBrowser != null)
@@ -238,9 +238,9 @@ namespace WP_Geocaching.ViewModel
                 NoInfoMessageVisibility = Visibility.Collapsed;
             }
 
-            if (db.GetCache(Cache.Id) != null)
+            if (db.GetCache(Cache.Id, Cache.CacheProvider) != null)
             {
-                db.UpdateCacheInfo(info, Cache.Id);
+                db.UpdateCacheInfo(info, Cache);
             }
 
             if (infoBrowser != null)
