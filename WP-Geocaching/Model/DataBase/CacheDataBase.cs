@@ -51,6 +51,7 @@ namespace WP_Geocaching.Model.DataBase
 
                 newItem.Name = name;
                 newItem.CacheId = cache.Id;
+                newItem.CacheProvider = cache.CacheProvider;
                 newItem.Latitude = latitude;
                 newItem.Longitude = longitude;
                 newItem.Type = (int)GeocachingSuCache.Types.Checkpoint;
