@@ -118,7 +118,7 @@ namespace WP_Geocaching.View.Info
 
         private void UpdateFavoriteButton()
         {
-            if (db.GetCache(infoPivotViewModel.Cache.Id) == null)
+            if (db.GetCache(infoPivotViewModel.Cache.Id, infoPivotViewModel.Cache.CacheProvider) == null)
             {
                 GetAddButton();
             }

@@ -766,10 +766,10 @@ namespace WP_Geocaching.ViewModel
 
         public CheckpointViewModel()
         {
-            CacheDataBase db = new CacheDataBase();
-            name = String.Format(AppResources.DefaultCheckpointName, db.GetMaxCheckpointId(MapManager.Instance.CacheId) + 1);
-            DbCacheItem cacheItem = db.GetCache(MapManager.Instance.CacheId);
-            currentInputPointLocation = new GeoCoordinate(cacheItem.Latitude, cacheItem.Longitude);
+            var db = new CacheDataBase();
+            name = String.Format(AppResources.DefaultCheckpointName, db.GetMaxCheckpointId(MapManager.Instance.Cache) + 1);
+            var location = MapManager.Instance.Cache.Location;
+            currentInputPointLocation = new GeoCoordinate(location.Latitude, location.Longitude);
 
             LatDegreesValid = true;
             LatMinutesValid = true;
@@ -816,7 +816,7 @@ namespace WP_Geocaching.ViewModel
         public void SavePoint()
         {
             CacheDataBase db = new CacheDataBase();
-            db.AddActiveCheckpoint(MapManager.Instance.CacheId, Name, CurrentInputPointLocation.Latitude, CurrentInputPointLocation.Longitude);
+            db.AddActiveCheckpoint(MapManager.Instance.Cache, Name, CurrentInputPointLocation.Latitude, CurrentInputPointLocation.Longitude);
         }
     }
 }

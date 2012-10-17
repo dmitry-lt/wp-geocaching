@@ -49,7 +49,7 @@ namespace WP_Geocaching.ViewModel
                 soughtCache = value;
                 if (soughtCache != null)
                 {
-                    MapManager.Instance.CacheId = value.Id;
+                    MapManager.Instance.Cache = value;
                     ConnectingLine.Add(soughtCache.Location);
                     UpdateMapProperties();
                     settings.LastSoughtCacheId = value.Id;
@@ -178,7 +178,7 @@ namespace WP_Geocaching.ViewModel
         private void UpdateCachePushpins()
         {
             var db = new CacheDataBase();
-            var dbCheckpointsList = db.GetCheckpointsByCacheId(MapManager.Instance.CacheId);
+            var dbCheckpointsList = db.GetCheckpointsByCache(MapManager.Instance.Cache);
             var cachePushpins = new ObservableCollection<CachePushpin>();
             cachePushpins.Add(new CachePushpin(SoughtCache));
             foreach (DbCheckpointsItem c in dbCheckpointsList)

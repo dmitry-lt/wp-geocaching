@@ -9,7 +9,7 @@ namespace WP_Geocaching.ViewModel
 {
     public class CheckpointsViewModel : BaseViewModel
     {
-        private string cacheId;
+        private Cache cache;
         private ListCacheItem selectedCheckpoint;
         private ChooseOrDeleteDialog chooseOrDeleteDialog;
         private List<ListCacheItem> dataSource;
@@ -44,17 +44,17 @@ namespace WP_Geocaching.ViewModel
         public CheckpointsViewModel(Dispatcher dispatcher)
         {
             this.dispatcher = dispatcher;
-            cacheId = MapManager.Instance.CacheId;
-            chooseOrDeleteDialog = new ChooseOrDeleteDialog(cacheId, CloseMakeActiveOrDeleteDialogDialog, dispatcher);
+            cache = MapManager.Instance.Cache;
+            chooseOrDeleteDialog = new ChooseOrDeleteDialog(cache, CloseMakeActiveOrDeleteDialogDialog, dispatcher);
             UpdateDataSource();
         }
 
         public void UpdateDataSource()
         {
             var db = new CacheDataBase();
-            var dbCheckpointsList = db.GetCheckpointsByCacheId(cacheId);
+            var dbCheckpointsList = db.GetCheckpointsByCache(cache);
             var newDataSource = new List<ListCacheItem>();
-            newDataSource.Add(new ListCacheItem(db.GetCache(cacheId)));
+            newDataSource.Add(new ListCacheItem(DbConvert.ToDbCacheItem(cache)));
             newDataSource.AddRange(dbCheckpointsList.Select(c => new ListCacheItem(c)));
             DataSource = newDataSource;
         }

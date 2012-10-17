@@ -206,8 +206,7 @@ namespace WP_Geocaching.ViewModel
         private void SetDefaultValues()
         {
             CacheDataBase db = new CacheDataBase();
-            name = String.Format(AppResources.DefaultCheckpointName, db.GetMaxCheckpointId(MapManager.Instance.CacheId) + 1);
-            DbCacheItem cacheItem = db.GetCache(MapManager.Instance.CacheId);
+            name = String.Format(AppResources.DefaultCheckpointName, db.GetMaxCheckpointId(MapManager.Instance.Cache) + 1);
             updateTextBoxes();
         }
 
@@ -215,9 +214,8 @@ namespace WP_Geocaching.ViewModel
         {
             if (currentInputPointLocation == null)
             {
-                CacheDataBase db = new CacheDataBase();
-                DbCacheItem cacheItem = db.GetCache(MapManager.Instance.CacheId);
-                currentInputPointLocation = new GeoCoordinate(cacheItem.Latitude, cacheItem.Longitude);
+                var location = MapManager.Instance.Cache.Location;
+                currentInputPointLocation = new GeoCoordinate(location.Latitude, location.Longitude);
             }
             updateDecimal();
             updateSexagesimal();
@@ -355,7 +353,7 @@ namespace WP_Geocaching.ViewModel
         public void SavePoint()
         {
             CacheDataBase db = new CacheDataBase();
-            db.AddActiveCheckpoint(MapManager.Instance.CacheId, Name,
+            db.AddActiveCheckpoint(MapManager.Instance.Cache, Name,
                 CurrentInputPointLocation.Latitude,
                 CurrentInputPointLocation.Longitude);
         }

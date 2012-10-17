@@ -55,7 +55,7 @@ namespace WP_Geocaching.Model.Dialogs
             dispatcher.BeginInvoke(() =>
                                         {
                                             var db = new CacheDataBase();
-                                            db.DeleteCache(cache.Id);
+                                            db.DeleteCache(cache);
                                             closeAction();
                                         });
         }

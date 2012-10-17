@@ -15,13 +15,13 @@ namespace WP_Geocaching.Model.Dialogs
         private const string Message = "{0} {1}\n{2} {3}\n{4} {5}";
 
         private ListCacheItem item;
-        private readonly string cacheId;
+        private readonly Cache cache;
         private readonly Action closeAction;
         private Dispatcher dispatcher;
 
-        public ChooseOrDeleteDialog(string cacheId, Action closeAction, Dispatcher dispatcher)
+        public ChooseOrDeleteDialog(Cache cache, Action closeAction, Dispatcher dispatcher)
         {
-            this.cacheId = cacheId;
+            this.cache = cache;
             this.closeAction = closeAction;
             this.dispatcher = dispatcher;
         }
@@ -73,7 +73,7 @@ namespace WP_Geocaching.Model.Dialogs
             dispatcher.BeginInvoke(() =>
                                          {
                                              var db = new CacheDataBase();
-                                             db.DeleteCheckpoint(cacheId, item.Cache.Id);
+                                             db.DeleteCheckpoint(cache, item.Cache.Id);
                                              closeAction();
                                          });
         }
@@ -86,11 +86,11 @@ namespace WP_Geocaching.Model.Dialogs
                 var db = new CacheDataBase();
                 if ((item.Cache is GeocachingSuCache) && ((GeocachingSuCache)item.Cache).Type == GeocachingSuCache.Types.Checkpoint)
                 {
-                    db.MakeCheckpointActive(cacheId, item.Cache.Id);
+                    db.MakeCheckpointActive(cache, item.Cache.Id);
                 }
                 else
                 {
-                    db.MakeCacheActive(item.Cache.Id);
+                    db.MakeCacheActive(cache);
                 }
                 closeAction();
             });

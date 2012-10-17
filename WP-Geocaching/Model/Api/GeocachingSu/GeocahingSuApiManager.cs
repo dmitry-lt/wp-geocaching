@@ -149,7 +149,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
                 ResetPhotoCacheData(cacheId);
             }
 
-            if ((db.GetCache(cacheId) != null) && helper.IsPhotosExist(cacheId))
+            if ((db.GetCache(cacheId, CacheProvider.GeocachingSu) != null) && helper.IsPhotosExist(cacheId))
             {
                 ProcessPhotosFromIsolatedStorage(cacheId, processAction, processIdentifier);
             }
@@ -334,7 +334,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
 
                     var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
 
-                    if ((new CacheDataBase()).GetCache(cacheId) != null)
+                    if ((new CacheDataBase()).GetCache(cacheId, CacheProvider.GeocachingSu) != null)
                     {
                         var fileName = (photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"))).Substring(1);
                         helper.SavePhoto(cacheId, fileName, writableBitmap);
