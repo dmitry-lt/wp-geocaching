@@ -4,12 +4,10 @@
     {
         public enum Types
         {
-            Traditional = 1,
-            Multi = 2,
-            Puzzle = 3,
-            Virtual = 4,
-
-            Checkpoint = 9
+            Traditional = 101,
+            Multi = 102,
+            Puzzle = 103,
+            Virtual = 104,
         }
 
         public OpenCachingComCache()
