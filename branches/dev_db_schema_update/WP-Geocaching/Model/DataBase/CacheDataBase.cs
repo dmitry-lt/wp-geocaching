@@ -20,6 +20,8 @@ namespace WP_Geocaching.Model.DataBase
 
         public CacheDataBase()
         {
+            // TODO: move to the constructor in App.xaml.cs to be called only once at app startup
+
             using (var db = new CacheDataContext(ConnectionString))
             {
                 if (!db.DatabaseExists())
