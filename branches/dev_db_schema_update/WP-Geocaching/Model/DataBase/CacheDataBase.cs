@@ -26,27 +26,13 @@ namespace WP_Geocaching.Model.DataBase
                 {
                     var dbUpdater = db.CreateDatabaseSchemaUpdater();
 
-/*
-                    if (dbUpdater.DatabaseSchemaVersion < 1)
-                    {
-                        dbUpdater.AddTable<DbCache>();
-                        dbUpdater.AddTable<DbCheckpoint>();
-
-                        // Add the new database version.
-                        dbUpdater.DatabaseSchemaVersion = 1;
-
-                        // Perform the database update in a single transaction.
-                        dbUpdater.Execute();
-                    }
-*/
-
                     if (dbUpdater.DatabaseSchemaVersion < 2)
                     {
                         try
                         {
                             MigrationTool.MigrateToVersion2();
                         }
-                        finally
+                        catch
                         {
                             // Even if migration is unsuccessful, update the version (then user will lose all saved caches)
 

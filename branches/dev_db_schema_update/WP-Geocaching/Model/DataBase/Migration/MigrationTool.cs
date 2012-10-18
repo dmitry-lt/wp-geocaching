@@ -18,6 +18,13 @@ namespace WP_Geocaching.Model.DataBase.Migration
 
                 if (dbUpdater.DatabaseSchemaVersion < 2)
                 {
+
+                    // Verify tables to migrate exist
+                    db.VerifyTable<MigrationDbCacheItem1>();
+                    db.VerifyTable<MigrationDbCacheItem2>();
+                    db.VerifyTable<MigrationDbCheckpointItem1>();
+                    db.VerifyTable<MigrationDbCheckpointItem2>();
+
                     // Migrate caches
                     foreach (var c1 in from c1 in db.GetTable<MigrationDbCacheItem1>() select c1)
                     {
