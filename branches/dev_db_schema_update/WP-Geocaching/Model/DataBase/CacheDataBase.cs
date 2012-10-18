@@ -13,6 +13,11 @@ namespace WP_Geocaching.Model.DataBase
     {
         private const string ConnectionString = "Data Source=isostore:/DataBase.sdf";
 
+        // never change the second version const value
+        private const int SECOND_VERSION = 2;
+
+        private const int CURRENT_VERSION = 2;
+
         public CacheDataBase()
         {
             using (var db = new CacheDataContext(ConnectionString))
@@ -21,12 +26,20 @@ namespace WP_Geocaching.Model.DataBase
                 {
                     db.CreateDatabase();
                     db.SubmitChanges();
+
+                    var dbUpdater = db.CreateDatabaseSchemaUpdater();
+                            
+                    // Add the new database version.
+                    dbUpdater.DatabaseSchemaVersion = CURRENT_VERSION;
+
+                    // Perform the database update in a single transaction.
+                    dbUpdater.Execute();
                 }
                 else
                 {
                     var dbUpdater = db.CreateDatabaseSchemaUpdater();
 
-                    if (dbUpdater.DatabaseSchemaVersion < 2)
+                    if (dbUpdater.DatabaseSchemaVersion < SECOND_VERSION)
                     {
                         try
                         {
@@ -37,7 +50,7 @@ namespace WP_Geocaching.Model.DataBase
                             // Even if migration is unsuccessful, update the version (then user will lose all saved caches)
 
                             // Add the new database version.
-                            dbUpdater.DatabaseSchemaVersion = 2;
+                            dbUpdater.DatabaseSchemaVersion = SECOND_VERSION;
 
                             // Perform the database update in a single transaction.
                             dbUpdater.Execute();
