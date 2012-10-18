@@ -18,10 +18,8 @@ namespace WP_Geocaching.Model.DataBase
 
         private const int CURRENT_VERSION = 2;
 
-        public CacheDataBase()
+        public static void UpdateSchema()
         {
-            // TODO: move to the constructor in App.xaml.cs to be called only once at app startup
-
             using (var db = new CacheDataContext(ConnectionString))
             {
                 if (!db.DatabaseExists())
@@ -30,7 +28,7 @@ namespace WP_Geocaching.Model.DataBase
                     db.SubmitChanges();
 
                     var dbUpdater = db.CreateDatabaseSchemaUpdater();
-                            
+
                     // Add the new database version.
                     dbUpdater.DatabaseSchemaVersion = CURRENT_VERSION;
 
@@ -59,19 +57,23 @@ namespace WP_Geocaching.Model.DataBase
                         }
                     }
 
-/*
-                    if (dbUpdater.DatabaseSchemaVersion < 3)
-                    {
-                        // Add the new database version.
-                        dbUpdater.DatabaseSchemaVersion = 3;
+                    /*
+                                        if (dbUpdater.DatabaseSchemaVersion < 3)
+                                        {
+                                            // Add the new database version.
+                                            dbUpdater.DatabaseSchemaVersion = 3;
 
-                        // Perform the database update in a single transaction.
-                        dbUpdater.Execute();
-                    }
-*/
+                                            // Perform the database update in a single transaction.
+                                            dbUpdater.Execute();
+                                        }
+                    */
 
                 }
             }
+        }
+
+        public CacheDataBase()
+        {
         }
 
         public void AddCache(Cache cache, string details, string notebook)

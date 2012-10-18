@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching
 {
@@ -57,6 +58,8 @@ namespace WP_Geocaching
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
+            // Update database schema
+            CacheDataBase.UpdateSchema();
         }
 
         // Code to execute when the application is launching (eg, from Start)
