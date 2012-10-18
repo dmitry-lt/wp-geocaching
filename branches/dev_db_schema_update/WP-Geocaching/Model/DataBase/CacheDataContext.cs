@@ -6,18 +6,18 @@ namespace WP_Geocaching.Model.DataBase
     {
         public CacheDataContext(string sConnectionString) : base(sConnectionString) { }
 
-        public Table<DbCacheItem> Caches
+        public Table<DbCache> Caches
         {
             get
             {
-                return this.GetTable<DbCacheItem>();
+                return this.GetTable<DbCache>();
             }
         }
-        public Table<DbCheckpointsItem> Checkpoints
+        public Table<DbCheckpoint> Checkpoints
         {
             get
             {
-                return this.GetTable<DbCheckpointsItem>();
+                return this.GetTable<DbCheckpoint>();
             }
         }
     }

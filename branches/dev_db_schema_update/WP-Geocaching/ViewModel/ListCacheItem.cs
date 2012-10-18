@@ -49,7 +49,7 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public ListCacheItem(DbCacheItem item)
+        public ListCacheItem(DbCache item)
         {
             Cache = DbConvert.ToCache(item);
 
@@ -58,7 +58,7 @@ namespace WP_Geocaching.ViewModel
             Details = item.Details;
         }
 
-        public ListCacheItem(DbCheckpointsItem item)
+        public ListCacheItem(DbCheckpoint item)
         {
             //TODO: refactor
             Cache =

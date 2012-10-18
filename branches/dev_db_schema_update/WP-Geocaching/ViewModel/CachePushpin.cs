@@ -31,7 +31,7 @@ namespace WP_Geocaching.ViewModel
             showDetails = new ButtonCommand(DefaultShowDetails);
         }
 
-        public CachePushpin(DbCheckpointsItem item)
+        public CachePushpin(DbCheckpoint item)
         {
             // TODO: refactor
             Cache = new GeocachingSuCache()
