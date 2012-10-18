@@ -2,6 +2,7 @@
 using System.Data.Linq;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.Phone.Data.Linq;
 using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.Api.GeocachingSu;
 
@@ -15,12 +16,52 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                if (db.DatabaseExists())
+                if (!db.DatabaseExists())
                 {
-                    return;
+                    db.CreateDatabase();
+                    db.SubmitChanges();
                 }
-                db.CreateDatabase();
-                db.SubmitChanges();
+                else
+                {
+                    var dbUpdater = db.CreateDatabaseSchemaUpdater();
+
+                    if (dbUpdater.DatabaseSchemaVersion < 2)
+                    {
+                        // Add the CacheProvider column (added in version 2).
+                        dbUpdater.AddColumn<DbCacheItem>("CacheProvider");
+                        dbUpdater.AddColumn<DbCheckpointsItem>("CacheProvider");
+
+                        // Add the new database version.
+                        dbUpdater.DatabaseSchemaVersion = 2;
+
+                        // Perform the database update in a single transaction.
+                        dbUpdater.Execute();
+
+                        foreach (var c in from c in db.Caches select c)
+                        {
+                            c.CacheProvider = CacheProvider.GeocachingSu;
+                        }
+
+                        foreach (var c in from c in db.Checkpoints select c)
+                        {
+                            c.CacheProvider = CacheProvider.GeocachingSu;
+                        }
+
+                        db.SubmitChanges();
+                    }
+
+/*
+                    if (dbUpdater.DatabaseSchemaVersion < 3)
+                    {
+                        // Add the new database version.
+                        dbUpdater.DatabaseSchemaVersion = 3;
+
+                        // Perform the database update in a single transaction.
+                        dbUpdater.Execute();
+                    }
+*/
+
+                }
             }
         }
 
