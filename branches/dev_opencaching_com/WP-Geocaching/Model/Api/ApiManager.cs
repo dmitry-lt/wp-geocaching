@@ -13,14 +13,14 @@ namespace WP_Geocaching.Model.Api
 
         private readonly GeocahingSuApiManager _geocahingSuApiManager = new GeocahingSuApiManager();
 
-        public void LoadPhotos(string cacheId, Action<ObservableCollection<Photo>> processAction)
+        public void LoadPhotos(Cache cache, Action<ObservableCollection<Photo>> processAction)
         {
-            _geocahingSuApiManager.LoadPhotos(cacheId, processAction);
+            _geocahingSuApiManager.LoadPhotos(cache, processAction);
         }
 
-        public void SavePhotos(string cacheId, Action<ObservableCollection<Photo>> processAction)
+        public void SavePhotos(Cache cache, Action<ObservableCollection<Photo>> processAction)
         {
-            _geocahingSuApiManager.SavePhotos(cacheId, processAction);
+            _geocahingSuApiManager.SavePhotos(cache, processAction);
         }
                 
         public void ProcessPhoto(Action<Photo, int> processAction, int index)
@@ -30,7 +30,7 @@ namespace WP_Geocaching.Model.Api
 
         public void DeletePhotos(Cache cache)
         {
-            _geocahingSuApiManager.DeletePhotos(cache.Id);
+            _geocahingSuApiManager.DeletePhotos(cache);
         }
 
         #endregion

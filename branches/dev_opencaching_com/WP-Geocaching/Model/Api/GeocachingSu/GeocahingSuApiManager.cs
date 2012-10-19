@@ -165,39 +165,39 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
         private List<String> _photoUrls;
         private List<String> _photoNames;
         private ObservableCollection<Photo> _images;
-        private string _cacheId;
+        private Cache _cache;
 
-        public void LoadPhotos(string cacheId, Action<ObservableCollection<Photo>> processAction)
+        public void LoadPhotos(Cache cache, Action<ObservableCollection<Photo>> processAction)
         {
-            ProcessPhotos(cacheId, processAction, LoadAndProcessPhoto);
+            ProcessPhotos(cache, processAction, LoadAndProcessPhoto);
         }
 
-        public void SavePhotos(string cacheId, Action<ObservableCollection<Photo>> processAction)
+        public void SavePhotos(Cache cache, Action<ObservableCollection<Photo>> processAction)
         {
-            ProcessPhotos(cacheId, processAction, SaveAndProcessPhoto);
+            ProcessPhotos(cache, processAction, SaveAndProcessPhoto);
         }
 
-        public void ProcessPhotos(string cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
+        public void ProcessPhotos(Cache cache, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var db = new CacheDataBase();
             var helper = new FileStorageHelper();
 
-            if (this._cacheId != cacheId)
+            if (null != _cache && _cache.Id != cache.Id)
             {
-                ResetPhotoCacheData(cacheId);
+                ResetPhotoCacheData(cache);
             }
 
-            if ((db.GetCache(cacheId, CacheProvider.GeocachingSu) != null) && helper.IsPhotosExist(cacheId))
+            if ((db.GetCache(cache.Id, CacheProvider.GeocachingSu) != null) && helper.IsPhotosExist(cache))
             {
-                ProcessPhotosFromIsolatedStorage(cacheId, processAction, processIdentifier);
+                ProcessPhotosFromIsolatedStorage(cache, processAction, processIdentifier);
             }
             else
             {
-                ProcessPhotosFromWeb(cacheId, processAction, processIdentifier);
+                ProcessPhotosFromWeb(cache, processAction, processIdentifier);
             }
         }
 
-        private void ProcessPhotosFromWeb(string cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
+        private void ProcessPhotosFromWeb(Cache cache, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var webClient = new WebClient();
 
@@ -235,16 +235,16 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
 
             webClient.AllowReadStreamBuffering = true;
             webClient.Encoding = Cp1251Encoding;
-            webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cacheId), UriKind.Absolute));
+            webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cache), UriKind.Absolute));
         }
 
-        private void ProcessPhotosFromIsolatedStorage(string cacheId, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
+        private void ProcessPhotosFromIsolatedStorage(Cache cache, Action<ObservableCollection<Photo>> processAction, Action<string, int> processIdentifier)
         {
             var helper = new FileStorageHelper();
 
             if (_photoNames == null)
             {
-                _photoNames = helper.GetPhotoNames(cacheId);
+                _photoNames = helper.GetPhotoNames(cache);
             }
 
             InitializeImages(_photoNames.Count);
@@ -267,9 +267,9 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             }
         }
 
-        private void ResetPhotoCacheData(string cacheId)
+        private void ResetPhotoCacheData(Cache cache)
         {
-            this._cacheId = cacheId;
+            this._cache = cache;
             _photoUrls = _photoNames = null;
             _images = null;
         }
@@ -339,7 +339,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             var photoUri = new Uri(photoIdentifier);
             var fileName = (photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"))).Substring(1);
 
-            if (helper.IsOnePhotoExists(_cacheId, fileName))
+            if (helper.IsOnePhotoExists(_cache, fileName))
             {
                 return;
             }
@@ -361,7 +361,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
                     }
 
                     var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
-                    helper.SavePhoto(_cacheId, fileName, writableBitmap);
+                    helper.SavePhoto(_cache, fileName, writableBitmap);
                     _images[index] = new Photo(writableBitmap);
                 };
                 webClient.OpenReadAsync(photoUri);
@@ -390,10 +390,10 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
 
                     var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
 
-                    if ((new CacheDataBase()).GetCache(_cacheId, CacheProvider.GeocachingSu) != null)
+                    if ((new CacheDataBase()).GetCache(_cache.Id, CacheProvider.GeocachingSu) != null)
                     {
                         var fileName = (photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"))).Substring(1);
-                        helper.SavePhoto(_cacheId, fileName, writableBitmap);
+                        helper.SavePhoto(_cache, fileName, writableBitmap);
                     }
 
                     _images[index] = new Photo(writableBitmap);
@@ -403,7 +403,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             }
             else
             {
-                _images[index] = new Photo(helper.GetPhoto(_cacheId, photoIdentifier));
+                _images[index] = new Photo(helper.GetPhoto(_cache, photoIdentifier));
             }
         }
 
@@ -458,10 +458,10 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
 
         }
 
-        public void DeletePhotos(string cacheId)
+        public void DeletePhotos(Cache cache)
         {
             var helper = new FileStorageHelper();
-            helper.DeletePhotos(cacheId);
+            helper.DeletePhotos(cache);
             ResetPhotoDataAfterDeleting();
         }
 

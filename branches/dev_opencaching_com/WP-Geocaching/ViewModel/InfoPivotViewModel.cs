@@ -152,12 +152,12 @@ namespace WP_Geocaching.ViewModel
 
         public void LoadPreviews()
         {
-            ApiManager.Instance.LoadPhotos(Cache.Id, ProcessPhotos);
+            ApiManager.Instance.LoadPhotos(Cache, ProcessPhotos);
         }
 
         public void DownloadAndSavePhotos()
         {
-            ApiManager.Instance.SavePhotos(Cache.Id, ProcessPhotos);
+            ApiManager.Instance.SavePhotos(Cache, ProcessPhotos);
         }
 
         private void ProcessPhotos(ObservableCollection<Photo> photos)
