@@ -20,30 +20,30 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
     /// </summary>
     public class GeocahingSuApiManager : IApiManager
     {
-        private static readonly Encoding CP1251Encoding = new CP1251Encoding();
+        private static readonly Encoding Cp1251Encoding = new CP1251Encoding();
         private const string LinkPattern = "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
         private const string InfoUrl = "http://pda.geocaching.su/cache.php?cid={0}";
-        private const string logbookUrl = "http://pda.geocaching.su/note.php?cid={0}&mode=0";
+        private const string LogbookUrl = "http://pda.geocaching.su/note.php?cid={0}&mode=0";
         private const string PhotosUrl = "http://pda.geocaching.su/pict.php?cid={0}&mode=0";
         private const string DownloadUrl =
             "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax={0}&lngmin={1}&latmax={2}&latmin={3}&cacheId={4}&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
-        private int id;
+        private readonly int _id;
 
         public HashSet<Cache> Caches { get; private set; }
 
         internal GeocahingSuApiManager()
         {
             var random = new Random();
-            id = random.Next(100000000);
+            _id = random.Next(100000000);
             Caches = new HashSet<Cache>();
         }
 
         public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
-            var sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, lngmax, lngmin, latmax, latmin, id);
+            var sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, lngmax, lngmin, latmax, latmin, _id);
             var client = new WebClient
                              {
-                                 Encoding = CP1251Encoding
+                                 Encoding = Cp1251Encoding
                              };
             client.DownloadStringCompleted += (sender, e) =>
             {
@@ -107,7 +107,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             };
 
             webClient.AllowReadStreamBuffering = true;
-            webClient.Encoding = CP1251Encoding;
+            webClient.Encoding = Cp1251Encoding;
             webClient.DownloadStringAsync(new Uri(String.Format(url, cacheId), UriKind.Absolute));
         }
 
@@ -116,7 +116,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
         /// </summary>
         /// <param name="processCacheInfo">processes downloaded result</param>
         /// <param name="cache"> </param>
-        public void DownloadAndProcessDescription(Action<string> processCacheInfo, Cache cache)
+        private void DownloadAndProcessDescription(Action<string> processCacheInfo, Cache cache)
         {
             DownloadAndProcessData(InfoUrl, processCacheInfo, cache.Id);
         }
@@ -126,26 +126,22 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
         /// </summary>
         /// <param name="processCachelogbook"> </param>
         /// <param name="cache"> </param>
-        public void DownloadAndProcessLogbook(Action<string> processCachelogbook, Cache cache)
+        private void DownloadAndProcessLogbook(Action<string> processCachelogbook, Cache cache)
         {
-            DownloadAndProcessData(logbookUrl, processCachelogbook, cache.Id);
+            DownloadAndProcessData(LogbookUrl, processCachelogbook, cache.Id);
         }
 
         public Cache GetCache(string cacheId, CacheProvider cacheProvider)
         {
-            foreach (var p in Caches.Where(p => p.Id == cacheId))
-            {
-                return p;
-            }
-            return null;
+            return Caches.FirstOrDefault(p => p.Id == cacheId);
         }
 
         #region Photo Downloading
 
-        private List<String> photoUrls;
-        private List<String> photoNames;
-        private ObservableCollection<Photo> images;
-        private string cacheId;
+        private List<String> _photoUrls;
+        private List<String> _photoNames;
+        private ObservableCollection<Photo> _images;
+        private string _cacheId;
 
         public void LoadPhotos(string cacheId, Action<ObservableCollection<Photo>> processAction)
         {
@@ -162,7 +158,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             var db = new CacheDataBase();
             var helper = new FileStorageHelper();
 
-            if (this.cacheId != cacheId)
+            if (this._cacheId != cacheId)
             {
                 ResetPhotoCacheData(cacheId);
             }
@@ -193,28 +189,28 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
                 }
 
                 ResetPhotoUrls(e.Result);
-                InitializeImages(photoUrls.Count);
+                InitializeImages(_photoUrls.Count);
 
                 if (processAction == null)
                 {
                     return;
                 }
 
-                processAction(images);
+                processAction(_images);
 
                 if (processIdentifier == null)
                 {
                     return;
                 }
 
-                for (var i = 0; i < photoUrls.Count; i++)
+                for (var i = 0; i < _photoUrls.Count; i++)
                 {
-                    processIdentifier(photoUrls[i], i);
+                    processIdentifier(_photoUrls[i], i);
                 }
             };
 
             webClient.AllowReadStreamBuffering = true;
-            webClient.Encoding = CP1251Encoding;
+            webClient.Encoding = Cp1251Encoding;
             webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cacheId), UriKind.Absolute));
         }
 
@@ -222,46 +218,46 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
         {
             var helper = new FileStorageHelper();
 
-            if (photoNames == null)
+            if (_photoNames == null)
             {
-                photoNames = helper.GetPhotoNames(cacheId);
+                _photoNames = helper.GetPhotoNames(cacheId);
             }
 
-            InitializeImages(photoNames.Count);
+            InitializeImages(_photoNames.Count);
 
             if (processAction == null)
             {
                 return;
             }
 
-            processAction(images);
+            processAction(_images);
 
             if (processIdentifier == null)
             {
                 return;
             }
 
-            for (var i = 0; i < photoNames.Count; i++)
+            for (var i = 0; i < _photoNames.Count; i++)
             {
-                processIdentifier(photoNames[i], i);
+                processIdentifier(_photoNames[i], i);
             }
         }
 
         private void ResetPhotoCacheData(string cacheId)
         {
-            this.cacheId = cacheId;
-            photoUrls = photoNames = null;
-            images = null;
+            this._cacheId = cacheId;
+            _photoUrls = _photoNames = null;
+            _images = null;
         }
 
         private void ResetPhotoUrls(string htmlPhotoUrls)
         {
-            if (photoUrls != null)
+            if (_photoUrls != null)
             {
                 return;
             }
 
-            photoUrls = new List<string>();
+            _photoUrls = new List<string>();
             var urls = Regex.Matches(htmlPhotoUrls, LinkPattern);
 
             for (var i = 0; i < urls.Count; i++)
@@ -270,23 +266,23 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
 
                 if (url.EndsWith(".jpg"))
                 {
-                    photoUrls.Add(url);
+                    _photoUrls.Add(url);
                 }
             }
         }
 
         private void InitializeImages(int count)
         {
-            if (images != null)
+            if (_images != null)
             {
                 return;
             }
 
-            images = new ObservableCollection<Photo>();
+            _images = new ObservableCollection<Photo>();
 
             for (var i = 0; i < count; i++)
             {
-                images.Add(null);
+                _images.Add(null);
             }
         }
 
@@ -301,17 +297,17 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             var photoUri = new Uri(photoIdentifier);
             var fileName = (photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"))).Substring(1);
 
-            if (helper.IsOnePhotoExists(cacheId, fileName))
+            if (helper.IsOnePhotoExists(_cacheId, fileName))
             {
                 return;
             }
 
-            if (images.Count <= index) // theoretically impossible
+            if (_images.Count <= index) // theoretically impossible
             {
                 return;
             }
 
-            if (images[index] == null)
+            if (_images[index] == null)
             {
 
                 var webClient = new WebClient();
@@ -323,8 +319,8 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
                     }
 
                     var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
-                    helper.SavePhoto(cacheId, fileName, writableBitmap);
-                    images[index] = new Photo(writableBitmap);
+                    helper.SavePhoto(_cacheId, fileName, writableBitmap);
+                    _images[index] = new Photo(writableBitmap);
                 };
                 webClient.OpenReadAsync(photoUri);
             }
@@ -352,20 +348,20 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
 
                     var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
 
-                    if ((new CacheDataBase()).GetCache(cacheId, CacheProvider.GeocachingSu) != null)
+                    if ((new CacheDataBase()).GetCache(_cacheId, CacheProvider.GeocachingSu) != null)
                     {
                         var fileName = (photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"))).Substring(1);
-                        helper.SavePhoto(cacheId, fileName, writableBitmap);
+                        helper.SavePhoto(_cacheId, fileName, writableBitmap);
                     }
 
-                    images[index] = new Photo(writableBitmap);
+                    _images[index] = new Photo(writableBitmap);
                 };
 
                 webClient.OpenReadAsync(photoUri);
             }
             else
             {
-                images[index] = new Photo(helper.GetPhoto(cacheId, photoIdentifier));
+                _images[index] = new Photo(helper.GetPhoto(_cacheId, photoIdentifier));
             }
         }
 
@@ -380,13 +376,13 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
 
         public void ProcessPhoto(Action<Photo, int> processAction, int index)
         {
-            if (images == null)
+            if (_images == null)
             {
                 processAction(new Photo(GetNoImageBitmap()), NoImageHeight);
                 return;
             }
 
-            var count = images.Count;
+            var count = _images.Count;
             if (count == 0) return;
             index = index % count;
 
@@ -395,9 +391,9 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
                 index += count;
             }
 
-            if (images[index] != null)
+            if (_images[index] != null)
             {
-                processAction(images[index], ((BitmapSource)images[index].PhotoSource).PixelHeight);
+                processAction(_images[index], ((BitmapSource)_images[index].PhotoSource).PixelHeight);
             }
             else
             {
@@ -429,7 +425,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
 
         private void ResetPhotoDataAfterDeleting()
         {
-            photoUrls = photoNames = null;
+            _photoUrls = _photoNames = null;
         }
 
         #endregion
