@@ -4,7 +4,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.Repository;
 
 namespace WP_Geocaching.ViewModel
 {

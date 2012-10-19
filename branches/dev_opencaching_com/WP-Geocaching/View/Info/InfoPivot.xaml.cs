@@ -6,6 +6,7 @@ using System.Windows.Navigation;
 using System.Windows.Controls;
 using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.Dialogs;
+using WP_Geocaching.Model.Navigation;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
@@ -53,9 +54,7 @@ namespace WP_Geocaching.View.Info
                 _infoPivotViewModel.CacheFullyLoaded -= ShowAppBar;
                 _infoPivotViewModel.CacheFullyLoaded += ShowAppBar;
 
-                var cacheId = NavigationContext.QueryString[NavigationManager.Params.Id.ToString()];
-                var cacheProvider = (CacheProvider)Enum.Parse(typeof(CacheProvider), NavigationContext.QueryString[NavigationManager.Params.CacheProvider.ToString()], false);
-                _infoPivotViewModel.Cache = ApiManager.Instance.GetCache(cacheId, cacheProvider);
+                _infoPivotViewModel.Cache = Repository.CurrentCache;
             }
             else
             {
@@ -71,7 +70,7 @@ namespace WP_Geocaching.View.Info
             _db.AddCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook);
             if (new Model.Settings().IsLocationEnabled)
             {
-                NavigationManager.Instance.NavigateToSearchBingMap(_infoPivotViewModel.Cache.Id, _infoPivotViewModel.Cache.CacheProvider);
+                NavigationManager.Instance.NavigateToSearchBingMap(_infoPivotViewModel.Cache);
             }
             else
             {

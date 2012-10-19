@@ -3,6 +3,7 @@ using System.Device.Location;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.DataBase;
+using WP_Geocaching.Model.Navigation;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -46,7 +47,7 @@ namespace WP_Geocaching.ViewModel
         private void DefaultShowDetails(object p)
         {
             var isAppBarEnabled = !(p != null && !(bool) p);
-            NavigationManager.Instance.NavigateToInfoPivot(Cache.Id, Cache.CacheProvider, isAppBarEnabled);
+            NavigationManager.Instance.NavigateToInfoPivot(Cache, isAppBarEnabled);
         }
     }
 }
