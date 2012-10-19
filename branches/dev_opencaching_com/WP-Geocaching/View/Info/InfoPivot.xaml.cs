@@ -144,7 +144,10 @@ namespace WP_Geocaching.View.Info
         private void AddButtonClick(object sender, EventArgs e)
         {
             _db.AddCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook);
-            _infoPivotViewModel.DownloadAndSavePhotos();
+            
+            var helper = new FileStorageHelper();
+            helper.SavePhotos(_infoPivotViewModel.Cache, _infoPivotViewModel.Previews);
+
             GetDeleteButton();
         }
 
@@ -155,7 +158,7 @@ namespace WP_Geocaching.View.Info
 
         private void ImageGotFocus(object sender, RoutedEventArgs e)
         {
-            var photo = new Photo(((Image)sender).Source);
+            var photo = new Photo(((Image)sender).Source, "", true);
             var index = _infoPivotViewModel.Previews.IndexOf(photo);
             NavigationManager.Instance.NavigateToPhotoGallery(_infoPivotViewModel.Previews, index);   
         }

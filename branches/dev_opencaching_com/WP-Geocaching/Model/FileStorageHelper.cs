@@ -51,9 +51,14 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public ImageSource GetPhoto(Cache cache, string photoUrl)
+        public Photo GetPhoto(Cache cache, string photoUrl)
         {
-            return GetImage(GetFilePath(cache, photoUrl));
+            return new Photo(GetImage(GetFilePath(cache, photoUrl)), photoUrl, false);
+        }
+
+        public List<Photo> GetPhotos(Cache cache)
+        {
+            return GetPhotoNames(cache).Select(photoName => GetPhoto(cache, photoName)).ToList();
         }
 
         public bool IsOnePhotoExists(Cache cache, string photoUrl)
@@ -94,6 +99,18 @@ namespace WP_Geocaching.Model
             }
         }
 
+        public void SavePhotos(Cache cache, IEnumerable<Photo> photos)
+        {
+            if (null != photos)
+            {
+                CreateCacheDirectories(cache);
+                foreach (var p in photos)
+                {
+                    SavePhoto(cache, p.PhotoName, (WriteableBitmap)p.PhotoSource);
+                }
+            }
+        }
+
         private void CreateCacheDirectories(Cache cache)
         {
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
@@ -112,12 +129,12 @@ namespace WP_Geocaching.Model
         {
             if (!IsPhotosExist(cache))
             {
-                return null;
+                return new List<string>();
             }
 
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                var filePattern = String.Format(FilePath, cache, "*.*");
+                var filePattern = GetFilePath(cache, "*.*");
                 return fileStore.GetFileNames(filePattern).ToList();
             }
         }

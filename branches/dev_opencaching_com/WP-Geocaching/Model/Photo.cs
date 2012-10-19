@@ -30,9 +30,15 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public Photo(ImageSource source)
+        public bool IsPlaceholder { get; set; }
+
+        public string PhotoName { get; set; }
+
+        public Photo(ImageSource source, string photoName, bool isPlaceholder)
         {
             PhotoSource = source;
+            PhotoName = photoName;
+            IsPlaceholder = isPlaceholder;
         }
 
         public override bool Equals(object obj)

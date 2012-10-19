@@ -106,11 +106,18 @@ namespace WP_Geocaching.ViewModel
 
                 for (var i = 0; i < photoUrls.Count(); i++)
                 {
-                    var photo = new Photo(GetNoImageBitmap());
+                    var photo = new Photo(GetNoImageBitmap(), photoUrls[i], true);
                     Previews.Add(photo);
 
                     // TODO: all photos are loaded handler
-                    photoDownloader.DownloadPhoto(b => photo.PhotoSource = b, photoUrls[i]);
+                    photoDownloader.DownloadPhoto(
+                        b => 
+                        { 
+                            photo.PhotoSource = b;
+                            photo.IsPlaceholder = false;
+                    
+                        }
+                        , photoUrls[i]);
                 }
             }
 
@@ -138,13 +145,17 @@ namespace WP_Geocaching.ViewModel
                 var dbCache = db.GetCache(Cache.Id, Cache.CacheProvider);
                 if (null == dbCache || null == dbCache.Description || null == dbCache.Logbook)
                 {
-                    // TODO: photos
                     ApiManager.Instance.FetchCacheDetails(ProcessInfo, ProcessLogbook, ProcessPhotoUrls, Cache);
                 }
                 else
                 {
                     Info = dbCache.Description;
                     Logbook = dbCache.Logbook;
+                    var helper = new FileStorageHelper();
+                    foreach (var source in helper.GetPhotos(_cache))
+                    {
+                        Previews.Add(source);
+                    }
                 }
 
                 NotifyPropertyChanged("Cache");
@@ -215,11 +226,6 @@ namespace WP_Geocaching.ViewModel
             _infoBrowser = infoBrowser;
 
             Previews = new ObservableCollection<Photo>();
-        }
-
-        public void DownloadAndSavePhotos()
-        {
-            ApiManager.Instance.SavePhotos(Cache, ProcessPhotos);
         }
 
         private void ProcessPhotos(ObservableCollection<Photo> photos)

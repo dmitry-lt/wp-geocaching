@@ -357,7 +357,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
 
                     var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
                     helper.SavePhoto(_cache, fileName, writableBitmap);
-                    _images[index] = new Photo(writableBitmap);
+                    _images[index] = new Photo(writableBitmap, fileName, false);
                 };
                 webClient.OpenReadAsync(photoUri);
             }
@@ -385,20 +385,20 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
 
                     var writableBitmap = PictureDecoder.DecodeJpeg(e.Result);
 
+                    var fileName = (photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"))).Substring(1);
                     if ((new CacheDataBase()).GetCache(_cache.Id, CacheProvider.GeocachingSu) != null)
                     {
-                        var fileName = (photoUri.AbsolutePath.Substring(photoUri.AbsolutePath.LastIndexOf("/"))).Substring(1);
                         helper.SavePhoto(_cache, fileName, writableBitmap);
                     }
 
-                    _images[index] = new Photo(writableBitmap);
+                    _images[index] = new Photo(writableBitmap, fileName, false);
                 };
 
                 webClient.OpenReadAsync(photoUri);
             }
             else
             {
-                _images[index] = new Photo(helper.GetPhoto(_cache, photoIdentifier));
+                _images[index] = helper.GetPhoto(_cache, photoIdentifier);
             }
         }
 
