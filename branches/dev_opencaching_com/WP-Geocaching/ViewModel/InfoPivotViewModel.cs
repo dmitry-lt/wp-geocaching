@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Phone.Controls;
@@ -47,6 +48,14 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        private List<string> _photoUrls;
+
+        private void ProcessPhotoUrls(List<string> photoUrls)
+        {
+            // TODO: download photos
+            _photoUrls = photoUrls;
+        }
+
         private Cache _cache;
         public Cache Cache
         {
@@ -60,7 +69,7 @@ namespace WP_Geocaching.ViewModel
                 if (null == dbCache || null == dbCache.Description || null == dbCache.Logbook)
                 {
                     // TODO: photos
-                    ApiManager.Instance.FetchCacheDetails(s => Info = s, s => Logbook = s, null, Cache);
+                    ApiManager.Instance.FetchCacheDetails(s => Info = s, s => Logbook = s, ProcessPhotoUrls, Cache);
                 }
                 else
                 {

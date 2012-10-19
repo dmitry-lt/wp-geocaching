@@ -84,9 +84,9 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
                 DownloadAndProcessLogbook(processLogbook, cache);
             }
 
-            //TODO: photos
             if (null != processPhotoUrls)
             {
+                DownloadAndProcessPhotoUrls(processPhotoUrls, cache);
             }
         }
 
@@ -124,11 +124,35 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
         /// <summary>
         /// Downloads cache logbook
         /// </summary>
-        /// <param name="processCachelogbook"> </param>
+        /// <param name="processCacheLogbook"> </param>
         /// <param name="cache"> </param>
-        private void DownloadAndProcessLogbook(Action<string> processCachelogbook, Cache cache)
+        private void DownloadAndProcessLogbook(Action<string> processCacheLogbook, Cache cache)
         {
-            DownloadAndProcessData(LogbookUrl, processCachelogbook, cache.Id);
+            DownloadAndProcessData(LogbookUrl, processCacheLogbook, cache.Id);
+        }
+
+        private void DownloadAndProcessPhotoUrls(Action<List<string>> processPhotoUrls, Cache cache)
+        {
+            if (null == processPhotoUrls)
+            {
+                return;
+            }
+
+            var webClient = new WebClient();
+
+            webClient.DownloadStringCompleted += (sender, e) =>
+            {
+                if (e.Error != null)
+                {
+                    return;
+                }
+
+                processPhotoUrls(ParsePhotoUrls(e.Result));
+            };
+
+            webClient.AllowReadStreamBuffering = true;
+            webClient.Encoding = Cp1251Encoding;
+            webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cache.Id), UriKind.Absolute));
         }
 
         public Cache GetCache(string cacheId, CacheProvider cacheProvider)
@@ -269,6 +293,24 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
                     _photoUrls.Add(url);
                 }
             }
+        }
+
+        private List<string> ParsePhotoUrls(string html)
+        {
+            var photoUrls = new List<string>();
+            var urls = Regex.Matches(html, LinkPattern);
+
+            for (var i = 0; i < urls.Count; i++)
+            {
+                var url = urls[i].Value.Substring(7, urls[i].Value.Length - 8);
+
+                if (url.EndsWith(".jpg"))
+                {
+                    photoUrls.Add(url);
+                }
+            }
+
+            return photoUrls;
         }
 
         private void InitializeImages(int count)
