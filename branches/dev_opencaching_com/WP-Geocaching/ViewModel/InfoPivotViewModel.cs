@@ -18,7 +18,7 @@ namespace WP_Geocaching.ViewModel
         private readonly WebBrowser _logbookBrowser;
         private readonly WebBrowser _infoBrowser;
 
-        private Visibility _noPhotosMessageVisibility = Visibility.Visible;
+        private bool _noPhotosMessageVisible = true;
         private bool _noLogbookMessageVisibile = true;
         private bool _noInfoMessageVisible = true;
 
@@ -97,6 +97,8 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
+                NoPhotosMessageVisible = false;
+
                 // TODO: download photos
                 var photoDownloader = new PhotoDownloader();
 
@@ -163,24 +165,20 @@ namespace WP_Geocaching.ViewModel
             set 
             { 
                 _previews = value;
-                if (value.Count != 0)
-                {
-                    NoPhotosMessageVisibility = Visibility.Collapsed;
-                }
                 NotifyPropertyChanged("Previews");
             }
         }
 
-        public Visibility NoPhotosMessageVisibility
+        public bool NoPhotosMessageVisible
         {
             get
             {
-                return _noPhotosMessageVisibility;
+                return _noPhotosMessageVisible;
             }
             set
             {
-                _noPhotosMessageVisibility = value;
-                NotifyPropertyChanged("NoPhotosMessageVisibility");
+                _noPhotosMessageVisible = value;
+                NotifyPropertyChanged("NoPhotosMessageVisible");
             }
         }
 

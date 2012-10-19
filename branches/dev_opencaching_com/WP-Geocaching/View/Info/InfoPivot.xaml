@@ -117,7 +117,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                         <Grid x:Name="NoSouhgtCacheMessage"
-                              Visibility="{Binding NoPhotosMessageVisibility}"
+                              Visibility="{Binding NoPhotosMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                               Style="{StaticResource GridMessageStyle}">
                             <TextBlock Text="{Binding Path=LocalizedResources.NoPhotosMessage, 
                                        Source={StaticResource LocalizedStrings}}" 
