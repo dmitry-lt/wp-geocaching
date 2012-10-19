@@ -1,19 +1,19 @@
 ﻿using System.Data.Linq.Mapping;
 using WP_Geocaching.Model.Api;
 
-namespace WP_Geocaching.Model.DataBase
+namespace WP_Geocaching.Model.DataBase.Migration.SchemaVersion2
 {
-    [Table]
-    public class DbCheckpointsItem
+    [Table(Name = "DbCheckpoint")]
+    public class MigrationDbCheckpointItem2
     {
         [Column(IsPrimaryKey = true)]
         public int Id { get; set; }
 
         [Column(IsPrimaryKey = true)]
-        public string CacheId { get; set; }
+        public CacheProvider CacheProvider { get; set; }
 
         [Column(IsPrimaryKey = true)]
-        public CacheProvider CacheProvider { get; set; }
+        public string CacheId { get; set; }
 
         [Column()]
         public string Name { get; set; }
