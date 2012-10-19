@@ -5,6 +5,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.Repository;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Resources.Localization;
 
@@ -26,6 +27,7 @@ namespace WP_Geocaching.View.Info
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             int index = Convert.ToInt16(NavigationContext.QueryString[NavigationManager.Params.Index.ToString()]);
+            photoGalleryPageViewModel.Photos = PhotoRepository.CurrentPhotos;
             photoGalleryPageViewModel.LoadFullsizePhoto(index);
             base.OnNavigatedTo(e);
         }

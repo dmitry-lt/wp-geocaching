@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Repository;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -38,16 +40,26 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        public List<Photo> Photos { get; set; }
+
         public void LoadFullsizePhoto(int index)
         {
+            while (index < 0)
+            {
+                index += Photos.Count;
+            }
+            index %= Photos.Count;
+
+            var source = (BitmapSource)Photos[index].PhotoSource;
+
             currentIndex = index;
-            ApiManager.Instance.ProcessPhoto(SetImageSource, index);
+            SetImageSource(source);
         }
 
-        public void SetImageSource(Photo source, int maxHeight)
+        public void SetImageSource(BitmapSource source)
         {
-            ImageSource = source.PhotoSource;
-            MaxHeight = maxHeight * Math.Sqrt(2);
+            ImageSource = source;
+            MaxHeight = source.PixelHeight * Math.Sqrt(2);
         }
 
         public void LoadNext(Action action)

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Repository;
 
 namespace WP_Geocaching.Model
 {
@@ -84,8 +87,9 @@ namespace WP_Geocaching.Model
                 Params.CheckpointId, checkpointId));
         }
 
-        public void NavigateToPhotoGallery(int index)
+        public void NavigateToPhotoGallery(IEnumerable<Photo> photos, int index)
         {
+            PhotoRepository.CurrentPhotos = photos.ToList();
             Navigate(String.Format(OneParamsPattern, "//View/Info/PhotoGalleryPage.xaml",
                 Params.Index, index));
         }

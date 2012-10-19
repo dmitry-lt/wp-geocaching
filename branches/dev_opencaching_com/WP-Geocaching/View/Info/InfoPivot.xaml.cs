@@ -157,7 +157,7 @@ namespace WP_Geocaching.View.Info
         {
             var photo = new Photo(((Image)sender).Source);
             var index = _infoPivotViewModel.Previews.IndexOf(photo);
-            NavigationManager.Instance.NavigateToPhotoGallery(index);   
+            NavigationManager.Instance.NavigateToPhotoGallery(_infoPivotViewModel.Previews, index);   
         }
     }
 }
