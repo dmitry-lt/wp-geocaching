@@ -167,11 +167,6 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
         private ObservableCollection<Photo> _images;
         private Cache _cache;
 
-        public void LoadPhotos(Cache cache, Action<ObservableCollection<Photo>> processAction)
-        {
-            ProcessPhotos(cache, processAction, LoadAndProcessPhoto);
-        }
-
         public void SavePhotos(Cache cache, Action<ObservableCollection<Photo>> processAction)
         {
             ProcessPhotos(cache, processAction, SaveAndProcessPhoto);
