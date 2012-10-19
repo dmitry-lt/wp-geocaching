@@ -71,7 +71,6 @@ namespace WP_Geocaching.ViewModel
 
         private const string NoImageUriDark = "/Resources/Images/NoPhotoWhite.png";
         private const string NoImageUriLight = "/Resources/Images/NoPhotoBlack.png";
-        private const int NoImageHeight = 200;
 
         private BitmapImage GetNoImageBitmap()
         {
