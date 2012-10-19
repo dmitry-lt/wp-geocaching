@@ -18,11 +18,6 @@ namespace WP_Geocaching.Model.Api
             _geocahingSuApiManager.SavePhotos(cache, processAction);
         }
                 
-        public void ProcessPhoto(Action<Photo, int> processAction, int index)
-        {
-            _geocahingSuApiManager.ProcessPhoto(processAction, index);
-        }
-
         public void DeletePhotos(Cache cache)
         {
             _geocahingSuApiManager.DeletePhotos(cache);

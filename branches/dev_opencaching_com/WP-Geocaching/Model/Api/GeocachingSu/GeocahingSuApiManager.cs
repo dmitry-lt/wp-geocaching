@@ -412,52 +412,6 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             return data != null && data.Contains("http://");
         }
 
-        private static string NoImageUriDark = "/Resources/Images/NoPhotoWhite.png";
-        private static string NoImageUriLight = "/Resources/Images/NoPhotoBlack.png";
-        private static int NoImageHeight = 200;
-
-        public void ProcessPhoto(Action<Photo, int> processAction, int index)
-        {
-            if (_images == null)
-            {
-                processAction(new Photo(GetNoImageBitmap()), NoImageHeight);
-                return;
-            }
-
-            var count = _images.Count;
-            if (count == 0) return;
-            index = index % count;
-
-            if (index < 0)
-            {
-                index += count;
-            }
-
-            if (_images[index] != null)
-            {
-                processAction(_images[index], ((BitmapSource)_images[index].PhotoSource).PixelHeight);
-            }
-            else
-            {
-                processAction(new Photo(GetNoImageBitmap()), NoImageHeight);
-            }
-        }
-
-        private BitmapImage GetNoImageBitmap()
-        {
-            Visibility darkBackgroundVisibility = (Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"];
-
-            if (darkBackgroundVisibility == Visibility.Visible)
-            {
-                return new BitmapImage(new Uri(NoImageUriDark, UriKind.RelativeOrAbsolute));
-            }
-            else
-            {
-                return new BitmapImage(new Uri(NoImageUriLight, UriKind.RelativeOrAbsolute));
-            }
-
-        }
-
         public void DeletePhotos(Cache cache)
         {
             var helper = new FileStorageHelper();
