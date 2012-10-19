@@ -12,10 +12,13 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
 {
     public class OpenCachingComApiManager : IApiManager
     {
-        private const string CachesUrl =
-            "http://www.opencaching.com/api/geocache?bbox={0}%2C{1}%2C{2}%2C{3}&type=Traditional+Cache%2CMulti-cache%2CUnknown+Cache%2CVirtual+Cache";
+        private const string ApiRoot = "http://www.opencaching.com/api/geocache";
 
-        private const string CacheDescriptionUrl = "http://www.opencaching.com/api/geocache/{0}?description=html";
+        private const string CachesUrl = ApiRoot + "?bbox={0}%2C{1}%2C{2}%2C{3}&type=Traditional+Cache%2CMulti-cache%2CUnknown+Cache%2CVirtual+Cache";
+
+        private const string CacheDescriptionUrl = ApiRoot + "/{0}?description=html";
+
+        private const string PhotoSourceUrl = ApiRoot + "/{0}/{1}";
 
         private const string CacheDescriptionTemplate = @"<html>
 <head>
@@ -183,7 +186,13 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
                     // photos
                     if (null != processPhotoUrls)
                     {
-                        // TODO: photos
+                        var photoUrls = new List<string>();
+                        var images = parsedCache.images;
+                        if (null != images && images.Any())
+                        {
+                            photoUrls.AddRange(images.Select(image => String.Format(PhotoSourceUrl, cache.Id, Uri.EscapeUriString(image.caption))));
+                        }
+                        processPhotoUrls(photoUrls);
                     }
                 }
             };
