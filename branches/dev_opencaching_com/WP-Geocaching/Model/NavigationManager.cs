@@ -16,9 +16,9 @@ namespace WP_Geocaching.Model
             CacheProvider = 4,
         }
 
-        private static string OneParamsPattern = "{0}?{1}={2}";
-        private static string TwoParamsPattern = "{0}?{1}={2}&{3}={4}";
-        private static string ThreeParamsPattern = "{0}?{1}={2}&{3}={4}&{5}={6}";
+        private const string OneParamsPattern = "{0}?{1}={2}";
+        private const string TwoParamsPattern = "{0}?{1}={2}&{3}={4}";
+        private const string ThreeParamsPattern = "{0}?{1}={2}&{3}={4}&{5}={6}";
 
         private static NavigationManager instance;
 
