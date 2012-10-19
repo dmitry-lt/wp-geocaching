@@ -141,88 +141,14 @@ namespace WP_Geocaching.ViewModel
             Previews = new ObservableCollection<Photo>();
         }
 
-        public void LoadLogbookPivotItem(WebBrowser logbookBrowser)
-        {
-            var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
-
-            if ((item != null) && (item.Logbook != null))
-            {
-                Logbook = item.Logbook;
-                NoLogbookMessageVisible = false;
-                logbookBrowser.NavigateToString(item.Logbook);
-            }
-            else if (Logbook != null)
-            {
-                LoadAndSaveLogbook(Logbook);
-            }
-        }
-
-        public void LoadDetailsPivotItem(WebBrowser detailsBrowser)
-        {
-            var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
-
-            if ((item != null) && (item.Description != null))
-            {
-                Info = item.Description;
-                NoInfoMessageVisible = false;
-                detailsBrowser.NavigateToString(item.Description);
-            }
-            else if (Info != null)
-            {
-                LoadAndSaveCacheInfo(Info);
-            }
-        }
-
         public void LoadPreviews()
         {
-            ApiManager.Instance.LoadPhotos(Cache.Id, LoadPhotos);
+            ApiManager.Instance.LoadPhotos(Cache.Id, ProcessPhotos);
         }
 
         public void DownloadAndSavePhotos()
         {
-            ApiManager.Instance.SavePhotos(Cache.Id, SavePhotos);
-        }
-
-        private void SavePhotos(ObservableCollection<Photo> photos)
-        {
-            ProcessPhotos(photos);
-        }
-
-        private void LoadAndSaveLogbook(string logbook)
-        {
-            var db = new CacheDataBase();
-            Logbook = logbook;
-            if (logbook != "")
-            {
-                NoLogbookMessageVisible = false;
-            }
-
-            if (db.GetCache(Cache.Id, Cache.CacheProvider) != null)
-            {
-                db.UpdateCacheLogbook(logbook, Cache);
-            }
-        }
-
-        private void LoadAndSaveCacheInfo(string info)
-        {
-            var db = new CacheDataBase();
-            Info = info;
-            if (info != "")
-            {
-                NoInfoMessageVisible = false;
-            }
-
-            if (db.GetCache(Cache.Id, Cache.CacheProvider) != null)
-            {
-                db.UpdateCacheInfo(info, Cache);
-            }
-        }
-
-        public void LoadPhotos(ObservableCollection<Photo> photos)
-        {
-            ProcessPhotos(photos);
+            ApiManager.Instance.SavePhotos(Cache.Id, ProcessPhotos);
         }
 
         private void ProcessPhotos(ObservableCollection<Photo> photos)
