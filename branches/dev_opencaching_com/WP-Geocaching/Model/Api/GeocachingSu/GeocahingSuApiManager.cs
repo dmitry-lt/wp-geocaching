@@ -150,11 +150,6 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             webClient.DownloadStringAsync(new Uri(String.Format(PhotosUrl, cache.Id), UriKind.Absolute));
         }
 
-        public Cache GetCache(string cacheId, CacheProvider cacheProvider)
-        {
-            return Caches.FirstOrDefault(p => p.Id == cacheId);
-        }
-
         private List<string> ParsePhotoUrls(string html)
         {
             var photoUrls = new List<string>();

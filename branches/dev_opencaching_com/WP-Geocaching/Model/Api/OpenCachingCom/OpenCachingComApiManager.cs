@@ -80,11 +80,6 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
             return sb.ToString();
         }
 
-        public Cache GetCache(string cacheId, CacheProvider cacheProvider)
-        {
-            return Caches.FirstOrDefault(c => c.Id == cacheId);
-        }
-
         public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, CachesUrl, latmin, lngmin, latmax, lngmax);
