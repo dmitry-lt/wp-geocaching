@@ -217,11 +217,6 @@ namespace WP_Geocaching.ViewModel
             Previews = new ObservableCollection<Photo>();
         }
 
-        public void LoadPreviews()
-        {
-            ApiManager.Instance.LoadPhotos(Cache, ProcessPhotos);
-        }
-
         public void DownloadAndSavePhotos()
         {
             ApiManager.Instance.SavePhotos(Cache, ProcessPhotos);

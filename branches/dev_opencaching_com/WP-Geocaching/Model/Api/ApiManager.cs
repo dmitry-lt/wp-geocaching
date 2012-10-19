@@ -13,11 +13,6 @@ namespace WP_Geocaching.Model.Api
 
         private readonly GeocahingSuApiManager _geocahingSuApiManager = new GeocahingSuApiManager();
 
-        public void LoadPhotos(Cache cache, Action<ObservableCollection<Photo>> processAction)
-        {
-            _geocahingSuApiManager.LoadPhotos(cache, processAction);
-        }
-
         public void SavePhotos(Cache cache, Action<ObservableCollection<Photo>> processAction)
         {
             _geocahingSuApiManager.SavePhotos(cache, processAction);

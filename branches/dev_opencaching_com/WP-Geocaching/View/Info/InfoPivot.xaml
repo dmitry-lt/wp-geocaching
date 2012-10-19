@@ -48,7 +48,7 @@
                 </Style>
             </Grid.Resources>
 
-            <controls:Pivot x:Name="Info" SelectionChanged="InfoSelectionChanged">
+            <controls:Pivot x:Name="Info">
                 <controls:PivotItem x:Name="DetailsPivotItem">
                     <controls:PivotItem.Header>
                         <Grid>

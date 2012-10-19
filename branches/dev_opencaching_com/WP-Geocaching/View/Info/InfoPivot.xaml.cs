@@ -66,14 +66,6 @@ namespace WP_Geocaching.View.Info
             }
         }
 
-        private void InfoSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Contains(PhotosPivotItem))
-            {
-                _infoPivotViewModel.LoadPreviews();
-            }
-        }
-
         private void SearchCacheButtonClick(object sender, EventArgs e)
         {
             _db.AddCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook);
