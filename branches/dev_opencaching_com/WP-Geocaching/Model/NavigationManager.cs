@@ -69,7 +69,7 @@ namespace WP_Geocaching.Model
             Navigate("//View/Checkpoints/CreateCheckpoint.xaml");
         }
 
-        public void NavigateToNotebook(string currentId, CacheProvider cacheProvider)
+        public void NavigateTologbook(string currentId, CacheProvider cacheProvider)
         {
             Navigate(String.Format(TwoParamsPattern, "//View/Info/PhotoGalleryPage.xaml",
                 Params.CacheProvider, cacheProvider,

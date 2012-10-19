@@ -201,8 +201,8 @@
   <data name="UndetectedLocationMessage" xml:space="preserve">
     <value>Location is undetected</value>
   </data>
-  <data name="NotebookButton" xml:space="preserve">
-    <value>notebook</value>
+  <data name="LogbookButton" xml:space="preserve">
+    <value>logbook</value>
   </data>
   <data name="Compass" xml:space="preserve">
     <value>Compass</value>
@@ -210,8 +210,8 @@
   <data name="DetailsTitle" xml:space="preserve">
     <value>Details</value>
   </data>
-  <data name="NotebookTitle" xml:space="preserve">
-    <value>Notebook</value>
+  <data name="LogbookTitle" xml:space="preserve">
+    <value>Logbook</value>
   </data>
   <data name="PhotosTitle" xml:space="preserve">
     <value>Photos</value>
@@ -297,8 +297,8 @@
   <data name="NoInfoMessage" xml:space="preserve">
     <value>No info</value>
   </data>
-  <data name="NoNotebookMessage" xml:space="preserve">
-    <value>No notebook</value>
+  <data name="NoLogbookMessage" xml:space="preserve">
+    <value>No logbook</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>

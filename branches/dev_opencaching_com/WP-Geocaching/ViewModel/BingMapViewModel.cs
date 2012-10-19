@@ -173,7 +173,7 @@ namespace WP_Geocaching.ViewModel
         private void SetPushpinsOnMap()
         {
             ProcessCaches(null);
-            apiManager.UpdateCaches(ProcessCaches, BoundingRectangle.East,
+            apiManager.FetchCaches(ProcessCaches, BoundingRectangle.East,
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
         

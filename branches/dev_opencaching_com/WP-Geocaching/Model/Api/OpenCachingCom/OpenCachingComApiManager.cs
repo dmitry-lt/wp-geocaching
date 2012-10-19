@@ -80,7 +80,7 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
             return Caches.FirstOrDefault(c => c.Id == cacheId);
         }
 
-        public void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, CachesUrl, latmin, lngmin, latmax, lngmax);
 
@@ -139,7 +139,7 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
             client.DownloadStringAsync(new Uri(sUrl));
         }
 
-        public void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache)
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, CacheDescriptionUrl, cache.Id);
 
@@ -157,55 +157,39 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
                 {
                     var parsedCache = (OpenCachingComApiCache)serializer.ReadObject(ms);
 
-                    var cacheInfo = parsedCache.name + "<br/><br/>" + parsedCache.description;
-
-                    if (processCacheInfo == null) return;
-
-                    processCacheInfo(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(cacheInfo)));
-                }
-            };
-
-            client.DownloadStringAsync(new Uri(sUrl));
-        }
-
-        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, Cache cache)
-        {
-            var sUrl = String.Format(CultureInfo.InvariantCulture, CacheDescriptionUrl, cache.Id);
-
-            var client = CreateWebClient();
-
-            client.DownloadStringCompleted += (sender, e) =>
-            {
-                if (e.Error != null) return;
-
-                var jsonResult = e.Result;
-
-                var serializer = new DataContractJsonSerializer(typeof(OpenCachingComApiCache));
-
-                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonResult)))
-                {
-                    var parsedCache = (OpenCachingComApiCache)serializer.ReadObject(ms);
-
-                    var logs = parsedCache.logs;
-
-                    var notebook = "";
-
-                    if (null != logs)
+                    // description
+                    if (null != processDescription)
                     {
-                        foreach (var log in logs)
-                        {
-                            notebook += log.user.name + ":<br/>";
-                            notebook += log.comment + "<br/><br/>";
-                        }
+                        var description = parsedCache.name + "<br/><br/>" + parsedCache.description;
+                        processDescription(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(description)));
                     }
 
-                    if (processCacheNotebook == null) return;
+                    // logs
+                    if (null != processLogbook)
+                    {
+                        var logbook = "";
+                        var logs = parsedCache.logs;
+                        if (null != logs)
+                        {
+                            foreach (var log in logs)
+                            {
+                                logbook += log.user.name + ":<br/>";
+                                logbook += log.comment + "<br/><br/>";
+                            }
+                        }
+                        processLogbook(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(logbook)));
+                    }
 
-                    processCacheNotebook(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(notebook)));
+                    // photos
+                    if (null != processPhotoUrls)
+                    {
+                        // TODO: photos
+                    }
                 }
             };
 
             client.DownloadStringAsync(new Uri(sUrl));
         }
+
     }
 }

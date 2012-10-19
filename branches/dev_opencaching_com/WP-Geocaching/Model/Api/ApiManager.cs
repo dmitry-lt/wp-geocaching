@@ -67,22 +67,17 @@ namespace WP_Geocaching.Model.Api
 
         }
 
-        public void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
+        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
         {
             foreach (var apiManager in _managers.Values)
             {
-                apiManager.UpdateCaches(processCaches, lngmax, lgnmin, latmax, latmin);
+                apiManager.FetchCaches(processCaches, lngmax, lgnmin, latmax, latmin);
             }
         }
 
-        public void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache)
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
         {
-            _managers[cache.CacheProvider].DownloadAndProcessInfo(processCacheInfo, cache);
-        }
-
-        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, Cache cache)
-        {
-            _managers[cache.CacheProvider].DownloadAndProcessNotebook(processCacheNotebook, cache);
+            _managers[cache.CacheProvider].FetchCacheDetails(processDescription, processLogbook, processPhotoUrls, cache);
         }
 
         #endregion

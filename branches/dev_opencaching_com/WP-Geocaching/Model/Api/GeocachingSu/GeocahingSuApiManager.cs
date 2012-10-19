@@ -23,7 +23,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
         private static readonly Encoding CP1251Encoding = new CP1251Encoding();
         private const string LinkPattern = "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
         private const string InfoUrl = "http://pda.geocaching.su/cache.php?cid={0}";
-        private const string NotebookUrl = "http://pda.geocaching.su/note.php?cid={0}&mode=0";
+        private const string logbookUrl = "http://pda.geocaching.su/note.php?cid={0}&mode=0";
         private const string PhotosUrl = "http://pda.geocaching.su/pict.php?cid={0}&mode=0";
         private const string DownloadUrl =
             "http://www.geocaching.su/pages/1031.ajax.php?exactly=1&lngmax={0}&lngmin={1}&latmax={2}&latmin={3}&cacheId={4}&geocaching=f1fadbc82d0156ae0f81f7d5e0b26bda";
@@ -38,7 +38,7 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             Caches = new HashSet<Cache>();
         }
 
-        public void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, lngmax, lngmin, latmax, latmin, id);
             var client = new WebClient
@@ -72,6 +72,24 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
             client.DownloadStringAsync(new Uri(sUrl));
         }
 
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
+        {
+            if (null != processDescription)
+            {
+                DownloadAndProcessDescription(processDescription, cache);
+            }
+
+            if (null != processLogbook)
+            {
+                DownloadAndProcessLogbook(processLogbook, cache);
+            }
+
+            //TODO: photos
+            if (null != processPhotoUrls)
+            {
+            }
+        }
+
         /// <summary>
         /// Downloads data at the url by cacheId
         /// </summary>
@@ -98,19 +116,19 @@ namespace WP_Geocaching.Model.Api.GeocachingSu
         /// </summary>
         /// <param name="processCacheInfo">processes downloaded result</param>
         /// <param name="cache"> </param>
-        public void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache)
+        public void DownloadAndProcessDescription(Action<string> processCacheInfo, Cache cache)
         {
             DownloadAndProcessData(InfoUrl, processCacheInfo, cache.Id);
         }
 
         /// <summary>
-        /// Downloads cache notebook
+        /// Downloads cache logbook
         /// </summary>
-        /// <param name="processCacheNotebook"> </param>
+        /// <param name="processCachelogbook"> </param>
         /// <param name="cache"> </param>
-        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, Cache cache)
+        public void DownloadAndProcessLogbook(Action<string> processCachelogbook, Cache cache)
         {
-            DownloadAndProcessData(NotebookUrl, processCacheNotebook, cache.Id);
+            DownloadAndProcessData(logbookUrl, processCachelogbook, cache.Id);
         }
 
         public Cache GetCache(string cacheId, CacheProvider cacheProvider)

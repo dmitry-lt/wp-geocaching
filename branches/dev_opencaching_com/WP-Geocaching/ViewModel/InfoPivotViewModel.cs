@@ -13,11 +13,11 @@ namespace WP_Geocaching.ViewModel
 {
     public class InfoPivotViewModel : BaseViewModel
     {
-        private WebBrowser notebookBrowser;
+        private WebBrowser logbookBrowser;
         private WebBrowser infoBrowser;
 
         private Visibility noPhotosMessageVisibility = Visibility.Visible;
-        private Visibility noNotebookMessageVisibility = Visibility.Visible;
+        private Visibility noLogbookMessageVisibility = Visibility.Visible;
         private Visibility noInfoMessageVisibility = Visibility.Visible;
 
         private ObservableCollection<Photo> previews;
@@ -25,7 +25,7 @@ namespace WP_Geocaching.ViewModel
         private ConfirmDeleteDialog confirmDeleteDialog;
 
         public string Info { get; set; }
-        public string Notebook { get; set; }
+        public string Logbook { get; set; }
 
         private Cache _cache;
         public Cache Cache
@@ -34,13 +34,16 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 _cache = value;
-                NotifyPropertyChanged("Cache");
-            
-                // TODO: refactor
-                if (_cache is OpenCachingComCache)
+
+                var db = new CacheDataBase();
+                var dbCache = db.GetCache(Cache.Id, Cache.CacheProvider);
+                if (null == dbCache || null == dbCache.Description || null == dbCache.Logbook)
                 {
-                    HidePhotos(this, new EventArgs());
+                    // TODO: photos
+                    ApiManager.Instance.FetchCacheDetails(LoadAndSaveCacheInfo, LoadAndSaveLogbook, null, Cache);
                 }
+
+                NotifyPropertyChanged("Cache");
             }
         }
 
@@ -77,16 +80,16 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public Visibility NoNotebookMessageVisibility
+        public Visibility NoLogbookMessageVisibility
         {
             get
             {
-                return noNotebookMessageVisibility;
+                return noLogbookMessageVisibility;
             }
             set
             {
-                noNotebookMessageVisibility = value;
-                NotifyPropertyChanged("NoNotebookMessageVisibility");
+                noLogbookMessageVisibility = value;
+                NotifyPropertyChanged("NoLogbookMessageVisibility");
             }
         }
 
@@ -110,45 +113,47 @@ namespace WP_Geocaching.ViewModel
             Previews = new ObservableCollection<Photo>();
         }
 
-        public void LoadNotebookPivotItem(WebBrowser notebookBrowser)
+        public void LoadLogbookPivotItem(WebBrowser logbookBrowser)
         {
             var db = new CacheDataBase();
             var item = db.GetCache(Cache.Id, Cache.CacheProvider);
-            this.notebookBrowser = notebookBrowser;
+            this.logbookBrowser = logbookBrowser;
 
-            if ((item != null) && (item.Notebook != null))
+            if ((item != null) && (item.Logbook != null))
             {
-                Notebook = item.Notebook;
-                NoNotebookMessageVisibility = Visibility.Collapsed;
-                notebookBrowser.NavigateToString(item.Notebook);
+                Logbook = item.Logbook;
+                NoLogbookMessageVisibility = Visibility.Collapsed;
+                logbookBrowser.NavigateToString(item.Logbook);
             }
-            else if (Notebook != null)
+            else if (Logbook != null)
             {
-                LoadAndSaveNotebook(Notebook);
+                LoadAndSaveLogbook(Logbook);
             }
             else
             {
-                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache);
+                //TODO: implement
+//                ApiManager.Instance.DownloadAndProcessLogbook(LoadAndSaveLogbook, Cache);
             }
         }
 
-        public void DownloadAndSaveNotebook()
+        public void DownloadAndSaveLogbook()
         {
             var db = new CacheDataBase();
             var item = db.GetCache(Cache.Id, Cache.CacheProvider);
 
-            if (item.Notebook != null)
+            if (item.Logbook != null)
             {
                 return;
             }
 
-            if (Notebook != null)
+            if (Logbook != null)
             {
-                LoadAndSaveNotebook(Notebook);
+                LoadAndSaveLogbook(Logbook);
             }
             else
             {
-                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache);
+                //TODO: implement
+//                ApiManager.Instance.DownloadAndProcessLogbook(LoadAndSaveLogbook, Cache);
             }
         }
 
@@ -158,11 +163,11 @@ namespace WP_Geocaching.ViewModel
             var item = db.GetCache(Cache.Id, Cache.CacheProvider);
             infoBrowser = detailsBrowser;
 
-            if ((item != null) && (item.Details != null))
+            if ((item != null) && (item.Description != null))
             {
-                Info = item.Details;
+                Info = item.Description;
                 NoInfoMessageVisibility = Visibility.Collapsed;
-                detailsBrowser.NavigateToString(item.Details);
+                detailsBrowser.NavigateToString(item.Description);
             }
             else if (Info != null)
             {
@@ -170,7 +175,8 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache);
+                // TODO: implement
+//                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache);
             }
         }
 
@@ -179,7 +185,7 @@ namespace WP_Geocaching.ViewModel
             var db = new CacheDataBase();
             var item = db.GetCache(Cache.Id, Cache.CacheProvider);
 
-            if (item.Details != null)
+            if (item.Description != null)
             {
                 return;
             }
@@ -190,7 +196,8 @@ namespace WP_Geocaching.ViewModel
             }
             else
             {
-                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache);
+                // TODO: implement
+//                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache);
             }
         }
 
@@ -209,23 +216,23 @@ namespace WP_Geocaching.ViewModel
             ProcessPhotos(photos);
         }
 
-        private void LoadAndSaveNotebook(string notebook)
+        private void LoadAndSaveLogbook(string logbook)
         {
             var db = new CacheDataBase();
-            Notebook = notebook;
-            if (notebook != "")
+            Logbook = logbook;
+            if (logbook != "")
             {
-                NoNotebookMessageVisibility = Visibility.Collapsed;
+                NoLogbookMessageVisibility = Visibility.Collapsed;
             }
 
             if (db.GetCache(Cache.Id, Cache.CacheProvider) != null)
             {
-                db.UpdateCacheNotebook(notebook, Cache);
+                db.UpdateCacheLogbook(logbook, Cache);
             }
 
-            if (notebookBrowser != null)
+            if (logbookBrowser != null)
             {
-                notebookBrowser.NavigateToString(notebook);
+                logbookBrowser.NavigateToString(logbook);
             }
         }
 

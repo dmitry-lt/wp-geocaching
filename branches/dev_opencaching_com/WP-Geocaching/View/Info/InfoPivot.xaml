@@ -68,19 +68,19 @@
                     </Grid>
                 </controls:PivotItem>
 
-                <controls:PivotItem x:Name="NotebookPivotItem">
+                <controls:PivotItem x:Name="LogbookPivotItem">
                     <controls:PivotItem.Header>
                         <Grid>
-                            <TextBlock FontSize="50" Text="{Binding Path=LocalizedResources.NotebookTitle, 
+                            <TextBlock FontSize="50" Text="{Binding Path=LocalizedResources.LogbookTitle, 
                 Source={StaticResource LocalizedStrings}}"/>
                         </Grid>
                     </controls:PivotItem.Header>
                     <Grid Grid.Row="1" Margin="12,0,12,0">
-                        <phone:WebBrowser x:Name="NotebookBrowser" Margin="0,0,0,0" Grid.Row="1"/>
-                        <Grid x:Name="NoNotebookCacheMessage"
-                              Visibility="{Binding NoNotebookMessageVisibility}"
+                        <phone:WebBrowser x:Name="LogbookBrowser" Margin="0,0,0,0" Grid.Row="1"/>
+                        <Grid x:Name="NoLogbookCacheMessage"
+                              Visibility="{Binding NoLogbookMessageVisibility}"
                               Style="{StaticResource GridMessageStyle}">
-                            <TextBlock Text="{Binding Path=LocalizedResources.NoNotebookMessage, 
+                            <TextBlock Text="{Binding Path=LocalizedResources.NoLogbookMessage, 
                                        Source={StaticResource LocalizedStrings}}" 
                                        Style="{StaticResource TextMessageStyle}"/>
                         </Grid>

@@ -1,6 +1,5 @@
 ﻿using System.Windows.Media;
 using System.ComponentModel;
-using System.Windows.Media.Imaging;
 
 namespace WP_Geocaching.Model
 {
