@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Microsoft.Phone.Controls;
 using System.Collections.ObjectModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.Api.OpenCachingCom;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model.Dialogs;
 
@@ -13,19 +15,123 @@ namespace WP_Geocaching.ViewModel
 {
     public class InfoPivotViewModel : BaseViewModel
     {
-        private WebBrowser notebookBrowser;
-        private WebBrowser infoBrowser;
+        private readonly WebBrowser _logbookBrowser;
+        private readonly WebBrowser _infoBrowser;
 
-        private Visibility noPhotosMessageVisibility = Visibility.Visible;
-        private Visibility noNotebookMessageVisibility = Visibility.Visible;
-        private Visibility noInfoMessageVisibility = Visibility.Visible;
+        private bool _noPhotosMessageVisible = true;
+        private bool _noLogbookMessageVisibile = true;
+        private bool _noInfoMessageVisible = true;
 
-        private ObservableCollection<Photo> previews;
-        private Action closeAction;
-        private ConfirmDeleteDialog confirmDeleteDialog;
+        private ObservableCollection<Photo> _previews;
+        private readonly Action _closeAction;
+        private ConfirmDeleteDialog _confirmDeleteDialog;
 
-        public string Info { get; set; }
-        public string Notebook { get; set; }
+        private string _info;
+        public string Info
+        {
+            get { return _info;  }
+            set 
+            { 
+                _info = value;
+                NoInfoMessageVisible = value == null;
+                _infoBrowser.NavigateToString(_info);
+            }
+        }
+
+        private string _logbook;
+        public string Logbook
+        {
+            get { return _logbook; }
+            set
+            {
+                _logbook = value;
+                NoLogbookMessageVisible = value == null;
+                _logbookBrowser.NavigateToString(_logbook);
+            }
+        }
+
+        private bool _infoLoaded;
+        private void ProcessInfo(string info)
+        {
+            Info = info;
+            _infoLoaded = true;
+            CheckFullyLoaded();
+        }
+
+        private bool _logbookLoaded;
+        private void ProcessLogbook(string logbook)
+        {
+            Logbook = logbook;
+            _logbookLoaded = true;
+            CheckFullyLoaded();
+        }
+
+        private List<string> _photoUrls;
+        private bool _photoUrlsLoaded;
+
+        private const string NoImageUriDark = "/Resources/Images/NoPhotoWhite.png";
+        private const string NoImageUriLight = "/Resources/Images/NoPhotoBlack.png";
+
+        private BitmapImage GetNoImageBitmap()
+        {
+            var darkBackgroundVisibility = (Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"];
+
+            if (darkBackgroundVisibility == Visibility.Visible)
+            {
+                return new BitmapImage(new Uri(NoImageUriDark, UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                return new BitmapImage(new Uri(NoImageUriLight, UriKind.RelativeOrAbsolute));
+            }
+
+        }
+
+        private void ProcessPhotoUrls(List<string> photoUrls)
+        {
+            _photoUrls = photoUrls;
+
+            if (null == _photoUrls || !_photoUrls.Any())
+            {
+                // TODO: all photos are loaded
+            }
+            else
+            {
+                NoPhotosMessageVisible = false;
+
+                // TODO: download photos
+                var photoDownloader = new PhotoDownloader();
+
+                Previews = new ObservableCollection<Photo>();
+
+                for (var i = 0; i < photoUrls.Count(); i++)
+                {
+                    var photo = new Photo(GetNoImageBitmap(), photoUrls[i], true);
+                    Previews.Add(photo);
+
+                    // TODO: all photos are loaded handler
+                    photoDownloader.DownloadPhoto(
+                        b => 
+                        { 
+                            photo.PhotoSource = b;
+                            photo.IsPlaceholder = false;
+                    
+                        }
+                        , photoUrls[i]);
+                }
+            }
+
+            _photoUrlsLoaded = true;
+            CheckFullyLoaded();
+        }
+
+        private void CheckFullyLoaded()
+        {
+            if (_infoLoaded && _logbookLoaded && _photoUrlsLoaded)
+            {
+                CacheFullyLoaded(this, new EventArgs());
+            }
+        }
 
         private Cache _cache;
         public Cache Cache
@@ -34,257 +140,103 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 _cache = value;
-                NotifyPropertyChanged("Cache");
-            
-                // TODO: refactor
-                if (_cache is OpenCachingComCache)
+
+                var db = new CacheDataBase();
+                var dbCache = db.GetCache(Cache.Id, Cache.CacheProvider);
+                if (null == dbCache || null == dbCache.Description || null == dbCache.Logbook)
                 {
-                    HidePhotos(this, new EventArgs());
+                    ApiManager.Instance.FetchCacheDetails(ProcessInfo, ProcessLogbook, ProcessPhotoUrls, Cache);
                 }
+                else
+                {
+                    Info = dbCache.Description;
+                    Logbook = dbCache.Logbook;
+                    var helper = new FileStorageHelper();
+                    foreach (var source in helper.GetPhotos(_cache))
+                    {
+                        NoPhotosMessageVisible = false;
+                        Previews.Add(source);
+                    }
+                    CacheFullyLoaded(this, new EventArgs());
+                }
+
+                NotifyPropertyChanged("Cache");
             }
         }
 
+        // invoke this event to hide photos tab
         public event EventHandler HidePhotos;
+        public event EventHandler CacheFullyLoaded;
 
         public ObservableCollection<Photo> Previews 
         { 
             get
             {
-                return previews;
+                return _previews;
             }
 
             set 
             { 
-                previews = value;
-                if (value.Count != 0)
-                {
-                    NoPhotosMessageVisibility = Visibility.Collapsed;
-                }
+                _previews = value;
                 NotifyPropertyChanged("Previews");
             }
         }
 
-        public Visibility NoPhotosMessageVisibility
+        public bool NoPhotosMessageVisible
         {
             get
             {
-                return noPhotosMessageVisibility;
+                return _noPhotosMessageVisible;
             }
             set
             {
-                noPhotosMessageVisibility = value;
-                NotifyPropertyChanged("NoPhotosMessageVisibility");
+                _noPhotosMessageVisible = value;
+                NotifyPropertyChanged("NoPhotosMessageVisible");
             }
         }
 
-        public Visibility NoNotebookMessageVisibility
+        public bool NoLogbookMessageVisible
         {
             get
             {
-                return noNotebookMessageVisibility;
+                return _noLogbookMessageVisibile;
             }
             set
             {
-                noNotebookMessageVisibility = value;
-                NotifyPropertyChanged("NoNotebookMessageVisibility");
+                _noLogbookMessageVisibile = value;
+                NotifyPropertyChanged("NoLogbookMessageVisible");
             }
         }
 
-        public Visibility NoInfoMessageVisibility
+        public bool NoInfoMessageVisible
         {
             get
             {
-                return noInfoMessageVisibility;
+                return _noInfoMessageVisible;
             }
             set
             {
-                noInfoMessageVisibility = value;
-                NotifyPropertyChanged("NoInfoMessageVisibility");
+                _noInfoMessageVisible = value;
+                NotifyPropertyChanged("NoInfoMessageVisible");
             }
         }
 
-        public InfoPivotViewModel(Action closeAction)
+        public InfoPivotViewModel(Action closeAction, WebBrowser infoBrowser, WebBrowser logbookBrowser)
         {
-            this.closeAction = closeAction;
+            _closeAction = closeAction;
+            _logbookBrowser = logbookBrowser;
+            _infoBrowser = infoBrowser;
 
             Previews = new ObservableCollection<Photo>();
         }
 
-        public void LoadNotebookPivotItem(WebBrowser notebookBrowser)
-        {
-            var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
-            this.notebookBrowser = notebookBrowser;
-
-            if ((item != null) && (item.Notebook != null))
-            {
-                Notebook = item.Notebook;
-                NoNotebookMessageVisibility = Visibility.Collapsed;
-                notebookBrowser.NavigateToString(item.Notebook);
-            }
-            else if (Notebook != null)
-            {
-                LoadAndSaveNotebook(Notebook);
-            }
-            else
-            {
-                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache);
-            }
-        }
-
-        public void DownloadAndSaveNotebook()
-        {
-            var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
-
-            if (item.Notebook != null)
-            {
-                return;
-            }
-
-            if (Notebook != null)
-            {
-                LoadAndSaveNotebook(Notebook);
-            }
-            else
-            {
-                ApiManager.Instance.DownloadAndProcessNotebook(LoadAndSaveNotebook, Cache);
-            }
-        }
-
-        public void LoadDetailsPivotItem(WebBrowser detailsBrowser)
-        {
-            var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
-            infoBrowser = detailsBrowser;
-
-            if ((item != null) && (item.Details != null))
-            {
-                Info = item.Details;
-                NoInfoMessageVisibility = Visibility.Collapsed;
-                detailsBrowser.NavigateToString(item.Details);
-            }
-            else if (Info != null)
-            {
-                LoadAndSaveCacheInfo(Info);
-            }
-            else
-            {
-                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache);
-            }
-        }
-
-        public void DownloadAndSaveCacheInfo()
-        {
-            var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
-
-            if (item.Details != null)
-            {
-                return;
-            }
-
-            if (Info != null)
-            {
-                LoadAndSaveCacheInfo(Info);
-            }
-            else
-            {
-                ApiManager.Instance.DownloadAndProcessInfo(LoadAndSaveCacheInfo, Cache);
-            }
-        }
-
-        public void LoadPreviews()
-        {
-            ApiManager.Instance.LoadPhotos(Cache.Id, LoadPhotos);
-        }
-
-        public void DownloadAndSavePhotos()
-        {
-            ApiManager.Instance.SavePhotos(Cache.Id, SavePhotos);
-        }
-
-        private void SavePhotos(ObservableCollection<Photo> photos)
-        {
-            ProcessPhotos(photos);
-        }
-
-        private void LoadAndSaveNotebook(string notebook)
-        {
-            var db = new CacheDataBase();
-            Notebook = notebook;
-            if (notebook != "")
-            {
-                NoNotebookMessageVisibility = Visibility.Collapsed;
-            }
-
-            if (db.GetCache(Cache.Id, Cache.CacheProvider) != null)
-            {
-                db.UpdateCacheNotebook(notebook, Cache);
-            }
-
-            if (notebookBrowser != null)
-            {
-                notebookBrowser.NavigateToString(notebook);
-            }
-        }
-
-        private void LoadAndSaveCacheInfo(string info)
-        {
-            var db = new CacheDataBase();
-            Info = info;
-            if (info != "")
-            {
-                NoInfoMessageVisibility = Visibility.Collapsed;
-            }
-
-            if (db.GetCache(Cache.Id, Cache.CacheProvider) != null)
-            {
-                db.UpdateCacheInfo(info, Cache);
-            }
-
-            if (infoBrowser != null)
-            {
-                infoBrowser.NavigateToString(info);
-            }
-        }
-
-        public void LoadPhotos(ObservableCollection<Photo> photos)
-        {
-            ProcessPhotos(photos);
-        }
-
-        private void ProcessPhotos(ObservableCollection<Photo> photos)
-        {
-            if (Previews == null)
-            {
-                return;
-            }
-
-            if (photos == null)
-            {
-                //todo save photos
-                return;
-            }
-
-            if (photos.Count == Previews.Count)
-            {
-                //todo save photos
-            }
-
-            if (Previews.Count == 0)
-            {
-                Previews = photos;
-            }
-        }
-
         public void ShowConfirmDeleteDialog(Dispatcher dispatcher)
         {
-            if (confirmDeleteDialog == null)
+            if (_confirmDeleteDialog == null)
             {
-                confirmDeleteDialog = new ConfirmDeleteDialog(Cache, closeAction, dispatcher);
+                _confirmDeleteDialog = new ConfirmDeleteDialog(Cache, _closeAction, dispatcher);
             }
-            confirmDeleteDialog.Show();
+            _confirmDeleteDialog.Show();
         }
     }
 }

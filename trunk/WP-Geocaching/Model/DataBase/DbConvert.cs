@@ -58,7 +58,7 @@ namespace WP_Geocaching.Model.DataBase
             result.Type = (int)cache.Type;
         }
 
-        public static DbCache ToDbCacheItem(Cache cache, string details, string notebook)
+        public static DbCache ToDbCacheItem(Cache cache, string details, string logbook)
         {
             var result =
                 new DbCache()
@@ -82,8 +82,8 @@ namespace WP_Geocaching.Model.DataBase
                     break;
             }
 
-            result.Details = details;
-            result.Notebook = notebook;
+            result.Description = details;
+            result.Logbook = logbook;
 
             return result;
         }

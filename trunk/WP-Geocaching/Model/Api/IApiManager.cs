@@ -8,9 +8,7 @@ namespace WP_Geocaching.Model.Api
     /// </summary>
     public interface IApiManager
     {
-        Cache GetCache(string cacheId, CacheProvider cacheProvider);
-        void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin);
-        void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache);
-        void DownloadAndProcessNotebook(Action<string> processCacheNotebook, Cache cache);
+        void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin);
+        void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache);
     }
 }

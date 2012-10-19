@@ -3,6 +3,7 @@ using System.Linq;
 using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.Navigation;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -35,7 +36,7 @@ namespace WP_Geocaching.ViewModel
                 selectedCache = value;
                 if (value != null)
                 {
-                    ShowDetails(value.Cache.Id, value.Cache.CacheProvider);
+                    ShowDetails(value.Cache);
                 }
             }
         }
@@ -59,9 +60,9 @@ namespace WP_Geocaching.ViewModel
             return dataSource;
         }
 
-        private void ShowDetails(string cacheId, CacheProvider cacheProvider)
+        private void ShowDetails(Cache cache)
         {
-            NavigationManager.Instance.NavigateToInfoPivot(cacheId, cacheProvider, true);
+            NavigationManager.Instance.NavigateToInfoPivot(cache, true);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Device.Location;
 using System.Windows.Navigation;
 using System;
 using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Navigation;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
@@ -24,9 +25,7 @@ namespace WP_Geocaching.View.Compass
         {
             SmoothCompassManager.Instance.AddSubscriber(compassPageViewModal);
 
-            var currentCacheId = NavigationContext.QueryString[NavigationManager.Params.Id.ToString()];
-            var currentCacheProvider = (CacheProvider)Enum.Parse(typeof(CacheProvider), NavigationContext.QueryString[NavigationManager.Params.CacheProvider.ToString()], false);
-            var currentCache = ApiManager.Instance.GetCache(currentCacheId, currentCacheProvider);
+            var currentCache = Repository.CurrentCache;
 
             var checkpointId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.CheckpointId.ToString()]);
 
@@ -41,7 +40,7 @@ namespace WP_Geocaching.View.Compass
                 }
                 else
                 {
-                    var cache = db.GetCache(currentCacheId, currentCacheProvider);
+                    var cache = db.GetCache(currentCache.Id, currentCache.CacheProvider);
                     compassPageViewModal.SoughtPoint = new GeoCoordinate(cache.Latitude, cache.Longitude);
                 }
             }

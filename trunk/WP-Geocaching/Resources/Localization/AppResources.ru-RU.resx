@@ -201,7 +201,7 @@
   <data name="UndetectedLocationMessage" xml:space="preserve">
     <value>Местоположение не определено</value>
   </data>
-  <data name="NotebookButton" xml:space="preserve">
+  <data name="LogbookButton" xml:space="preserve">
     <value>блокнот</value>
   </data>
   <data name="Compass" xml:space="preserve">
@@ -210,7 +210,7 @@
   <data name="DetailsTitle" xml:space="preserve">
     <value>Детали</value>
   </data>
-  <data name="NotebookTitle" xml:space="preserve">
+  <data name="LogbookTitle" xml:space="preserve">
     <value>Блокнот</value>
   </data>
   <data name="PhotosTitle" xml:space="preserve">
@@ -297,7 +297,7 @@
   <data name="NoInfoMessage" xml:space="preserve">
     <value>Нет информации</value>
   </data>
-  <data name="NoNotebookMessage" xml:space="preserve">
+  <data name="NoLogbookMessage" xml:space="preserve">
     <value>Нет блокнота</value>
   </data>
   <data name="Cancel" xml:space="preserve">

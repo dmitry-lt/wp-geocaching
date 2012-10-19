@@ -12,10 +12,13 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
 {
     public class OpenCachingComApiManager : IApiManager
     {
-        private const string CachesUrl =
-            "http://www.opencaching.com/api/geocache?bbox={0}%2C{1}%2C{2}%2C{3}&type=Traditional+Cache%2CMulti-cache%2CUnknown+Cache%2CVirtual+Cache";
+        private const string ApiRoot = "http://www.opencaching.com/api/geocache";
 
-        private const string CacheDescriptionUrl = "http://www.opencaching.com/api/geocache/{0}?description=html";
+        private const string CachesUrl = ApiRoot + "?bbox={0}%2C{1}%2C{2}%2C{3}&type=Traditional+Cache%2CMulti-cache%2CUnknown+Cache%2CVirtual+Cache";
+
+        private const string CacheDescriptionUrl = ApiRoot + "/{0}?description=html";
+
+        private const string PhotoSourceUrl = ApiRoot + "/{0}/{1}";
 
         private const string CacheDescriptionTemplate = @"<html>
 <head>
@@ -61,26 +64,23 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
         // See http://matthiasshapiro.com/2010/10/25/international-utf-8-characters-in-windows-phone-7-webbrowser-control/
         private static string ConvertExtendedASCII(string html)
         {
-            string retVal = "";
-            char[] s = html.ToCharArray();
+            var s = html.ToCharArray();
 
-            foreach (char c in s)
+            var sb = new StringBuilder();
+
+            foreach (var c in s)
             {
-                if (Convert.ToInt32(c) > 127)
-                    retVal += "&#" + Convert.ToInt32(c) + ";";
+                var intValue = Convert.ToInt32(c);
+                if (intValue > 127)
+                    sb.AppendFormat("&#{0};", intValue);
                 else
-                    retVal += c;
+                    sb.Append(c);
             }
 
-            return retVal;
+            return sb.ToString();
         }
 
-        public Cache GetCache(string cacheId, CacheProvider cacheProvider)
-        {
-            return Caches.FirstOrDefault(c => c.Id == cacheId);
-        }
-
-        public void UpdateCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, CachesUrl, latmin, lngmin, latmax, lngmax);
 
@@ -139,7 +139,7 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
             client.DownloadStringAsync(new Uri(sUrl));
         }
 
-        public void DownloadAndProcessInfo(Action<string> processCacheInfo, Cache cache)
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, CacheDescriptionUrl, cache.Id);
 
@@ -157,55 +157,45 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
                 {
                     var parsedCache = (OpenCachingComApiCache)serializer.ReadObject(ms);
 
-                    var cacheInfo = parsedCache.name + "<br/><br/>" + parsedCache.description;
-
-                    if (processCacheInfo == null) return;
-
-                    processCacheInfo(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(cacheInfo)));
-                }
-            };
-
-            client.DownloadStringAsync(new Uri(sUrl));
-        }
-
-        public void DownloadAndProcessNotebook(Action<string> processCacheNotebook, Cache cache)
-        {
-            var sUrl = String.Format(CultureInfo.InvariantCulture, CacheDescriptionUrl, cache.Id);
-
-            var client = CreateWebClient();
-
-            client.DownloadStringCompleted += (sender, e) =>
-            {
-                if (e.Error != null) return;
-
-                var jsonResult = e.Result;
-
-                var serializer = new DataContractJsonSerializer(typeof(OpenCachingComApiCache));
-
-                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonResult)))
-                {
-                    var parsedCache = (OpenCachingComApiCache)serializer.ReadObject(ms);
-
-                    var logs = parsedCache.logs;
-
-                    var notebook = "";
-
-                    if (null != logs)
+                    // description
+                    if (null != processDescription)
                     {
-                        foreach (var log in logs)
-                        {
-                            notebook += log.user.name + ":<br/>";
-                            notebook += log.comment + "<br/><br/>";
-                        }
+                        var description = parsedCache.name + "<br/><br/>" + parsedCache.description;
+                        processDescription(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(description)));
                     }
 
-                    if (processCacheNotebook == null) return;
+                    // logs
+                    if (null != processLogbook)
+                    {
+                        var logbook = "";
+                        var logs = parsedCache.logs;
+                        if (null != logs)
+                        {
+                            foreach (var log in logs)
+                            {
+                                logbook += log.user.name + ":<br/>";
+                                logbook += log.comment + "<br/><br/>";
+                            }
+                        }
+                        processLogbook(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(logbook)));
+                    }
 
-                    processCacheNotebook(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(notebook)));
+                    // photos
+                    if (null != processPhotoUrls)
+                    {
+                        var photoUrls = new List<string>();
+                        var images = parsedCache.images;
+                        if (null != images && images.Any())
+                        {
+                            photoUrls.AddRange(images.Select(image => String.Format(PhotoSourceUrl, cache.Id, Uri.EscapeUriString(image.caption))));
+                        }
+                        processPhotoUrls(photoUrls);
+                    }
                 }
             };
 
             client.DownloadStringAsync(new Uri(sUrl));
         }
+
     }
 }

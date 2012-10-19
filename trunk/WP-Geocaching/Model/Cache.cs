@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Device.Location;
-using System.Collections.Generic;
 using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.Api.GeocachingSu;
-using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.Model
 {
@@ -12,57 +9,10 @@ namespace WP_Geocaching.Model
     /// </summary>
     public class Cache
     {
-        private string id;
-        private CacheProvider cacheProvider;
-        private GeoCoordinate location;
-        private string name;
-
-        public string Id
-        {
-            get
-            {
-                return this.id;
-            }
-            set
-            {
-                this.id = value;
-            }
-        }
-        public CacheProvider CacheProvider
-        {
-            get
-            {
-                return this.cacheProvider;
-            }
-            protected set
-            {
-                this.cacheProvider = value;
-            }
-        }
-        public GeoCoordinate Location
-        {
-            get
-            {
-                return this.location;
-            }
-            set
-            {
-                this.location = value;
-            }
-        }        
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
-        }
-
-        public Cache() { }
+        public string Id { get; set; }
+        public CacheProvider CacheProvider { get; set; }
+        public GeoCoordinate Location { get; set; }
+        public string Name { get; set; }
 
         public override bool Equals(Object cache)
         {
@@ -72,17 +22,16 @@ namespace WP_Geocaching.Model
             return Equals((Cache)cache);
         }
 
-
         public bool Equals(Cache other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return other.id == id && other.CacheProvider == CacheProvider;
+            return other.Id == Id && other.CacheProvider == CacheProvider;
         }
 
         public override int GetHashCode()
         {
-            return (CacheProvider.GetHashCode() * 17) ^ id.GetHashCode();
+            return (CacheProvider.GetHashCode() * 17) ^ Id.GetHashCode();
         }
     }
 }

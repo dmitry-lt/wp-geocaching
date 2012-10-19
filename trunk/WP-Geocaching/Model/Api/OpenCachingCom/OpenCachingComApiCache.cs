@@ -81,9 +81,12 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
 
         [DataMember]
         public string description { get; set; }
-        
+
         [DataMember]
         public OpenCachingComApiLog[] logs { get; set; }
+
+        [DataMember]
+        public OpenCachingComApiImage[] images { get; set; }
     }
 
     [DataContract]
@@ -111,5 +114,12 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
     {
         [DataMember]
         public string name { get; set; }
+    }
+
+    [DataContract]
+    public class OpenCachingComApiImage
+    {
+        [DataMember]
+        public string caption { get; set; }
     }
 }

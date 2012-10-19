@@ -85,6 +85,7 @@
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComCache.cs" />
+    <Compile Include="Model\Api\PhotoDownloader.cs" />
     <Compile Include="Model\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Model\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="Model\Converters\CacheTypeConverter.cs" />
@@ -114,8 +115,9 @@
     <Compile Include="Model\ILocationAware.cs" />
     <Compile Include="Model\LocationManager.cs" />
     <Compile Include="Model\LogManager.cs" />
-    <Compile Include="Model\NavigationManager.cs" />
+    <Compile Include="Model\Navigation\NavigationManager.cs" />
     <Compile Include="Model\FileStorageHelper.cs" />
+    <Compile Include="Model\Navigation\Repository.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="Model\SmoothCompassManager.cs" />
     <Compile Include="Model\Photo.cs" />

@@ -55,7 +55,7 @@ namespace WP_Geocaching.ViewModel
 
             Subtype = item.Subtype;
             UpdateTime = item.UpdateTime;
-            Details = item.Details;
+            Details = item.Description;
         }
 
         public ListCacheItem(DbCheckpoint item)
