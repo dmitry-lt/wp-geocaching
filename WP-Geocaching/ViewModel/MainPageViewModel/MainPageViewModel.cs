@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Model.Dialogs;
+using WP_Geocaching.Model.Navigation;
 using WP_Geocaching.Resources.Localization;
 
 namespace WP_Geocaching.ViewModel.MainPageViewModel
@@ -151,7 +152,10 @@ namespace WP_Geocaching.ViewModel.MainPageViewModel
             }
             else if (settings.IsLocationEnabled)
             {
-                NavigationManager.Instance.NavigateToSearchBingMap(settings.LastSoughtCacheId, settings.LastSoughtCacheProvider);
+                var db = new CacheDataBase();
+                var dbCache = db.GetCache(settings.LastSoughtCacheId, settings.LastSoughtCacheProvider);
+                var cache = DbConvert.ToCache(dbCache);
+                NavigationManager.Instance.NavigateToSearchBingMap(cache);
             }
             else
             {

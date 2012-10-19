@@ -1,6 +1,5 @@
 ﻿using System.Windows.Media;
 using System.ComponentModel;
-using System.Windows.Media.Imaging;
 
 namespace WP_Geocaching.Model
 {
@@ -31,9 +30,15 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public static implicit operator Photo(ImageSource source)
+        public bool IsPlaceholder { get; set; }
+
+        public string PhotoName { get; set; }
+
+        public Photo(ImageSource source, string photoName, bool isPlaceholder)
         {
-            return new Photo {PhotoSource = source};
+            PhotoSource = source;
+            PhotoName = photoName;
+            IsPlaceholder = isPlaceholder;
         }
 
         public override bool Equals(object obj)

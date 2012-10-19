@@ -6,6 +6,7 @@ using System.Windows.Navigation;
 using System.Windows.Controls;
 using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.Dialogs;
+using WP_Geocaching.Model.Navigation;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
@@ -15,34 +16,45 @@ namespace WP_Geocaching.View.Info
 {
     public partial class InfoPivot : PhoneApplicationPage
     {
-        private InfoPivotViewModel infoPivotViewModel;
-        private CacheDataBase db;
-        private int favoriteButtonIndex = -1;
+        private readonly InfoPivotViewModel _infoPivotViewModel;
+        private readonly CacheDataBase _db;
+        private int _favoriteButtonIndex = -1;
 
         public InfoPivot()
         {
             InitializeComponent();
-            infoPivotViewModel = new InfoPivotViewModel(UpdateFavoriteButton);
-            DataContext = infoPivotViewModel;
-            db = new CacheDataBase();
+            _infoPivotViewModel = new InfoPivotViewModel(UpdateFavoriteButton, InfoBrowser, LogbookBrowser);
+            DataContext = _infoPivotViewModel;
+            _db = new CacheDataBase();
 
-            infoPivotViewModel.HidePhotos += (s, e) => Info.Items.Remove(PhotosPivotItem);
+            _infoPivotViewModel.HidePhotos += (s, e) => Info.Items.Remove(PhotosPivotItem);
+        }
+
+        private bool _isAppBarEnabled;
+        private void ShowAppBar(object sender, EventArgs e)
+        {
+            if (_isAppBarEnabled)
+            {
+                ApplicationBar.IsVisible = true;
+                if (ApplicationBar.IsVisible)
+                {
+                    SetApplicationBarItems();
+                    UpdateFavoriteButton();
+                }
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.New)
             {
-                var cacheId = NavigationContext.QueryString[NavigationManager.Params.Id.ToString()];
-                var cacheProvider = (CacheProvider)Enum.Parse(typeof(CacheProvider), NavigationContext.QueryString[NavigationManager.Params.CacheProvider.ToString()], false);
-                infoPivotViewModel.Cache = ApiManager.Instance.GetCache(cacheId, cacheProvider);
-                var isAppBarEnabled = Convert.ToBoolean(NavigationContext.QueryString[NavigationManager.Params.IsAppBarEnabled.ToString()]);
-                ApplicationBar.IsVisible = isAppBarEnabled;
-                if (ApplicationBar.IsVisible)
-                {
-                    SetApplicationBarItems();
-                    UpdateFavoriteButton();
-                }
+                // show appbar after cache info has been loaded
+                ApplicationBar.IsVisible = false;
+                _isAppBarEnabled = Convert.ToBoolean(NavigationContext.QueryString[NavigationManager.Params.IsAppBarEnabled.ToString()]);
+                _infoPivotViewModel.CacheFullyLoaded -= ShowAppBar;
+                _infoPivotViewModel.CacheFullyLoaded += ShowAppBar;
+
+                _infoPivotViewModel.Cache = Repository.CurrentCache;
             }
             else
             {
@@ -53,30 +65,12 @@ namespace WP_Geocaching.View.Info
             }
         }
 
-        private void InfoSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Contains(NotebookPivotItem) && (NotebookBrowser.SaveToString() == ""))
-            {
-                infoPivotViewModel.LoadNotebookPivotItem(NotebookBrowser);
-            }
-
-            if (e.AddedItems.Contains(DetailsPivotItem) && (NotebookBrowser.SaveToString() == ""))
-            {
-                infoPivotViewModel.LoadDetailsPivotItem(InfoBrowser);
-            }
-
-            if (e.AddedItems.Contains(PhotosPivotItem))
-            {
-                infoPivotViewModel.LoadPreviews();
-            }
-        }
-
         private void SearchCacheButtonClick(object sender, EventArgs e)
         {
-            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Info, infoPivotViewModel.Notebook);
+            _db.AddCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook);
             if (new Model.Settings().IsLocationEnabled)
             {
-                NavigationManager.Instance.NavigateToSearchBingMap(infoPivotViewModel.Cache.Id.ToString(), infoPivotViewModel.Cache.CacheProvider);
+                NavigationManager.Instance.NavigateToSearchBingMap(_infoPivotViewModel.Cache);
             }
             else
             {
@@ -105,7 +99,7 @@ namespace WP_Geocaching.View.Info
 
         private void SetFavoriteButton()
         {
-            if (favoriteButtonIndex >= 0) return;
+            if (_favoriteButtonIndex >= 0) return;
             var favoriteButton = new ApplicationBarIconButton
                                      {
                                          IconUri =
@@ -113,12 +107,12 @@ namespace WP_Geocaching.View.Info
                                          Text = AppResources.AddFavoritesButton
                                      };
             ApplicationBar.Buttons.Add(favoriteButton);
-            favoriteButtonIndex = ApplicationBar.Buttons.IndexOf(favoriteButton);
+            _favoriteButtonIndex = ApplicationBar.Buttons.IndexOf(favoriteButton);
         }
 
         private void UpdateFavoriteButton()
         {
-            if (db.GetCache(infoPivotViewModel.Cache.Id, infoPivotViewModel.Cache.CacheProvider) == null)
+            if (_db.GetCache(_infoPivotViewModel.Cache.Id, _infoPivotViewModel.Cache.CacheProvider) == null)
             {
                 GetAddButton();
             }
@@ -130,41 +124,42 @@ namespace WP_Geocaching.View.Info
 
         private void GetAddButton()
         {
-            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).IconUri =
+            (ApplicationBar.Buttons[_favoriteButtonIndex] as ApplicationBarIconButton).IconUri =
                 new Uri("Resources/Images/appbar.favs.addto.rest.png", UriKind.Relative);
-            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).Click += AddButtonClick;
-            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).Click -= DeleteButtonClick;
-            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).Text = AppResources.AddFavoritesButton;
+            (ApplicationBar.Buttons[_favoriteButtonIndex] as ApplicationBarIconButton).Click += AddButtonClick;
+            (ApplicationBar.Buttons[_favoriteButtonIndex] as ApplicationBarIconButton).Click -= DeleteButtonClick;
+            (ApplicationBar.Buttons[_favoriteButtonIndex] as ApplicationBarIconButton).Text = AppResources.AddFavoritesButton;
         }
 
         private void GetDeleteButton()
         {
-            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).IconUri =
+            (ApplicationBar.Buttons[_favoriteButtonIndex] as ApplicationBarIconButton).IconUri =
                 new Uri("Resources/Images/appbar.favs.deletefrom.rest.png", UriKind.Relative);
-            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).Click += DeleteButtonClick;
-            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).Click -= AddButtonClick;
-            (ApplicationBar.Buttons[favoriteButtonIndex] as ApplicationBarIconButton).Text = AppResources.DeleteFavoritesButton;
+            (ApplicationBar.Buttons[_favoriteButtonIndex] as ApplicationBarIconButton).Click += DeleteButtonClick;
+            (ApplicationBar.Buttons[_favoriteButtonIndex] as ApplicationBarIconButton).Click -= AddButtonClick;
+            (ApplicationBar.Buttons[_favoriteButtonIndex] as ApplicationBarIconButton).Text = AppResources.DeleteFavoritesButton;
         }
 
         private void AddButtonClick(object sender, EventArgs e)
         {
-            db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Info, infoPivotViewModel.Notebook);
-            infoPivotViewModel.DownloadAndSavePhotos();
-            infoPivotViewModel.DownloadAndSaveNotebook();
-            infoPivotViewModel.DownloadAndSaveCacheInfo();
+            _db.AddCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook);
+            
+            var helper = new FileStorageHelper();
+            helper.SavePhotos(_infoPivotViewModel.Cache, _infoPivotViewModel.Previews);
+
             GetDeleteButton();
         }
 
         private void DeleteButtonClick(object sender, EventArgs e)
         {
-            infoPivotViewModel.ShowConfirmDeleteDialog(Dispatcher);
+            _infoPivotViewModel.ShowConfirmDeleteDialog(Dispatcher);
         }
 
         private void ImageGotFocus(object sender, RoutedEventArgs e)
         {
-            Photo photo = ((Image) sender).Source;
-            var index = infoPivotViewModel.Previews.IndexOf(photo);
-            NavigationManager.Instance.NavigateToPhotoGallery(index);   
+            var photo = new Photo(((Image)sender).Source, "", true);
+            var index = _infoPivotViewModel.Previews.IndexOf(photo);
+            NavigationManager.Instance.NavigateToPhotoGallery(_infoPivotViewModel.Previews, index);   
         }
     }
 }

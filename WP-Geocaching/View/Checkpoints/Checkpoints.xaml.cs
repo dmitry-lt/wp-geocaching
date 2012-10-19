@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.Model;
+using WP_Geocaching.Model.Navigation;
 using WP_Geocaching.ViewModel;
 using Microsoft.Phone.Shell;
 using WP_Geocaching.Resources.Localization;

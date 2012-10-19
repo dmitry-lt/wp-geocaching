@@ -5,14 +5,24 @@ using System.IO;
 using System.IO.IsolatedStorage;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Media;
-
 
 namespace WP_Geocaching.Model
 {
     public class FileStorageHelper
     {
-        private const string FilePath = "{0}\\{1}";
+        private const string FolderPath = "{0}\\{1}";
+        private const string FilePath = "{0}\\{1}\\{2}";
+
+        private string GetFolderPath(Cache cache)
+        {
+            return String.Format(FolderPath, cache.CacheProvider, cache.Id);
+        }
+
+        private string GetFilePath(Cache cache, string photoUrl)
+        {
+            var fileName = photoUrl.Substring(1 + photoUrl.LastIndexOf("/", StringComparison.Ordinal));
+            return String.Format(FilePath, cache.CacheProvider, cache.Id, fileName);
+        }
 
         public ImageSource GetImage(string imagePath)
         {
@@ -41,14 +51,19 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public ImageSource GetPhoto(string cacheId, string fileName)
+        public Photo GetPhoto(Cache cache, string photoUrl)
         {
-            return GetImage(String.Format(FilePath, cacheId, fileName));
+            return new Photo(GetImage(GetFilePath(cache, photoUrl)), photoUrl, false);
         }
 
-        public bool IsOnePhotoExists(string cacheId, string fileName)
+        public List<Photo> GetPhotos(Cache cache)
         {
-            var imagePath = String.Format(FilePath, cacheId, fileName);
+            return GetPhotoNames(cache).Select(photoName => GetPhoto(cache, photoName)).ToList();
+        }
+
+        public bool IsOnePhotoExists(Cache cache, string photoUrl)
+        {
+            var imagePath = GetFilePath(cache, photoUrl);
 
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
@@ -56,18 +71,18 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public bool IsPhotosExist(string cacheId)
+        public bool IsPhotosExist(Cache cache)
         {
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                return fileStore.DirectoryExists(cacheId);
+                return fileStore.DirectoryExists(GetFolderPath(cache));
             }
         }
 
-        public void SavePhoto(string cacheId, string fileName, WriteableBitmap bitmap)
+        public void SavePhoto(Cache cache, string photoUrl, WriteableBitmap bitmap)
         {
-            CreateCacheDirectories(cacheId);
-            var newFilePath = String.Format(FilePath, cacheId, fileName);
+            CreateCacheDirectories(cache);
+            var newFilePath = GetFilePath(cache, photoUrl);
 
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
@@ -78,45 +93,57 @@ namespace WP_Geocaching.Model
                 }
                 var myFileStream = fileStore.CreateFile(newFilePath);
 
-                //85 - quality, maybe this parameter should be added in settings
+                //TODO: 85 - quality, maybe this parameter should be added in settings
                 bitmap.SaveJpeg(myFileStream, bitmap.PixelWidth, bitmap.PixelHeight, 0, 85);
                 myFileStream.Close();
             }
         }
 
-        private void CreateCacheDirectories(string cacheId)
+        public void SavePhotos(Cache cache, IEnumerable<Photo> photos)
+        {
+            if (null != photos)
+            {
+                CreateCacheDirectories(cache);
+                foreach (var p in photos)
+                {
+                    SavePhoto(cache, p.PhotoName, (WriteableBitmap)p.PhotoSource);
+                }
+            }
+        }
+
+        private void CreateCacheDirectories(Cache cache)
         {
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
 
-                if (fileStore.DirectoryExists(cacheId))
+                if (fileStore.DirectoryExists(GetFolderPath(cache)))
                 {
                     return;
                 }
 
-                fileStore.CreateDirectory(cacheId);
+                fileStore.CreateDirectory(GetFolderPath(cache));
             }
         }
 
-        public List<string> GetPhotoNames(string cacheId)
+        public List<string> GetPhotoNames(Cache cache)
         {
-            if (!IsPhotosExist(cacheId))
+            if (!IsPhotosExist(cache))
             {
-                return null;
+                return new List<string>();
             }
 
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                var filePattern = String.Format(FilePath, cacheId, "*.*");
+                var filePattern = GetFilePath(cache, "*.*");
                 return fileStore.GetFileNames(filePattern).ToList();
             }
         }
 
-        public void DeletePhotos(string cacheId)
+        public void DeletePhotos(Cache cache)
         {
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                var photos = GetPhotoNames(cacheId);
+                var photos = GetPhotoNames(cache);
 
                 if (photos == null)
                 {
@@ -125,10 +152,10 @@ namespace WP_Geocaching.Model
 
                 foreach (var p in photos)
                 {
-                    fileStore.DeleteFile(String.Format(FilePath, cacheId, p));
+                    fileStore.DeleteFile(GetFilePath(cache, p));
                 }
 
-                fileStore.DeleteDirectory(cacheId.ToString());
+                fileStore.DeleteDirectory(GetFolderPath(cache));
             }
         }
     }

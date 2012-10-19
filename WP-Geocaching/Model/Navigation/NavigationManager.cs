@@ -1,24 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Microsoft.Phone.Controls;
-using WP_Geocaching.Model.Api;
 
-namespace WP_Geocaching.Model
+namespace WP_Geocaching.Model.Navigation
 {
     public class NavigationManager
     {
         public enum Params
         {
-            Id = 0,
             CheckpointId = 1,
             IsAppBarEnabled = 2,
             Index = 3,
-            CacheProvider = 4,
         }
 
-        private static string OneParamsPattern = "{0}?{1}={2}";
-        private static string TwoParamsPattern = "{0}?{1}={2}&{3}={4}";
-        private static string ThreeParamsPattern = "{0}?{1}={2}&{3}={4}&{5}={6}";
+        private const string OneParamPattern = "{0}?{1}={2}";
 
         private static NavigationManager instance;
 
@@ -44,19 +41,17 @@ namespace WP_Geocaching.Model
             frame.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
-        public void NavigateToInfoPivot(string currentId, CacheProvider cacheProvider, bool isAppBarEnabled)
+        public void NavigateToInfoPivot(Cache cache, bool isAppBarEnabled)
         {
-            Navigate(String.Format(ThreeParamsPattern, "//View/Info/InfoPivot.xaml",
-                Params.Id, currentId,
-                Params.CacheProvider, cacheProvider,
+            Repository.CurrentCache = cache;
+            Navigate(String.Format(OneParamPattern, "//View/Info/InfoPivot.xaml",
                 Params.IsAppBarEnabled, isAppBarEnabled));
         }
 
-        public void NavigateToSearchBingMap(string currentId, CacheProvider cacheProvider)
+        public void NavigateToSearchBingMap(Cache cache)
         {
-            Navigate(String.Format(TwoParamsPattern, "//View/SearchBingMap.xaml",
-                Params.CacheProvider, cacheProvider,
-                Params.Id, currentId));
+            Repository.CurrentCache = cache;
+            Navigate("//View/SearchBingMap.xaml");
         }
 
         public void NavigateToCheckpoints()
@@ -69,24 +64,23 @@ namespace WP_Geocaching.Model
             Navigate("//View/Checkpoints/CreateCheckpoint.xaml");
         }
 
-        public void NavigateToNotebook(string currentId, CacheProvider cacheProvider)
+        public void NavigateTologbook(Cache cache)
         {
-            Navigate(String.Format(TwoParamsPattern, "//View/Info/PhotoGalleryPage.xaml",
-                Params.CacheProvider, cacheProvider,
-                Params.Id, currentId));
+            Repository.CurrentCache = cache;
+            Navigate("//View/Info/PhotoGalleryPage.xaml");
         }
 
-        public void NavigateToCompass(string currentId, CacheProvider cacheProvider, string checkpointId)
+        public void NavigateToCompass(Cache cache, string checkpointId)
         {
-            Navigate(String.Format(ThreeParamsPattern, "//View/Compass/CompassPage.xaml",
-                Params.Id, currentId,
-                Params.CacheProvider, cacheProvider,
+            Repository.CurrentCache = cache;
+            Navigate(String.Format(OneParamPattern, "//View/Compass/CompassPage.xaml",
                 Params.CheckpointId, checkpointId));
         }
 
-        public void NavigateToPhotoGallery(int index)
+        public void NavigateToPhotoGallery(IEnumerable<Photo> photos, int index)
         {
-            Navigate(String.Format(OneParamsPattern, "//View/Info/PhotoGalleryPage.xaml",
+            Repository.CurrentPhotos = photos.ToList();
+            Navigate(String.Format(OneParamPattern, "//View/Info/PhotoGalleryPage.xaml",
                 Params.Index, index));
         }
 

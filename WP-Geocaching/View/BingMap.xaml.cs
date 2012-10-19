@@ -4,6 +4,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Phone.Controls;
 using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Navigation;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using Microsoft.Phone.Controls.Maps;

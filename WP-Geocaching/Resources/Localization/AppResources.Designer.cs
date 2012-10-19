@@ -358,6 +358,24 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to logbook.
+        /// </summary>
+        public static string LogbookButton {
+            get {
+                return ResourceManager.GetString("LogbookButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logbook.
+        /// </summary>
+        public static string LogbookTitle {
+            get {
+                return ResourceManager.GetString("LogbookTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Longitude.
         /// </summary>
         public static string Longitude {
@@ -439,11 +457,11 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No notebook.
+        ///   Looks up a localized string similar to No logbook.
         /// </summary>
-        public static string NoNotebookMessage {
+        public static string NoLogbookMessage {
             get {
-                return ResourceManager.GetString("NoNotebookMessage", resourceCulture);
+                return ResourceManager.GetString("NoLogbookMessage", resourceCulture);
             }
         }
         
@@ -471,24 +489,6 @@ namespace WP_Geocaching.Resources.Localization {
         public static string NoSouhgtCacheMessage {
             get {
                 return ResourceManager.GetString("NoSouhgtCacheMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to notebook.
-        /// </summary>
-        public static string NotebookButton {
-            get {
-                return ResourceManager.GetString("NotebookButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Notebook.
-        /// </summary>
-        public static string NotebookTitle {
-            get {
-                return ResourceManager.GetString("NotebookTitle", resourceCulture);
             }
         }
         

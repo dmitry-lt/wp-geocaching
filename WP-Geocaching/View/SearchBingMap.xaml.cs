@@ -6,6 +6,7 @@ using Microsoft.Phone.Controls;
 using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.Dialogs;
+using WP_Geocaching.Model.Navigation;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using Microsoft.Phone.Controls.Maps;
@@ -63,9 +64,7 @@ namespace WP_Geocaching.View
 
             if (e.NavigationMode == NavigationMode.New)
             {
-                var cacheId = NavigationContext.QueryString[NavigationManager.Params.Id.ToString()];
-                var cacheProvider = (CacheProvider)Enum.Parse(typeof(CacheProvider), NavigationContext.QueryString[NavigationManager.Params.CacheProvider.ToString()], false);
-                searchBingMapViewModel.SoughtCache = ApiManager.Instance.GetCache(cacheId, cacheProvider);
+                searchBingMapViewModel.SoughtCache = Repository.CurrentCache;
             }
 
             if (e.NavigationMode == NavigationMode.Back)
@@ -147,7 +146,7 @@ namespace WP_Geocaching.View
 
         void ShowInfo(object sender, EventArgs e)
         {
-            NavigationManager.Instance.NavigateToInfoPivot(searchBingMapViewModel.SoughtCache.Id.ToString(), searchBingMapViewModel.SoughtCache.CacheProvider, false);
+            NavigationManager.Instance.NavigateToInfoPivot(searchBingMapViewModel.SoughtCache, false);
         }
 
         void CompassClick(object sender, EventArgs e)
@@ -166,7 +165,7 @@ namespace WP_Geocaching.View
                 break;
             }
 
-            NavigationManager.Instance.NavigateToCompass(cache.Id, cacheProvider, checkpointId);
+            NavigationManager.Instance.NavigateToCompass(cache, checkpointId);
         }
 
         private void ShowAllClick(object sender, EventArgs e)

@@ -76,7 +76,7 @@ namespace WP_Geocaching.Model.DataBase
         {
         }
 
-        public void AddCache(Cache cache, string details, string notebook)
+        public void AddCache(Cache cache, string details, string logbook)
         {
             if (cache == null)
             {
@@ -86,7 +86,7 @@ namespace WP_Geocaching.Model.DataBase
             {
                 if (GetCache(cache.Id, cache.CacheProvider) != null) return;
 
-                var newItem = DbConvert.ToDbCacheItem(cache, details, notebook);
+                var newItem = DbConvert.ToDbCacheItem(cache, details, logbook);
 
                 db.Caches.InsertOnSubmit(newItem);
                 db.SubmitChanges();
@@ -160,17 +160,17 @@ namespace WP_Geocaching.Model.DataBase
             using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCacheQuery(db.Caches, cache);
-                query.FirstOrDefault().Details = details;
+                query.FirstOrDefault().Description = details;
                 db.SubmitChanges();
             }
         }
 
-        public void UpdateCacheNotebook(String notebook, Cache cache)
+        public void UpdateCacheLogbook(String logbook, Cache cache)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCacheQuery(db.Caches, cache);
-                query.FirstOrDefault().Notebook = notebook;
+                query.FirstOrDefault().Logbook = logbook;
                 db.SubmitChanges();
             }
         }
@@ -192,7 +192,8 @@ namespace WP_Geocaching.Model.DataBase
                 db.SubmitChanges();
             }
 
-            ApiManager.Instance.DeletePhotos(cache);
+            var helper = new FileStorageHelper();
+            helper.DeletePhotos(cache);
         }
 
         public List<DbCache> GetCacheList()
