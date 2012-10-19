@@ -230,30 +230,6 @@ namespace WP_Geocaching.ViewModel
             Previews = new ObservableCollection<Photo>();
         }
 
-        private void ProcessPhotos(ObservableCollection<Photo> photos)
-        {
-            if (Previews == null)
-            {
-                return;
-            }
-
-            if (photos == null)
-            {
-                //todo save photos
-                return;
-            }
-
-            if (photos.Count == Previews.Count)
-            {
-                //todo save photos
-            }
-
-            if (Previews.Count == 0)
-            {
-                Previews = photos;
-            }
-        }
-
         public void ShowConfirmDeleteDialog(Dispatcher dispatcher)
         {
             if (_confirmDeleteDialog == null)
