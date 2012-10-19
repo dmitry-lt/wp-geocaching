@@ -88,7 +88,7 @@ namespace WP_Geocaching.Model
                 }
                 var myFileStream = fileStore.CreateFile(newFilePath);
 
-                //85 - quality, maybe this parameter should be added in settings
+                //TODO: 85 - quality, maybe this parameter should be added in settings
                 bitmap.SaveJpeg(myFileStream, bitmap.PixelWidth, bitmap.PixelHeight, 0, 85);
                 myFileStream.Close();
             }
