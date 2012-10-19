@@ -64,18 +64,20 @@ namespace WP_Geocaching.Model.Api.OpenCachingCom
         // See http://matthiasshapiro.com/2010/10/25/international-utf-8-characters-in-windows-phone-7-webbrowser-control/
         private static string ConvertExtendedASCII(string html)
         {
-            string retVal = "";
-            char[] s = html.ToCharArray();
+            var s = html.ToCharArray();
 
-            foreach (char c in s)
+            var sb = new StringBuilder();
+
+            foreach (var c in s)
             {
-                if (Convert.ToInt32(c) > 127)
-                    retVal += "&#" + Convert.ToInt32(c) + ";";
+                var intValue = Convert.ToInt32(c);
+                if (intValue > 127)
+                    sb.AppendFormat("&#{0};", intValue);
                 else
-                    retVal += c;
+                    sb.Append(c);
             }
 
-            return retVal;
+            return sb.ToString();
         }
 
         public Cache GetCache(string cacheId, CacheProvider cacheProvider)
