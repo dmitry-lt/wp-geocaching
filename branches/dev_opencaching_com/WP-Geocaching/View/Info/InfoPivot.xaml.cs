@@ -76,7 +76,7 @@ namespace WP_Geocaching.View.Info
             db.AddCache(infoPivotViewModel.Cache, infoPivotViewModel.Info, infoPivotViewModel.Notebook);
             if (new Model.Settings().IsLocationEnabled)
             {
-                NavigationManager.Instance.NavigateToSearchBingMap(infoPivotViewModel.Cache.Id.ToString(), infoPivotViewModel.Cache.CacheProvider);
+                NavigationManager.Instance.NavigateToSearchBingMap(infoPivotViewModel.Cache.Id, infoPivotViewModel.Cache.CacheProvider);
             }
             else
             {
