@@ -62,6 +62,11 @@ namespace WP_Geocaching.ViewModel
                     // TODO: photos
                     ApiManager.Instance.FetchCacheDetails(s => Info = s, s => Logbook = s, null, Cache);
                 }
+                else
+                {
+                    Info = dbCache.Description;
+                    Logbook = dbCache.Logbook;
+                }
 
                 NotifyPropertyChanged("Cache");
             }
