@@ -29,20 +29,33 @@ namespace WP_Geocaching.View.Info
             _infoPivotViewModel.HidePhotos += (s, e) => Info.Items.Remove(PhotosPivotItem);
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private bool _isAppBarEnabled;
+        private void ShowAppBar(object sender, EventArgs e)
         {
-            if (e.NavigationMode == NavigationMode.New)
+            if (_isAppBarEnabled)
             {
-                var cacheId = NavigationContext.QueryString[NavigationManager.Params.Id.ToString()];
-                var cacheProvider = (CacheProvider)Enum.Parse(typeof(CacheProvider), NavigationContext.QueryString[NavigationManager.Params.CacheProvider.ToString()], false);
-                _infoPivotViewModel.Cache = ApiManager.Instance.GetCache(cacheId, cacheProvider);
-                var isAppBarEnabled = Convert.ToBoolean(NavigationContext.QueryString[NavigationManager.Params.IsAppBarEnabled.ToString()]);
-                ApplicationBar.IsVisible = isAppBarEnabled;
+                ApplicationBar.IsVisible = true;
                 if (ApplicationBar.IsVisible)
                 {
                     SetApplicationBarItems();
                     UpdateFavoriteButton();
                 }
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.New)
+            {
+                // show appbar after cache info has been loaded
+                ApplicationBar.IsVisible = false;
+                _isAppBarEnabled = Convert.ToBoolean(NavigationContext.QueryString[NavigationManager.Params.IsAppBarEnabled.ToString()]);
+                _infoPivotViewModel.CacheFullyLoaded -= ShowAppBar;
+                _infoPivotViewModel.CacheFullyLoaded += ShowAppBar;
+
+                var cacheId = NavigationContext.QueryString[NavigationManager.Params.Id.ToString()];
+                var cacheProvider = (CacheProvider)Enum.Parse(typeof(CacheProvider), NavigationContext.QueryString[NavigationManager.Params.CacheProvider.ToString()], false);
+                _infoPivotViewModel.Cache = ApiManager.Instance.GetCache(cacheId, cacheProvider);
             }
             else
             {

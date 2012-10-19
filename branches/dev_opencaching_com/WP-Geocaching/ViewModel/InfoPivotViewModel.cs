@@ -48,12 +48,41 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        private bool _infoLoaded;
+        private void ProcessInfo(string info)
+        {
+            Info = info;
+            _infoLoaded = true;
+            CheckFullyLoaded();
+        }
+
+        private bool _logbookLoaded;
+        private void ProcessLogbook(string logbook)
+        {
+            Logbook = logbook;
+            _logbookLoaded = true;
+            CheckFullyLoaded();
+        }
+
         private List<string> _photoUrls;
+        private bool _photoUrlsLoaded;
 
         private void ProcessPhotoUrls(List<string> photoUrls)
         {
-            // TODO: download photos
             _photoUrls = photoUrls;
+
+            // TODO: download photos
+
+            _photoUrlsLoaded = true;
+            CheckFullyLoaded();
+        }
+
+        private void CheckFullyLoaded()
+        {
+            if (_infoLoaded && _logbookLoaded && _photoUrlsLoaded)
+            {
+                CacheFullyLoaded(this, new EventArgs());
+            }
         }
 
         private Cache _cache;
@@ -69,7 +98,7 @@ namespace WP_Geocaching.ViewModel
                 if (null == dbCache || null == dbCache.Description || null == dbCache.Logbook)
                 {
                     // TODO: photos
-                    ApiManager.Instance.FetchCacheDetails(s => Info = s, s => Logbook = s, ProcessPhotoUrls, Cache);
+                    ApiManager.Instance.FetchCacheDetails(ProcessInfo, ProcessLogbook, ProcessPhotoUrls, Cache);
                 }
                 else
                 {
@@ -83,6 +112,7 @@ namespace WP_Geocaching.ViewModel
 
         // invoke this event to hide photos tab
         public event EventHandler HidePhotos;
+        public event EventHandler CacheFullyLoaded;
 
         public ObservableCollection<Photo> Previews 
         { 
