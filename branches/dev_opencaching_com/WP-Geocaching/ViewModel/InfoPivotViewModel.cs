@@ -154,8 +154,10 @@ namespace WP_Geocaching.ViewModel
                     var helper = new FileStorageHelper();
                     foreach (var source in helper.GetPhotos(_cache))
                     {
+                        NoPhotosMessageVisible = false;
                         Previews.Add(source);
                     }
+                    CacheFullyLoaded(this, new EventArgs());
                 }
 
                 NotifyPropertyChanged("Cache");

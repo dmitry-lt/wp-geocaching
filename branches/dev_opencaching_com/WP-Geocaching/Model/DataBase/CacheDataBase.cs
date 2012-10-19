@@ -192,7 +192,8 @@ namespace WP_Geocaching.Model.DataBase
                 db.SubmitChanges();
             }
 
-            ApiManager.Instance.DeletePhotos(cache);
+            var helper = new FileStorageHelper();
+            helper.DeletePhotos(cache);
         }
 
         public List<DbCache> GetCacheList()

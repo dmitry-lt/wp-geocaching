@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.Api.OpenCachingCom;
 using WP_Geocaching.Model.DataBase;
@@ -9,21 +8,6 @@ namespace WP_Geocaching.Model.Api
 {
     public class ApiManager : IApiManager
     {
-        #region geocaching.su
-
-        private readonly GeocahingSuApiManager _geocahingSuApiManager = new GeocahingSuApiManager();
-
-        public void SavePhotos(Cache cache, Action<ObservableCollection<Photo>> processAction)
-        {
-            _geocahingSuApiManager.SavePhotos(cache, processAction);
-        }
-                
-        public void DeletePhotos(Cache cache)
-        {
-            _geocahingSuApiManager.DeletePhotos(cache);
-        }
-
-        #endregion
 
         #region singleton
 
@@ -39,7 +23,7 @@ namespace WP_Geocaching.Model.Api
 
         private ApiManager()
         {
-            _managers.Add(CacheProvider.GeocachingSu, _geocahingSuApiManager);
+            _managers.Add(CacheProvider.GeocachingSu, new GeocahingSuApiManager());
             _managers.Add(CacheProvider.OpenCachingCom, new OpenCachingComApiManager());
         }
 
