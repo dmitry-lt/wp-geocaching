@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Microsoft.Phone.Controls;
 using System.Collections.ObjectModel;
@@ -67,11 +69,49 @@ namespace WP_Geocaching.ViewModel
         private List<string> _photoUrls;
         private bool _photoUrlsLoaded;
 
+        private const string NoImageUriDark = "/Resources/Images/NoPhotoWhite.png";
+        private const string NoImageUriLight = "/Resources/Images/NoPhotoBlack.png";
+        private const int NoImageHeight = 200;
+
+        private BitmapImage GetNoImageBitmap()
+        {
+            var darkBackgroundVisibility = (Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"];
+
+            if (darkBackgroundVisibility == Visibility.Visible)
+            {
+                return new BitmapImage(new Uri(NoImageUriDark, UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                return new BitmapImage(new Uri(NoImageUriLight, UriKind.RelativeOrAbsolute));
+            }
+
+        }
+
         private void ProcessPhotoUrls(List<string> photoUrls)
         {
             _photoUrls = photoUrls;
 
-            // TODO: download photos
+            if (null == _photoUrls || !_photoUrls.Any())
+            {
+                // TODO: all photos are loaded
+            }
+            else
+            {
+                // TODO: download photos
+                var photoDownloader = new PhotoDownloader();
+
+                Previews = new ObservableCollection<Photo>();
+
+                for (var i = 0; i < photoUrls.Count(); i++)
+                {
+                    var photo = new Photo(GetNoImageBitmap());
+                    Previews.Add(photo);
+
+                    // TODO: all photos are loaded handler
+                    photoDownloader.DownloadPhoto(b => photo.PhotoSource = b, photoUrls[i]);
+                }
+            }
 
             _photoUrlsLoaded = true;
             CheckFullyLoaded();
