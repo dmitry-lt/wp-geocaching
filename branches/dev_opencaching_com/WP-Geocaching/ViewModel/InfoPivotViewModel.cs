@@ -158,22 +158,6 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        public void DownloadAndSaveLogbook()
-        {
-            var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
-
-            if (item.Logbook != null)
-            {
-                return;
-            }
-
-            if (Logbook != null)
-            {
-                LoadAndSaveLogbook(Logbook);
-            }
-        }
-
         public void LoadDetailsPivotItem(WebBrowser detailsBrowser)
         {
             var db = new CacheDataBase();
@@ -186,22 +170,6 @@ namespace WP_Geocaching.ViewModel
                 detailsBrowser.NavigateToString(item.Description);
             }
             else if (Info != null)
-            {
-                LoadAndSaveCacheInfo(Info);
-            }
-        }
-
-        public void DownloadAndSaveCacheInfo()
-        {
-            var db = new CacheDataBase();
-            var item = db.GetCache(Cache.Id, Cache.CacheProvider);
-
-            if (item.Description != null)
-            {
-                return;
-            }
-
-            if (Info != null)
             {
                 LoadAndSaveCacheInfo(Info);
             }

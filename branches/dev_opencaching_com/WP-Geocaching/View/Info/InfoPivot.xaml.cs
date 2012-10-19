@@ -140,8 +140,6 @@ namespace WP_Geocaching.View.Info
         {
             _db.AddCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook);
             _infoPivotViewModel.DownloadAndSavePhotos();
-            _infoPivotViewModel.DownloadAndSaveLogbook();
-            _infoPivotViewModel.DownloadAndSaveCacheInfo();
             GetDeleteButton();
         }
 
