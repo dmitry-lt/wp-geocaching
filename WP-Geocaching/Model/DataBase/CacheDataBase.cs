@@ -2,8 +2,10 @@
 using System.Data.Linq;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.Phone.Data.Linq;
 using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.Api.GeocachingSu;
+using WP_Geocaching.Model.DataBase.Migration;
 
 namespace WP_Geocaching.Model.DataBase
 {
@@ -11,17 +13,67 @@ namespace WP_Geocaching.Model.DataBase
     {
         private const string ConnectionString = "Data Source=isostore:/DataBase.sdf";
 
-        public CacheDataBase()
+        // never change the second version const value
+        private const int SECOND_VERSION = 2;
+
+        private const int CURRENT_VERSION = 2;
+
+        public static void UpdateSchema()
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                if (db.DatabaseExists())
+                if (!db.DatabaseExists())
                 {
-                    return;
+                    db.CreateDatabase();
+                    db.SubmitChanges();
+
+                    var dbUpdater = db.CreateDatabaseSchemaUpdater();
+
+                    // Add the new database version.
+                    dbUpdater.DatabaseSchemaVersion = CURRENT_VERSION;
+
+                    // Perform the database update in a single transaction.
+                    dbUpdater.Execute();
                 }
-                db.CreateDatabase();
-                db.SubmitChanges();
+                else
+                {
+                    var dbUpdater = db.CreateDatabaseSchemaUpdater();
+
+                    if (dbUpdater.DatabaseSchemaVersion < SECOND_VERSION)
+                    {
+                        try
+                        {
+                            MigrationTool.MigrateToVersion2();
+                        }
+                        catch
+                        {
+                            // Even if migration is unsuccessful, update the version (then user will lose all saved caches)
+
+                            // Add the new database version.
+                            dbUpdater.DatabaseSchemaVersion = SECOND_VERSION;
+
+                            // Perform the database update in a single transaction.
+                            dbUpdater.Execute();
+                        }
+                    }
+
+                    /*
+                                        if (dbUpdater.DatabaseSchemaVersion < 3)
+                                        {
+                                            // Add the new database version.
+                                            dbUpdater.DatabaseSchemaVersion = 3;
+
+                                            // Perform the database update in a single transaction.
+                                            dbUpdater.Execute();
+                                        }
+                    */
+
+                }
             }
+        }
+
+        public CacheDataBase()
+        {
         }
 
         public void AddCache(Cache cache, string details, string notebook)
@@ -47,7 +99,7 @@ namespace WP_Geocaching.Model.DataBase
             using (var db = new CacheDataContext(ConnectionString))
             {
                 int maxId = GetMaxCheckpointIdByCache(db.Checkpoints, cache);
-                var newItem = new DbCheckpointsItem {Id = maxId + 1};
+                var newItem = new DbCheckpoint {Id = maxId + 1};
 
                 newItem.Name = name;
                 newItem.CacheId = cache.Id;
@@ -75,7 +127,7 @@ namespace WP_Geocaching.Model.DataBase
             using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCheckpointsQueryByCache(db.Checkpoints, cache);
-                foreach (DbCheckpointsItem c in query)
+                foreach (DbCheckpoint c in query)
                 {
                     c.Subtype = (int)GeocachingSuCache.Subtypes.NotActiveCheckpoint;
                 }
@@ -88,7 +140,7 @@ namespace WP_Geocaching.Model.DataBase
             using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCheckpointQuery(db.Checkpoints, cache, id);
-                DbCheckpointsItem checkpoint = query.FirstOrDefault();
+                DbCheckpoint checkpoint = query.FirstOrDefault();
                 if ((checkpoint != null) && (checkpoint.Subtype != (int)GeocachingSuCache.Subtypes.ActiveCheckpoint))
                 {
                     MakeAllCheckpointsNotActive(cache);
@@ -143,9 +195,9 @@ namespace WP_Geocaching.Model.DataBase
             ApiManager.Instance.DeletePhotos(cache);
         }
 
-        public List<DbCacheItem> GetCacheList()
+        public List<DbCache> GetCacheList()
         {
-            List<DbCacheItem> cacheList;
+            List<DbCache> cacheList;
             using (var db = new CacheDataContext(ConnectionString))
             {
                 cacheList = db.Caches.ToList();
@@ -153,7 +205,7 @@ namespace WP_Geocaching.Model.DataBase
             return cacheList;
         }
 
-        public DbCacheItem GetCache(string id, CacheProvider cacheProvider)
+        public DbCache GetCache(string id, CacheProvider cacheProvider)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
@@ -162,7 +214,7 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        public List<DbCheckpointsItem> GetCheckpointsByCache(Cache cache)
+        public List<DbCheckpoint> GetCheckpointsByCache(Cache cache)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
@@ -171,7 +223,7 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        public DbCheckpointsItem GetCheckpointByCacheAndCheckpointId(Cache cache, int checkpointId)
+        public DbCheckpoint GetCheckpointByCacheAndCheckpointId(Cache cache, int checkpointId)
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
@@ -200,12 +252,12 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        private IQueryable<DbCacheItem> GetCacheQuery(Table<DbCacheItem> table, Cache cache)
+        private IQueryable<DbCache> GetCacheQuery(Table<DbCache> table, Cache cache)
         {
             return GetCacheQuery(table, cache.Id, cache.CacheProvider);
         }
 
-        private IQueryable<DbCacheItem> GetCacheQuery(Table<DbCacheItem> table, string cacheId, CacheProvider cacheProvider)
+        private IQueryable<DbCache> GetCacheQuery(Table<DbCache> table, string cacheId, CacheProvider cacheProvider)
         {
             var query = from e in table
                         where (e.Id == cacheId && e.CacheProvider == cacheProvider)
@@ -213,7 +265,7 @@ namespace WP_Geocaching.Model.DataBase
             return query;
         }
 
-        private IQueryable<DbCheckpointsItem> GetCheckpointQuery(Table<DbCheckpointsItem> table, Cache cache, string id)
+        private IQueryable<DbCheckpoint> GetCheckpointQuery(Table<DbCheckpoint> table, Cache cache, string id)
         {
             var query = from e in GetCheckpointsQueryByCache(table, cache)
                         where (e.Id == Convert.ToInt32(id))
@@ -221,7 +273,7 @@ namespace WP_Geocaching.Model.DataBase
             return query;
         }
 
-        private IQueryable<DbCheckpointsItem> GetCheckpointsQueryByCache(Table<DbCheckpointsItem> table, Cache cache)
+        private IQueryable<DbCheckpoint> GetCheckpointsQueryByCache(Table<DbCheckpoint> table, Cache cache)
         {
             var query = from e in table
                         where (e.CacheId == cache.Id && e.CacheProvider == cache.CacheProvider)
@@ -229,7 +281,7 @@ namespace WP_Geocaching.Model.DataBase
             return query;
         }
 
-        private int GetMaxCheckpointIdByCache(Table<DbCheckpointsItem> table, Cache cache)
+        private int GetMaxCheckpointIdByCache(Table<DbCheckpoint> table, Cache cache)
         {
             int maxId = 0;
 

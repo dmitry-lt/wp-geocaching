@@ -5,7 +5,7 @@ using WP_Geocaching.Model.Api;
 namespace WP_Geocaching.Model.DataBase
 {
     [Table]
-    public class DbCacheItem
+    public class DbCache
     {
         [Column(IsPrimaryKey = true)]
         public string Id { get; set; }

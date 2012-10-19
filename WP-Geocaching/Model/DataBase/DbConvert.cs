@@ -8,7 +8,7 @@ namespace WP_Geocaching.Model.DataBase
 {
     public class DbConvert
     {
-        private static GeocachingSuCache ToGeocachingSuCache(DbCacheItem item)
+        private static GeocachingSuCache ToGeocachingSuCache(DbCache item)
         {
             var result =
                 new GeocachingSuCache()
@@ -22,7 +22,7 @@ namespace WP_Geocaching.Model.DataBase
             return result;
         }
 
-        private static OpenCachingComCache ToOpenCachingComCache(DbCacheItem item)
+        private static OpenCachingComCache ToOpenCachingComCache(DbCache item)
         {
             var result =
                 new OpenCachingComCache()
@@ -35,7 +35,7 @@ namespace WP_Geocaching.Model.DataBase
             return result;
         }
 
-        public static Cache ToCache(DbCacheItem item)
+        public static Cache ToCache(DbCache item)
         {
             switch (item.CacheProvider)
             {
@@ -47,21 +47,21 @@ namespace WP_Geocaching.Model.DataBase
             }
         }
 
-        private static void InitGeocachingSuSpecificFields(DbCacheItem result, GeocachingSuCache cache)
+        private static void InitGeocachingSuSpecificFields(DbCache result, GeocachingSuCache cache)
         {
             result.Type = (int)cache.Type;
             result.Subtype = (int)cache.Subtype;
         }
 
-        private static void InitOpenCachingComSpecificFields(DbCacheItem result, OpenCachingComCache cache)
+        private static void InitOpenCachingComSpecificFields(DbCache result, OpenCachingComCache cache)
         {
             result.Type = (int)cache.Type;
         }
 
-        public static DbCacheItem ToDbCacheItem(Cache cache, string details, string notebook)
+        public static DbCache ToDbCacheItem(Cache cache, string details, string notebook)
         {
             var result =
-                new DbCacheItem()
+                new DbCache()
                 {
                     CacheProvider = cache.CacheProvider,
                     Id = cache.Id,
@@ -88,7 +88,7 @@ namespace WP_Geocaching.Model.DataBase
             return result;
         }
 
-        public static DbCacheItem ToDbCacheItem(Cache cache)
+        public static DbCache ToDbCacheItem(Cache cache)
         {
             return ToDbCacheItem(cache, null, null);
         }
