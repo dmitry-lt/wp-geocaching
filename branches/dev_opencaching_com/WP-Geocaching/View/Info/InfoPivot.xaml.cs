@@ -162,7 +162,7 @@ namespace WP_Geocaching.View.Info
 
         private void ImageGotFocus(object sender, RoutedEventArgs e)
         {
-            Photo photo = ((Image) sender).Source;
+            var photo = new Photo(((Image)sender).Source);
             var index = infoPivotViewModel.Previews.IndexOf(photo);
             NavigationManager.Instance.NavigateToPhotoGallery(index);   
         }

@@ -31,9 +31,9 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public static implicit operator Photo(ImageSource source)
+        public Photo(ImageSource source)
         {
-            return new Photo {PhotoSource = source};
+            PhotoSource = source;
         }
 
         public override bool Equals(object obj)
