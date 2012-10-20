@@ -56,11 +56,11 @@ namespace WP_Geocaching.ViewModel
         {
             get
             {
-                return settings.LastChooseLocation;
+                return settings.LatestChooseLocation;
             }
             set
             {
-                settings.LastChooseLocation = value;
+                settings.LatestChooseLocation = value;
                 NotifyPropertyChanged("MapCenter");
             }
         }
