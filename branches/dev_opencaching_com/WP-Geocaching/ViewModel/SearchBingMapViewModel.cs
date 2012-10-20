@@ -53,6 +53,7 @@ namespace WP_Geocaching.ViewModel
                     ConnectingLine.Add(soughtCache.Location);
                     UpdateMapProperties();
                     settings.LastSoughtCacheId = value.Id;
+                    settings.LastSoughtCacheProvider = value.CacheProvider;
                 }
             }
         }
