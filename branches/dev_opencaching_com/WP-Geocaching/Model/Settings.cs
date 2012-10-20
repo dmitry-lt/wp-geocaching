@@ -216,5 +216,21 @@ namespace WP_Geocaching.Model
             }
         }
 
+        public bool IsCacheProviderEnabled(CacheProvider cacheProvider)
+        {
+            switch (cacheProvider)
+            {
+                case CacheProvider.GeocachingSu:
+                    return IsGeocachingSuEnabled;
+
+                case CacheProvider.OpenCachingCom:
+                    return IsOpenCachingComEnabled;
+
+                default:
+                    throw new ArgumentException();
+
+            }
+        }
+
     }
 }

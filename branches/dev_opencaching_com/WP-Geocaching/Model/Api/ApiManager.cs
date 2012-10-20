@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.Api.OpenCachingCom;
 
@@ -28,9 +29,9 @@ namespace WP_Geocaching.Model.Api
 
         public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
         {
-            foreach (var apiManager in _managers.Values)
+            foreach (var cp in _managers.Keys.Where(cp => _settings.IsCacheProviderEnabled(cp)))
             {
-                apiManager.FetchCaches(processCaches, lngmax, lgnmin, latmax, latmin);
+                _managers[cp].FetchCaches(processCaches, lngmax, lgnmin, latmax, latmin);
             }
         }
 
@@ -41,5 +42,10 @@ namespace WP_Geocaching.Model.Api
 
         #endregion
 
+        #region Settings
+
+        private readonly Settings _settings = new Settings();
+
+        #endregion
     }
 }
