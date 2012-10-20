@@ -25,6 +25,20 @@ namespace WP_Geocaching.ViewModel
         private LocationCollection connectingLine;
         private double distanceToSoughtPoint;
 
+        private GeoCoordinate mapCenter;
+        public override GeoCoordinate MapCenter
+        {
+            get
+            {
+                return mapCenter;
+            }
+            set
+            {
+                mapCenter = value;
+                NotifyPropertyChanged("MapCenter");
+            }
+        }
+
         public override int Zoom
         {
             get
