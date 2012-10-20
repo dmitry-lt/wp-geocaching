@@ -104,9 +104,9 @@ namespace WP_Geocaching.Model
             if (null != photos)
             {
                 CreateCacheDirectories(cache);
-                foreach (var p in photos)
+                foreach (var p in photos.Where(p => !p.IsPlaceholder))
                 {
-                    SavePhoto(cache, p.PhotoName, (WriteableBitmap)p.PhotoSource);
+                    SavePhoto(cache, p.PhotoName, (WriteableBitmap) p.PhotoSource);
                 }
             }
         }
