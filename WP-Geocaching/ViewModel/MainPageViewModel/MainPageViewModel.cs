@@ -140,7 +140,7 @@ namespace WP_Geocaching.ViewModel.MainPageViewModel
         private void SearchCache()
         {
             var settings = new Settings();
-            if (String.IsNullOrEmpty(settings.LastSoughtCacheId))
+            if (String.IsNullOrEmpty(settings.LatestSoughtCacheId))
             {
                 NoSouhgtCacheMessageVisibility = Visibility.Visible;
                 var timer = new DispatcherTimer
@@ -153,7 +153,7 @@ namespace WP_Geocaching.ViewModel.MainPageViewModel
             else if (settings.IsLocationEnabled)
             {
                 var db = new CacheDataBase();
-                var dbCache = db.GetCache(settings.LastSoughtCacheId, settings.LastSoughtCacheProvider);
+                var dbCache = db.GetCache(settings.LatestSoughtCacheId, settings.LatestSoughtCacheProvider);
                 var cache = DbConvert.ToCache(dbCache);
                 NavigationManager.Instance.NavigateToSearchBingMap(cache);
             }

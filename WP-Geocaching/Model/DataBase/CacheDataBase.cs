@@ -183,7 +183,7 @@ namespace WP_Geocaching.Model.DataBase
                 var itemForDeleting = query.FirstOrDefault();
                 if (itemForDeleting == null) return;
                 var settings = new Settings();
-                if (settings.LastSoughtCacheId == cache.Id)
+                if (settings.LatestSoughtCacheId == cache.Id)
                 {
                     settings.SetDefaultLastSoughtCacheId();
                 }

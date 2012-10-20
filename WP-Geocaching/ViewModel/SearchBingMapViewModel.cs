@@ -66,8 +66,8 @@ namespace WP_Geocaching.ViewModel
                     MapManager.Instance.Cache = value;
                     ConnectingLine.Add(soughtCache.Location);
                     UpdateMapProperties();
-                    settings.LastSoughtCacheId = value.Id;
-                    settings.LastSoughtCacheProvider = value.CacheProvider;
+                    settings.LatestSoughtCacheId = value.Id;
+                    settings.LatestSoughtCacheProvider = value.CacheProvider;
                 }
             }
         }
