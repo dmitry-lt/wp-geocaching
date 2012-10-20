@@ -80,7 +80,7 @@ namespace WP_Geocaching.ViewModel
         {
             var pushpin = new CachePushpin()
             {
-                Cache = cache
+                CacheInfo = cache
             };
 
             _currentPushpins.Add(cache, pushpin);
