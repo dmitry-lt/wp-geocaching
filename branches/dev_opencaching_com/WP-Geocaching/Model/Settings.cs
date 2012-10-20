@@ -13,7 +13,7 @@ namespace WP_Geocaching.Model
 
     public class Settings
     {
-        private IsolatedStorageSettings settings;
+        private readonly IsolatedStorageSettings _settings;
 
         // The isolated storage key names of our settings
         private const string LastSoughtCacheIdKeyName = "LastSoughtCacheId";
@@ -23,6 +23,8 @@ namespace WP_Geocaching.Model
         private const string MapModeDefaultKeyName = "MapMode";
         private const string IsLocationEnabledKeyName = "IsLocationEnabled";
         private const string IsFirstLaunchingKeyName = "IsFirstLaunching";
+        private const string IsOpenCachingComEnabledKeyName = "IsOpenCachingComEnabled";
+        private const string IsGeocachingSuEnabledKeyName = "IsGeocachingSuEnabled";
 
         // The default value of our settings
         private const string LastSoughtCacheIdDefault = "";
@@ -34,24 +36,24 @@ namespace WP_Geocaching.Model
 
         public Settings()
         {
-            settings = IsolatedStorageSettings.ApplicationSettings;
+            _settings = IsolatedStorageSettings.ApplicationSettings;
         }
 
         public bool AddOrUpdateValue(string key, Object value)
         {
             bool valueChanged = false;
 
-            if (settings.Contains(key))
+            if (_settings.Contains(key))
             {
-                if (settings[key] != value)
+                if (_settings[key] != value)
                 {
-                    settings[key] = value;
+                    _settings[key] = value;
                     valueChanged = true;
                 }
             }
             else
             {
-                settings.Add(key, value);
+                _settings.Add(key, value);
                 valueChanged = true;
             }
             return valueChanged;
@@ -61,9 +63,9 @@ namespace WP_Geocaching.Model
         {
             T value;
 
-            if (settings.Contains(key))
+            if (_settings.Contains(key))
             {
-                value = (T)settings[key];
+                value = (T)_settings[key];
             }
             else
             {
@@ -74,7 +76,7 @@ namespace WP_Geocaching.Model
 
         public void Save()
         {
-            settings.Save();
+            _settings.Save();
         }
 
 
@@ -98,9 +100,9 @@ namespace WP_Geocaching.Model
         {
             get
             {
-                if (settings.Contains(LastSoughtCacheProviderKeyName))
+                if (_settings.Contains(LastSoughtCacheProviderKeyName))
                 {
-                    return (CacheProvider)settings[LastSoughtCacheProviderKeyName];
+                    return (CacheProvider)_settings[LastSoughtCacheProviderKeyName];
                 }
                 return CacheProvider.GeocachingSu;
             }
@@ -183,5 +185,36 @@ namespace WP_Geocaching.Model
                 Save();
             }
         }
+
+        public bool IsOpenCachingComEnabled
+        {
+            get
+            {
+                return GetValueOrDefault(IsOpenCachingComEnabledKeyName, true);
+            }
+            set
+            {
+                if (AddOrUpdateValue(IsOpenCachingComEnabledKeyName, value))
+                {
+                    Save();
+                }
+            }
+        }
+
+        public bool IsGeocachingSuEnabled
+        {
+            get
+            {
+                return GetValueOrDefault(IsGeocachingSuEnabledKeyName, true);
+            }
+            set
+            {
+                if (AddOrUpdateValue(IsGeocachingSuEnabledKeyName, value))
+                {
+                    Save();
+                }
+            }
+        }
+
     }
 }
