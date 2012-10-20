@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Device.Location;
-using WP_Geocaching.Model.DataBase;
 
 namespace WP_Geocaching.Model.Api.GeocachingSu
 {
