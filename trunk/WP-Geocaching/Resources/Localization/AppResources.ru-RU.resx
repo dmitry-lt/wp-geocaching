@@ -330,4 +330,7 @@
   <data name="DisabledLocationTitle" xml:space="preserve">
     <value>Местоположение</value>
   </data>
+  <data name="ShowCachesFrom" xml:space="preserve">
+    <value>Показывать тайники</value>
+  </data>
 </root>

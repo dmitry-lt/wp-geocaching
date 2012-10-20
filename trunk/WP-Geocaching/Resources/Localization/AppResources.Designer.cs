@@ -628,6 +628,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show caches from.
+        /// </summary>
+        public static string ShowCachesFrom {
+            get {
+                return ResourceManager.GetString("ShowCachesFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to S.
         /// </summary>
         public static string SouthLatitude {

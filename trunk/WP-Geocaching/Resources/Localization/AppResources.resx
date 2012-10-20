@@ -273,6 +273,9 @@
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="ShowCachesFrom" xml:space="preserve">
+    <value>Show caches from</value>
+  </data>
   <data name="SupportAbout" xml:space="preserve">
     <value>Support</value>
   </data>
