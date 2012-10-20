@@ -226,6 +226,11 @@
     <Compile Include="View\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Utils\LinqToVisualTree\EnumerableTreeExtensions.cs" />
+    <Compile Include="View\Utils\LinqToVisualTree\ILinqTree.cs" />
+    <Compile Include="View\Utils\LinqToVisualTree\TreeExtensions.cs" />
+    <Compile Include="View\Utils\LinqToVisualTree\VisualTreeAdapter.cs" />
+    <Compile Include="View\Utils\WebBrowserHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
