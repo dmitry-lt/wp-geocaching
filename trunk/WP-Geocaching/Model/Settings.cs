@@ -20,6 +20,8 @@ namespace WP_Geocaching.Model
         private const string LastSoughtCacheProviderKeyName = "LastSoughtCacheProvider";
         private const string LastSearchLocationLatitudeDefaultKeyName = "LastSearchLocationLatitude";
         private const string LastSearchLocationLongitudeDefaultKeyName = "LastSearchLocationLongitude";
+        private const string LastChooseLocationLatitudeDefaultKeyName = "LastChooseLocationLatitude";
+        private const string LastChooseLocationLongitudeDefaultKeyName = "LastChooseLocationLongitude";
         private const string MapModeDefaultKeyName = "MapMode";
         private const string IsLocationEnabledKeyName = "IsLocationEnabled";
         private const string IsFirstLaunchingKeyName = "IsFirstLaunching";
@@ -126,6 +128,23 @@ namespace WP_Geocaching.Model
             {
                 if ((AddOrUpdateValue(LastSearchLocationLatitudeDefaultKeyName, value.Latitude)) &&
                     (AddOrUpdateValue(LastSearchLocationLongitudeDefaultKeyName, value.Longitude)))
+                {
+                    Save();
+                }
+            }
+        }
+
+        public GeoCoordinate LastChooseLocation
+        {
+            get
+            {
+                return new GeoCoordinate(GetValueOrDefault(LastChooseLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
+                    GetValueOrDefault(LastChooseLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
+            }
+            set
+            {
+                if ((AddOrUpdateValue(LastChooseLocationLatitudeDefaultKeyName, value.Latitude)) &&
+                    (AddOrUpdateValue(LastChooseLocationLongitudeDefaultKeyName, value.Longitude)))
                 {
                     Save();
                 }

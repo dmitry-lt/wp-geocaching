@@ -51,10 +51,22 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        protected GeoCoordinate mapCenter;
+        public override GeoCoordinate MapCenter
+        {
+            get
+            {
+                return settings.LastChooseLocation;
+            }
+            set
+            {
+                settings.LastChooseLocation = value;
+                NotifyPropertyChanged("MapCenter");
+            }
+        }
+
         public BingMapViewModel(IApiManager apiManager)
         {
-            var settings = new Settings();
-            MapCenter = settings.LastSearchLocation;
             MapMode = settings.MapMode;
             Zoom = MapManager.Instance.DefaultZoom;
             this.apiManager = apiManager;

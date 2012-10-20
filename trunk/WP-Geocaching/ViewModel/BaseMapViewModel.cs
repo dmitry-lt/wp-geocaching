@@ -10,16 +10,16 @@ namespace WP_Geocaching.ViewModel
 {
     public class BaseMapViewModel : BaseViewModel
     {
-        protected GeoCoordinate mapCenter;
         protected IApiManager apiManager;
         protected GeoCoordinate currentLocation;
         protected Visibility undetectedLocationMessageVisibility = Visibility.Collapsed;
         protected double direction;
         protected MapMode mapMode;
-        protected Settings settings;
+        protected Settings settings = new Settings();
 
         public virtual int Zoom { get; set; }
         public virtual ObservableCollection<CachePushpin> CachePushpins { get; set; }
+        public virtual GeoCoordinate MapCenter { get; set; }
 
         public double Direction
         {
@@ -44,19 +44,6 @@ namespace WP_Geocaching.ViewModel
             {
                 undetectedLocationMessageVisibility = value;
                 NotifyPropertyChanged("UndetectedLocationMessageVisibility");
-            }
-        }
-
-        public GeoCoordinate MapCenter
-        {
-            get
-            {
-                return mapCenter;
-            }
-            set
-            {
-                mapCenter = value;
-                NotifyPropertyChanged("MapCenter");
             }
         }
 
@@ -97,7 +84,6 @@ namespace WP_Geocaching.ViewModel
 
         protected void UpdateMapMode()
         {
-            settings = new Settings();
             MapMode = settings.MapMode;
         }
 
