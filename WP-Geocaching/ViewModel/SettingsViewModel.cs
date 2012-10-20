@@ -32,6 +32,50 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        private bool CanAssignCacheProviderValue(bool value)
+        {
+            if (value)
+            {
+                return true;
+            }
+
+            var count = 0;
+            if (IsOpenCachingComEnabled)
+            {
+                count++;
+            }
+            if (IsGeocachingSuEnabled)
+            {
+                count++;
+            }
+            return count > 1;
+        }
+
+        public bool IsOpenCachingComEnabled
+        {
+            get { return settings.IsOpenCachingComEnabled; }
+            set
+            {
+                if (CanAssignCacheProviderValue(value))
+                {
+                    settings.IsOpenCachingComEnabled = value;
+                }
+                NotifyPropertyChanged("IsOpenCachingComEnabled");
+            }
+        }
+        public bool IsGeocachingSuEnabled 
+        {
+            get { return settings.IsGeocachingSuEnabled; }
+            set
+            {
+                if (CanAssignCacheProviderValue(value))
+                {
+                    settings.IsGeocachingSuEnabled = value;
+                }
+                NotifyPropertyChanged("IsGeocachingSuEnabled");
+            }
+        }
+
         public SettingsViewModel()
         {
             settings = new Settings();
