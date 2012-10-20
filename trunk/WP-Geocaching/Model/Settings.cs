@@ -18,10 +18,10 @@ namespace WP_Geocaching.Model
         // The isolated storage key names of our settings
         private const string LastSoughtCacheIdKeyName = "LastSoughtCacheId";
         private const string LastSoughtCacheProviderKeyName = "LastSoughtCacheProvider";
-        private const string LastSearchLocationLatitudeDefaultKeyName = "LastSearchLocationLatitude";
-        private const string LastSearchLocationLongitudeDefaultKeyName = "LastSearchLocationLongitude";
-        private const string LastChooseLocationLatitudeDefaultKeyName = "LastChooseLocationLatitude";
-        private const string LastChooseLocationLongitudeDefaultKeyName = "LastChooseLocationLongitude";
+        private const string LatestSearchLocationLatitudeDefaultKeyName = "LatestSearchLocationLatitude";
+        private const string LatestSearchLocationLongitudeDefaultKeyName = "LatestSearchLocationLongitude";
+        private const string LatestChooseLocationLatitudeDefaultKeyName = "LatestChooseLocationLatitude";
+        private const string LatestChooseLocationLongitudeDefaultKeyName = "LatestChooseLocationLongitude";
         private const string MapModeDefaultKeyName = "MapMode";
         private const string IsLocationEnabledKeyName = "IsLocationEnabled";
         private const string IsFirstLaunchingKeyName = "IsFirstLaunching";
@@ -117,34 +117,34 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public GeoCoordinate LastSearchLocation
+        public GeoCoordinate LatestSearchLocation
         {
             get
             {
-                return new GeoCoordinate(GetValueOrDefault(LastSearchLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
-                    GetValueOrDefault(LastSearchLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
+                return new GeoCoordinate(GetValueOrDefault(LatestSearchLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
+                    GetValueOrDefault(LatestSearchLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
             }
             set
             {
-                if ((AddOrUpdateValue(LastSearchLocationLatitudeDefaultKeyName, value.Latitude)) &&
-                    (AddOrUpdateValue(LastSearchLocationLongitudeDefaultKeyName, value.Longitude)))
+                if ((AddOrUpdateValue(LatestSearchLocationLatitudeDefaultKeyName, value.Latitude)) &&
+                    (AddOrUpdateValue(LatestSearchLocationLongitudeDefaultKeyName, value.Longitude)))
                 {
                     Save();
                 }
             }
         }
 
-        public GeoCoordinate LastChooseLocation
+        public GeoCoordinate LatestChooseLocation
         {
             get
             {
-                return new GeoCoordinate(GetValueOrDefault(LastChooseLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
-                    GetValueOrDefault(LastChooseLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
+                return new GeoCoordinate(GetValueOrDefault(LatestChooseLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
+                    GetValueOrDefault(LatestChooseLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
             }
             set
             {
-                if ((AddOrUpdateValue(LastChooseLocationLatitudeDefaultKeyName, value.Latitude)) &&
-                    (AddOrUpdateValue(LastChooseLocationLongitudeDefaultKeyName, value.Longitude)))
+                if ((AddOrUpdateValue(LatestChooseLocationLatitudeDefaultKeyName, value.Latitude)) &&
+                    (AddOrUpdateValue(LatestChooseLocationLongitudeDefaultKeyName, value.Longitude)))
                 {
                     Save();
                 }
