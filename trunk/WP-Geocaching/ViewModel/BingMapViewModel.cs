@@ -23,7 +23,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 surpassedCacheCountMessageVisibility = value;
-                NotifyPropertyChanged("SurpassedCacheCountMessageVisibility");
+                RaisePropertyChanged(() => SurpassedCacheCountMessageVisibility);
             }
         }
 
@@ -60,7 +60,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 settings.LatestChooseLocation = value;
-                NotifyPropertyChanged("MapCenter");
+                RaisePropertyChanged(() => MapCenter);
             }
         }
 
@@ -73,7 +73,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 settings.LatestChooseZoom = value;
-                NotifyPropertyChanged("Zoom");
+                RaisePropertyChanged(() => Zoom);
             }
         }
 

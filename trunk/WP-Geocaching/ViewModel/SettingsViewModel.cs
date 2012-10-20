@@ -28,7 +28,7 @@ namespace WP_Geocaching.ViewModel
             {
                 isLocationEnabled = value;
                 settings.IsLocationEnabled = value;
-                NotifyPropertyChanged("IsLocationEnabled");
+                RaisePropertyChanged(() => IsLocationEnabled);
             }
         }
 
@@ -60,7 +60,7 @@ namespace WP_Geocaching.ViewModel
                 {
                     settings.IsOpenCachingComEnabled = value;
                 }
-                NotifyPropertyChanged("IsOpenCachingComEnabled");
+                RaisePropertyChanged(() => IsOpenCachingComEnabled);
             }
         }
         public bool IsGeocachingSuEnabled 
@@ -72,7 +72,7 @@ namespace WP_Geocaching.ViewModel
                 {
                     settings.IsGeocachingSuEnabled = value;
                 }
-                NotifyPropertyChanged("IsGeocachingSuEnabled");
+                RaisePropertyChanged(() => IsGeocachingSuEnabled);
             }
         }
 

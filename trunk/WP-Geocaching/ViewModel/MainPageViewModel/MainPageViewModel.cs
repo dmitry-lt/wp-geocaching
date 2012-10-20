@@ -38,7 +38,7 @@ namespace WP_Geocaching.ViewModel.MainPageViewModel
                 {
                     value.Tag();
                 }
-                NotifyPropertyChanged("SelectedTile");
+                RaisePropertyChanged(() => SelectedTile);
             }
         }
 
@@ -51,7 +51,7 @@ namespace WP_Geocaching.ViewModel.MainPageViewModel
             set
             {
                 noFavoriteCachesMessageVisibility = value;
-                NotifyPropertyChanged("NoFavoriteCachesMessageVisibility");
+                RaisePropertyChanged(() => NoFavoriteCachesMessageVisibility);
             }
         }
 
@@ -64,7 +64,7 @@ namespace WP_Geocaching.ViewModel.MainPageViewModel
             set
             {
                 noSouhgtCacheMessageVisibility = value;
-                NotifyPropertyChanged("NoSouhgtCacheMessageVisibility");
+                RaisePropertyChanged(() => NoSouhgtCacheMessageVisibility);
             }
         }
 

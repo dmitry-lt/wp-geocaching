@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WP_Geocaching.Model;
-using WP_Geocaching.Model.Api;
+using WP_Geocaching.Model.Utils;
 
 namespace WP_Geocaching.ViewModel
 {
@@ -22,7 +22,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 imageSource = value;
-                NotifyPropertyChanged("ImageSource");
+                RaisePropertyChanged(() => ImageSource);
             }
         }
 
@@ -35,7 +35,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 maxHeight = value;
-                NotifyPropertyChanged("MaxHeight");
+                RaisePropertyChanged(() => MaxHeight);
             }
         }
 

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 using WP_Geocaching.View.Compass;
 using System.Device.Location;
 using WP_Geocaching.Model.Utils;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class CompassPageViewModel : BaseViewModel, ICompassAware
+    public class CompassPageViewModel : BaseViewModel, ICompassAware, INotifyPropertyChanged
     {
         private double northDirection;
         private double cacheDirection;
@@ -22,7 +23,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 azimuth = value;
-                NotifyPropertyChanged("Azimuth");
+                RaisePropertyChanged(() => Azimuth);
             }
         }
 
@@ -32,7 +33,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 northDirection = value;
-                NotifyPropertyChanged("NorthDirection");
+                RaisePropertyChanged(() => NorthDirection);
             }
         }
 
@@ -42,7 +43,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 cacheDirection = value;
-                NotifyPropertyChanged("CacheDirection");
+                RaisePropertyChanged(() => CacheDirection);
             }
         }
 
@@ -52,7 +53,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 distance = value;
-                NotifyPropertyChanged("Distance");
+                RaisePropertyChanged(() => Distance);
             }
         }
 
@@ -62,7 +63,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 currentLocation = value;
-                NotifyPropertyChanged("CurrentLocation");
+                RaisePropertyChanged(() => CurrentLocation);
             }
         }
 
@@ -72,7 +73,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 soughtPoint = value;
-                NotifyPropertyChanged("SoughtPoint");
+                RaisePropertyChanged(() => SoughtPoint);
             }
         }
 

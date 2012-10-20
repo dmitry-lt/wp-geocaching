@@ -1,25 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using WP_Geocaching.Model.Utils;
 
-namespace WP_Geocaching.ViewModel
+namespace WP_Geocaching.Model.Utils
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public static class NotifyPropertyChangedHelper
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void NotifyPropertyChanged(string propertyName)
+        public static void Raise<T>(this PropertyChangedEventHandler handler, Expression<Func<T>> propertyExpression)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        protected void RaisePropertyChanged<T>(Expression<Func<T>> propertyExpression)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
             {
                 var body = propertyExpression.Body as MemberExpression;
@@ -37,12 +25,11 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        protected void RaisePropertyChanged<T>(params Expression<Func<T>>[] propertyExpressions)
+        public static void Raise<T>(this PropertyChangedEventHandler handler, params Expression<Func<T>>[] propertyExpressions)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
             foreach (var propertyExpression in propertyExpressions)
             {
-                RaisePropertyChanged<T>(propertyExpression);
+                handler.Raise<T>(propertyExpression);
             }
         }
     }
