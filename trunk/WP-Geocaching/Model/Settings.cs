@@ -16,12 +16,13 @@ namespace WP_Geocaching.Model
         private readonly IsolatedStorageSettings _settings;
 
         // The isolated storage key names of our settings
-        private const string LastSoughtCacheIdKeyName = "LastSoughtCacheId";
-        private const string LastSoughtCacheProviderKeyName = "LastSoughtCacheProvider";
+        private const string LatestSoughtCacheIdKeyName = "LatestSoughtCacheId";
+        private const string LatestSoughtCacheProviderKeyName = "LatestSoughtCacheProvider";
         private const string LatestSearchLocationLatitudeDefaultKeyName = "LatestSearchLocationLatitude";
         private const string LatestSearchLocationLongitudeDefaultKeyName = "LatestSearchLocationLongitude";
         private const string LatestChooseLocationLatitudeDefaultKeyName = "LatestChooseLocationLatitude";
         private const string LatestChooseLocationLongitudeDefaultKeyName = "LatestChooseLocationLongitude";
+        private const string LatestChooseZoomDefaultKeyName = "LatestChooseZoom";
         private const string MapModeDefaultKeyName = "MapMode";
         private const string IsLocationEnabledKeyName = "IsLocationEnabled";
         private const string IsFirstLaunchingKeyName = "IsFirstLaunching";
@@ -29,12 +30,13 @@ namespace WP_Geocaching.Model
         private const string IsGeocachingSuEnabledKeyName = "IsGeocachingSuEnabled";
 
         // The default value of our settings
-        private const string LastSoughtCacheIdDefault = "";
-        private const double LastLocationLatitudeDefault = 59.879904;
-        private const double LastLocationLongitudeDefault = 29.828674;
+        private const string LatestSoughtCacheIdDefault = "";
+        private const double LatestLocationLatitudeDefault = 59.879904;
+        private const double LatestLocationLongitudeDefault = 29.828674;
         private const int MapModeDefault = (int)MapMode.Road;
         private const bool IsLocationEnabledDefault = true;
         private const bool IsFirstLaunchingDefault = true;
+        private const int LatestChooseZoomDefault = 13;
 
         public Settings()
         {
@@ -82,35 +84,35 @@ namespace WP_Geocaching.Model
         }
 
 
-        public string LastSoughtCacheId
+        public string LatestSoughtCacheId
         {
             get
             {
 
-                return GetValueOrDefault(LastSoughtCacheIdKeyName, LastSoughtCacheIdDefault);
+                return GetValueOrDefault(LatestSoughtCacheIdKeyName, LatestSoughtCacheIdDefault);
             }
             set
             {
-                if (AddOrUpdateValue(LastSoughtCacheIdKeyName, value))
+                if (AddOrUpdateValue(LatestSoughtCacheIdKeyName, value))
                 {
                     Save();
                 }
             }
         }
 
-        public CacheProvider LastSoughtCacheProvider
+        public CacheProvider LatestSoughtCacheProvider
         {
             get
             {
-                if (_settings.Contains(LastSoughtCacheProviderKeyName))
+                if (_settings.Contains(LatestSoughtCacheProviderKeyName))
                 {
-                    return (CacheProvider)_settings[LastSoughtCacheProviderKeyName];
+                    return (CacheProvider)_settings[LatestSoughtCacheProviderKeyName];
                 }
                 return CacheProvider.GeocachingSu;
             }
             set
             {
-                if (AddOrUpdateValue(LastSoughtCacheProviderKeyName, value))
+                if (AddOrUpdateValue(LatestSoughtCacheProviderKeyName, value))
                 {
                     Save();
                 }
@@ -121,8 +123,8 @@ namespace WP_Geocaching.Model
         {
             get
             {
-                return new GeoCoordinate(GetValueOrDefault(LatestSearchLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
-                    GetValueOrDefault(LatestSearchLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
+                return new GeoCoordinate(GetValueOrDefault(LatestSearchLocationLatitudeDefaultKeyName, LatestLocationLatitudeDefault),
+                    GetValueOrDefault(LatestSearchLocationLongitudeDefaultKeyName, LatestLocationLongitudeDefault));
             }
             set
             {
@@ -138,13 +140,28 @@ namespace WP_Geocaching.Model
         {
             get
             {
-                return new GeoCoordinate(GetValueOrDefault(LatestChooseLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
-                    GetValueOrDefault(LatestChooseLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
+                return new GeoCoordinate(GetValueOrDefault(LatestChooseLocationLatitudeDefaultKeyName, LatestLocationLatitudeDefault),
+                    GetValueOrDefault(LatestChooseLocationLongitudeDefaultKeyName, LatestLocationLongitudeDefault));
             }
             set
             {
                 if ((AddOrUpdateValue(LatestChooseLocationLatitudeDefaultKeyName, value.Latitude)) &&
                     (AddOrUpdateValue(LatestChooseLocationLongitudeDefaultKeyName, value.Longitude)))
+                {
+                    Save();
+                }
+            }
+        }
+
+        public int LatestChooseZoom
+        {
+            get
+            {
+                return GetValueOrDefault(LatestChooseZoomDefaultKeyName, LatestChooseZoomDefault);
+            }
+            set
+            {
+                if (AddOrUpdateValue(LatestChooseZoomDefaultKeyName, value))
                 {
                     Save();
                 }
@@ -199,7 +216,7 @@ namespace WP_Geocaching.Model
 
         public void SetDefaultLastSoughtCacheId()
         {
-            if (AddOrUpdateValue(LastSoughtCacheIdKeyName, LastSoughtCacheIdDefault))
+            if (AddOrUpdateValue(LatestSoughtCacheIdKeyName, LatestSoughtCacheIdDefault))
             {
                 Save();
             }
