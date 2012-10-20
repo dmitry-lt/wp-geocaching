@@ -4,7 +4,6 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Navigation;
 using System.Windows.Controls;
-using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.Model.Navigation;
 using WP_Geocaching.ViewModel;
@@ -63,20 +62,6 @@ namespace WP_Geocaching.View.Info
                     UpdateFavoriteButton();
                 }
             }
-        }
-
-        private void SearchCacheButtonClick(object sender, EventArgs e)
-        {
-            _db.AddCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook);
-            if (new Model.Settings().IsLocationEnabled)
-            {
-                NavigationManager.Instance.NavigateToSearchBingMap(_infoPivotViewModel.Cache);
-            }
-            else
-            {
-                DisabledLocationDialog.Show();
-            }
-            
         }
 
         private void SetApplicationBarItems()
@@ -140,14 +125,36 @@ namespace WP_Geocaching.View.Info
             (ApplicationBar.Buttons[_favoriteButtonIndex] as ApplicationBarIconButton).Text = AppResources.DeleteFavoritesButton;
         }
 
-        private void AddButtonClick(object sender, EventArgs e)
+        private void AddCache()
         {
             _db.AddCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook);
-            
+
             var helper = new FileStorageHelper();
             helper.SavePhotos(_infoPivotViewModel.Cache, _infoPivotViewModel.Previews);
+        }
+
+        private void AddButtonClick(object sender, EventArgs e)
+        {
+            AddCache();
 
             GetDeleteButton();
+        }
+
+        private void SearchCacheButtonClick(object sender, EventArgs e)
+        {
+            if (_db.GetCache(_infoPivotViewModel.Cache.Id, _infoPivotViewModel.Cache.CacheProvider) == null)
+            {
+                AddCache();
+            }
+
+            if (new Model.Settings().IsLocationEnabled)
+            {
+                NavigationManager.Instance.NavigateToSearchBingMap(_infoPivotViewModel.Cache);
+            }
+            else
+            {
+                DisabledLocationDialog.Show();
+            }
         }
 
         private void DeleteButtonClick(object sender, EventArgs e)
