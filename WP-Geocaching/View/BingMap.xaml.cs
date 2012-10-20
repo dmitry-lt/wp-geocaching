@@ -78,22 +78,14 @@ namespace WP_Geocaching.View
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            LocationManager.Instance.AddSubscriber(bingMapViewModel);
             bingMapViewModel.UpdateMapChildrens();
             base.OnNavigatedTo(e);
-        }
-
-        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
-        {
-            LocationManager.Instance.RemoveSubscriber(bingMapViewModel);
-            base.OnNavigatedFrom(e);
         }
 
         //DependencyProperty. No need for corresponding CLR-property.
         public static readonly DependencyProperty MapModeProperty =
             DependencyProperty.Register("MapMode", typeof(MapMode), typeof(BingMap),
             new PropertyMetadata(OnMapModeChanged));
-
 
         //Callback
         private static void OnMapModeChanged(DependencyObject element,

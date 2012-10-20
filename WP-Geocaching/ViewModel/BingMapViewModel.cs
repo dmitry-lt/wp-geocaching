@@ -1,22 +1,18 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using WP_Geocaching.Model;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
 using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.Api.GeocachingSu;
 
 namespace WP_Geocaching.ViewModel
 {
-    public class BingMapViewModel : BaseMapViewModel, ILocationAware
+    public class BingMapViewModel : BaseMapViewModel
     {
-
         private const int maxCacheCount = 50;
         private LocationRect boundingRectangle;
         private Visibility surpassedCacheCountMessageVisibility = Visibility.Collapsed;
-        private GeoCoordinateWatcher watcher;
         private bool isFirstSettingView;
 
         public Visibility SurpassedCacheCountMessageVisibility
@@ -59,7 +55,7 @@ namespace WP_Geocaching.ViewModel
         public BingMapViewModel(IApiManager apiManager)
         {
             var settings = new Settings();
-            MapCenter = settings.LastLocation;
+            MapCenter = settings.LastSearchLocation;
             MapMode = settings.MapMode;
             Zoom = MapManager.Instance.DefaultZoom;
             this.apiManager = apiManager;
@@ -177,18 +173,5 @@ namespace WP_Geocaching.ViewModel
                 BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
         }
         
-        public void ProcessLocation(GeoCoordinate location)
-        {
-            var settings = new Settings();
-            var currentLocation = location;
-            settings.LastLocation = currentLocation;
-            this.currentLocation = currentLocation;
-            if (!isFirstSettingView)
-            {
-                return;
-            }
-            MapCenter = currentLocation;
-            isFirstSettingView = false;
-        }
     }
 }

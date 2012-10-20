@@ -95,7 +95,7 @@ namespace WP_Geocaching.ViewModel
                 UpdateCurrentLocationInConnectingLine(value);
                 UpdateConnectingLineLength();
                 currentLocation = value;
-                settings.LastLocation = value;
+                settings.LastSearchLocation = value;
                 NotifyPropertyChanged("CurrentLocation");
             }
         }
@@ -132,7 +132,7 @@ namespace WP_Geocaching.ViewModel
             ConnectingLine = new LocationCollection();
             settings = new Settings();
             MapMode = settings.MapMode;
-            currentLocation = settings.LastLocation;
+            currentLocation = settings.LastSearchLocation;
             ShowAll();
         }
 

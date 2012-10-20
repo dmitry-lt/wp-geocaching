@@ -18,8 +18,8 @@ namespace WP_Geocaching.Model
         // The isolated storage key names of our settings
         private const string LastSoughtCacheIdKeyName = "LastSoughtCacheId";
         private const string LastSoughtCacheProviderKeyName = "LastSoughtCacheProvider";
-        private const string LastLocationLatitudeDefaultKeyName = "LastLocationLatitude";
-        private const string LastLocationLongitudeDefaultKeyName = "LastLocationLongitude";
+        private const string LastSearchLocationLatitudeDefaultKeyName = "LastSearchLocationLatitude";
+        private const string LastSearchLocationLongitudeDefaultKeyName = "LastSearchLocationLongitude";
         private const string MapModeDefaultKeyName = "MapMode";
         private const string IsLocationEnabledKeyName = "IsLocationEnabled";
         private const string IsFirstLaunchingKeyName = "IsFirstLaunching";
@@ -115,17 +115,17 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public GeoCoordinate LastLocation
+        public GeoCoordinate LastSearchLocation
         {
             get
             {
-                return new GeoCoordinate(GetValueOrDefault(LastLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
-                    GetValueOrDefault(LastLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
+                return new GeoCoordinate(GetValueOrDefault(LastSearchLocationLatitudeDefaultKeyName, LastLocationLatitudeDefault),
+                    GetValueOrDefault(LastSearchLocationLongitudeDefaultKeyName, LastLocationLongitudeDefault));
             }
             set
             {
-                if ((AddOrUpdateValue(LastLocationLatitudeDefaultKeyName, value.Latitude)) &&
-                    (AddOrUpdateValue(LastLocationLongitudeDefaultKeyName, value.Longitude)))
+                if ((AddOrUpdateValue(LastSearchLocationLatitudeDefaultKeyName, value.Latitude)) &&
+                    (AddOrUpdateValue(LastSearchLocationLongitudeDefaultKeyName, value.Longitude)))
                 {
                     Save();
                 }
