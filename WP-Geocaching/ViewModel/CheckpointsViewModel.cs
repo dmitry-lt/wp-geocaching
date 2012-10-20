@@ -24,7 +24,7 @@ namespace WP_Geocaching.ViewModel
             private set
             {
                 dataSource = value;
-                NotifyPropertyChanged("DataSource");
+                RaisePropertyChanged(() => DataSource);
             }
         }
 

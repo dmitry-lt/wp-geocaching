@@ -30,7 +30,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 direction = value;
-                NotifyPropertyChanged("Direction");
+                RaisePropertyChanged(() => Direction);
             }
         }
 
@@ -43,7 +43,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 undetectedLocationMessageVisibility = value;
-                NotifyPropertyChanged("UndetectedLocationMessageVisibility");
+                RaisePropertyChanged(() => UndetectedLocationMessageVisibility);
             }
         }
 
@@ -56,7 +56,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 mapMode = value;
-                NotifyPropertyChanged("MapMode");
+                RaisePropertyChanged(() => MapMode);
             }
         }
 

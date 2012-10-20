@@ -50,7 +50,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 name = value;
-                NotifyPropertyChanged("Name");
+                RaisePropertyChanged(() => Name);
             }
         }
 
@@ -63,7 +63,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 latDegreesValid = value;
-                NotifyPropertyChanged("LatDegreesValid");
+                RaisePropertyChanged(() => LatDegreesValid);
             }
         }
 
@@ -76,7 +76,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 latMinutesValid = value;
-                NotifyPropertyChanged("LatMinutesValid");
+                RaisePropertyChanged(() => LatMinutesValid);
             }
         }
 
@@ -89,7 +89,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 latMinutesFractionValid = value;
-                NotifyPropertyChanged("LatMinutesFractionValid");
+                RaisePropertyChanged(() => LatMinutesFractionValid);
             }
         }
 
@@ -102,7 +102,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 dLatDegreesValid = value;
-                NotifyPropertyChanged("DLatDegreesValid");
+                RaisePropertyChanged(() => DLatDegreesValid);
             }
         }
 
@@ -115,7 +115,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 dLatDegreesFractionValid = value;
-                NotifyPropertyChanged("DLatDegreesFractionValid");
+                RaisePropertyChanged(() => DLatDegreesFractionValid);
             }
         }
 
@@ -128,7 +128,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 sLatDegreesValid = value;
-                NotifyPropertyChanged("SLatDegreesValid");
+                RaisePropertyChanged(() => SLatDegreesValid);
             }
         }
 
@@ -141,7 +141,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 sLatMinutesValid = value;
-                NotifyPropertyChanged("SLatMinutesValid");
+                RaisePropertyChanged(() => SLatMinutesValid);
             }
         }
 
@@ -154,7 +154,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 sLatSecondsValid = value;
-                NotifyPropertyChanged("SLatSecondsValid");
+                RaisePropertyChanged(() => SLatSecondsValid);
             }
         }
 
@@ -167,7 +167,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 sLatSecondsFractionValid = value;
-                NotifyPropertyChanged("SLatSecondsFractionValid");
+                RaisePropertyChanged(() => SLatSecondsFractionValid);
             }
         }
 
@@ -180,7 +180,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 lngDegreesValid = value;
-                NotifyPropertyChanged("LngDegreesValid");
+                RaisePropertyChanged(() => LngDegreesValid);
             }
         }
 
@@ -193,7 +193,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 lngMinutesValid = value;
-                NotifyPropertyChanged("LngMinutesValid");
+                RaisePropertyChanged(() => LngMinutesValid);
             }
         }
 
@@ -206,7 +206,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 lngMinutesFractionValid = value;
-                NotifyPropertyChanged("LngMinutesFractionValid");
+                RaisePropertyChanged(() => LngMinutesFractionValid);
             }
         }
 
@@ -219,7 +219,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 dLngDegreesValid = value;
-                NotifyPropertyChanged("DLngDegreesValid");
+                RaisePropertyChanged(() => DLngDegreesValid);
             }
         }
 
@@ -232,7 +232,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 dLngDegreesFractionValid = value;
-                NotifyPropertyChanged("DLngDegreesFractionValid");
+                RaisePropertyChanged(() => DLngDegreesFractionValid);
             }
         }
 
@@ -245,7 +245,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 sLngDegreesValid = value;
-                NotifyPropertyChanged("SLngDegreesValid");
+                RaisePropertyChanged(() => SLngDegreesValid);
             }
         }
 
@@ -258,7 +258,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 sLngMinutesValid = value;
-                NotifyPropertyChanged("SLngMinutesValid");
+                RaisePropertyChanged(() => SLngMinutesValid);
             }
         }
 
@@ -271,7 +271,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 sLngSecondsValid = value;
-                NotifyPropertyChanged("SLngSecondsValid");
+                RaisePropertyChanged(() => SLngSecondsValid);
             }
         }
 
@@ -284,7 +284,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 sLngSecondsFractionValid = value;
-                NotifyPropertyChanged("SLngSecondsFractionValid");
+                RaisePropertyChanged(() => SLngSecondsFractionValid);
             }
         }
 
@@ -793,24 +793,24 @@ namespace WP_Geocaching.ViewModel
 
         public void Refresh()
         {
-            NotifyPropertyChanged("DLatDegrees");
-            NotifyPropertyChanged("DLatDegreesFraction");
-            NotifyPropertyChanged("LatDegrees");
-            NotifyPropertyChanged("LatMinutes");
-            NotifyPropertyChanged("LatMinutesFraction");
-            NotifyPropertyChanged("SLatDegrees");
-            NotifyPropertyChanged("SLatMinutes");
-            NotifyPropertyChanged("SLatSeconds");
-            NotifyPropertyChanged("SLatSecondsFraction");
-            NotifyPropertyChanged("DLngDegrees");
-            NotifyPropertyChanged("DLngDegreesFraction");
-            NotifyPropertyChanged("LngDegrees");
-            NotifyPropertyChanged("LngMinutes");
-            NotifyPropertyChanged("LngMinutesFraction");
-            NotifyPropertyChanged("SLngDegrees");
-            NotifyPropertyChanged("SLngMinutes");
-            NotifyPropertyChanged("SLngSeconds");
-            NotifyPropertyChanged("SLngSecondsFraction");
+            RaisePropertyChanged(() => DLatDegrees);
+            RaisePropertyChanged(() => DLatDegreesFraction);
+            RaisePropertyChanged(() => LatDegrees);
+            RaisePropertyChanged(() => LatMinutes);
+            RaisePropertyChanged(() => LatMinutesFraction);
+            RaisePropertyChanged(() => SLatDegrees);
+            RaisePropertyChanged(() => SLatMinutes);
+            RaisePropertyChanged(() => SLatSeconds);
+            RaisePropertyChanged(() => SLatSecondsFraction);
+            RaisePropertyChanged(() => DLngDegrees);
+            RaisePropertyChanged(() => DLngDegreesFraction);
+            RaisePropertyChanged(() => LngDegrees);
+            RaisePropertyChanged(() => LngMinutes);
+            RaisePropertyChanged(() => LngMinutesFraction);
+            RaisePropertyChanged(() => SLngDegrees);
+            RaisePropertyChanged(() => SLngMinutes);
+            RaisePropertyChanged(() => SLngSeconds);
+            RaisePropertyChanged(() => SLngSecondsFraction);
         }
 
         public void SavePoint()

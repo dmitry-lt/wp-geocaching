@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using System.ComponentModel;
+using WP_Geocaching.Model.Utils;
 
 namespace WP_Geocaching.Model
 {
@@ -18,7 +19,7 @@ namespace WP_Geocaching.Model
             set
             {
                 photoSource = value;
-                NotifyPropertyChanged("PhotoSource");
+                PropertyChanged.Raise(() => PhotoSource);
             }
         }
 

@@ -172,7 +172,7 @@ namespace WP_Geocaching.ViewModel
                     CacheFullyLoaded(this, new EventArgs());
                 }
 
-                NotifyPropertyChanged("Cache");
+                RaisePropertyChanged(() => Cache);
             }
         }
 
@@ -190,7 +190,7 @@ namespace WP_Geocaching.ViewModel
             set 
             { 
                 _previews = value;
-                NotifyPropertyChanged("Previews");
+                RaisePropertyChanged(() => Previews);
             }
         }
 
@@ -203,7 +203,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 _noPhotosMessageVisible = value;
-                NotifyPropertyChanged("NoPhotosMessageVisible");
+                RaisePropertyChanged(() => NoPhotosMessageVisible);
             }
         }
 
@@ -216,7 +216,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 _noLogbookMessageVisibile = value;
-                NotifyPropertyChanged("NoLogbookMessageVisible");
+                RaisePropertyChanged(() => NoLogbookMessageVisible);
             }
         }
 
@@ -229,7 +229,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 _noInfoMessageVisible = value;
-                NotifyPropertyChanged("NoInfoMessageVisible");
+                RaisePropertyChanged(() => NoInfoMessageVisible);
             }
         }
 

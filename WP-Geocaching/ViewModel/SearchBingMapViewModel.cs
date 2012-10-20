@@ -35,7 +35,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 mapCenter = value;
-                NotifyPropertyChanged("MapCenter");
+                RaisePropertyChanged(() => MapCenter);
             }
         }
 
@@ -48,7 +48,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 zoom = value;
-                NotifyPropertyChanged("Zoom");
+                RaisePropertyChanged(() => Zoom);
             }
         }
 
@@ -81,7 +81,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 cachePushpins = value;
-                NotifyPropertyChanged("CachePushpins");
+                RaisePropertyChanged(() => CachePushpins);
             }
         }
 
@@ -94,7 +94,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 connectingLine = value;
-                NotifyPropertyChanged("ConnectingLine");
+                RaisePropertyChanged(() => ConnectingLine);
             }
         }
 
@@ -110,7 +110,7 @@ namespace WP_Geocaching.ViewModel
                 UpdateConnectingLineLength();
                 currentLocation = value;
                 settings.LatestSearchLocation = value;
-                NotifyPropertyChanged("CurrentLocation");
+                RaisePropertyChanged(() => CurrentLocation);
             }
         }
 
@@ -123,7 +123,7 @@ namespace WP_Geocaching.ViewModel
             set
             {
                 distanceToSoughtPoint = value;
-                NotifyPropertyChanged("DistanceToSoughtPoint");
+                RaisePropertyChanged(() => DistanceToSoughtPoint);
             }
         }
 
