@@ -32,6 +32,9 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        public bool IsOpenCachingComEnabled { get; set; }
+        public bool IsGeocachingSuEnabled { get; set; }
+
         public SettingsViewModel()
         {
             settings = new Settings();

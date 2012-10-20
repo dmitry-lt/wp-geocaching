@@ -18,8 +18,21 @@
             </Style>
         </Grid.Resources>
         
-
         <StackPanel Orientation="Vertical">
+            <TextBlock Text="{Binding Path=LocalizedResources.ShowCachesFrom, 
+                Source={StaticResource LocalizedStrings}}"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <CheckBox Content="opencaching.com" 
+                      FontSize="22" 
+                      HorizontalAlignment="Left"
+                      IsChecked="{Binding IsOpenCachingComEnabled, Mode=TwoWay}"
+                      toolkit:TiltEffect.IsTiltEnabled="True"/>
+            <CheckBox Content="geocaching.su" 
+                      FontSize="22" 
+                      HorizontalAlignment="Left"
+                      IsChecked="{Binding IsGeocachingSuEnabled, Mode=TwoWay}"
+                      toolkit:TiltEffect.IsTiltEnabled="True"/>
+
             <TextBlock Text="{Binding Path=LocalizedResources.MapSettings, 
                 Source={StaticResource LocalizedStrings}}"
                        Style="{StaticResource HeaderTextBlockStyle}"/>
@@ -41,7 +54,6 @@
             <TextBlock Text="{Binding Path=LocalizedResources.Services, 
                 Source={StaticResource LocalizedStrings}}"
                        Style="{StaticResource HeaderTextBlockStyle}"/>
-            
             <CheckBox Content="{Binding Path=LocalizedResources.Location, 
                 Source={StaticResource LocalizedStrings}}" 
                       FontSize="22" 
