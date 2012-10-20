@@ -57,7 +57,7 @@
                                            Margin="12,0,12,8" 
                                            Grid.Row="1" 
                                            Center="{Binding MapCenter, Mode=TwoWay}" 
-                                           ZoomLevel="{Binding Zoom}"
+                                           ZoomLevel="{Binding Zoom, Mode=TwoWay}"
                                            ViewChangeEnd="MapViewChangeEnd"
                                            CredentialsProvider ="AvLbzLZIOMHh3dDKm0l2Fak-Fpqpvv9t-YTbFir44CdP5QNXTTcj1GbDaLZMP_jr">
             <Microsoft_Phone_Controls_Maps:MapLayer>

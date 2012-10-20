@@ -51,7 +51,6 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
-        protected GeoCoordinate mapCenter;
         public override GeoCoordinate MapCenter
         {
             get
@@ -65,10 +64,22 @@ namespace WP_Geocaching.ViewModel
             }
         }
 
+        public override int Zoom 
+        {
+            get
+            {
+                return settings.LatestChooseZoom;
+            }
+            set
+            {
+                settings.LatestChooseZoom = value;
+                NotifyPropertyChanged("Zoom");
+            }
+        }
+
         public BingMapViewModel(IApiManager apiManager)
         {
             MapMode = settings.MapMode;
-            Zoom = MapManager.Instance.DefaultZoom;
             this.apiManager = apiManager;
             CachePushpins = new ObservableCollection<CachePushpin>();
         }
