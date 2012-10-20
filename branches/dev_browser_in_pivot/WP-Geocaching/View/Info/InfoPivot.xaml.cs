@@ -6,6 +6,7 @@ using System.Windows.Navigation;
 using System.Windows.Controls;
 using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.Model.Navigation;
+using WP_Geocaching.View.Utils;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using WP_Geocaching.Model.DataBase;
@@ -22,6 +23,9 @@ namespace WP_Geocaching.View.Info
         public InfoPivot()
         {
             InitializeComponent();
+
+            new WebBrowserHelper(InfoBrowser) {ScrollDisabled = true};
+
             _infoPivotViewModel = new InfoPivotViewModel(UpdateFavoriteButton, InfoBrowser, LogbookBrowser);
             DataContext = _infoPivotViewModel;
             _db = new CacheDataBase();

@@ -30,8 +30,15 @@ namespace WP_Geocaching.View.Utils
         {
             var border = _browser.Descendants<Border>().Last() as Border;
 
+            border.ManipulationStarted += Border_ManipulationStarted;
             border.ManipulationDelta += Border_ManipulationDelta;
             border.ManipulationCompleted += Border_ManipulationCompleted;
+        }
+
+        private void Border_ManipulationStarted(object sender,
+                                                  ManipulationStartedEventArgs e)
+        {
+            e.Handled = false;
         }
 
         private void Border_ManipulationCompleted(object sender,
@@ -40,7 +47,17 @@ namespace WP_Geocaching.View.Utils
             // suppress zoom
             if (e.FinalVelocities.ExpansionVelocity.X != 0.0 ||
                 e.FinalVelocities.ExpansionVelocity.Y != 0.0)
+            {
                 e.Handled = true;
+                return;
+            }
+            if (e.TotalManipulation.Translation.X != 0.0 ||
+              e.TotalManipulation.Translation.Y != 0.0)
+            {
+                e.Handled = true;
+                return;
+            }
+            e.Handled = false;
         }
 
         private void Border_ManipulationDelta(object sender,
@@ -49,15 +66,22 @@ namespace WP_Geocaching.View.Utils
             // suppress zoom
             if (e.DeltaManipulation.Scale.X != 0.0 ||
                 e.DeltaManipulation.Scale.Y != 0.0)
+            {
                 e.Handled = true;
+                return;
+            }
 
             // optionally suppress scrolling
             if (ScrollDisabled)
             {
                 if (e.DeltaManipulation.Translation.X != 0.0 ||
                   e.DeltaManipulation.Translation.Y != 0.0)
+                {
                     e.Handled = true;
+                    return;
+                }
             }
+            e.Handled = false;
         }
     }
 }
