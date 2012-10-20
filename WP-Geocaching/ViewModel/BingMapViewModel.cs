@@ -13,7 +13,6 @@ namespace WP_Geocaching.ViewModel
         private const int maxCacheCount = 50;
         private LocationRect boundingRectangle;
         private Visibility surpassedCacheCountMessageVisibility = Visibility.Collapsed;
-        private bool isFirstSettingView;
 
         public Visibility SurpassedCacheCountMessageVisibility
         {
@@ -60,7 +59,6 @@ namespace WP_Geocaching.ViewModel
             Zoom = MapManager.Instance.DefaultZoom;
             this.apiManager = apiManager;
             CachePushpins = new ObservableCollection<CachePushpin>();
-            isFirstSettingView = true;
         }
 
         public void UpdateMapChildrens()
