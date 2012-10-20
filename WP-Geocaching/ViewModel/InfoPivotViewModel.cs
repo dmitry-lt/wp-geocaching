@@ -66,8 +66,13 @@ namespace WP_Geocaching.ViewModel
             CheckFullyLoaded();
         }
 
-        private List<string> _photoUrls;
-        private bool _photoUrlsLoaded;
+        private class PhotoInfo
+        {
+            public string Url;
+            public bool Loaded;
+        }
+
+        private readonly List<PhotoInfo> _photoInfos = new List<PhotoInfo>();
 
         private const string NoImageUriDark = "/Resources/Images/NoPhotoWhite.png";
         private const string NoImageUriLight = "/Resources/Images/NoPhotoBlack.png";
@@ -84,52 +89,59 @@ namespace WP_Geocaching.ViewModel
             {
                 return new BitmapImage(new Uri(NoImageUriLight, UriKind.RelativeOrAbsolute));
             }
-
         }
 
+        private bool _photoUrlLoaded;
         private void ProcessPhotoUrls(List<string> photoUrls)
         {
-            _photoUrls = photoUrls;
-
-            if (null == _photoUrls || !_photoUrls.Any())
+            foreach (var photoUrl in photoUrls)
             {
-                // TODO: all photos are loaded
+                _photoInfos.Add(new PhotoInfo() { Url = photoUrl });
+            }
+
+            if (null == _photoInfos || !_photoInfos.Any())
+            {
+                CheckFullyLoaded();
             }
             else
             {
                 NoPhotosMessageVisible = false;
 
-                // TODO: download photos
                 var photoDownloader = new PhotoDownloader();
 
                 Previews = new ObservableCollection<Photo>();
 
-                for (var i = 0; i < photoUrls.Count(); i++)
+                for (var i = 0; i < _photoInfos.Count(); i++)
                 {
-                    var photo = new Photo(GetNoImageBitmap(), photoUrls[i], true);
+                    var photoInfo = _photoInfos[i];
+                    var photo = new Photo(GetNoImageBitmap(), photoInfo.Url, true);
                     Previews.Add(photo);
 
-                    // TODO: all photos are loaded handler
                     photoDownloader.DownloadPhoto(
                         b => 
                         { 
                             photo.PhotoSource = b;
                             photo.IsPlaceholder = false;
-                    
+                            photoInfo.Loaded = true;
+                            CheckFullyLoaded();
                         }
-                        , photoUrls[i]);
+                        , photoInfo.Url);
                 }
             }
 
-            _photoUrlsLoaded = true;
+            _photoUrlLoaded = true;
             CheckFullyLoaded();
         }
 
+        private readonly object _lock = new object();
         private void CheckFullyLoaded()
         {
-            if (_infoLoaded && _logbookLoaded && _photoUrlsLoaded)
+            lock (_lock)
             {
-                CacheFullyLoaded(this, new EventArgs());
+                if (_infoLoaded && _logbookLoaded && _photoUrlLoaded && _photoInfos.All(p => p.Loaded))
+                {
+                    CacheFullyLoaded(this, new EventArgs());
+                }
             }
         }
 
