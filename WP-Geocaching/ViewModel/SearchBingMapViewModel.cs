@@ -150,7 +150,7 @@ namespace WP_Geocaching.ViewModel
             var southeast = new GeoCoordinate(MaxLatitude, MinLongitude);
             foreach (var c in cachePushpins)
             {
-                UpdateToSetData(c.Cache.Location, northwest, southeast);
+                UpdateToSetData(c.CacheInfo.Location, northwest, southeast);
             }
             UpdateToSetData(CurrentLocation, northwest, southeast);
             setView(new LocationRect(northwest.Latitude, northwest.Longitude, southeast.Latitude, southeast.Longitude));
@@ -213,12 +213,12 @@ namespace WP_Geocaching.ViewModel
             foreach (var c in CachePushpins)
             {
                 // TODO: refactor
-                if (c.Cache is GeocachingSuCache)
+                if (c.CacheInfo is GeocachingSuCache)
                 {
-                    var subtype = (c.Cache as GeocachingSuCache).Subtype;
+                    var subtype = (c.CacheInfo as GeocachingSuCache).Subtype;
                     if ((subtype == GeocachingSuCache.Subtypes.ActiveCheckpoint))
                     {
-                        return c.Cache.Location;
+                        return c.CacheInfo.Location;
                     }
                 }
             }

@@ -11,7 +11,7 @@ namespace WP_Geocaching.ViewModel
     {
         private ICommand showDetails;
 
-        public Cache Cache { get; set; }
+        public Cache CacheInfo { get; set; }
 
         public ICommand ShowDetails
         {
@@ -28,14 +28,14 @@ namespace WP_Geocaching.ViewModel
 
         public CachePushpin(Cache cache)
         {
-            Cache = cache;
+            CacheInfo = cache;
             showDetails = new ButtonCommand(DefaultShowDetails);
         }
 
         public CachePushpin(DbCheckpoint item)
         {
             // TODO: refactor
-            Cache = new GeocachingSuCache()
+            CacheInfo = new GeocachingSuCache()
                         {
                             Location = new GeoCoordinate(item.Latitude, item.Longitude),
                             Id = "-1",
@@ -47,7 +47,7 @@ namespace WP_Geocaching.ViewModel
         private void DefaultShowDetails(object p)
         {
             var isAppBarEnabled = !(p != null && !(bool) p);
-            NavigationManager.Instance.NavigateToInfoPivot(Cache, isAppBarEnabled);
+            NavigationManager.Instance.NavigateToInfoPivot(CacheInfo, isAppBarEnabled);
         }
     }
 }
