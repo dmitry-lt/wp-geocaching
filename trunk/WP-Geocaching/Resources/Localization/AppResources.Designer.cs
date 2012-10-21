@@ -691,7 +691,7 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Version 1.0.
+        ///   Looks up a localized string similar to Version {0}.
         /// </summary>
         public static string VersionAbout {
             get {

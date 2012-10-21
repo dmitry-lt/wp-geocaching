@@ -95,6 +95,7 @@
     <Compile Include="Model\Converters\DistanceToPointConverter.cs" />
     <Compile Include="Model\Converters\MapModeConverter.cs" />
     <Compile Include="Model\Converters\ValidConverter.cs" />
+    <Compile Include="Model\Converters\VersionConverter.cs" />
     <Compile Include="Model\DataBase\DbCache.cs" />
     <Compile Include="Model\DataBase\CacheDataContext.cs" />
     <Compile Include="Model\DataBase\CacheDataBase.cs" />

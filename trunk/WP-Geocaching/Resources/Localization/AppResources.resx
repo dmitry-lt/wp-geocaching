@@ -283,7 +283,7 @@
     <value>wp-geocaching-support@googlegroups.com</value>
   </data>
   <data name="VersionAbout" xml:space="preserve">
-    <value>Version 1.0</value>
+    <value>Version {0}</value>
   </data>
   <data name="EmailSubject" xml:space="preserve">
     <value>[Geocaching]</value>
