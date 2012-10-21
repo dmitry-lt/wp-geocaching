@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    mc:Ignorable="d"
+             xmlns:Converters="clr-namespace:WP_Geocaching.Model.Converters" mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -19,13 +19,16 @@
         </Grid.Resources>
         
         <StackPanel Orientation="Vertical">
+            <StackPanel.Resources>
+                <Converters:VersionConverter x:Key="VersionConverter" />
+            </StackPanel.Resources>
             <TextBlock Text="{Binding Path=LocalizedResources.InfoAbout, 
                 Source={StaticResource LocalizedStrings}}"
                        Style="{StaticResource HeaderTextBlockStyle}"/>
             <TextBlock Text="{Binding Path=LocalizedResources.AppNameAbout, 
                 Source={StaticResource LocalizedStrings}}" FontSize="22" HorizontalAlignment="Left"/>
             <TextBlock Text="{Binding Path=LocalizedResources.VersionAbout, 
-                Source={StaticResource LocalizedStrings}}" FontSize="22" HorizontalAlignment="Left"/>
+                Source={StaticResource LocalizedStrings}, Converter={StaticResource VersionConverter}}" FontSize="22" HorizontalAlignment="Left"/>
             <TextBlock Text="{Binding Path=LocalizedResources.SupportAbout, 
                 Source={StaticResource LocalizedStrings}}"
                        Style="{StaticResource HeaderTextBlockStyle}"/>
