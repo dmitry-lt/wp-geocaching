@@ -102,11 +102,6 @@
     <Compile Include="Model\DataBase\DbCheckpoint.cs" />
     <Compile Include="Model\ButtonCommand.cs" />
     <Compile Include="Model\DataBase\DbConvert.cs" />
-    <Compile Include="Model\DataBase\Migration\MigrationTool.cs" />
-    <Compile Include="Model\DataBase\Migration\SchemaVersion1\MigrationDbCacheItem1.cs" />
-    <Compile Include="Model\DataBase\Migration\SchemaVersion1\MigrationDbCheckpointItem1.cs" />
-    <Compile Include="Model\DataBase\Migration\SchemaVersion2\MigrationDbCacheItem2.cs" />
-    <Compile Include="Model\DataBase\Migration\SchemaVersion2\MigrationDbCheckpointItem2.cs" />
     <Compile Include="Model\Dialogs\AbstractDialog.cs" />
     <Compile Include="Model\Dialogs\ChooseOrDeleteDialog.cs" />
     <Compile Include="Model\Dialogs\ConfirmDeleteDialog.cs" />
