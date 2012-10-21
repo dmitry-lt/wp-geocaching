@@ -28,7 +28,7 @@
             </StackPanel>
             <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
                 Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"
-                FontSize="58" VerticalAlignment="Center"/>
+                FontSize="40" VerticalAlignment="Center"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
