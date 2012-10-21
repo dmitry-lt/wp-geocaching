@@ -31,6 +31,7 @@ namespace WP_Geocaching.Model
 
         // The default value of our settings
         private const string LatestSoughtCacheIdDefault = "";
+        private const CacheProvider LatestSoughtCacheProviderDefault = CacheProvider.GeocachingSu;
         private const double LatestLocationLatitudeDefault = 59.879904;
         private const double LatestLocationLongitudeDefault = 29.828674;
         private const int MapModeDefault = (int)MapMode.Road;
@@ -108,7 +109,7 @@ namespace WP_Geocaching.Model
                 {
                     return (CacheProvider)_settings[LatestSoughtCacheProviderKeyName];
                 }
-                return CacheProvider.GeocachingSu;
+                return LatestSoughtCacheProviderDefault;
             }
             set
             {
@@ -214,9 +215,13 @@ namespace WP_Geocaching.Model
             }
         }
 
-        public void SetDefaultLastSoughtCacheId()
+        public void SetDefaultLastSoughtCache()
         {
             if (AddOrUpdateValue(LatestSoughtCacheIdKeyName, LatestSoughtCacheIdDefault))
+            {
+                Save();
+            }
+            if (AddOrUpdateValue(LatestSoughtCacheProviderKeyName, LatestSoughtCacheProviderDefault))
             {
                 Save();
             }

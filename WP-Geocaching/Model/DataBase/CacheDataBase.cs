@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Data.Linq;
+using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Phone.Data.Linq;
 using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.Api.GeocachingSu;
-using WP_Geocaching.Model.DataBase.Migration;
 
 namespace WP_Geocaching.Model.DataBase
 {
@@ -13,10 +13,7 @@ namespace WP_Geocaching.Model.DataBase
     {
         private const string ConnectionString = "Data Source=isostore:/DataBase.sdf";
 
-        // never change the second version const value
-        private const int SECOND_VERSION = 2;
-
-        private const int CURRENT_VERSION = 2;
+        private const int CurrentDbVersion = 2;
 
         public static void UpdateSchema()
         {
@@ -30,50 +27,28 @@ namespace WP_Geocaching.Model.DataBase
                     var dbUpdater = db.CreateDatabaseSchemaUpdater();
 
                     // Add the new database version.
-                    dbUpdater.DatabaseSchemaVersion = CURRENT_VERSION;
+                    dbUpdater.DatabaseSchemaVersion = CurrentDbVersion;
 
                     // Perform the database update in a single transaction.
                     dbUpdater.Execute();
                 }
+                /*
                 else
                 {
+ 
                     var dbUpdater = db.CreateDatabaseSchemaUpdater();
-
-                    if (dbUpdater.DatabaseSchemaVersion < SECOND_VERSION)
+                    if (dbUpdater.DatabaseSchemaVersion < 3)
                     {
-                        try
-                        {
-                            MigrationTool.MigrateToVersion2();
-                        }
-                        catch
-                        {
-                            // Even if migration is unsuccessful, update the version (then user will lose all saved caches)
+                        // Add the new database version.
+                        dbUpdater.DatabaseSchemaVersion = 3;
 
-                            // Add the new database version.
-                            dbUpdater.DatabaseSchemaVersion = SECOND_VERSION;
-
-                            // Perform the database update in a single transaction.
-                            dbUpdater.Execute();
-                        }
+                        // Perform the database update in a single transaction.
+                        dbUpdater.Execute();
                     }
 
-                    /*
-                                        if (dbUpdater.DatabaseSchemaVersion < 3)
-                                        {
-                                            // Add the new database version.
-                                            dbUpdater.DatabaseSchemaVersion = 3;
-
-                                            // Perform the database update in a single transaction.
-                                            dbUpdater.Execute();
-                                        }
-                    */
-
                 }
+                */
             }
-        }
-
-        public CacheDataBase()
-        {
         }
 
         public void AddCache(Cache cache, string details, string logbook)
@@ -98,16 +73,18 @@ namespace WP_Geocaching.Model.DataBase
             MakeAllCheckpointsNotActive(cache);
             using (var db = new CacheDataContext(ConnectionString))
             {
-                int maxId = GetMaxCheckpointIdByCache(db.Checkpoints, cache);
-                var newItem = new DbCheckpoint {Id = maxId + 1};
-
-                newItem.Name = name;
-                newItem.CacheId = cache.Id;
-                newItem.CacheProvider = cache.CacheProvider;
-                newItem.Latitude = latitude;
-                newItem.Longitude = longitude;
-                newItem.Type = (int)GeocachingSuCache.Types.Checkpoint;
-                newItem.Subtype = (int)GeocachingSuCache.Subtypes.ActiveCheckpoint;
+                var maxId = GetMaxCheckpointIdByCache(db.Checkpoints, cache);
+                var newItem = new DbCheckpoint
+                {
+                    Id = maxId + 1,
+                    Name = name,
+                    CacheId = cache.Id,
+                    CacheProvider = cache.CacheProvider,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    Type = (int) GeocachingSuCache.Types.Checkpoint,
+                    Subtype = (int) GeocachingSuCache.Subtypes.ActiveCheckpoint
+                };
 
                 db.Checkpoints.InsertOnSubmit(newItem);
                 db.SubmitChanges();
@@ -183,9 +160,9 @@ namespace WP_Geocaching.Model.DataBase
                 var itemForDeleting = query.FirstOrDefault();
                 if (itemForDeleting == null) return;
                 var settings = new Settings();
-                if (settings.LatestSoughtCacheId == cache.Id)
+                if (settings.LatestSoughtCacheId == cache.Id && settings.LatestSoughtCacheProvider == cache.CacheProvider)
                 {
-                    settings.SetDefaultLastSoughtCacheId();
+                    settings.SetDefaultLastSoughtCache();
                 }
                 DeleteAllCheckpoints(cache);
                 db.Caches.DeleteOnSubmit(itemForDeleting);
@@ -228,7 +205,7 @@ namespace WP_Geocaching.Model.DataBase
         {
             using (var db = new CacheDataContext(ConnectionString))
             {
-                var query = GetCheckpointQuery(db.Checkpoints, cache, checkpointId.ToString());
+                var query = GetCheckpointQuery(db.Checkpoints, cache, checkpointId.ToString(CultureInfo.InvariantCulture));
                 return query.FirstOrDefault();
             }
         }
