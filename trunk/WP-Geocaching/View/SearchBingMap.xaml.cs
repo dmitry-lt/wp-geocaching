@@ -7,6 +7,7 @@ using WP_Geocaching.Model.Api;
 using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.Dialogs;
 using WP_Geocaching.Model.Navigation;
+using WP_Geocaching.View.Converters;
 using WP_Geocaching.ViewModel;
 using WP_Geocaching.Model;
 using Microsoft.Phone.Controls.Maps;
@@ -196,7 +197,7 @@ namespace WP_Geocaching.View
         private static void OnMapModeChanged(DependencyObject element,
                DependencyPropertyChangedEventArgs e)
         {
-            var mm = (new Model.Converters.MapModeConverter()).Convert(e.NewValue, null, null, null);
+            var mm = (new MapModeConverter()).Convert(e.NewValue, null, null, null);
             ((SearchBingMap)element).Map.Mode = (Microsoft.Phone.Controls.Maps.Core.MapMode)(mm);
         }
     }

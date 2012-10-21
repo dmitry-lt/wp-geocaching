@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using WP_Geocaching.Resources.Localization;
 
-namespace WP_Geocaching.Model.Converters
+namespace WP_Geocaching.View.Converters
 {
     public class DistanceToPointConverter : IValueConverter
     {

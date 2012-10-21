@@ -6,7 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:c="clr-namespace:WP_Geocaching.Model.Converters"
+    xmlns:c="clr-namespace:WP_Geocaching.View.Converters"
     xmlns:views="clr-namespace:WP_Geocaching.View.Compass"
     
     FontFamily="{StaticResource PhoneFontFamilyNormal}"

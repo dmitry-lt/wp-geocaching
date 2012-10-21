@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
 using WP_Geocaching.Model.Api.GeocachingSu;
-using WP_Geocaching.Model.Converters;
+using WP_Geocaching.View.Converters;
 using WP_Geocaching.Model.DataBase;
 using WP_Geocaching.Resources.Localization;
 using WP_Geocaching.ViewModel;
