@@ -160,7 +160,7 @@ namespace WP_Geocaching.Model.DataBase
             using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCacheQuery(db.Caches, cache);
-                query.FirstOrDefault().Description = details;
+                query.FirstOrDefault().HtmlDescription = details;
                 db.SubmitChanges();
             }
         }
@@ -170,7 +170,7 @@ namespace WP_Geocaching.Model.DataBase
             using (var db = new CacheDataContext(ConnectionString))
             {
                 var query = GetCacheQuery(db.Caches, cache);
-                query.FirstOrDefault().Logbook = logbook;
+                query.FirstOrDefault().HtmlLogbook = logbook;
                 db.SubmitChanges();
             }
         }

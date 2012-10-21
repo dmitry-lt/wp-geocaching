@@ -82,8 +82,8 @@ namespace WP_Geocaching.Model.DataBase
                     break;
             }
 
-            result.Description = details;
-            result.Logbook = logbook;
+            result.HtmlDescription = details;
+            result.HtmlLogbook = logbook;
 
             return result;
         }
