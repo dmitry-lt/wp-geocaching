@@ -155,14 +155,14 @@ namespace WP_Geocaching.ViewModel
 
                 var db = new CacheDataBase();
                 var dbCache = db.GetCache(Cache.Id, Cache.CacheProvider);
-                if (null == dbCache || null == dbCache.Description || null == dbCache.Logbook)
+                if (null == dbCache || null == dbCache.HtmlDescription || null == dbCache.HtmlLogbook)
                 {
                     ApiManager.Instance.FetchCacheDetails(ProcessInfo, ProcessLogbook, ProcessPhotoUrls, Cache);
                 }
                 else
                 {
-                    Info = dbCache.Description;
-                    Logbook = dbCache.Logbook;
+                    Info = dbCache.HtmlDescription;
+                    Logbook = dbCache.HtmlLogbook;
                     var helper = new FileStorageHelper();
                     foreach (var source in helper.GetPhotos(_cache))
                     {

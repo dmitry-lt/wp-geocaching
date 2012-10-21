@@ -39,8 +39,8 @@ namespace WP_Geocaching.Model.DataBase.Migration
                                 Type = c1.Type,
                                 Subtype = c1.Subtype,
                                 UpdateTime = c1.UpdateTime,
-                                Description = c1.Details,
-                                Logbook = c1.Notebook,
+                                HtmlDescription = c1.Details,
+                                HtmlLogbook = c1.Notebook,
                             };
 
                         db.GetTable<MigrationDbCacheItem2>().InsertOnSubmit(c2);

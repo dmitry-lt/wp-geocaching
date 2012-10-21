@@ -32,9 +32,9 @@ namespace WP_Geocaching.Model.DataBase.Migration.SchemaVersion2
         public DateTime UpdateTime { get; set; }
 
         [Column(DbType = "NTEXT", UpdateCheck = UpdateCheck.WhenChanged)]
-        public string Description { get; set; }
+        public string HtmlDescription { get; set; }
 
         [Column(DbType = "NTEXT", UpdateCheck = UpdateCheck.WhenChanged)]
-        public string Logbook { get; set; }
+        public string HtmlLogbook { get; set; }
     }
 }
