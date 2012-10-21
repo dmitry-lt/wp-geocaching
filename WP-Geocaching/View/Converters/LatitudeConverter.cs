@@ -2,9 +2,9 @@
 using System.Windows.Data;
 using WP_Geocaching.Resources.Localization;
 
-namespace WP_Geocaching.Model.Converters
+namespace WP_Geocaching.View.Converters
 {
-    public class LongitudeConverter : IValueConverter
+    public class LatitudeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -13,13 +13,13 @@ namespace WP_Geocaching.Model.Converters
                 return null;
             }
 
-            var longitude = (double)value;
+            var latitude = (double)value;
 
-            var directionLongitude = longitude > 0 ? AppResources.EastLongitude : AppResources.WestLongitude;
-            var degreeLongitude = Math.Abs((int)longitude);
-            var minuteLongitude = Math.Abs(longitude - (int)longitude) * 60;
+            var directionLatitude = latitude > 0 ? AppResources.NorthLatitude : AppResources.SouthLatitude;
+            var degreeLatitude = Math.Abs((int)latitude);
+            var minuteLatitude = Math.Abs(latitude - (int)latitude) * 60;
 
-            return String.Format(AppResources.LongitudeFormat, degreeLongitude, minuteLongitude, directionLongitude);
+            return String.Format(AppResources.LatitudeFormat, degreeLatitude, minuteLatitude, directionLatitude);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

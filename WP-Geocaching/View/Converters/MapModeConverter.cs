@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Windows.Data;
 using Microsoft.Phone.Controls.Maps;
+using WP_Geocaching.Model;
 
-namespace WP_Geocaching.Model.Converters
+namespace WP_Geocaching.View.Converters
 {
     public class MapModeConverter : IValueConverter
     {

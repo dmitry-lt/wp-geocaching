@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
-    xmlns:c="clr-namespace:WP_Geocaching.Model.Converters"
+    xmlns:c="clr-namespace:WP_Geocaching.View.Converters"
              xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
              mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"

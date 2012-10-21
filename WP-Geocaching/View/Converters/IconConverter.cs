@@ -4,7 +4,7 @@ using WP_Geocaching.Model.Api.GeocachingSu;
 using WP_Geocaching.Model.Api.OpenCachingCom;
 using WP_Geocaching.ViewModel;
 
-namespace WP_Geocaching.Model.Converters
+namespace WP_Geocaching.View.Converters
 {
     public class IconConverter : IValueConverter
     {

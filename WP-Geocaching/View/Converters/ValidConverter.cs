@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Data;
 
-namespace WP_Geocaching.Model.Converters
+namespace WP_Geocaching.View.Converters
 {
     public class ValidConverter : IValueConverter
     {

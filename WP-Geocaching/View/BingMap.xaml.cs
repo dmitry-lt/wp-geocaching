@@ -10,7 +10,7 @@ using WP_Geocaching.Model;
 using Microsoft.Phone.Controls.Maps;
 using Microsoft.Phone.Shell;
 using WP_Geocaching.Resources.Localization;
-using WP_Geocaching.Model.Converters;
+using WP_Geocaching.View.Converters;
 
 namespace WP_Geocaching.View
 {
