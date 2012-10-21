@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP-Geocaching", "WP-Geocaching\WP-Geocaching.csproj", "{A32B633F-A982-4CAF-AF53-D6777AD7AE47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeocachingPlus", "GeocachingPlus\GeocachingPlus.csproj", "{A32B633F-A982-4CAF-AF53-D6777AD7AE47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
