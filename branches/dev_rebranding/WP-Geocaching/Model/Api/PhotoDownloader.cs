@@ -3,7 +3,7 @@ using System.Net;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone;
 
-namespace WP_Geocaching.Model.Api
+namespace GeocachingPlus.Model.Api
 {
     public class PhotoDownloader
     {

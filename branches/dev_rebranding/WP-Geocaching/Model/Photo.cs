@@ -1,8 +1,8 @@
 ﻿using System.Windows.Media;
 using System.ComponentModel;
-using WP_Geocaching.Model.Utils;
+using GeocachingPlus.Model.Utils;
 
-namespace WP_Geocaching.Model
+namespace GeocachingPlus.Model
 {
     public class Photo : INotifyPropertyChanged
     {

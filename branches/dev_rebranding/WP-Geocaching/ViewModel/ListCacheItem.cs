@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Device.Location;
-using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.Api.GeocachingSu;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Model;
+using GeocachingPlus.Model.Api;
+using GeocachingPlus.Model.Api.GeocachingSu;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.Model;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class ListCacheItem
     {

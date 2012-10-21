@@ -1,11 +1,11 @@
 ﻿using System;
-using WP_Geocaching.View.Compass;
+using GeocachingPlus.View.Compass;
 using Microsoft.Devices.Sensors;
-using WP_Geocaching.Model.Utils;
+using GeocachingPlus.Model.Utils;
 using System.Windows.Threading;
 using System.Collections.Generic;
 
-namespace WP_Geocaching.Model
+namespace GeocachingPlus.Model
 {
     public class SmoothCompassManager
     {

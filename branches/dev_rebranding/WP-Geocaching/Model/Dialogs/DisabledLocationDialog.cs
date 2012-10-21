@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using WP_Geocaching.Resources.Localization;
+using GeocachingPlus.Resources.Localization;
 
-namespace WP_Geocaching.Model.Dialogs
+namespace GeocachingPlus.Model.Dialogs
 {
     public static class DisabledLocationDialog
     {

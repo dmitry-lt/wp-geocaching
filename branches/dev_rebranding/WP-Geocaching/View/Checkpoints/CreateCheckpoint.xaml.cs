@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.Phone.Controls;
-using WP_Geocaching.ViewModel;
+using GeocachingPlus.ViewModel;
 using Microsoft.Phone.Shell;
-using WP_Geocaching.Resources.Localization;
+using GeocachingPlus.Resources.Localization;
 
-namespace WP_Geocaching.View.Checkpoints
+namespace GeocachingPlus.View.Checkpoints
 {
     public partial class CreateCheckpoint : PhoneApplicationPage
     {

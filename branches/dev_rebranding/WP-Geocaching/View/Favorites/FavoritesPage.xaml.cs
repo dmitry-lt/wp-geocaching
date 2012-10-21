@@ -10,10 +10,10 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
-using WP_Geocaching.ViewModel;
+using GeocachingPlus.ViewModel;
 using System.Windows.Navigation;
 
-namespace WP_Geocaching.View.Favorites
+namespace GeocachingPlus.View.Favorites
 {
     public partial class FavoritesPage : PhoneApplicationPage
     {

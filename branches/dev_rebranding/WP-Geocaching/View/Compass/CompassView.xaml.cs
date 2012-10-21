@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace WP_Geocaching.View.Compass
+namespace GeocachingPlus.View.Compass
 {
 
     public partial class CompassView : UserControl

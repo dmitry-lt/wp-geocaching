@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using Microsoft.Phone.Controls;
-using WP_Geocaching.ViewModel.MainPageViewModel;
+using GeocachingPlus.ViewModel.MainPageViewModel;
 
-namespace WP_Geocaching
+namespace GeocachingPlus
 {
     public partial class MainPage : PhoneApplicationPage
     {

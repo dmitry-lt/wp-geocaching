@@ -4,14 +4,14 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Navigation;
 using System.Windows.Controls;
-using WP_Geocaching.Model.Dialogs;
-using WP_Geocaching.Model.Navigation;
-using WP_Geocaching.ViewModel;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Resources.Localization;
+using GeocachingPlus.Model.Dialogs;
+using GeocachingPlus.Model.Navigation;
+using GeocachingPlus.ViewModel;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.Resources.Localization;
 
-namespace WP_Geocaching.View.Info
+namespace GeocachingPlus.View.Info
 {
     public partial class InfoPivot : PhoneApplicationPage
     {

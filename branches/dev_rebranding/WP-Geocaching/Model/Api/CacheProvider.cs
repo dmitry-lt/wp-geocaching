@@ -1,4 +1,4 @@
-﻿namespace WP_Geocaching.Model.Api
+﻿namespace GeocachingPlus.Model.Api
 {
     public enum CacheProvider
     {

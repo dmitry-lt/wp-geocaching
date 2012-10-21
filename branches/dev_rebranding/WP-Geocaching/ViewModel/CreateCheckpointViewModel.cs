@@ -1,12 +1,12 @@
 ﻿using System;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Resources.Localization;
-using WP_Geocaching.Model.Utils;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.Resources.Localization;
+using GeocachingPlus.Model.Utils;
 using System.Device.Location;
 using System.Globalization;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class CreateCheckpointViewModel : BaseViewModel
     {

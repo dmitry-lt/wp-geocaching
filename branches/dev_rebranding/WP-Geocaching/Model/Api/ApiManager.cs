@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WP_Geocaching.Model.Api.GeocachingSu;
-using WP_Geocaching.Model.Api.OpenCachingCom;
+using GeocachingPlus.Model.Api.GeocachingSu;
+using GeocachingPlus.Model.Api.OpenCachingCom;
 
-namespace WP_Geocaching.Model.Api
+namespace GeocachingPlus.Model.Api
 {
     public class ApiManager : IApiManager
     {

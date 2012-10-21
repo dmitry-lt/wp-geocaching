@@ -1,4 +1,4 @@
-﻿namespace WP_Geocaching.View.Compass
+﻿namespace GeocachingPlus.View.Compass
 {
     public interface ICompassAware
     {

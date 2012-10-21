@@ -11,11 +11,11 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Device.Location;
 using System.Globalization;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Model;
-using WP_Geocaching.Resources.Localization;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.Model;
+using GeocachingPlus.Resources.Localization;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public enum CoordinateType { Lat, Lng };
 

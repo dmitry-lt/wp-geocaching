@@ -8,7 +8,7 @@ using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace WP_Geocaching.Model.Api.OpenCachingCom
+namespace GeocachingPlus.Model.Api.OpenCachingCom
 {
     public class OpenCachingComApiManager : IApiManager
     {

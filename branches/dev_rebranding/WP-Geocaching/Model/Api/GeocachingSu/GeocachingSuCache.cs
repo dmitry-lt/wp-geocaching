@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WP_Geocaching.Model.Api.GeocachingSu
+namespace GeocachingPlus.Model.Api.GeocachingSu
 {
     public class GeocachingSuCache : Cache
     {

@@ -1,14 +1,14 @@
 ﻿using System;
-using WP_Geocaching.Model;
+using GeocachingPlus.Model;
 using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
-using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.Api.GeocachingSu;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.View.Compass;
+using GeocachingPlus.Model.Api;
+using GeocachingPlus.Model.Api.GeocachingSu;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.View.Compass;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class SearchBingMapViewModel : BaseMapViewModel, ICompassAware, ILocationAware
     {

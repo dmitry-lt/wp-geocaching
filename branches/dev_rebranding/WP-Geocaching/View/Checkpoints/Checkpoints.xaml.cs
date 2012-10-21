@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.Phone.Controls;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.Navigation;
-using WP_Geocaching.ViewModel;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.Navigation;
+using GeocachingPlus.ViewModel;
 using Microsoft.Phone.Shell;
-using WP_Geocaching.Resources.Localization;
+using GeocachingPlus.Resources.Localization;
 
-namespace WP_Geocaching.View.Checkpoints
+namespace GeocachingPlus.View.Checkpoints
 {
     public partial class Checkpoints : PhoneApplicationPage
     {

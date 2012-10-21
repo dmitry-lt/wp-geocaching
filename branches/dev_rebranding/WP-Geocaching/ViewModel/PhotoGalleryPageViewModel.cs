@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.Utils;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.Utils;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class PhotoGalleryPageViewModel : BaseViewModel
     {

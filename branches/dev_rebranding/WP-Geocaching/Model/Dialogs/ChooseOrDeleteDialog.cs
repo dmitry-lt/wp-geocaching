@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
-using WP_Geocaching.Model.Api.GeocachingSu;
-using WP_Geocaching.View.Converters;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Resources.Localization;
-using WP_Geocaching.ViewModel;
+using GeocachingPlus.Model.Api.GeocachingSu;
+using GeocachingPlus.View.Converters;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.Resources.Localization;
+using GeocachingPlus.ViewModel;
 
-namespace WP_Geocaching.Model.Dialogs
+namespace GeocachingPlus.Model.Dialogs
 {
     public class ChooseOrDeleteDialog : AbstractDialog
     {

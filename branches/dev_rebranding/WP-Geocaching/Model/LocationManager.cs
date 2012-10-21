@@ -2,7 +2,7 @@
 using System.Device.Location;
 using System.Linq;
 
-namespace WP_Geocaching.Model
+namespace GeocachingPlus.Model
 {
     public class LocationManager
     {

@@ -3,20 +3,20 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Phone.Controls;
-using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.Api.GeocachingSu;
-using WP_Geocaching.Model.Dialogs;
-using WP_Geocaching.Model.Navigation;
-using WP_Geocaching.View.Converters;
-using WP_Geocaching.ViewModel;
-using WP_Geocaching.Model;
+using GeocachingPlus.Model.Api;
+using GeocachingPlus.Model.Api.GeocachingSu;
+using GeocachingPlus.Model.Dialogs;
+using GeocachingPlus.Model.Navigation;
+using GeocachingPlus.View.Converters;
+using GeocachingPlus.ViewModel;
+using GeocachingPlus.Model;
 using Microsoft.Phone.Controls.Maps;
 using System.Windows.Navigation;
 using Microsoft.Phone.Shell;
-using WP_Geocaching.Resources.Localization;
-using WP_Geocaching.Model.DataBase;
+using GeocachingPlus.Resources.Localization;
+using GeocachingPlus.Model.DataBase;
 
-namespace WP_Geocaching.View
+namespace GeocachingPlus.View
 {
     public partial class SearchBingMap : PhoneApplicationPage
     {

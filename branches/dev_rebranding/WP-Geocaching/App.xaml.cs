@@ -12,9 +12,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using WP_Geocaching.Model.DataBase;
+using GeocachingPlus.Model.DataBase;
 
-namespace WP_Geocaching
+namespace GeocachingPlus
 {
     public partial class App : Application
     {

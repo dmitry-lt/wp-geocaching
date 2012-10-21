@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace WP_Geocaching.Model
+namespace GeocachingPlus.Model
 {
     public class HashSet<T> : ICollection<T>
     {

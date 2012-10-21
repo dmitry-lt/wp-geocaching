@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WP_Geocaching.Model.Utils
+namespace GeocachingPlus.Model.Utils
 {
     /// <summary>
     /// A custom encoding class that provides encoding capabilities for the

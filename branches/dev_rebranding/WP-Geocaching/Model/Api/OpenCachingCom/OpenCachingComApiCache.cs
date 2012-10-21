@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace WP_Geocaching.Model.Api.OpenCachingCom
+namespace GeocachingPlus.Model.Api.OpenCachingCom
 {
     #region Response example
 

@@ -5,7 +5,7 @@ using System.Xml.Linq;
 using System.Device.Location;
 using System.Globalization;
 
-namespace WP_Geocaching.Model.Api.GeocachingSu
+namespace GeocachingPlus.Model.Api.GeocachingSu
 {
     /// <summary>
     /// Parses xml for get cache list

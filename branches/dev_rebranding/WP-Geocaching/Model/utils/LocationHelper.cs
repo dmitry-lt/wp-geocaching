@@ -10,7 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Device.Location;
 
-namespace WP_Geocaching.Model.Utils
+namespace GeocachingPlus.Model.Utils
 {
     public class LocationHelper
     {

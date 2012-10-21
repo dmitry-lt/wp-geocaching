@@ -1,4 +1,4 @@
-﻿namespace WP_Geocaching.Model
+﻿namespace GeocachingPlus.Model
 {
     /// <summary>
     /// Contains information for BingMap

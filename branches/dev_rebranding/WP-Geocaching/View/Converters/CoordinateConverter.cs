@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Data;
-using WP_Geocaching.Resources.Localization;
+using GeocachingPlus.Resources.Localization;
 using System.Device.Location;
 
-namespace WP_Geocaching.View.Converters
+namespace GeocachingPlus.View.Converters
 {
     public class CoordinateConverter : IValueConverter
     {

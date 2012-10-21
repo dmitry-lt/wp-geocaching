@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Xml.Linq;
 
-namespace WP_Geocaching.View.Converters
+namespace GeocachingPlus.View.Converters
 {
     public class VersionConverter : IValueConverter
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace WP_Geocaching.View.Settings
+namespace GeocachingPlus.View.Settings
 {
     public partial class About : UserControl
     {

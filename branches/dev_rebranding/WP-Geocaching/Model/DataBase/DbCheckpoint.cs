@@ -1,7 +1,7 @@
 ﻿using System.Data.Linq.Mapping;
-using WP_Geocaching.Model.Api;
+using GeocachingPlus.Model.Api;
 
-namespace WP_Geocaching.Model.DataBase
+namespace GeocachingPlus.Model.DataBase
 {
     [Table]
     public class DbCheckpoint

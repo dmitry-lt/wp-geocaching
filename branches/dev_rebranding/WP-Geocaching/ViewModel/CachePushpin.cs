@@ -1,11 +1,11 @@
 ﻿using System.Windows.Input;
 using System.Device.Location;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.Api.GeocachingSu;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Model.Navigation;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.Api.GeocachingSu;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.Model.Navigation;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class CachePushpin
     {

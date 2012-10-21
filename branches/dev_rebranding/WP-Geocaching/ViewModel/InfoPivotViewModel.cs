@@ -6,12 +6,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Microsoft.Phone.Controls;
 using System.Collections.ObjectModel;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Model.Dialogs;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.Api;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.Model.Dialogs;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class InfoPivotViewModel : BaseViewModel
     {

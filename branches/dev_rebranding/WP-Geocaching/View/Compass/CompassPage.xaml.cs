@@ -2,13 +2,13 @@
 using System.Device.Location;
 using System.Windows.Navigation;
 using System;
-using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.Navigation;
-using WP_Geocaching.ViewModel;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.DataBase;
+using GeocachingPlus.Model.Api;
+using GeocachingPlus.Model.Navigation;
+using GeocachingPlus.ViewModel;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.DataBase;
 
-namespace WP_Geocaching.View.Compass
+namespace GeocachingPlus.View.Compass
 {
     public partial class CompassPage : PhoneApplicationPage
     {

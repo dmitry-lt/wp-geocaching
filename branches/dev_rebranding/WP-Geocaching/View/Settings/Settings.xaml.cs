@@ -1,7 +1,7 @@
 ﻿using Microsoft.Phone.Controls;
-using WP_Geocaching.ViewModel;
+using GeocachingPlus.ViewModel;
 
-namespace WP_Geocaching.View.Settings
+namespace GeocachingPlus.View.Settings
 {
     public partial class Settings : PhoneApplicationPage
     {

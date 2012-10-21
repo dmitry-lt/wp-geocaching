@@ -1,10 +1,10 @@
 ﻿using System.Windows.Input;
 using Microsoft.Phone.Tasks;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.Dialogs;
-using WP_Geocaching.Resources.Localization;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.Dialogs;
+using GeocachingPlus.Resources.Localization;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class SettingsViewModel : BaseMapViewModel
     {

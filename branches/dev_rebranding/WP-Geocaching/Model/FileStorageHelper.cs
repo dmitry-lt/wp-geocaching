@@ -6,7 +6,7 @@ using System.IO.IsolatedStorage;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
 
-namespace WP_Geocaching.Model
+namespace GeocachingPlus.Model
 {
     public class FileStorageHelper
     {

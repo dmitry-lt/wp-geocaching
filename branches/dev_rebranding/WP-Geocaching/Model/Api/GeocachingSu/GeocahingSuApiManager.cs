@@ -5,10 +5,10 @@ using System.Text;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Globalization;
-using WP_Geocaching.Model.Utils;
+using GeocachingPlus.Model.Utils;
 using System.Text.RegularExpressions;
 
-namespace WP_Geocaching.Model.Api.GeocachingSu
+namespace GeocachingPlus.Model.Api.GeocachingSu
 {
     /// <summary>
     /// IApiManager implementation for Geocaching.su

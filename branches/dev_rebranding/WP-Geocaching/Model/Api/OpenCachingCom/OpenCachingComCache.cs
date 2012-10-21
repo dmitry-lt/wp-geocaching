@@ -1,4 +1,4 @@
-﻿namespace WP_Geocaching.Model.Api.OpenCachingCom
+﻿namespace GeocachingPlus.Model.Api.OpenCachingCom
 {
     public class OpenCachingComCache : Cache
     {

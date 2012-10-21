@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Data;
 using Microsoft.Phone.Controls.Maps;
-using WP_Geocaching.Model;
+using GeocachingPlus.Model;
 
-namespace WP_Geocaching.View.Converters
+namespace GeocachingPlus.View.Converters
 {
     public class MapModeConverter : IValueConverter
     {

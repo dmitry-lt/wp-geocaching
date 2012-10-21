@@ -3,13 +3,13 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Model.Dialogs;
-using WP_Geocaching.Model.Navigation;
-using WP_Geocaching.Resources.Localization;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.Model.Dialogs;
+using GeocachingPlus.Model.Navigation;
+using GeocachingPlus.Resources.Localization;
 
-namespace WP_Geocaching.ViewModel.MainPageViewModel
+namespace GeocachingPlus.ViewModel.MainPageViewModel
 {
     public class MainPageViewModel : BaseViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using System.Device.Location;
 
-namespace WP_Geocaching.Model
+namespace GeocachingPlus.Model
 {
     public interface ILocationAware
     {

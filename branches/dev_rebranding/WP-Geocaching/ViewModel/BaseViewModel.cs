@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using WP_Geocaching.Model.Utils;
+using GeocachingPlus.Model.Utils;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class BaseViewModel : INotifyPropertyChanged
     {

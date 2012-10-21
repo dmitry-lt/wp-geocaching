@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using WP_Geocaching.View.Compass;
+using GeocachingPlus.View.Compass;
 using System.Device.Location;
-using WP_Geocaching.Model.Utils;
+using GeocachingPlus.Model.Utils;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class CompassPageViewModel : BaseViewModel, ICompassAware, INotifyPropertyChanged
     {

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.Navigation;
+using GeocachingPlus.Model.Api;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.Navigation;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class FavoritesViewModel : BaseViewModel
     {

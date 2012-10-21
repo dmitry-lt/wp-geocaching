@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace WP_Geocaching.View.Settings
+namespace GeocachingPlus.View.Settings
 {
     public partial class Application : UserControl
     {

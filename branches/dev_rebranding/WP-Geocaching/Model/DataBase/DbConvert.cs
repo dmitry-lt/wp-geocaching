@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Device.Location;
-using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.Api.GeocachingSu;
-using WP_Geocaching.Model.Api.OpenCachingCom;
+using GeocachingPlus.Model.Api;
+using GeocachingPlus.Model.Api.GeocachingSu;
+using GeocachingPlus.Model.Api.OpenCachingCom;
 
-namespace WP_Geocaching.Model.DataBase
+namespace GeocachingPlus.Model.DataBase
 {
     public class DbConvert
     {

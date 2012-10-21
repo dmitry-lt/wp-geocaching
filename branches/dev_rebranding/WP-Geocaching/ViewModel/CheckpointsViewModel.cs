@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Model.Dialogs;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.Model.Dialogs;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class CheckpointsViewModel : BaseViewModel
     {

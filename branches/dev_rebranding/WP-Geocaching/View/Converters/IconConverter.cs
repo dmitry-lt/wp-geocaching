@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Data;
-using WP_Geocaching.Model.Api.GeocachingSu;
-using WP_Geocaching.Model.Api.OpenCachingCom;
-using WP_Geocaching.ViewModel;
+using GeocachingPlus.Model.Api.GeocachingSu;
+using GeocachingPlus.Model.Api.OpenCachingCom;
+using GeocachingPlus.ViewModel;
 
-namespace WP_Geocaching.View.Converters
+namespace GeocachingPlus.View.Converters
 {
     public class IconConverter : IValueConverter
     {

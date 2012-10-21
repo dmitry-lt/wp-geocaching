@@ -4,10 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Phone.Data.Linq;
-using WP_Geocaching.Model.Api;
-using WP_Geocaching.Model.Api.GeocachingSu;
+using GeocachingPlus.Model.Api;
+using GeocachingPlus.Model.Api.GeocachingSu;
 
-namespace WP_Geocaching.Model.DataBase
+namespace GeocachingPlus.Model.DataBase
 {
     public class CacheDataBase
     {

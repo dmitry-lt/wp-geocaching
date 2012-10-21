@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WP_Geocaching.Model.Navigation
+namespace GeocachingPlus.Model.Navigation
 {
     public class Repository
     {

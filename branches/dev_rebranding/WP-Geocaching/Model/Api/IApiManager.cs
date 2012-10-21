@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WP_Geocaching.Model.Api
+namespace GeocachingPlus.Model.Api
 {
     /// <summary>
     /// Interacts with the external API

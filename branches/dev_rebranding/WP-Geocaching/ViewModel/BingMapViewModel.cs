@@ -1,12 +1,12 @@
 ﻿using System.Windows;
-using WP_Geocaching.Model;
+using GeocachingPlus.Model;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
-using WP_Geocaching.Model.Api;
+using GeocachingPlus.Model.Api;
 
-namespace WP_Geocaching.ViewModel
+namespace GeocachingPlus.ViewModel
 {
     public class BingMapViewModel : BaseMapViewModel
     {

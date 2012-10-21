@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 
-namespace WP_Geocaching.Model.Utils
+namespace GeocachingPlus.Model.Utils
 {
     public static class NotifyPropertyChangedHelper
     {

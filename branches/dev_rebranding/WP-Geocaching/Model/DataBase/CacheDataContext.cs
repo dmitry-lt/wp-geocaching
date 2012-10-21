@@ -3,7 +3,7 @@ using System.Data.Linq;
 using System.Linq;
 using Microsoft.Phone.Data.Linq;
 
-namespace WP_Geocaching.Model.DataBase
+namespace GeocachingPlus.Model.DataBase
 {
     public class CacheDataContext : DataContext
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using Microsoft.Phone.Controls;
 
-namespace WP_Geocaching.Model.Navigation
+namespace GeocachingPlus.Model.Navigation
 {
     public class NavigationManager
     {

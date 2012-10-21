@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
-using WP_Geocaching.Model.DataBase;
-using WP_Geocaching.Resources.Localization;
+using GeocachingPlus.Model.DataBase;
+using GeocachingPlus.Resources.Localization;
 
-namespace WP_Geocaching.Model.Dialogs
+namespace GeocachingPlus.Model.Dialogs
 {
     public class ConfirmDeleteDialog : AbstractDialog
     {

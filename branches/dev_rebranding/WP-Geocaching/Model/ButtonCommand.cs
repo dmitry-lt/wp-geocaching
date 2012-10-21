@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace WP_Geocaching.Model
+namespace GeocachingPlus.Model
 {
     public class ButtonCommand : ICommand
     {

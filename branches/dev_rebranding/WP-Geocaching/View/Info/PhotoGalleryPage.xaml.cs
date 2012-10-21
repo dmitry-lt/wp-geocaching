@@ -4,12 +4,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using WP_Geocaching.Model;
-using WP_Geocaching.Model.Navigation;
-using WP_Geocaching.ViewModel;
-using WP_Geocaching.Resources.Localization;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.Navigation;
+using GeocachingPlus.ViewModel;
+using GeocachingPlus.Resources.Localization;
 
-namespace WP_Geocaching.View.Info
+namespace GeocachingPlus.View.Info
 {
     public partial class PhotoGalleryPage : PhoneApplicationPage
     {

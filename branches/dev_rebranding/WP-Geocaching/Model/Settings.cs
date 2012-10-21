@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO.IsolatedStorage;
 using System.Device.Location;
-using WP_Geocaching.Model.Api;
+using GeocachingPlus.Model.Api;
 
-namespace WP_Geocaching.Model
+namespace GeocachingPlus.Model
 {
     public enum MapMode
     {

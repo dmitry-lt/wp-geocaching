@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Threading;
 using Microsoft.Xna.Framework.GamerServices;
 
-namespace WP_Geocaching.Model.Dialogs
+namespace GeocachingPlus.Model.Dialogs
 {
     public abstract class AbstractDialog
     {

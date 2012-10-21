@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace WP_Geocaching.Model.Utils
+namespace GeocachingPlus.Model.Utils
 {
     public class CompassHelper
     {
