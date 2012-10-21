@@ -664,7 +664,7 @@ namespace GeocachingPlus.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to wp-geocaching-support@googlegroups.com.
+        ///   Looks up a localized string similar to GeocachingPlus-support@googlegroups.com.
         /// </summary>
         public static string SupportEmail {
             get {

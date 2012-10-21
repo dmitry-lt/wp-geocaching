@@ -25,7 +25,7 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28" Orientation="Horizontal">
             <StackPanel Background="{StaticResource PhoneAccentBrush}">
-                <Image Source="/WP-Geocaching;component/Resources/Images/application_logo_small_white.png"/>
+                <Image Source="/GeocachingPlus;component/Resources/Images/application_logo_small_white.png"/>
             </StackPanel>
             <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
                 Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"

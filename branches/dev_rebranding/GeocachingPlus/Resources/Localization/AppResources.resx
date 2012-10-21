@@ -280,7 +280,7 @@
     <value>Support</value>
   </data>
   <data name="SupportEmail" xml:space="preserve">
-    <value>wp-geocaching-support@googlegroups.com</value>
+    <value>GeocachingPlus-support@googlegroups.com</value>
   </data>
   <data name="VersionAbout" xml:space="preserve">
     <value>Version {0}</value>
