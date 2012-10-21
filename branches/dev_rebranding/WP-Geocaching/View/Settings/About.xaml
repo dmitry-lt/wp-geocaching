@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="WP_Geocaching.View.Settings.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+             xmlns:Converters="clr-namespace:WP_Geocaching.View.Converters" mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="460">
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <Style x:Name="HeaderTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="35"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            </Style>
+        </Grid.Resources>
+        
+        <StackPanel Orientation="Vertical">
+            <StackPanel.Resources>
+                <Converters:VersionConverter x:Key="VersionConverter" />
+            </StackPanel.Resources>
+            <TextBlock Text="{Binding Path=LocalizedResources.InfoAbout, 
+                Source={StaticResource LocalizedStrings}}"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.AppNameAbout, 
+                Source={StaticResource LocalizedStrings}}" FontSize="22" HorizontalAlignment="Left"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.VersionAbout, 
+                Source={StaticResource LocalizedStrings}, Converter={StaticResource VersionConverter}}" FontSize="22" HorizontalAlignment="Left"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.SupportAbout, 
+                Source={StaticResource LocalizedStrings}}"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <HyperlinkButton Content="{Binding Path=LocalizedResources.SupportEmail, 
+                Source={StaticResource LocalizedStrings}}" FontSize="22" Margin="-12, 0, 0, 0" 
+                             HorizontalAlignment="Left"
+                             Command="{Binding SendEmailCommand}" Height="30"
+                             toolkit:TiltEffect.IsTiltEnabled="True"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.PrivacyPolicyTitle, 
+                Source={StaticResource LocalizedStrings}}"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <HyperlinkButton Content="{Binding Path=LocalizedResources.PrivacyStatementTitle, 
+                Source={StaticResource LocalizedStrings}}" FontSize="22" Margin="-12, 0, 0, 0" 
+                             HorizontalAlignment="Left"
+                             Command="{Binding ShowPrivacyStatementDialogCommand}" Height="30"
+                             toolkit:TiltEffect.IsTiltEnabled="True"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
