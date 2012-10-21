@@ -124,7 +124,7 @@
     <value>добавить</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>ГЕОКЭШИНГ</value>
+    <value>ГЕОКЭШИНГ ПЛЮС</value>
   </data>
   <data name="CheckpointsButton" xml:space="preserve">
     <value>контрольные точки</value>
@@ -256,7 +256,7 @@
     <value>Приложение</value>
   </data>
   <data name="AppNameAbout" xml:space="preserve">
-    <value>Геокэшинг</value>
+    <value>Геокэшинг плюс</value>
   </data>
   <data name="InfoAbout" xml:space="preserve">
     <value>Информация</value>
@@ -277,13 +277,13 @@
     <value>Поддержка</value>
   </data>
   <data name="SupportEmail" xml:space="preserve">
-    <value>GeocachingPlus-support@googlegroups.com</value>
+    <value>wp-geocaching-support@googlegroups.com</value>
   </data>
   <data name="VersionAbout" xml:space="preserve">
     <value>Версия {0}</value>
   </data>
   <data name="EmailSubject" xml:space="preserve">
-    <value>[Geocaching]</value>
+    <value>[Geocaching Plus]</value>
   </data>
   <data name="InfoButton" xml:space="preserve">
     <value>инфо</value>

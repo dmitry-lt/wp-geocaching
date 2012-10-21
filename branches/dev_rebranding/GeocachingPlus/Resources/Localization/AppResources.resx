@@ -124,7 +124,7 @@
     <value>add</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>GEOCACHING</value>
+    <value>GEOCACHING PLUS</value>
   </data>
   <data name="CheckpointsButton" xml:space="preserve">
     <value>checkpoints</value>
@@ -256,7 +256,7 @@
     <value>Application</value>
   </data>
   <data name="AppNameAbout" xml:space="preserve">
-    <value>Geocaching</value>
+    <value>Geocaching Plus</value>
   </data>
   <data name="InfoAbout" xml:space="preserve">
     <value>Info</value>
@@ -280,13 +280,13 @@
     <value>Support</value>
   </data>
   <data name="SupportEmail" xml:space="preserve">
-    <value>GeocachingPlus-support@googlegroups.com</value>
+    <value>wp-geocaching-support@googlegroups.com</value>
   </data>
   <data name="VersionAbout" xml:space="preserve">
     <value>Version {0}</value>
   </data>
   <data name="EmailSubject" xml:space="preserve">
-    <value>[Geocaching]</value>
+    <value>[Geocaching Plus]</value>
   </data>
   <data name="InfoButton" xml:space="preserve">
     <value>info</value>
