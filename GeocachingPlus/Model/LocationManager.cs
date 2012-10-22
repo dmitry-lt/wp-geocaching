@@ -29,10 +29,11 @@ namespace GeocachingPlus.Model
 
         private void SetNewWatcher(GeoPositionAccuracy accuracy)
         {
+            var movementThreshold = accuracy == GeoPositionAccuracy.High ? 1 : 20;
             _watcher = new GeoCoordinateWatcher(accuracy)
-                          {
-                              MovementThreshold = 20
-                          };
+            {
+                MovementThreshold = movementThreshold
+            };
             _watcher.PositionChanged += PositionChanged;
         }
 
@@ -54,7 +55,10 @@ namespace GeocachingPlus.Model
         {
             if (locationAware != null)
             {
-                _subscribers.Add(locationAware);
+                if (!_subscribers.Contains(locationAware))
+                {
+                    _subscribers.Add(locationAware);
+                }
 
                 if (locationAware.IsNeedHighAccuracy && _watcher.DesiredAccuracy == GeoPositionAccuracy.Default)
                 {
@@ -72,7 +76,10 @@ namespace GeocachingPlus.Model
 
         public void RemoveSubscriber(ILocationAware locationAware)
         {
-            _subscribers.Remove(locationAware);
+            if (_subscribers.Contains(locationAware))
+            {
+                _subscribers.Remove(locationAware);
+            }
 
             if (_subscribers.Count == 0)
             {

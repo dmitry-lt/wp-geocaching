@@ -8,7 +8,7 @@ using GeocachingPlus.Model.Api;
 
 namespace GeocachingPlus.ViewModel
 {
-    public class BingMapViewModel : BaseMapViewModel
+    public class BingMapViewModel : BaseMapViewModel, ILocationAware
     {
         private const int maxCacheCount = 50;
         private LocationRect boundingRectangle;
@@ -46,9 +46,11 @@ namespace GeocachingPlus.ViewModel
             {
                 return false;
             }
-            set
-            {
-            }
+        }
+
+        public void ProcessLocation(GeoCoordinate location)
+        {
+            currentLocation = location;
         }
 
         public override GeoCoordinate MapCenter
