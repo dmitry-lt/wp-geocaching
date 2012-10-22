@@ -50,14 +50,14 @@ namespace GeocachingPlus.Model
             }
         }
 
-        public void AddSubscriber(ILocationAware compassView)
+        public void AddSubscriber(ILocationAware locationAware)
         {
-            if (compassView != null)
+            if (locationAware != null)
             {
-                subscribers.Add(compassView);
+                subscribers.Add(locationAware);
             }
 
-            if (compassView.IsNeedHighAccuracy && watcher.DesiredAccuracy == GeoPositionAccuracy.Default)
+            if (locationAware.IsNeedHighAccuracy && watcher.DesiredAccuracy == GeoPositionAccuracy.Default)
             {
                 StopWatcher();
                 SetNewWatcher(GeoPositionAccuracy.High);
@@ -70,16 +70,16 @@ namespace GeocachingPlus.Model
             }
         }
 
-        public void RemoveSubscriber(ILocationAware compassView)
+        public void RemoveSubscriber(ILocationAware locationAware)
         {
-            subscribers.Remove(compassView);
+            subscribers.Remove(locationAware);
 
             if (subscribers.Count == 0)
             {
                 StopWatcher();
             }
 
-            if (compassView.IsNeedHighAccuracy)
+            if (locationAware.IsNeedHighAccuracy)
             {
                 if (subscribers.Any(c => c.IsNeedHighAccuracy))
                 {
