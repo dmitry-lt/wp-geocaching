@@ -6,41 +6,41 @@ namespace GeocachingPlus.Model
 {
     public class LocationManager
     {
-        private List<ILocationAware> subscribers = new List<ILocationAware>();
-        private GeoCoordinateWatcher watcher;
-        private bool isLocationEnabled;
+        private readonly List<ILocationAware> _subscribers = new List<ILocationAware>();
+        private GeoCoordinateWatcher _watcher;
+        private bool _isLocationEnabled;
 
-        private static LocationManager instance;
+        private static LocationManager _instance;
 
         public static LocationManager Instance
         {
             get
             {
-                return instance ?? (instance = new LocationManager());
+                return _instance ?? (_instance = new LocationManager());
             }
         }
 
         private LocationManager()
         {
             var settings = new Settings();
-            isLocationEnabled = settings.IsLocationEnabled;
+            _isLocationEnabled = settings.IsLocationEnabled;
             SetNewWatcher(GeoPositionAccuracy.Default);
         }
 
         private void SetNewWatcher(GeoPositionAccuracy accuracy)
         {
-            watcher = new GeoCoordinateWatcher(accuracy)
+            _watcher = new GeoCoordinateWatcher(accuracy)
                           {
                               MovementThreshold = 20
                           };
-            watcher.PositionChanged += PositionChanged;
+            _watcher.PositionChanged += PositionChanged;
         }
 
         public void UpdateIsLocationEnabled(bool newValue)
         {
-            isLocationEnabled = newValue;
+            _isLocationEnabled = newValue;
 
-            if (isLocationEnabled)
+            if (_isLocationEnabled)
             {
                 StartWatcher();
             }
@@ -54,17 +54,17 @@ namespace GeocachingPlus.Model
         {
             if (locationAware != null)
             {
-                subscribers.Add(locationAware);
+                _subscribers.Add(locationAware);
+
+                if (locationAware.IsNeedHighAccuracy && _watcher.DesiredAccuracy == GeoPositionAccuracy.Default)
+                {
+                    StopWatcher();
+                    SetNewWatcher(GeoPositionAccuracy.High);
+                    StartWatcher();
+                }
             }
 
-            if (locationAware.IsNeedHighAccuracy && watcher.DesiredAccuracy == GeoPositionAccuracy.Default)
-            {
-                StopWatcher();
-                SetNewWatcher(GeoPositionAccuracy.High);
-                StartWatcher();
-            }
-
-            if (subscribers.Count == 1 && isLocationEnabled)
+            if (_subscribers.Count == 1 && _isLocationEnabled)
             {
                 StartWatcher();
             }
@@ -72,16 +72,16 @@ namespace GeocachingPlus.Model
 
         public void RemoveSubscriber(ILocationAware locationAware)
         {
-            subscribers.Remove(locationAware);
+            _subscribers.Remove(locationAware);
 
-            if (subscribers.Count == 0)
+            if (_subscribers.Count == 0)
             {
                 StopWatcher();
             }
 
             if (locationAware.IsNeedHighAccuracy)
             {
-                if (subscribers.Any(c => c.IsNeedHighAccuracy))
+                if (_subscribers.Any(c => c.IsNeedHighAccuracy))
                 {
                     return;
                 }
@@ -91,17 +91,17 @@ namespace GeocachingPlus.Model
 
         private void StartWatcher()
         {
-            watcher.Start();
+            _watcher.Start();
         }
 
         private void StopWatcher()
         {
-            watcher.Stop();
+            _watcher.Stop();
         }
 
         private void PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            foreach (var c in subscribers)
+            foreach (var c in _subscribers)
             {
                 c.ProcessLocation(e.Position.Location);
             }
