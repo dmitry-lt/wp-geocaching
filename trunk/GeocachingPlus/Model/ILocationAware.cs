@@ -4,7 +4,7 @@ namespace GeocachingPlus.Model
 {
     public interface ILocationAware
     {
-        bool IsNeedHighAccuracy { get; set; }
+        bool IsNeedHighAccuracy { get; }
 
         void ProcessLocation(GeoCoordinate location);
     }

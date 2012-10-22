@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Device.Location;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using GeocachingPlus.Model.Api;
 using GeocachingPlus.Model.Navigation;
@@ -76,10 +78,17 @@ namespace GeocachingPlus.View
             NavigationManager.Instance.NavigateToSettings();
         }
 
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            LocationManager.Instance.AddSubscriber(bingMapViewModel);
             bingMapViewModel.UpdateMapChildrens();
             base.OnNavigatedTo(e);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            LocationManager.Instance.RemoveSubscriber(bingMapViewModel);
+            base.OnNavigatedFrom(e);
         }
 
         //DependencyProperty. No need for corresponding CLR-property.
@@ -94,5 +103,6 @@ namespace GeocachingPlus.View
             var mm = (new MapModeConverter()).Convert(e.NewValue, null, null, null);
             ((BingMap)element).Map.Mode = (Microsoft.Phone.Controls.Maps.Core.MapMode)(mm);
         }
+
     }
 }
