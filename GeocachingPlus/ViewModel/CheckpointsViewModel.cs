@@ -13,7 +13,6 @@ namespace GeocachingPlus.ViewModel
         private ListCacheItem selectedCheckpoint;
         private ChooseOrDeleteDialog chooseOrDeleteDialog;
         private List<ListCacheItem> dataSource;
-        private Dispatcher dispatcher;
 
         public List<ListCacheItem> DataSource
         {
@@ -43,7 +42,6 @@ namespace GeocachingPlus.ViewModel
 
         public CheckpointsViewModel(Dispatcher dispatcher)
         {
-            this.dispatcher = dispatcher;
             cache = MapManager.Instance.Cache;
             chooseOrDeleteDialog = new ChooseOrDeleteDialog(cache, CloseMakeActiveOrDeleteDialog, dispatcher);
             UpdateDataSource();
