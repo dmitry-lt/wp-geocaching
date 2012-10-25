@@ -36,7 +36,7 @@ namespace GeocachingPlus.ViewModel
                 selectedCheckpoint = value;
                 if (value != null)
                 {
-                    ShowMakeActiveOrDeleteDialogDialog();
+                    ShowMakeActiveOrDeleteDialog();
                 }
             }
         }
@@ -45,7 +45,7 @@ namespace GeocachingPlus.ViewModel
         {
             this.dispatcher = dispatcher;
             cache = MapManager.Instance.Cache;
-            chooseOrDeleteDialog = new ChooseOrDeleteDialog(cache, CloseMakeActiveOrDeleteDialogDialog, dispatcher);
+            chooseOrDeleteDialog = new ChooseOrDeleteDialog(cache, CloseMakeActiveOrDeleteDialog, dispatcher);
             UpdateDataSource();
         }
 
@@ -59,12 +59,12 @@ namespace GeocachingPlus.ViewModel
             DataSource = newDataSource;
         }
 
-        public void CloseMakeActiveOrDeleteDialogDialog()
+        public void CloseMakeActiveOrDeleteDialog()
         {
             UpdateDataSource();
         }
 
-        private void ShowMakeActiveOrDeleteDialogDialog()
+        private void ShowMakeActiveOrDeleteDialog()
         {
             chooseOrDeleteDialog.Show(SelectedCheckpoint);
         }
