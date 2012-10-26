@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.ComponentModel;
 using System.Device.Location;
-using System.Globalization;
 using GeocachingPlus.Model.DataBase;
 using GeocachingPlus.Model;
 using GeocachingPlus.Resources.Localization;
@@ -21,35 +10,40 @@ namespace GeocachingPlus.ViewModel
 
     public class CheckpointViewModel : BaseViewModel
     {
-        private GeoCoordinate currentInputPointLocation;
+        private GeoCoordinate _currentInputPointLocation;
 
-        private bool latDegreesValid;
-        private bool latMinutesValid;
-        private bool latMinutesFractionValid;
-        private bool dLatDegreesValid;
-        private bool dLatDegreesFractionValid;
-        private bool sLatDegreesValid;
-        private bool sLatMinutesValid;
-        private bool sLatSecondsValid;
-        private bool sLatSecondsFractionValid;
-        private bool lngDegreesValid;
-        private bool lngMinutesValid;
-        private bool lngMinutesFractionValid;
-        private bool dLngDegreesValid;
-        private bool dLngDegreesFractionValid;
-        private bool sLngDegreesValid;
-        private bool sLngMinutesValid;
-        private bool sLngSecondsValid;
-        private bool sLngSecondsFractionValid;
+        private bool _latDegreesValid;
+        private bool _latMinutesValid;
+        private bool _latMinutesFractionValid;
+        private bool _dLatDegreesValid;
+        private bool _dLatDegreesFractionValid;
+        private bool _sLatDegreesValid;
+        private bool _sLatMinutesValid;
+        private bool _sLatSecondsValid;
+        private bool _sLatSecondsFractionValid;
+        private bool _lngDegreesValid;
+        private bool _lngMinutesValid;
+        private bool _lngMinutesFractionValid;
+        private bool _dLngDegreesValid;
+        private bool _dLngDegreesFractionValid;
+        private bool _sLngDegreesValid;
+        private bool _sLngMinutesValid;
+        private bool _sLngSecondsValid;
+        private bool _sLngSecondsFractionValid;
 
-        private string name;
+        private string _name;
+        private readonly bool _newCheckpoint;
+        private readonly int _checkpointId;
+
+        public bool NewCheckpoint { get { return _newCheckpoint; } }
+        public int CheckpointId { get { return _checkpointId; } }
 
         public string Name
         {
-            get { return name; }
+            get { return _name; }
             set
             {
-                name = value;
+                _name = value;
                 RaisePropertyChanged(() => Name);
             }
         }
@@ -58,11 +52,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return latDegreesValid;
+                return _latDegreesValid;
             }
             set
             {
-                latDegreesValid = value;
+                _latDegreesValid = value;
                 RaisePropertyChanged(() => LatDegreesValid);
             }
         }
@@ -71,11 +65,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return latMinutesValid;
+                return _latMinutesValid;
             }
             set
             {
-                latMinutesValid = value;
+                _latMinutesValid = value;
                 RaisePropertyChanged(() => LatMinutesValid);
             }
         }
@@ -84,11 +78,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return latMinutesFractionValid;
+                return _latMinutesFractionValid;
             }
             set
             {
-                latMinutesFractionValid = value;
+                _latMinutesFractionValid = value;
                 RaisePropertyChanged(() => LatMinutesFractionValid);
             }
         }
@@ -97,11 +91,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return dLatDegreesValid;
+                return _dLatDegreesValid;
             }
             set
             {
-                dLatDegreesValid = value;
+                _dLatDegreesValid = value;
                 RaisePropertyChanged(() => DLatDegreesValid);
             }
         }
@@ -110,11 +104,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return dLatDegreesFractionValid;
+                return _dLatDegreesFractionValid;
             }
             set
             {
-                dLatDegreesFractionValid = value;
+                _dLatDegreesFractionValid = value;
                 RaisePropertyChanged(() => DLatDegreesFractionValid);
             }
         }
@@ -123,11 +117,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return sLatDegreesValid;
+                return _sLatDegreesValid;
             }
             set
             {
-                sLatDegreesValid = value;
+                _sLatDegreesValid = value;
                 RaisePropertyChanged(() => SLatDegreesValid);
             }
         }
@@ -136,11 +130,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return sLatMinutesValid;
+                return _sLatMinutesValid;
             }
             set
             {
-                sLatMinutesValid = value;
+                _sLatMinutesValid = value;
                 RaisePropertyChanged(() => SLatMinutesValid);
             }
         }
@@ -149,11 +143,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return sLatSecondsValid;
+                return _sLatSecondsValid;
             }
             set
             {
-                sLatSecondsValid = value;
+                _sLatSecondsValid = value;
                 RaisePropertyChanged(() => SLatSecondsValid);
             }
         }
@@ -162,11 +156,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return sLatSecondsFractionValid;
+                return _sLatSecondsFractionValid;
             }
             set
             {
-                sLatSecondsFractionValid = value;
+                _sLatSecondsFractionValid = value;
                 RaisePropertyChanged(() => SLatSecondsFractionValid);
             }
         }
@@ -175,11 +169,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return lngDegreesValid;
+                return _lngDegreesValid;
             }
             set
             {
-                lngDegreesValid = value;
+                _lngDegreesValid = value;
                 RaisePropertyChanged(() => LngDegreesValid);
             }
         }
@@ -188,11 +182,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return lngMinutesValid;
+                return _lngMinutesValid;
             }
             set
             {
-                lngMinutesValid = value;
+                _lngMinutesValid = value;
                 RaisePropertyChanged(() => LngMinutesValid);
             }
         }
@@ -201,11 +195,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return lngMinutesFractionValid;
+                return _lngMinutesFractionValid;
             }
             set
             {
-                lngMinutesFractionValid = value;
+                _lngMinutesFractionValid = value;
                 RaisePropertyChanged(() => LngMinutesFractionValid);
             }
         }
@@ -214,11 +208,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return dLngDegreesValid;
+                return _dLngDegreesValid;
             }
             set
             {
-                dLngDegreesValid = value;
+                _dLngDegreesValid = value;
                 RaisePropertyChanged(() => DLngDegreesValid);
             }
         }
@@ -227,11 +221,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return dLngDegreesFractionValid;
+                return _dLngDegreesFractionValid;
             }
             set
             {
-                dLngDegreesFractionValid = value;
+                _dLngDegreesFractionValid = value;
                 RaisePropertyChanged(() => DLngDegreesFractionValid);
             }
         }
@@ -240,11 +234,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return sLngDegreesValid;
+                return _sLngDegreesValid;
             }
             set
             {
-                sLngDegreesValid = value;
+                _sLngDegreesValid = value;
                 RaisePropertyChanged(() => SLngDegreesValid);
             }
         }
@@ -253,11 +247,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return sLngMinutesValid;
+                return _sLngMinutesValid;
             }
             set
             {
-                sLngMinutesValid = value;
+                _sLngMinutesValid = value;
                 RaisePropertyChanged(() => SLngMinutesValid);
             }
         }
@@ -266,11 +260,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return sLngSecondsValid;
+                return _sLngSecondsValid;
             }
             set
             {
-                sLngSecondsValid = value;
+                _sLngSecondsValid = value;
                 RaisePropertyChanged(() => SLngSecondsValid);
             }
         }
@@ -279,11 +273,11 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return sLngSecondsFractionValid;
+                return _sLngSecondsFractionValid;
             }
             set
             {
-                sLngSecondsFractionValid = value;
+                _sLngSecondsFractionValid = value;
                 RaisePropertyChanged(() => SLngSecondsFractionValid);
             }
         }
@@ -292,7 +286,7 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                return currentInputPointLocation;
+                return _currentInputPointLocation;
             }
         }
 
@@ -300,19 +294,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
                 LatDegreesValid = true;
                 return minCoordinateViewModel.Degrees;
             }
             set
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
 
                 if (minCoordinateViewModel.Degrees != value)
                 {
                     if (LatDegreesValid = minCoordinateViewModel.SetDegrees(value))
                     {
-                        currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -326,19 +320,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
                 LatMinutesValid = true;
                 return minCoordinateViewModel.Minutes;
             }
             set
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
 
                 if (minCoordinateViewModel.Minutes != value)
                 {
                     if (LatMinutesValid = minCoordinateViewModel.SetMinutes(value))
                     {
-                        currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -352,19 +346,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
                 LatMinutesFractionValid = true;
                 return minCoordinateViewModel.MinutesFraction;
             }
             set
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
 
                 if (minCoordinateViewModel.MinutesFraction != value)
                 {
                     if (LatMinutesFractionValid = minCoordinateViewModel.SetMinutesFraction(value))
                     {
-                        currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Latitude = minCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -378,19 +372,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
                 DLatDegreesValid = true;
                 return degCoordinateViewModel.Degrees;
             }
             set
             {
-                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
 
                 if (degCoordinateViewModel.Degrees != value)
                 {
                     if (DLatDegreesValid = degCoordinateViewModel.SetDegrees(value))
                     {
-                        currentInputPointLocation.Latitude = degCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Latitude = degCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -404,19 +398,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
                 DLatDegreesFractionValid = true;
                 return degCoordinateViewModel.DegreesFraction;
             }
             set
             {
-                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
 
                 if (degCoordinateViewModel.DegreesFraction != value)
                 {
                     if (DLatDegreesFractionValid = degCoordinateViewModel.SetDegreesFraction(value))
                     {
-                        currentInputPointLocation.Latitude = degCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Latitude = degCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -430,19 +424,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
                 SLatDegreesValid = true;
                 return secCoordinateViewModel.Degrees;
             }
             set
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
 
                 if (secCoordinateViewModel.Degrees != value)
                 {
                     if (SLatDegreesValid = secCoordinateViewModel.SetDegrees(value))
                     {
-                        currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -456,19 +450,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
                 SLatMinutesValid = true;
                 return secCoordinateViewModel.Minutes;
             }
             set
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
 
                 if (secCoordinateViewModel.Minutes != value)
                 {
                     if (SLatMinutesValid = secCoordinateViewModel.SetMinutes(value))
                     {
-                        currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -482,19 +476,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
                 SLatSecondsValid = true;
                 return secCoordinateViewModel.Seconds;
             }
             set
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
 
                 if (secCoordinateViewModel.Seconds != value)
                 {
                     if (SLatSecondsValid = secCoordinateViewModel.SetSeconds(value))
                     {
-                        currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -508,19 +502,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
                 SLatSecondsFractionValid = true;
                 return secCoordinateViewModel.SecondsFraction;
             }
             set
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Latitude, CoordinateType.Lat);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Latitude, CoordinateType.Lat);
 
                 if (secCoordinateViewModel.SecondsFraction != value)
                 {
                     if (SLatSecondsFractionValid = secCoordinateViewModel.SetSecondsFraction(value))
                     {
-                        currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Latitude = secCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -534,19 +528,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
                 LngDegreesValid = true;
                 return minCoordinateViewModel.Degrees;
             }
             set
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
 
                 if (minCoordinateViewModel.Degrees != value)
                 {
                     if (LngDegreesValid = minCoordinateViewModel.SetDegrees(value))
                     {
-                        currentInputPointLocation.Longitude = minCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Longitude = minCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -560,19 +554,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
                 LngMinutesValid = true;
                 return minCoordinateViewModel.Minutes;
             }
             set
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
 
                 if (minCoordinateViewModel.Minutes != value)
                 {
                     if (LngMinutesValid = minCoordinateViewModel.SetMinutes(value))
                     {
-                        currentInputPointLocation.Longitude = minCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Longitude = minCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -586,19 +580,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
                 LngMinutesFractionValid = true;
                 return minCoordinateViewModel.MinutesFraction;
             }
             set
             {
-                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                MinCoordinateViewModel minCoordinateViewModel = new MinCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
 
                 if (minCoordinateViewModel.MinutesFraction != value)
                 {
                     if (LngMinutesFractionValid = minCoordinateViewModel.SetMinutesFraction(value))
                     {
-                        currentInputPointLocation.Longitude = minCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Longitude = minCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -612,19 +606,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
                 DLngDegreesValid = true;
                 return degCoordinateViewModel.Degrees;
             }
             set
             {
-                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
 
                 if (degCoordinateViewModel.Degrees != value)
                 {
                     if (DLngDegreesValid = degCoordinateViewModel.SetDegrees(value))
                     {
-                        currentInputPointLocation.Longitude = degCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Longitude = degCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -638,19 +632,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
                 DLngDegreesFractionValid = true;
                 return degCoordinateViewModel.DegreesFraction;
             }
             set
             {
-                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                DegCoordinateViewModel degCoordinateViewModel = new DegCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
 
                 if (degCoordinateViewModel.DegreesFraction != value)
                 {
                     if (DLngDegreesFractionValid = degCoordinateViewModel.SetDegreesFraction(value))
                     {
-                        currentInputPointLocation.Longitude = degCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Longitude = degCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -664,19 +658,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
                 SLngDegreesValid = true;
                 return secCoordinateViewModel.Degrees;
             }
             set
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
 
                 if (secCoordinateViewModel.Degrees != value)
                 {
                     if (SLngDegreesValid = secCoordinateViewModel.SetDegrees(value))
                     {
-                        currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -690,19 +684,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
                 SLngMinutesValid = true;
                 return secCoordinateViewModel.Minutes;
             }
             set
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
 
                 if (secCoordinateViewModel.Minutes != value)
                 {
                     if (SLngMinutesValid = secCoordinateViewModel.SetMinutes(value))
                     {
-                        currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -716,19 +710,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
                 SLngSecondsValid = true;
                 return secCoordinateViewModel.Seconds;
             }
             set
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
 
                 if (secCoordinateViewModel.Seconds != value)
                 {
                     if (SLngSecondsValid = secCoordinateViewModel.SetSeconds(value))
                     {
-                        currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -742,19 +736,19 @@ namespace GeocachingPlus.ViewModel
         {
             get
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
                 SLngSecondsFractionValid = true;
                 return secCoordinateViewModel.SecondsFraction;
             }
             set
             {
-                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(currentInputPointLocation.Longitude, CoordinateType.Lng);
+                SecCoordinateViewModel secCoordinateViewModel = new SecCoordinateViewModel(_currentInputPointLocation.Longitude, CoordinateType.Lng);
 
                 if (secCoordinateViewModel.SecondsFraction != value)
                 {
                     if (SLngSecondsFractionValid = secCoordinateViewModel.SetSecondsFraction(value))
                     {
-                        currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
+                        _currentInputPointLocation.Longitude = secCoordinateViewModel.ToCoordinate();
                     }
                 }
                 else
@@ -767,9 +761,25 @@ namespace GeocachingPlus.ViewModel
         public CheckpointViewModel()
         {
             var db = new CacheDataBase();
-            name = String.Format(AppResources.DefaultCheckpointName, db.GetMaxCheckpointId(MapManager.Instance.Cache) + 1);
+            _checkpointId = db.GetMaxCheckpointId(MapManager.Instance.Cache) + 1;
+            _newCheckpoint = true;
+            _name = String.Format(AppResources.DefaultCheckpointName, _checkpointId);
             var location = MapManager.Instance.Cache.Location;
-            currentInputPointLocation = new GeoCoordinate(location.Latitude, location.Longitude);
+            InitLocation(location.Latitude, location.Longitude);
+        }
+
+        public CheckpointViewModel(int checkpointId)
+        {
+            this._checkpointId = checkpointId;
+            var db = new CacheDataBase();
+            var dbCheckpoint = db.GetCheckpointByCacheAndCheckpointId(MapManager.Instance.Cache, checkpointId);
+            _name = dbCheckpoint.Name;
+            InitLocation(dbCheckpoint.Latitude, dbCheckpoint.Longitude);
+        }
+
+        private void InitLocation(double latitude, double longitude)
+        {
+            _currentInputPointLocation = new GeoCoordinate(latitude, longitude);
 
             LatDegreesValid = true;
             LatMinutesValid = true;
@@ -815,8 +825,15 @@ namespace GeocachingPlus.ViewModel
 
         public void SavePoint()
         {
-            CacheDataBase db = new CacheDataBase();
-            db.AddActiveCheckpoint(MapManager.Instance.Cache, Name, CurrentInputPointLocation.Latitude, CurrentInputPointLocation.Longitude);
+            var db = new CacheDataBase();
+            if (_newCheckpoint)
+            {
+                db.AddActiveCheckpoint(MapManager.Instance.Cache, Name, CurrentInputPointLocation.Latitude, CurrentInputPointLocation.Longitude);
+            }
+            else
+            {
+                db.UpdateCheckpoint(MapManager.Instance.Cache, _checkpointId, Name, CurrentInputPointLocation.Latitude, CurrentInputPointLocation.Longitude);
+            }
         }
     }
 }

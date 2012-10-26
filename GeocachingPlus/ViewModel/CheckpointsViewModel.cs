@@ -51,8 +51,7 @@ namespace GeocachingPlus.ViewModel
         {
             var db = new CacheDataBase();
             var dbCheckpointsList = db.GetCheckpointsByCache(cache);
-            var newDataSource = new List<ListCacheItem>();
-            newDataSource.Add(new ListCacheItem(DbConvert.ToDbCacheItem(cache)));
+            var newDataSource = new List<ListCacheItem> {new ListCacheItem(DbConvert.ToDbCacheItem(cache))};
             newDataSource.AddRange(dbCheckpointsList.Select(c => new ListCacheItem(c)));
             DataSource = newDataSource;
         }

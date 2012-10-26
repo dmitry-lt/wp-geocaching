@@ -91,6 +91,19 @@ namespace GeocachingPlus.Model.DataBase
             }
         }
 
+        public void UpdateCheckpoint(Cache cache, int checkpointId, string name, double latitude, double longitude)
+        {
+            using (var db = new CacheDataContext(ConnectionString))
+            {
+                var query = GetCheckpointQuery(db.Checkpoints, cache, checkpointId + "");
+                var checkpoint = query.FirstOrDefault();
+                checkpoint.Name = name;
+                checkpoint.Latitude = latitude;
+                checkpoint.Longitude = longitude;
+                db.SubmitChanges();
+            }
+        }
+
         public int GetMaxCheckpointId(Cache cache)
         {
             using (var db = new CacheDataContext(ConnectionString))

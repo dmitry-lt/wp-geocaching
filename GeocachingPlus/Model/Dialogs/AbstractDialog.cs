@@ -11,6 +11,14 @@ namespace GeocachingPlus.Model.Dialogs
 
         protected void ShowDialog(string messageTitle, string message, List<string> buttonKeys)
         {
+            if (String.IsNullOrEmpty(messageTitle))
+            {
+                messageTitle = " ";
+            }
+            else if (messageTitle.Length > 255)
+            {
+                messageTitle = messageTitle.Substring(0, 255);
+            }
             Guide.BeginShowMessageBox(messageTitle, message, buttonKeys, 0, MessageBoxIcon.Error,
                 asyncResult =>
                     {
