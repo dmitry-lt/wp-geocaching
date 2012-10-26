@@ -767,9 +767,9 @@ namespace GeocachingPlus.ViewModel
 
         public CheckpointViewModel(int checkpointId)
         {
+            this.checkpointId = checkpointId;
             var db = new CacheDataBase();
             var dbCheckpoint = db.GetCheckpointByCacheAndCheckpointId(MapManager.Instance.Cache, checkpointId);
-            checkpointId = dbCheckpoint.Id;
             name = dbCheckpoint.Name;
             InitLocation(dbCheckpoint.Latitude, dbCheckpoint.Longitude);
         }

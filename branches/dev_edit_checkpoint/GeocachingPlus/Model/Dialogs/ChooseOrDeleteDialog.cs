@@ -56,7 +56,7 @@ namespace GeocachingPlus.Model.Dialogs
             return CommandDistionary.Keys.Where(
                 p => (
                 (item.Cache is GeocachingSuCache) && ((GeocachingSuCache)item.Cache).Type == GeocachingSuCache.Types.Checkpoint) 
-                || p != AppResources.Delete).ToList();
+                || p != AppResources.Edit).ToList();
         }
 
 
@@ -81,7 +81,6 @@ namespace GeocachingPlus.Model.Dialogs
 
         private void Edit()
         {
-            // TODO: navigate to edit
             dispatcher.BeginInvoke(() => NavigationManager.Instance.NavigateToEditCheckpoint(item.Cache.Id));
         }
 
