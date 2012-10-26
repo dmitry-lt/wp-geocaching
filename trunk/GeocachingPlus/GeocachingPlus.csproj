@@ -164,7 +164,6 @@
     <Compile Include="ViewModel\CheckpointsViewModel.cs" />
     <Compile Include="ViewModel\CheckpointViewModel.cs" />
     <Compile Include="ViewModel\CompassPageViewModel.cs" />
-    <Compile Include="ViewModel\CreateCheckpointViewModel.cs" />
     <Compile Include="ViewModel\DegCoordinateViewModel.cs" />
     <Compile Include="ViewModel\InfoPivotViewModel.cs" />
     <Compile Include="ViewModel\ListCacheItem.cs" />
@@ -188,8 +187,8 @@
     <Compile Include="View\Checkpoints\CoordinateInputView.xaml.cs">
       <DependentUpon>CoordinateInputView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Checkpoints\CreateCheckpoint.xaml.cs">
-      <DependentUpon>CreateCheckpoint.xaml</DependentUpon>
+    <Compile Include="View\Checkpoints\Checkpoint.xaml.cs">
+      <DependentUpon>Checkpoint.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Compass\CompassPage.xaml.cs">
       <DependentUpon>CompassPage.xaml</DependentUpon>
@@ -248,7 +247,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Checkpoints\CreateCheckpoint.xaml">
+    <Page Include="View\Checkpoints\Checkpoint.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -313,6 +312,7 @@
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_traditional_valid.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_virtual_valid.png" />
     <Content Include="Resources\Images\appbar.back.rest.png" />
+    <Content Include="Resources\Images\appbar.delete.rest.png" />
     <Content Include="Resources\Images\appbar.next.rest.png" />
     <Content Include="Resources\Icons\ic_arrow.png" />
     <Content Include="Resources\Icons\ic_checkpoint_active.png" />

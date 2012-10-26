@@ -333,4 +333,7 @@
   <data name="ShowCachesFrom" xml:space="preserve">
     <value>Показывать тайники</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>изменить</value>
+  </data>
 </root>

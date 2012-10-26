@@ -333,4 +333,7 @@
   <data name="DisabledLocationTitle" xml:space="preserve">
     <value>Location</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>edit</value>
+  </data>
 </root>
