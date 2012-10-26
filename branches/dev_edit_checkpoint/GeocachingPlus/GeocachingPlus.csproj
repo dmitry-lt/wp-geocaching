@@ -164,7 +164,6 @@
     <Compile Include="ViewModel\CheckpointsViewModel.cs" />
     <Compile Include="ViewModel\CheckpointViewModel.cs" />
     <Compile Include="ViewModel\CompassPageViewModel.cs" />
-    <Compile Include="ViewModel\CreateCheckpointViewModel.cs" />
     <Compile Include="ViewModel\DegCoordinateViewModel.cs" />
     <Compile Include="ViewModel\InfoPivotViewModel.cs" />
     <Compile Include="ViewModel\ListCacheItem.cs" />
@@ -313,6 +312,7 @@
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_traditional_valid.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_virtual_valid.png" />
     <Content Include="Resources\Images\appbar.back.rest.png" />
+    <Content Include="Resources\Images\appbar.delete.rest.png" />
     <Content Include="Resources\Images\appbar.next.rest.png" />
     <Content Include="Resources\Icons\ic_arrow.png" />
     <Content Include="Resources\Icons\ic_checkpoint_active.png" />

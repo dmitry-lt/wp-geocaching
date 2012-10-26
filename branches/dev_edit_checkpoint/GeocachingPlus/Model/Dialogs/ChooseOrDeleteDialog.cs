@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
 using GeocachingPlus.Model.Api.GeocachingSu;
+using GeocachingPlus.Model.Navigation;
 using GeocachingPlus.View.Converters;
 using GeocachingPlus.Model.DataBase;
 using GeocachingPlus.Resources.Localization;
@@ -63,7 +64,7 @@ namespace GeocachingPlus.Model.Dialogs
         {
             CommandDistionary = new Dictionary<string, Action>
                                     {
-                                        {AppResources.Delete, DeleteFromDb},
+                                        {AppResources.Edit, Edit},
                                         {AppResources.Choose, MakeActive}
                                     };
         }
@@ -76,6 +77,12 @@ namespace GeocachingPlus.Model.Dialogs
                                              db.DeleteCheckpoint(cache, item.Cache.Id);
                                              closeAction();
                                          });
+        }
+
+        private void Edit()
+        {
+            // TODO: navigate to edit
+            dispatcher.BeginInvoke(() => NavigationManager.Instance.NavigateToEditCheckpoint(item.Cache.Id));
         }
 
         private void MakeActive()

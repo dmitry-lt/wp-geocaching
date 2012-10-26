@@ -1,4 +1,5 @@
 ﻿using System;
+using GeocachingPlus.Model.Navigation;
 using Microsoft.Phone.Controls;
 using GeocachingPlus.ViewModel;
 using Microsoft.Phone.Shell;
@@ -8,36 +9,49 @@ namespace GeocachingPlus.View.Checkpoints
 {
     public partial class CreateCheckpoint : PhoneApplicationPage
     {
-        CheckpointViewModel checkpointViewModel;
+        CheckpointViewModel _checkpointViewModel;
 
         public CreateCheckpoint()
         {
             InitializeComponent();
-            checkpointViewModel = new CheckpointViewModel();
-            DataContext = checkpointViewModel;
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            if (NavigationContext.QueryString.ContainsKey(NavigationManager.Params.CheckpointId.ToString()))
+            {
+                var checkpointId = Convert.ToInt32(NavigationContext.QueryString[NavigationManager.Params.CheckpointId.ToString()]);
+                _checkpointViewModel = new CheckpointViewModel(checkpointId);
+            }
+            else
+            {
+                _checkpointViewModel = new CheckpointViewModel();
+            }
+
+            DataContext = _checkpointViewModel;
             CoordinateInputView.Converters.LoadedPivotItem += LoadedPivotItem;
             SetAddCheckpointButton();
         }
 
-        void LoadedPivotItem(object sender, PivotItemEventArgs e)
+        private void LoadedPivotItem(object sender, PivotItemEventArgs e)
         {
-            checkpointViewModel.Refresh();
+            _checkpointViewModel.Refresh();
         }
 
         private void SetAddCheckpointButton()
         {
-            var button = new ApplicationBarIconButton
+            var saveButton = new ApplicationBarIconButton
                              {
                                  IconUri = new Uri("Resources/Images/appbar.save.rest.png", UriKind.Relative),
                                  Text = AppResources.SaveCheckpointButton
                              };
-            button.Click += SaveButtonClick;
-            ApplicationBar.Buttons.Add(button);
+            saveButton.Click += SaveButtonClick;
+            ApplicationBar.Buttons.Add(saveButton);
         }
 
         private void SaveButtonClick(object sender, EventArgs e)
         {
-            checkpointViewModel.SavePoint();
+            _checkpointViewModel.SavePoint();
             NavigationService.GoBack();
         }
     }

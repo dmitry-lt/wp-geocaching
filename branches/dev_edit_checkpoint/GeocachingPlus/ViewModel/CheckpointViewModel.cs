@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.ComponentModel;
 using System.Device.Location;
-using System.Globalization;
 using GeocachingPlus.Model.DataBase;
 using GeocachingPlus.Model;
 using GeocachingPlus.Resources.Localization;
@@ -43,6 +32,8 @@ namespace GeocachingPlus.ViewModel
         private bool sLngSecondsFractionValid;
 
         private string name;
+        private bool newCheckpoint;
+        private int checkpointId;
 
         public string Name
         {
@@ -767,9 +758,25 @@ namespace GeocachingPlus.ViewModel
         public CheckpointViewModel()
         {
             var db = new CacheDataBase();
-            name = String.Format(AppResources.DefaultCheckpointName, db.GetMaxCheckpointId(MapManager.Instance.Cache) + 1);
+            checkpointId = db.GetMaxCheckpointId(MapManager.Instance.Cache) + 1;
+            newCheckpoint = true;
+            name = String.Format(AppResources.DefaultCheckpointName, checkpointId);
             var location = MapManager.Instance.Cache.Location;
-            currentInputPointLocation = new GeoCoordinate(location.Latitude, location.Longitude);
+            InitLocation(location.Latitude, location.Longitude);
+        }
+
+        public CheckpointViewModel(int checkpointId)
+        {
+            var db = new CacheDataBase();
+            var dbCheckpoint = db.GetCheckpointByCacheAndCheckpointId(MapManager.Instance.Cache, checkpointId);
+            checkpointId = dbCheckpoint.Id;
+            name = dbCheckpoint.Name;
+            InitLocation(dbCheckpoint.Latitude, dbCheckpoint.Longitude);
+        }
+
+        private void InitLocation(double latitude, double longitude)
+        {
+            currentInputPointLocation = new GeoCoordinate(latitude, longitude);
 
             LatDegreesValid = true;
             LatMinutesValid = true;
@@ -815,8 +822,15 @@ namespace GeocachingPlus.ViewModel
 
         public void SavePoint()
         {
-            CacheDataBase db = new CacheDataBase();
-            db.AddActiveCheckpoint(MapManager.Instance.Cache, Name, CurrentInputPointLocation.Latitude, CurrentInputPointLocation.Longitude);
+            var db = new CacheDataBase();
+            if (newCheckpoint)
+            {
+                db.AddActiveCheckpoint(MapManager.Instance.Cache, Name, CurrentInputPointLocation.Latitude, CurrentInputPointLocation.Longitude);
+            }
+            else
+            {
+                db.UpdateCheckpoint(MapManager.Instance.Cache, checkpointId, Name, CurrentInputPointLocation.Latitude, CurrentInputPointLocation.Longitude);
+            }
         }
     }
 }

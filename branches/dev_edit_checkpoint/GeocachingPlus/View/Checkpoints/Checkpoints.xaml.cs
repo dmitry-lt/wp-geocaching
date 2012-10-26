@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Phone.Controls;
-using GeocachingPlus.Model;
 using GeocachingPlus.Model.Navigation;
 using GeocachingPlus.ViewModel;
 using Microsoft.Phone.Shell;

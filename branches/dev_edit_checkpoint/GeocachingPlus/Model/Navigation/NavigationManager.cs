@@ -64,6 +64,11 @@ namespace GeocachingPlus.Model.Navigation
             Navigate("//View/Checkpoints/CreateCheckpoint.xaml");
         }
 
+        public void NavigateToEditCheckpoint(string checkpointId)
+        {
+            Navigate(String.Format(OneParamPattern, "//View/Checkpoints/CreateCheckpoint.xaml", Params.CheckpointId, checkpointId));
+        }
+
         public void NavigateTologbook(Cache cache)
         {
             Repository.CurrentCache = cache;
