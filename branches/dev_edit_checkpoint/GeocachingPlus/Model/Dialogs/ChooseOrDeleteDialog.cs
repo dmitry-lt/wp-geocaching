@@ -64,8 +64,8 @@ namespace GeocachingPlus.Model.Dialogs
         {
             CommandDistionary = new Dictionary<string, Action>
                                     {
+                                        {AppResources.Choose, MakeActive},
                                         {AppResources.Edit, Edit},
-                                        {AppResources.Choose, MakeActive}
                                     };
         }
 
