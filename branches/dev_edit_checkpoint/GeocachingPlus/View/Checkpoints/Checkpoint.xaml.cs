@@ -1,4 +1,6 @@
 ﻿using System;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.DataBase;
 using GeocachingPlus.Model.Navigation;
 using Microsoft.Phone.Controls;
 using GeocachingPlus.ViewModel;
@@ -7,11 +9,11 @@ using GeocachingPlus.Resources.Localization;
 
 namespace GeocachingPlus.View.Checkpoints
 {
-    public partial class CreateCheckpoint : PhoneApplicationPage
+    public partial class Checkpoint : PhoneApplicationPage
     {
         CheckpointViewModel _checkpointViewModel;
 
-        public CreateCheckpoint()
+        public Checkpoint()
         {
             InitializeComponent();
         }
@@ -30,7 +32,7 @@ namespace GeocachingPlus.View.Checkpoints
 
             DataContext = _checkpointViewModel;
             CoordinateInputView.Converters.LoadedPivotItem += LoadedPivotItem;
-            SetAddCheckpointButton();
+            SetButtons();
         }
 
         private void LoadedPivotItem(object sender, PivotItemEventArgs e)
@@ -38,7 +40,7 @@ namespace GeocachingPlus.View.Checkpoints
             _checkpointViewModel.Refresh();
         }
 
-        private void SetAddCheckpointButton()
+        private void SetButtons()
         {
             var saveButton = new ApplicationBarIconButton
                              {
@@ -47,11 +49,28 @@ namespace GeocachingPlus.View.Checkpoints
                              };
             saveButton.Click += SaveButtonClick;
             ApplicationBar.Buttons.Add(saveButton);
+            if (!_checkpointViewModel.NewCheckpoint)
+            {
+                var deleteButton = new ApplicationBarIconButton
+                {
+                    IconUri = new Uri("Resources/Images/appbar.delete.rest.png", UriKind.Relative),
+                    Text = AppResources.Delete
+                };
+                deleteButton.Click += DeleteButtonClick;
+                ApplicationBar.Buttons.Add(deleteButton);
+            }
         }
 
         private void SaveButtonClick(object sender, EventArgs e)
         {
             _checkpointViewModel.SavePoint();
+            NavigationService.GoBack();
+        }
+
+        private void DeleteButtonClick(object sender, EventArgs e)
+        {
+            var db = new CacheDataBase();
+            db.DeleteCheckpoint(MapManager.Instance.Cache, _checkpointViewModel.CheckpointId + "");
             NavigationService.GoBack();
         }
     }

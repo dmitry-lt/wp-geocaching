@@ -69,16 +69,6 @@ namespace GeocachingPlus.Model.Dialogs
                                     };
         }
 
-        private void DeleteFromDb()
-        {
-            dispatcher.BeginInvoke(() =>
-                                         {
-                                             var db = new CacheDataBase();
-                                             db.DeleteCheckpoint(cache, item.Cache.Id);
-                                             closeAction();
-                                         });
-        }
-
         private void Edit()
         {
             dispatcher.BeginInvoke(() => NavigationManager.Instance.NavigateToEditCheckpoint(item.Cache.Id));
