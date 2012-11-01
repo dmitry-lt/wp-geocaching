@@ -15,7 +15,7 @@
         <shell:PhoneApplicationService 
             Launching="Application_Launching" Closing="Application_Closing" 
             Activated="Application_Activated" Deactivated="Application_Deactivated"/>
-        <Analytics:AnalyticsService WebPropertyId="UA-36031366-2"/>
+        <Analytics:AnalyticsService/>
     </Application.ApplicationLifetimeObjects>
 
 </Application>
