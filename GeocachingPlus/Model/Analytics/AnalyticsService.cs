@@ -1,24 +1,52 @@
 ﻿using System.ComponentModel.Composition.Hosting;
 using System.Windows;
 using Google.WebAnalytics;
+using Microsoft.WebAnalytics;
+using Microsoft.WebAnalytics.Behaviors;
+using Microsoft.WebAnalytics.Data;
 
 namespace GeocachingPlus.Model.Analytics
 {
     public class AnalyticsService : IApplicationService
     {
+        private readonly IApplicationService _innerService;
+        private readonly GoogleAnalytics _googleAnalytics;
+
+        public AnalyticsService()
+        {
+            _googleAnalytics = new GoogleAnalytics();
+            _googleAnalytics.CustomVariables.Add(new PropertyValue { PropertyName = "Device ID", Value = AnalyticsProperties.DeviceId });
+            _googleAnalytics.CustomVariables.Add(new PropertyValue { PropertyName = "Application Version", Value = AnalyticsProperties.ApplicationVersion });
+            _googleAnalytics.CustomVariables.Add(new PropertyValue { PropertyName = "Device OS", Value = AnalyticsProperties.OsVersion });
+            _googleAnalytics.CustomVariables.Add(new PropertyValue { PropertyName = "Device", Value = AnalyticsProperties.Device });
+            _innerService = new WebAnalyticsService
+            {
+                IsPageTrackingEnabled = false,
+                Services = { _googleAnalytics, }
+            };
+        }
+
+        public string WebPropertyId
+        {
+            get { return _googleAnalytics.WebPropertyId; }
+            set { _googleAnalytics.WebPropertyId = value; }
+        }
+
         #region IApplicationService Members
 
         public void StartService(ApplicationServiceContext context)
         {
             CompositionHost.Initialize(
-                new AssemblyCatalog(Application.Current.GetType().Assembly),
-                new AssemblyCatalog(typeof(Microsoft.WebAnalytics.AnalyticsEvent).Assembly),
-                new AssemblyCatalog(typeof(Microsoft.WebAnalytics.Behaviors.TrackAction).Assembly),
-                new AssemblyCatalog(typeof(GoogleAnalytics).Assembly));
+                new AssemblyCatalog(
+                    Application.Current.GetType().Assembly),
+                new AssemblyCatalog(typeof(AnalyticsEvent).Assembly),
+                new AssemblyCatalog(typeof(TrackAction).Assembly));
+            _innerService.StartService(context);
         }
 
         public void StopService()
         {
+            _innerService.StopService();
         }
 
         #endregion
