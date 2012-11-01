@@ -4,6 +4,54 @@ using Microsoft.WebAnalytics;
 
 namespace GeocachingPlus.Model.Analytics
 {
+    public enum AnalyticsCategory
+    {
+        UserAction
+    }
+
+    public enum AnalyticsUserAction
+    {
+        // Main screen
+        MainScreenChooseMapOpened,
+        MainScreenFavoritesOpened,
+        MainScreenSearchMapOpened,
+        MainScreenSettingsOpened,
+        MainScreenBackNavigated,
+
+        // Choose map
+        ChooseMapMyLocationSelected,
+        ChooseMapSettingsOpened,
+        ChooseMapCacheDetailsOpened,
+        ChooseMapBackNavigated,
+
+        // Favorites
+        FavoritesCacheDetailsOpened,
+        FavoritesBackNavigated,
+
+        // Cache details
+        CacheDetailsSearchMapOpened,
+        CacheDetailsAddSelected,
+        CacheDetailsRemoveSelected,
+        CacheDetailsDetailsTabSelected,
+        CacheDetailsPhotosTabSelected,
+        CacheDetailsLogbookTabSelected,
+        CacheDetailsBackNavigated,
+
+        // TODO: all pages
+
+        // Photo gallery
+
+        // Search map
+
+        // Compass
+
+        // Checkpoints
+
+        // Edit checkpoint
+
+        // Settings
+    }
+
     public class AnalyticsTracker
     {
         public AnalyticsTracker()
