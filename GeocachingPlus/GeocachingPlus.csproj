@@ -88,6 +88,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Analytics\AnalyticsProperties.cs" />
+    <Compile Include="Model\Analytics\AnalyticsTracker.cs" />
     <Compile Include="Model\Api\ApiManager.cs" />
     <Compile Include="Model\Api\CacheProvider.cs" />
     <Compile Include="Model\Api\GeocachingSu\GeocachingSuCache.cs" />
