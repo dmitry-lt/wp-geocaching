@@ -2,11 +2,8 @@
     x:Class="GeocachingPlus.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
-    xmlns:mwa="clr-namespace:Microsoft.WebAnalytics;assembly=Microsoft.WebAnalytics"
-    xmlns:ga="clr-namespace:Google.WebAnalytics;assembly=Google.WebAnalytics"
-    xmlns:local="clr-namespace:GeocachingPlus" xmlns:Analytics="clr-namespace:GeocachingPlus.Model.Analytics">
+    xmlns:Analytics="clr-namespace:GeocachingPlus.Model.Analytics">
 
     <!--Application Resources-->
     <Application.Resources>
@@ -18,12 +15,7 @@
         <shell:PhoneApplicationService 
             Launching="Application_Launching" Closing="Application_Closing" 
             Activated="Application_Activated" Deactivated="Application_Deactivated"/>
-        <Analytics:AnalyticsService/>
-        <mwa:WebAnalyticsService>
-            <mwa:WebAnalyticsService.Services>
-                <ga:GoogleAnalytics WebPropertyId="UA-36031366-2" Category="WP75" />
-            </mwa:WebAnalyticsService.Services>
-        </mwa:WebAnalyticsService>
+        <Analytics:AnalyticsService WebPropertyId="UA-36031366-2"/>
     </Application.ApplicationLifetimeObjects>
 
 </Application>
