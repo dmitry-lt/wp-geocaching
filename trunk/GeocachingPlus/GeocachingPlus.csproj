@@ -330,7 +330,7 @@
     <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_extreme_not_valid.png" />
     <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_extreme_valid.png" />
     <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_group.png" />
-    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_step_by_step_traditional_not_confir.png" />
+    <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_step_by_step_traditional_not_confirmed.png" />
     <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_step_by_step_traditional_not_valid.png" />
     <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_step_by_step_traditional_valid.png" />
     <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_step_by_step_virtual_not_confirmed.png" />
