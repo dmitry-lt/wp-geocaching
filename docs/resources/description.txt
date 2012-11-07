@@ -8,7 +8,7 @@ English: Opencaching.com and geocaching.su mobile app
 
 Detailed description:
 Russian:
-Геокэшинг плюс - это мобильное приложение, работающее с сервисами www.geocaching.su и opencaching.com
+Геокэшинг плюс - это мобильное приложение, работающее с сервисами geocaching.su и opencaching.com
 
 Наше приложение упростит вам поиск тайников, с его помощью вы сможете:
 - увидеть существующие тайники прямо на карте
@@ -19,7 +19,7 @@ Russian:
 Сайт проекта http://code.google.com/p/wp-geocaching/
 
 
-Geocaching Plus is a mobile client for the opencaching.com and www.geocaching.su services
+Geocaching Plus is a mobile client for the opencaching.com and geocaching.su services
 
 This app will improve your geocaching experience by letting you
 - view caches on a live map
