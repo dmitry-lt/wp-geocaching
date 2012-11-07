@@ -115,6 +115,15 @@ namespace WP_Geocaching.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Geocaching app has moved. Click here to download a new version from the store.
+        /// </summary>
+        public static string AppMovedMessage {
+            get {
+                return ResourceManager.GetString("AppMovedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Geocaching.
         /// </summary>
         public static string AppNameAbout {

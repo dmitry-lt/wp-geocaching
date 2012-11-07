@@ -44,11 +44,9 @@
 
         <Grid Grid.Row="1" Background="{StaticResource PhoneAccentBrush}">
             <Button Name="Update" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="Update_Click" BorderThickness="0">
-<!--                TODO: resources-->
-<!--                TODO: new app id-->
                 <TextBlock 
                     TextWrapping="Wrap" Style="{StaticResource TileTextStyle}"
-                    Text="Geocaching app has moved. Click here to download a new version from the store"/>
+                    Text="{Binding Path=LocalizedResources.AppMovedMessage, Source={StaticResource LocalizedStrings}}"/>
             </Button>
         </Grid>
         <!--ContentPanel - place additional content here-->

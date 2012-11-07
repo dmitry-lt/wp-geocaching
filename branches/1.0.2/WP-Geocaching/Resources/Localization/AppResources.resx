@@ -330,4 +330,7 @@
   <data name="DisabledLocationTitle" xml:space="preserve">
     <value>Location</value>
   </data>
+  <data name="AppMovedMessage" xml:space="preserve">
+    <value>Geocaching app has moved. Click here to download a new version from the store</value>
+  </data>
 </root>
