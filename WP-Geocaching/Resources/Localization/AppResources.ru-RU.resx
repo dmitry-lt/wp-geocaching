@@ -330,4 +330,7 @@
   <data name="DisabledLocationTitle" xml:space="preserve">
     <value>Местоположение</value>
   </data>
+  <data name="AppMovedMessage" xml:space="preserve">
+    <value>Приложение переехало. Нажмите сюда, чтобы скачать новую версию</value>
+  </data>
 </root>
