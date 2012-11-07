@@ -2,13 +2,13 @@
 
 
 Short description:
-Russian: Клиент для geocaching.su
-English: Geocaching.su mobile app
+Russian: Клиент для geocaching.su и opencaching.com
+English: Opencaching.com and geocaching.su mobile app
 
 
 Detailed description:
 Russian:
-Геокэшинг - это мобильное приложение для работы с сайтом http://www.geocaching.su
+Геокэшинг - это мобильное приложение, работающее с сервисами http://www.geocaching.su и http://opencaching.com
 
 Наше приложение упростит вам поиск тайников, с его помощью вы сможете:
 - увидеть существующие тайники прямо на карте
@@ -19,7 +19,7 @@ Russian:
 Сайт проекта http://code.google.com/p/wp-geocaching/
 
 
-Geocaching is a mobile client for the http://www.geocaching.su service. Please note, that most of the cache information is in Russian
+Geocaching is a mobile client for the http://opencaching.com and http://www.geocaching.su services. 
 
 This app will improve your geocaching experience by letting you
 - view caches on a live map
