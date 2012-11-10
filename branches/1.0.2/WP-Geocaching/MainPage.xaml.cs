@@ -28,10 +28,7 @@ namespace WP_Geocaching
             var marketplaceDetailTask = 
                 new MarketplaceDetailTask
                 {
-
-                    // TODO: new app id
-
-                    ContentIdentifier = "6ae6923a-f704-4960-8bef-881147f5a3bb",
+                    ContentIdentifier = "dbf554a7-8b87-4342-8c48-b426e6b9a8a4",
                     ContentType = MarketplaceContentType.Applications
                 };
 
