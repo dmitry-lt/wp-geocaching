@@ -238,13 +238,13 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         }
 
         /** Request JSON informations for a tile */
-        public void RequestMapInfo(Action<Tile, DownloadStringCompletedEventArgs> callback, string url, Dictionary<string, string> parameters, string referer) {
+        public void RequestMapInfo(Action<DownloadStringCompletedEventArgs> callback, string url, Dictionary<string, string> parameters, string referer) {
             var urlString = FormUrl(url, parameters);
 
             var client = new WebClient();
             client.Headers["Referer"] = referer;
 
-            client.DownloadStringCompleted += (sender, e) => callback(this, e);
+            client.DownloadStringCompleted += (sender, e) => callback(e);
 
             client.DownloadStringAsync(new Uri(urlString));
         }

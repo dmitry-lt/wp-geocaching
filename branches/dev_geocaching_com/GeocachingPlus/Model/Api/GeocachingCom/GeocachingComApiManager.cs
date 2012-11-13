@@ -15,99 +15,6 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             return ts.TotalMilliseconds;
         }
 
-        private void DownloadCachesCompleted(Tile tile, DownloadStringCompletedEventArgs e)
-        {
-            if (e.Error != null) return;
-
-            var jsonResult = e.Result;
-
-            if (!String.IsNullOrWhiteSpace(jsonResult))
-            {
-                var nameCache = new Dictionary<string, string>(); // JSON id, cache name
-
-                var parsedData = (GeocachingComApiCaches)JsonConvert.DeserializeObject(jsonResult, typeof(GeocachingComApiCaches));
-
-                var keys = parsedData.keys;
-
-                var positions = new Dictionary<string, List<UTFGridPosition>>(); // JSON id as key
-                for (var i = 1; i < keys.Length; i++)
-                {
-                    // index 0 is empty
-                    var key = keys[i];
-                    if (!String.IsNullOrWhiteSpace(key))
-                    {
-                        var pos = UTFGridPosition.FromString(key);
-
-                        var dataForKey = parsedData.data[key];
-                        foreach (var c in dataForKey)
-                        {
-                            var id = c.i;
-                            if (!nameCache.ContainsKey(id))
-                            {
-                                nameCache.Add(id, c.n);
-                            }
-
-                            if (!positions.ContainsKey(id))
-                            {
-                                positions.Add(id, new List<UTFGridPosition>());
-                            }
-
-                            positions[id].Add(pos);
-                        }
-
-                    }
-                }
-
-                var caches = new HashSet<Cache>();
-
-                foreach (var id in positions.Keys)
-                {
-                    List<UTFGridPosition> pos = positions[id];
-                    UTFGridPosition xy = UTFGrid.GetPositionInGrid(pos);
-                    var cache = new GeocachingComCache()
-                                    {
-                                        Id = id,
-                                        Name = nameCache[id],
-                                        Location = tile.GetCoord(xy),
-                                        ReliableLocation = false,
-                                    };
-
-                    // TODO: repeated entries
-                    caches.Add(cache);
-
-                    /*
-                    cgCache cache = new cgCache();
-                    cache.setDetailed(false);
-                    cache.setReliableLatLon(false);
-                    cache.setGeocode(id);
-                    cache.setName(nameCache.get(id));
-                    cache.setZoomlevel(tile.getZoomlevel());
-                    cache.setCoords(tile.getCoord(xy));
-                    if (strategy.flags.contains(StrategyFlag.PARSE_TILES) && positions.size() < 64 && bitmap != null) {
-                        // don't parse if there are too many caches. The decoding would return too much wrong results
-                        IconDecoder.parseMapPNG(cache, bitmap, xy, tile.getZoomlevel());
-                    } else {
-                        cache.setType(CacheType.UNKNOWN);
-                    }
-                    boolean exclude = false;
-                    if (Settings.isExcludeMyCaches() && (cache.isFound() || cache.isOwn())) { // workaround for BM
-                        exclude = true;
-                    }
-                    if (Settings.isExcludeDisabledCaches() && cache.isDisabled()) {
-                        exclude = true;
-                    }
-                    if (Settings.getCacheType() != CacheType.ALL && Settings.getCacheType() != cache.getType() && cache.getType() != CacheType.UNKNOWN) { // workaround for BM
-                        exclude = true;
-                    }
-                    if (!exclude) {
-                        searchResult.addCache(cache);
-                    }
-                    */
-
-                }
-            }
-        }
-
         public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
         {
             var viewport = new Viewport(lngmax, lgnmin, latmax, latmin);
@@ -163,7 +70,75 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     }
                     */
 
-                    tile.RequestMapInfo(DownloadCachesCompleted, GCConstants.URL_MAP_INFO, parameters, GCConstants.URL_LIVE_MAP);
+                    Action<DownloadStringCompletedEventArgs> downloadCachesCompleted = 
+                        (e) =>
+                        {
+                            if (e.Error != null) return;
+
+                            var jsonResult = e.Result;
+
+                            if (!String.IsNullOrWhiteSpace(jsonResult))
+                            {
+                                var nameCache = new Dictionary<string, string>(); // JSON id, cache name
+
+                                var parsedData =
+                                    (GeocachingComApiCaches)
+                                    JsonConvert.DeserializeObject(jsonResult, typeof (GeocachingComApiCaches));
+
+                                var keys = parsedData.keys;
+
+                                var positions = new Dictionary<string, List<UTFGridPosition>>();
+                                    // JSON id as key
+                                for (var i = 1; i < keys.Length; i++)
+                                {
+                                    // index 0 is empty
+                                    var key = keys[i];
+                                    if (!String.IsNullOrWhiteSpace(key))
+                                    {
+                                        var pos = UTFGridPosition.FromString(key);
+
+                                        var dataForKey = parsedData.data[key];
+                                        foreach (var c in dataForKey)
+                                        {
+                                            var id = c.i;
+                                            if (!nameCache.ContainsKey(id))
+                                            {
+                                                nameCache.Add(id, c.n);
+                                            }
+
+                                            if (!positions.ContainsKey(id))
+                                            {
+                                                positions.Add(id, new List<UTFGridPosition>());
+                                            }
+
+                                            positions[id].Add(pos);
+                                        }
+
+                                    }
+                                }
+
+                                var caches = new List<Cache>();
+
+                                foreach (var id in positions.Keys)
+                                {
+                                    var pos = positions[id];
+                                    var xy = UTFGrid.GetPositionInGrid(pos);
+                                    var cache = new GeocachingComCache()
+                                                    {
+                                                        Id = id,
+                                                        Name = nameCache[id],
+                                                        Location = tile.GetCoord(xy),
+                                                        ReliableLocation = false,
+                                                    };
+
+                                    caches.Add(cache);
+                                }
+
+                                processCaches(caches);
+                            }
+                        };
+
+                    tile.RequestMapInfo(downloadCachesCompleted, GCConstants.URL_MAP_INFO, parameters, GCConstants.URL_LIVE_MAP);
 
                     /*
                     String data = Tile.requestMapInfo(GCConstants.URL_MAP_INFO, params, GCConstants.URL_LIVE_MAP);
