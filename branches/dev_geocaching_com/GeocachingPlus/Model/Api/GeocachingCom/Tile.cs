@@ -253,6 +253,8 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                         if (!String.IsNullOrWhiteSpace(jsonResult))
                         {
+                            var nameCache = new LruCache<string, string>(2000); // JSON id, cache name
+
                             var parsedData = (GeocachingComApiCaches)JsonConvert.DeserializeObject(jsonResult, typeof(GeocachingComApiCaches));
 
                             var keys = parsedData.keys;
@@ -264,25 +266,22 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                 var key = keys[i];
                                 if (!String.IsNullOrWhiteSpace(key))
                                 {
-                                    UTFGridPosition pos = UTFGridPosition.FromString(key);
-/*
-                                    JSONArray dataForKey = dataObject.getJSONArray(key);
-                                    for (int j = 0; j < dataForKey.length(); j++)
-                                    {
-                                        JSONObject cacheInfo = dataForKey.getJSONObject(j);
-                                        String id = cacheInfo.getString("i");
-                                        nameCache.put(id, cacheInfo.getString("n"));
+                                    var pos = UTFGridPosition.FromString(key);
 
-                                        List<UTFGridPosition> listOfPositions = positions.get(id);
-                                        if (listOfPositions == null)
+                                    var dataForKey = parsedData.data[key];
+                                    foreach (var c in dataForKey)
+                                    {
+                                        var id = c.i;
+                                        nameCache.Add(id, c.n);
+
+                                        if (!positions.ContainsKey(id))
                                         {
-                                            listOfPositions = new ArrayList<UTFGridPosition>();
-                                            positions.put(id, listOfPositions);
+                                            positions.Add(id, new List<UTFGridPosition>());
                                         }
 
-                                        listOfPositions.add(pos);
+                                        positions[id].Add(pos);
                                     }
-*/
+
                                 }
                             }
 
