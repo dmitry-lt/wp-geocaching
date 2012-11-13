@@ -253,9 +253,38 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                         if (!String.IsNullOrWhiteSpace(jsonResult))
                         {
-                            var serializer = new DataContractJsonSerializer(typeof(GeocachingComApiCaches));
+                            var parsedData = (GeocachingComApiCaches)JsonConvert.DeserializeObject(jsonResult, typeof(GeocachingComApiCaches));
 
-                            var parsedData = JsonConvert.DeserializeObject(jsonResult, typeof (GeocachingComApiCaches));
+                            var keys = parsedData.keys;
+
+                            var positions = new Dictionary<string, List<UTFGridPosition>>(); // JSON id as key
+                            for (var i = 1; i < keys.Length; i++)
+                            { 
+                                // index 0 is empty
+                                var key = keys[i];
+                                if (!String.IsNullOrWhiteSpace(key))
+                                {
+                                    UTFGridPosition pos = UTFGridPosition.FromString(key);
+/*
+                                    JSONArray dataForKey = dataObject.getJSONArray(key);
+                                    for (int j = 0; j < dataForKey.length(); j++)
+                                    {
+                                        JSONObject cacheInfo = dataForKey.getJSONObject(j);
+                                        String id = cacheInfo.getString("i");
+                                        nameCache.put(id, cacheInfo.getString("n"));
+
+                                        List<UTFGridPosition> listOfPositions = positions.get(id);
+                                        if (listOfPositions == null)
+                                        {
+                                            listOfPositions = new ArrayList<UTFGridPosition>();
+                                            positions.put(id, listOfPositions);
+                                        }
+
+                                        listOfPositions.add(pos);
+                                    }
+*/
+                                }
+                            }
 
 /*
                                 // description
