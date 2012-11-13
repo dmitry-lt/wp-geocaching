@@ -32,8 +32,8 @@
                 <ColumnDefinition Width="223*" />
                 <ColumnDefinition Width="233*" />
             </Grid.ColumnDefinitions>
-            <TextBox Height="490" HorizontalAlignment="Left" Margin="6,99,0,0" Name="textBox1" Text="" VerticalAlignment="Top" Width="444" Grid.ColumnSpan="2" />
-            <Button Content="Show description" Grid.ColumnSpan="2" Height="88" HorizontalAlignment="Left" Margin="25,23,0,0" Name="button1" VerticalAlignment="Top" Width="408" Click="button1_Click" />
+            <TextBox Height="520" HorizontalAlignment="Left" Margin="6,69,0,0" Name="textBox1" Text="" VerticalAlignment="Top" Width="444" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" />
+            <Button Content="Show description" Grid.ColumnSpan="2" Height="74" HorizontalAlignment="Left" Margin="25,6,0,0" Name="button1" VerticalAlignment="Top" Width="408" Click="button1_Click" />
         </Grid>
     </Grid>
  
