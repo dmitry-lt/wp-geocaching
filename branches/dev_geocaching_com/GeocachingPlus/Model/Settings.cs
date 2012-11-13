@@ -267,6 +267,10 @@ namespace GeocachingPlus.Model
                 case CacheProvider.OpenCachingCom:
                     return IsOpenCachingComEnabled;
 
+                // TODO:
+                case CacheProvider.GeocachingCom:
+                    return true;
+
                 default:
                     throw new ArgumentException();
 
