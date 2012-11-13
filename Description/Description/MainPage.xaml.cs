@@ -20,11 +20,18 @@ namespace Description
             InitializeComponent();
         }
 
+        private void showText(String text) 
+        {
+            this.textBox1.Text = text;
+        }
+
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             this.textBox1.Text = "Loading...";
             GetDescription test = new GetDescription();
-            test.FetchCacheDetails("GC1NKDN");
+            Action<string> processDescription;
+            processDescription = delegate(string s) { showText(s); };
+            test.FetchCacheDetails(processDescription, "GC1NKDN");
         }
 
 
