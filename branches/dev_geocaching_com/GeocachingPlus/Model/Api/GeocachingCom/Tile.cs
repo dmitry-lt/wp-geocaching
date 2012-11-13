@@ -249,6 +249,54 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                         if (e.Error != null) return;
 
                         var jsonResult = e.Result;
+
+                        if (!String.IsNullOrWhiteSpace(jsonResult))
+                        {
+                            var serializer = new DataContractJsonSerializer(typeof(GeocachingComApiCaches));
+
+                            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonResult)))
+                            {
+                                var parsedData = (GeocachingComApiCaches)serializer.ReadObject(ms);
+
+/*
+                                // description
+                                if (null != processDescription)
+                                {
+                                    var description = parsedCache.name + "<br/><br/>" + parsedCache.description;
+                                    processDescription(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(description)));
+                                }
+
+                                // logs
+                                if (null != processLogbook)
+                                {
+                                    var logbook = "";
+                                    var logs = parsedCache.logs;
+                                    if (null != logs)
+                                    {
+                                        foreach (var log in logs)
+                                        {
+                                            logbook += log.user.name + ":<br/>";
+                                            logbook += log.comment + "<br/><br/>";
+                                        }
+                                    }
+                                    processLogbook(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(logbook)));
+                                }
+
+                                // photos
+                                if (null != processPhotoUrls)
+                                {
+                                    var photoUrls = new List<string>();
+                                    var images = parsedCache.images;
+                                    if (null != images && images.Any())
+                                    {
+                                        photoUrls.AddRange(images.Select(image => String.Format(PhotoSourceUrl, cache.Id, Uri.EscapeUriString(image.caption))));
+                                    }
+                                    processPhotoUrls(photoUrls);
+                                }
+*/
+                            }
+                            
+                        }
                     };
 
             client.DownloadStringAsync(new Uri(urlString));
