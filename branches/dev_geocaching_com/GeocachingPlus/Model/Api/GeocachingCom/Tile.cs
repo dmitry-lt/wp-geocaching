@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Device.Location;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Runtime.Serialization.Json;
+using System.Text;
+using GeocachingPlus.Model.Api.OpenCachingCom;
 using Microsoft.Xna.Framework;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
@@ -200,6 +206,54 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         public override int GetHashCode() {
             return ToString().GetHashCode();
         }
+
+        private static string FormUrl(string baseUrl, Dictionary<string, string> parameters)
+        {
+            var urlString = baseUrl;
+            var firstParameter = true;
+            foreach (var k in parameters.Keys)
+            {
+                if (firstParameter)
+                {
+                    urlString += "?" + k + "=" + parameters[k];
+                    firstParameter = false;
+                }
+                else
+                {
+                    urlString += "&" + k + "=" + parameters[k];
+                }
+            }
+            return urlString;
+        }
+
+        /** Request .png image for a tile. */
+        public static void RequestMapTile(Dictionary<string, string> parameters)
+        {
+            var urlString = FormUrl(GCConstants.URL_MAP_TILE, parameters);
+
+            var client = new WebClient();
+
+            client.DownloadStringAsync(new Uri(urlString));
+        }
+
+        /** Request JSON informations for a tile */
+        public static void RequestMapInfo(String url, Dictionary<string, string> parameters, string referer) {
+            var urlString = FormUrl(url, parameters);
+
+            var client = new WebClient();
+            client.Headers["Referer"] = referer;
+
+            client.DownloadStringCompleted +=
+                (sender, e) =>
+                    {
+                        if (e.Error != null) return;
+
+                        var jsonResult = e.Result;
+                    };
+
+            client.DownloadStringAsync(new Uri(urlString));
+        }
+
 
 
         public static class Cache {

@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="Model\Api\ApiManager.cs" />
     <Compile Include="Model\Api\CacheProvider.cs" />
+    <Compile Include="Model\Api\GeocachingCom\GCConstants.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComApiManager.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComCache.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeoCoordinateExtensions.cs" />

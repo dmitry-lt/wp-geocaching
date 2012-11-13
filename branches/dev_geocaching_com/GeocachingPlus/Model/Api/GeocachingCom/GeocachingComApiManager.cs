@@ -5,6 +5,14 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 {
     public class GeocachingComApiManager : IApiManager
     {
+        private double MilliTimeStamp()
+        {
+            DateTime d1 = new DateTime(1970, 1, 1);
+            DateTime d2 = DateTime.UtcNow;
+            TimeSpan ts = new TimeSpan(d2.Ticks - d1.Ticks);
+            return ts.TotalMilliseconds;
+        }
+
         public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
         {
             var viewport = new Viewport(lngmax, lgnmin, latmax, latmin);
@@ -13,13 +21,13 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
             foreach (Tile tile in tiles) {
                 if (!Tile.Cache.Contains(tile)) {
-/*
-                    final Parameters params = new Parameters(
-                            "x", String.valueOf(tile.getX()),
-                            "y", String.valueOf(tile.getY()),
-                            "z", String.valueOf(tile.getZoomlevel()),
-                            "ep", "1");
-*/
+                    var parameters = new Dictionary<string, string>()
+                    {
+                            {"x", tile.TileX + ""},
+                            {"y", tile.TileY + ""},
+                            {"z", tile.Zoomlevel + ""},
+                            {"ep", "1"},
+                    };
 
 /*
                     if (tokens != null) {
@@ -37,11 +45,10 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     }
 */
 
-/*
-                    if (tile.getZoomlevel() != 14) {
-                        params.put("_", String.valueOf(System.currentTimeMillis()));
+                    if (tile.Zoomlevel != 14) {
+                        parameters.Add("_", MilliTimeStamp() + "");
                     }
-*/
+
                     // TODO: other types t.b.d
 
                     // The PNG must be requested first, otherwise the following request would always return with 204 - No Content
@@ -57,6 +64,8 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                         bitmap = null;
                     }
 */
+
+                    Tile.RequestMapInfo(GCConstants.URL_MAP_INFO, parameters, GCConstants.URL_LIVE_MAP);
 
 /*
                     String data = Tile.requestMapInfo(GCConstants.URL_MAP_INFO, params, GCConstants.URL_LIVE_MAP);
