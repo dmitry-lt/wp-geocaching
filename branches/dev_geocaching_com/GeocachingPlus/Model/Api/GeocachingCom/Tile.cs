@@ -9,6 +9,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using GeocachingPlus.Model.Api.OpenCachingCom;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
 {
@@ -254,9 +255,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                         {
                             var serializer = new DataContractJsonSerializer(typeof(GeocachingComApiCaches));
 
-                            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonResult)))
-                            {
-                                var parsedData = (GeocachingComApiCaches)serializer.ReadObject(ms);
+                            var parsedData = JsonConvert.DeserializeObject(jsonResult, typeof (GeocachingComApiCaches));
 
 /*
                                 // description
@@ -294,7 +293,6 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                     processPhotoUrls(photoUrls);
                                 }
 */
-                            }
                             
                         }
                     };
