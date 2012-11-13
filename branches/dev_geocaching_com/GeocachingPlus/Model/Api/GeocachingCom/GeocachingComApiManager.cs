@@ -20,7 +20,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             HashSet<Tile> tiles = Tile.GetTilesForViewport(viewport);
 
             foreach (Tile tile in tiles) {
-                if (!Tile.Cache.Contains(tile)) {
+                if (!Tile.TileCache.Contains(tile)) {
                     var parameters = new Dictionary<string, string>()
                     {
                             {"x", tile.TileX + ""},
