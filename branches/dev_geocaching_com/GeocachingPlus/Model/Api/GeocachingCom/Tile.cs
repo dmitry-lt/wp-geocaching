@@ -272,7 +272,10 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                     foreach (var c in dataForKey)
                                     {
                                         var id = c.i;
-                                        nameCache.Add(id, c.n);
+                                        if (!nameCache.ContainsKey(id))
+                                        {
+                                            nameCache.Add(id, c.n);
+                                        }
 
                                         if (!positions.ContainsKey(id))
                                         {
