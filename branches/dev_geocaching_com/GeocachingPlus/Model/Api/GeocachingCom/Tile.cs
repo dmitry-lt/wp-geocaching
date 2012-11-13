@@ -238,7 +238,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         }
 
         /** Request JSON informations for a tile */
-        public static void RequestMapInfo(String url, Dictionary<string, string> parameters, string referer) {
+        public void RequestMapInfo(String url, Dictionary<string, string> parameters, string referer) {
             var urlString = FormUrl(url, parameters);
 
             var client = new WebClient();
@@ -253,7 +253,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                         if (!String.IsNullOrWhiteSpace(jsonResult))
                         {
-                            var nameCache = new LruCache<string, string>(2000); // JSON id, cache name
+                            var nameCache = new Dictionary<string, string>(); // JSON id, cache name
 
                             var parsedData = (GeocachingComApiCaches)JsonConvert.DeserializeObject(jsonResult, typeof(GeocachingComApiCaches));
 
@@ -285,43 +285,50 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                 }
                             }
 
+                            var caches = new HashSet<Cache>();
+
+                            foreach (var id in positions.Keys) {
+                                List<UTFGridPosition> pos = positions[id];
+                                UTFGridPosition xy = UTFGrid.GetPositionInGrid(pos);
+                                var cache = new GeocachingComCache()
+                                                {
+                                                    Id = id,
+                                                    Name = nameCache[id],
+                                                    Location = GetCoord(xy),
+                                                    ReliableLocation = false,
+                                                };
+
+                                // TODO: repeated entries
+                                caches.Add(cache);
 /*
-                                // description
-                                if (null != processDescription)
-                                {
-                                    var description = parsedCache.name + "<br/><br/>" + parsedCache.description;
-                                    processDescription(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(description)));
+                                cgCache cache = new cgCache();
+                                cache.setDetailed(false);
+                                cache.setReliableLatLon(false);
+                                cache.setGeocode(id);
+                                cache.setName(nameCache.get(id));
+                                cache.setZoomlevel(tile.getZoomlevel());
+                                cache.setCoords(tile.getCoord(xy));
+                                if (strategy.flags.contains(StrategyFlag.PARSE_TILES) && positions.size() < 64 && bitmap != null) {
+                                    // don't parse if there are too many caches. The decoding would return too much wrong results
+                                    IconDecoder.parseMapPNG(cache, bitmap, xy, tile.getZoomlevel());
+                                } else {
+                                    cache.setType(CacheType.UNKNOWN);
                                 }
-
-                                // logs
-                                if (null != processLogbook)
-                                {
-                                    var logbook = "";
-                                    var logs = parsedCache.logs;
-                                    if (null != logs)
-                                    {
-                                        foreach (var log in logs)
-                                        {
-                                            logbook += log.user.name + ":<br/>";
-                                            logbook += log.comment + "<br/><br/>";
-                                        }
-                                    }
-                                    processLogbook(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(logbook)));
+                                boolean exclude = false;
+                                if (Settings.isExcludeMyCaches() && (cache.isFound() || cache.isOwn())) { // workaround for BM
+                                    exclude = true;
                                 }
-
-                                // photos
-                                if (null != processPhotoUrls)
-                                {
-                                    var photoUrls = new List<string>();
-                                    var images = parsedCache.images;
-                                    if (null != images && images.Any())
-                                    {
-                                        photoUrls.AddRange(images.Select(image => String.Format(PhotoSourceUrl, cache.Id, Uri.EscapeUriString(image.caption))));
-                                    }
-                                    processPhotoUrls(photoUrls);
+                                if (Settings.isExcludeDisabledCaches() && cache.isDisabled()) {
+                                    exclude = true;
+                                }
+                                if (Settings.getCacheType() != CacheType.ALL && Settings.getCacheType() != cache.getType() && cache.getType() != CacheType.UNKNOWN) { // workaround for BM
+                                    exclude = true;
+                                }
+                                if (!exclude) {
+                                    searchResult.addCache(cache);
                                 }
 */
-                            
+                            }
                         }
                     };
 
@@ -330,7 +337,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
 
 
-        public static class Cache {
+        public static class TileCache {
             private static LruCache<int, Tile> tileCache = new LruCache<int, Tile>(64);
 
 /*

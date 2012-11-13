@@ -65,7 +65,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     }
 */
 
-                    Tile.RequestMapInfo(GCConstants.URL_MAP_INFO, parameters, GCConstants.URL_LIVE_MAP);
+                    tile.RequestMapInfo(GCConstants.URL_MAP_INFO, parameters, GCConstants.URL_LIVE_MAP);
 
 /*
                     String data = Tile.requestMapInfo(GCConstants.URL_MAP_INFO, params, GCConstants.URL_LIVE_MAP);
