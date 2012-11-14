@@ -122,6 +122,8 @@ namespace GeocachingPlus.ViewModel
             CachePushpins.Clear();
         }
 
+        private bool _tooManyCachesOnScreen;
+
         private void ProcessCaches(List<Cache> caches)
         {
             lock (_lock)
@@ -149,7 +151,9 @@ namespace GeocachingPlus.ViewModel
                     }
                 }
 
-                if (cachesOnScreen.Count >= maxCacheCount)
+                _tooManyCachesOnScreen = cachesOnScreen.Count >= maxCacheCount;
+
+                if (_tooManyCachesOnScreen)
                 {
                     if (surpassedCacheCountMessageVisibility.Equals(Visibility.Collapsed))
                     {
@@ -192,8 +196,10 @@ namespace GeocachingPlus.ViewModel
         private void SetPushpinsOnMap()
         {
             ProcessCaches(null);
-            apiManager.FetchCaches(ProcessCaches, BoundingRectangle.East,
-                BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
+            if (!_tooManyCachesOnScreen)
+            {
+                apiManager.FetchCaches(ProcessCaches, BoundingRectangle.East, BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
+            }
         }
         
     }
