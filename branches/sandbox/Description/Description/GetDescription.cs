@@ -20,12 +20,10 @@ namespace Description
                 if (e.Error != null) return;
                 var description = e.Result;
                 //String patternDesc = "\"[0-9]*\"";
-                //String patternDesc = @" (<span id="ctl00_ContentBody_LongDescription">) ((\w\s*<br />*)*) "</span>"";
-                //Regex regex = new Regex(patternDesc);
-                //Match match = regex.Match(e.Result);
+                String patternDesc = "<span id=\"ctl00_ContentBody_LongDescription\">(.*)</span>\\s*</div>\\s*<p>\\s*</p>\\s*<p id=\"ctl00_ContentBody_hints\">";
                 if (null != processDescription)
                 {
-                    //var description = match.ToString();
+                    description = Regex.Matches(e.Result, patternDesc, RegexOptions.Singleline)[0].Value;
                     processDescription(description);
                     //processDescription(String.Format(description));
                 }
