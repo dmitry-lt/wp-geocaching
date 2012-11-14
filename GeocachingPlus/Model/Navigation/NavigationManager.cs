@@ -51,7 +51,7 @@ namespace GeocachingPlus.Model.Navigation
         public void NavigateToSearchBingMap(Cache cache)
         {
             Repository.CurrentCache = cache;
-            Navigate("//View/SearchBingMap.xaml");
+            Navigate("//View/Map/SearchBingMap.xaml");
         }
 
         public void NavigateToCheckpoints()
@@ -101,7 +101,7 @@ namespace GeocachingPlus.Model.Navigation
 
         public void NavigateToBingMap()
         {
-            Navigate("/View/BingMap.xaml");
+            Navigate("/View/Map/BingMap.xaml");
         }
     }
 }

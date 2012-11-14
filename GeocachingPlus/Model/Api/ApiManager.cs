@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.Api.GeocachingSu;
 using GeocachingPlus.Model.Api.OpenCachingCom;
 
@@ -25,6 +26,7 @@ namespace GeocachingPlus.Model.Api
         {
             _managers.Add(CacheProvider.GeocachingSu, new GeocahingSuApiManager());
             _managers.Add(CacheProvider.OpenCachingCom, new OpenCachingComApiManager());
+            _managers.Add(CacheProvider.GeocachingCom, new GeocachingComApiManager());
         }
 
         public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
