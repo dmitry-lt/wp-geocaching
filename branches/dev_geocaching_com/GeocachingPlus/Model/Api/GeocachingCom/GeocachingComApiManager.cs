@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 
@@ -174,9 +175,28 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
         }
 
+
+        private const string InfoUrl = "http://www.geocaching.com/seek/cache_details.aspx?wp=";
+        private const string PatternDesc = "<span id=\"ctl00_ContentBody_LongDescription\">(.*)</span>\\s*</div>\\s*<p>\\s*</p>\\s*<p id=\"ctl00_ContentBody_hints\">";
+
         public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
         {
-            throw new NotImplementedException();
+            if (null == processDescription)
+            {
+                return;
+            }
+                
+            var sUrl = InfoUrl + cache.Id;
+            var client = new WebClient();
+
+            client.DownloadStringCompleted += (sender, e) =>
+            {
+                if (e.Error != null) return;
+                
+                var description = Regex.Matches(e.Result, PatternDesc, RegexOptions.Singleline)[0].Value;
+                processDescription(description);
+            };
+            client.DownloadStringAsync(new Uri(sUrl));
         }
     }
 }
