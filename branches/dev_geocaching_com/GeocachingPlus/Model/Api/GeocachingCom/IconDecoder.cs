@@ -59,15 +59,15 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                 // these are quite sure, so one pixel is enough for matching
                 if (green > 0x80 && green > red && green > blue) {
-//                    cache.setType(CacheType.TRADITIONAL);
+                    cache.Type = GeocachingComCache.Types.TRADITIONAL;
                     return;
                 }
                 if (blue > 0x80 && blue > red && blue > green) {
-//                    cache.setType(CacheType.MYSTERY);
+                    cache.Type = GeocachingComCache.Types.MYSTERY;
                     return;
                 }
                 if (red > 0x90 && blue < 0x10 && green < 0x10) {
-//                    cache.setType(CacheType.EVENT);
+                    cache.Type = GeocachingComCache.Types.EVENT;
                     return;
                 }
 
@@ -85,7 +85,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 //                cache.setFound(true);
             }
             if (countMulti > countFound && countMulti >= 5) {
-//                cache.setType(CacheType.MULTI);
+                cache.Type = GeocachingComCache.Types.MULTI;
             }
         }
 
@@ -135,17 +135,17 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             try {
                 if ((bitmap.GetPixel(x + POSX_TRADI, y + POSY_TRADI).ToArgb() & 0x00FFFFFF) == COLOR_TRADITIONAL)
                 {
-//                    cache.setType(CacheType.TRADITIONAL);
+                    cache.Type = GeocachingComCache.Types.TRADITIONAL;
                     return;
                 }
                 if ((bitmap.GetPixel(x + POSX_MYSTERY, y + POSY_MYSTERY).ToArgb() & 0x00FFFFFF) == COLOR_MYSTERY)
                 {
-//                    cache.setType(CacheType.MYSTERY);
+                    cache.Type = GeocachingComCache.Types.MYSTERY;
                     return;
                 }
                 if ((bitmap.GetPixel(x + POSX_MULTI, y + POSY_MULTI).ToArgb() & 0x00FFFFFF) == COLOR_MULTI)
                 {
-//                    cache.setType(CacheType.MULTI);
+                    cache.Type = GeocachingComCache.Types.MULTI;
                     return;
                 }
                 if ((bitmap.GetPixel(x + POSX_FOUND, y + POSY_FOUND).ToArgb() & 0x00FFFFFF) == COLOR_FOUND)
