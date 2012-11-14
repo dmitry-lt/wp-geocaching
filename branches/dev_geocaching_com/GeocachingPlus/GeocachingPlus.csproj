@@ -243,6 +243,9 @@
     <Compile Include="View\Map\BingMap.xaml.cs">
       <DependentUpon>BingMap.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Map\PushpinControl.xaml.cs">
+      <DependentUpon>PushpinControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Map\SearchBingMap.xaml.cs">
       <DependentUpon>SearchBingMap.xaml</DependentUpon>
     </Compile>
@@ -308,6 +311,10 @@
     <Page Include="View\Map\BingMap.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Map\PushpinControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Map\SearchBingMap.xaml">
       <Generator>MSBuild:Compile</Generator>
