@@ -29,6 +29,7 @@
         public GeocachingComCache()
         {
             CacheProvider = CacheProvider.GeocachingCom;
+            Type = Types.UNKNOWN;
         }
     }
 }
