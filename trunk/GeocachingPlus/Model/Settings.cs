@@ -28,6 +28,7 @@ namespace GeocachingPlus.Model
         private const string IsFirstLaunchingKeyName = "IsFirstLaunching";
         private const string IsOpenCachingComEnabledKeyName = "IsOpenCachingComEnabled";
         private const string IsGeocachingSuEnabledKeyName = "IsGeocachingSuEnabled";
+        private const string IsGeocachingComEnabledKeyName = "IsGeocachingComEnabled";
 
         // The default value of our settings
         private const string LatestSoughtCacheIdDefault = "";
@@ -257,6 +258,21 @@ namespace GeocachingPlus.Model
             }
         }
 
+        public bool IsGeocachingComEnabled
+        {
+            get
+            {
+                return GetValueOrDefault(IsGeocachingComEnabledKeyName, true);
+            }
+            set
+            {
+                if (AddOrUpdateValue(IsGeocachingComEnabledKeyName, value))
+                {
+                    Save();
+                }
+            }
+        }
+
         public bool IsCacheProviderEnabled(CacheProvider cacheProvider)
         {
             switch (cacheProvider)
@@ -266,6 +282,9 @@ namespace GeocachingPlus.Model
 
                 case CacheProvider.OpenCachingCom:
                     return IsOpenCachingComEnabled;
+
+                case CacheProvider.GeocachingCom:
+                    return IsGeocachingComEnabled;
 
                 default:
                     throw new ArgumentException();

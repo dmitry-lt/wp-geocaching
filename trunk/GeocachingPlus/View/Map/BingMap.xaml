@@ -1,4 +1,4 @@
-﻿<phone:PhoneApplicationPage
+<phone:PhoneApplicationPage
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -6,8 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Microsoft_Phone_Controls_Maps="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps" 
-    x:Class="GeocachingPlus.View.BingMap"
-    xmlns:c="clr-namespace:GeocachingPlus.View.Converters"
+    x:Class="GeocachingPlus.View.Map.BingMap"
+    xmlns:c="clr-namespace:GeocachingPlus.View.Converters" xmlns:Map="clr-namespace:GeocachingPlus.View.Map"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -38,7 +38,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <c:IconConverter x:Key="IconConverter" x:Name="IconConverter"/>
         </Grid.Resources>
 
         <!--TitlePanel contains the name of the application and page title-->
@@ -69,7 +68,7 @@
                                                                    Tag="{Binding ShowDetails}"
                                                                    Tap="PushpinTap"
                                                                    >
-                                <Image Source="{Binding CacheInfo, Converter={StaticResource IconConverter}}"/>
+                                <Map:PushpinControl DataContext="{Binding CacheInfo}"/>
                             </Microsoft_Phone_Controls_Maps:Pushpin>
                         </DataTemplate>
                     </Microsoft_Phone_Controls_Maps:MapItemsControl.ItemTemplate>

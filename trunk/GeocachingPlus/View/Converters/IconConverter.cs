@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.Api.GeocachingSu;
 using GeocachingPlus.Model.Api.OpenCachingCom;
 using GeocachingPlus.ViewModel;
@@ -173,6 +174,12 @@ namespace GeocachingPlus.View.Converters
             if (value is GeocachingSuCache)
             {
                 return ConvertGeocachingSu(value as GeocachingSuCache);
+            }
+
+            if (value is GeocachingComCache)
+            {
+                // TODO: implement
+                return new Uri(String.Format(CheckpointUri, "not_active"), UriKind.Relative);
             }
 
             return null;

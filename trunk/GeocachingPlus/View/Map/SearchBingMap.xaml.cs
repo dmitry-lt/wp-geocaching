@@ -1,22 +1,22 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using Microsoft.Phone.Controls;
+using System.Windows.Navigation;
+using GeocachingPlus.Model;
 using GeocachingPlus.Model.Api;
 using GeocachingPlus.Model.Api.GeocachingSu;
+using GeocachingPlus.Model.DataBase;
 using GeocachingPlus.Model.Dialogs;
 using GeocachingPlus.Model.Navigation;
+using GeocachingPlus.Resources.Localization;
 using GeocachingPlus.View.Converters;
 using GeocachingPlus.ViewModel;
-using GeocachingPlus.Model;
+using Microsoft.Phone.Controls;
 using Microsoft.Phone.Controls.Maps;
-using System.Windows.Navigation;
 using Microsoft.Phone.Shell;
-using GeocachingPlus.Resources.Localization;
-using GeocachingPlus.Model.DataBase;
 
-namespace GeocachingPlus.View
+namespace GeocachingPlus.View.Map
 {
     public partial class SearchBingMap : PhoneApplicationPage
     {

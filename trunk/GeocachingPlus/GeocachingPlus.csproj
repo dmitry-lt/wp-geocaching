@@ -50,6 +50,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZLib.Phone">
+      <HintPath>Libs\ImageTools\ICSharpCode.SharpZLib.Phone.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageTools">
+      <HintPath>Libs\ImageTools\ImageTools.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageTools.IO.Png">
+      <HintPath>Libs\ImageTools\ImageTools.IO.Png.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageTools.Utils">
+      <HintPath>Libs\ImageTools\ImageTools.Utils.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Devices.Sensors" />
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
@@ -58,6 +70,12 @@
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Microsoft.Xna.Framework.GamerServices" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PhoneCodeContractsAssemblies">
+      <HintPath>Libs\ImageTools\PhoneCodeContractsAssemblies.dll</HintPath>
+    </Reference>
     <Reference Include="system.data.linq" />
     <Reference Include="System.Device" />
     <Reference Include="System.Runtime.Serialization" />
@@ -71,6 +89,9 @@
     <Reference Include="mscorlib.extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml.Serialization" />
+    <Reference Include="WriteableBitmapExWinPhone">
+      <HintPath>Libs\WriteableBitmapExWinPhone.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -81,6 +102,19 @@
     </Compile>
     <Compile Include="Model\Api\ApiManager.cs" />
     <Compile Include="Model\Api\CacheProvider.cs" />
+    <Compile Include="Model\Api\GeocachingCom\ColorExtensions.cs" />
+    <Compile Include="Model\Api\GeocachingCom\GCConstants.cs" />
+    <Compile Include="Model\Api\GeocachingCom\GeocachingComApiCaches.cs" />
+    <Compile Include="Model\Api\GeocachingCom\GeocachingComApiManager.cs" />
+    <Compile Include="Model\Api\GeocachingCom\GeocachingComCache.cs" />
+    <Compile Include="Model\Api\GeocachingCom\GeoCoordinateExtensions.cs" />
+    <Compile Include="Model\Api\GeocachingCom\IconDecoder.cs" />
+    <Compile Include="Model\Api\GeocachingCom\ICoordinates.cs" />
+    <Compile Include="Model\Api\GeocachingCom\LruCache.cs" />
+    <Compile Include="Model\Api\GeocachingCom\Tile.cs" />
+    <Compile Include="Model\Api\GeocachingCom\UTFGrid.cs" />
+    <Compile Include="Model\Api\GeocachingCom\UTFGridPosition.cs" />
+    <Compile Include="Model\Api\GeocachingCom\Viewport.cs" />
     <Compile Include="Model\Api\GeocachingSu\GeocachingSuCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
@@ -90,6 +124,8 @@
     <Compile Include="View\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="View\Converters\CacheTypeConverter.cs" />
     <Compile Include="View\Converters\CoordinateConverter.cs" />
+    <Compile Include="View\Converters\GeocachingComIconConverter.cs" />
+    <Compile Include="View\Converters\GeocachingComToVisibilityConverter.cs" />
     <Compile Include="View\Converters\LongitudeConverter.cs" />
     <Compile Include="View\Converters\LatitudeConverter.cs" />
     <Compile Include="View\Converters\DistanceToPointConverter.cs" />
@@ -175,9 +211,6 @@
     <Compile Include="ViewModel\SearchBingMapViewModel.cs" />
     <Compile Include="ViewModel\SecCoordinateViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
-    <Compile Include="View\BingMap.xaml.cs">
-      <DependentUpon>BingMap.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Checkpoints\Checkpoints.xaml.cs">
       <DependentUpon>Checkpoints.xaml</DependentUpon>
     </Compile>
@@ -209,7 +242,13 @@
     <Compile Include="View\Info\PhotoGalleryPage.xaml.cs">
       <DependentUpon>PhotoGalleryPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SearchBingMap.xaml.cs">
+    <Compile Include="View\Map\BingMap.xaml.cs">
+      <DependentUpon>BingMap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Map\PushpinControl.xaml.cs">
+      <DependentUpon>PushpinControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Map\SearchBingMap.xaml.cs">
       <DependentUpon>SearchBingMap.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Settings\About.xaml.cs">
@@ -230,10 +269,6 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\BingMap.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Checkpoints\Checkpoints.xaml">
       <SubType>Designer</SubType>
@@ -275,9 +310,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SearchBingMap.xaml">
+    <Page Include="View\Map\BingMap.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Map\PushpinControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Map\SearchBingMap.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Settings\About.xaml">
       <SubType>Designer</SubType>
@@ -306,7 +349,21 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Libs\Microsoft.Phone.Controls.Toolkit.dll" />
+    <Content Include="Resources\Icons\GeocachingCom\marker.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_ape.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_cito.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_earth.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_event.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_hq.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_letterbox.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_mega.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_multi.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_mystery.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_traditional.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_unknown.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_virtual.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_webcam.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_wherigo.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_multi_valid.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_puzzle_valid.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_traditional_valid.png" />

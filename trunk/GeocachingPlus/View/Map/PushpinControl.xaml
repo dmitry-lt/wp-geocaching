@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="GeocachingPlus.View.Map.PushpinControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:GeocachingPlus.View.Converters" mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="48" d:DesignWidth="48">
+    
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <c:IconConverter x:Key="IconConverter"/>
+            <c:GeocachingComIconConverter x:Key="GeocachingComIconConverter"/>
+            <c:GeocachingComToVisibilityConverter x:Key="GeocachingComToVisibilityConverter"/>
+        </Grid.Resources>
+
+        <!-- geocaching.com caches -->
+        <Image 
+            Source="/Resources/Icons/GeocachingCom/marker.png" 
+            Visibility="{Binding ., Converter={StaticResource GeocachingComToVisibilityConverter}}"/>
+        <Image 
+            Source="{Binding ., Converter={StaticResource GeocachingComIconConverter}}" 
+            Visibility="{Binding ., Converter={StaticResource GeocachingComToVisibilityConverter}}"/>
+
+        <!-- All other caches -->
+        <Image 
+            Source="{Binding ., Converter={StaticResource IconConverter}}" 
+            Visibility="{Binding ., Converter={StaticResource GeocachingComToVisibilityConverter}, ConverterParameter=reverse}"/>
+    </Grid>
+</UserControl>

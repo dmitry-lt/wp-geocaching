@@ -33,5 +33,10 @@ namespace GeocachingPlus.Model
         {
             return (CacheProvider.GetHashCode() * 17) ^ Id.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return String.Format("{0}: {1}", Id, Name);
+        }
     }
 }
