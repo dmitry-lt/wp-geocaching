@@ -1,20 +1,19 @@
-﻿using System;
-using System.Device.Location;
+using System;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
+using GeocachingPlus.Model;
 using GeocachingPlus.Model.Api;
 using GeocachingPlus.Model.Navigation;
-using GeocachingPlus.ViewModel;
-using GeocachingPlus.Model;
-using Microsoft.Phone.Controls.Maps;
-using Microsoft.Phone.Shell;
 using GeocachingPlus.Resources.Localization;
 using GeocachingPlus.View.Converters;
+using GeocachingPlus.ViewModel;
+using Microsoft.Phone.Controls;
+using Microsoft.Phone.Controls.Maps;
+using Microsoft.Phone.Shell;
 
-namespace GeocachingPlus.View
+namespace GeocachingPlus.View.Map
 {
     public partial class BingMap : PhoneApplicationPage
     {
@@ -33,7 +32,7 @@ namespace GeocachingPlus.View
 
         private void MapViewChangeEnd(object sender, MapEventArgs e)
         {
-            var map = sender as Map;
+            var map = sender as Microsoft.Phone.Controls.Maps.Map;
             bingMapViewModel.BoundingRectangle = map.BoundingRectangle;
         }
 

@@ -209,9 +209,6 @@
     <Compile Include="ViewModel\SearchBingMapViewModel.cs" />
     <Compile Include="ViewModel\SecCoordinateViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
-    <Compile Include="View\BingMap.xaml.cs">
-      <DependentUpon>BingMap.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Checkpoints\Checkpoints.xaml.cs">
       <DependentUpon>Checkpoints.xaml</DependentUpon>
     </Compile>
@@ -243,7 +240,10 @@
     <Compile Include="View\Info\PhotoGalleryPage.xaml.cs">
       <DependentUpon>PhotoGalleryPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SearchBingMap.xaml.cs">
+    <Compile Include="View\Map\BingMap.xaml.cs">
+      <DependentUpon>BingMap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Map\SearchBingMap.xaml.cs">
       <DependentUpon>SearchBingMap.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Settings\About.xaml.cs">
@@ -264,10 +264,6 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\BingMap.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Checkpoints\Checkpoints.xaml">
       <SubType>Designer</SubType>
@@ -309,9 +305,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SearchBingMap.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="View\Map\BingMap.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Map\SearchBingMap.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Settings\About.xaml">
       <SubType>Designer</SubType>
