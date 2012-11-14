@@ -12,15 +12,16 @@
     <Grid x:Name="LayoutRoot">
         <Grid.Resources>
             <c:IconConverter x:Key="IconConverter"/>
+            <c:GeocachingComIconConverter x:Key="GeocachingComIconConverter"/>
             <c:GeocachingComToVisibilityConverter x:Key="GeocachingComToVisibilityConverter"/>
         </Grid.Resources>
+
         <!-- geocaching.com caches -->
-<!--        TODO-->
         <Image 
             Source="/Resources/Icons/GeocachingCom/marker.png" 
             Visibility="{Binding ., Converter={StaticResource GeocachingComToVisibilityConverter}}"/>
         <Image 
-            Source="/Resources/Icons/GeocachingCom/type_traditional.png" 
+            Source="{Binding ., Converter={StaticResource GeocachingComIconConverter}}" 
             Visibility="{Binding ., Converter={StaticResource GeocachingComToVisibilityConverter}}"/>
 
         <!-- All other caches -->
