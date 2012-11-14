@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Windows.Media.Imaging;
 using GeocachingPlus.Model.Api.OpenCachingCom;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
@@ -228,13 +229,11 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         }
 
         /** Request .png image for a tile. */
-        public static void RequestMapTile(Dictionary<string, string> parameters)
+        public static void RequestMapTile(Action<WriteableBitmap> processImage, Dictionary<string, string> parameters)
         {
             var urlString = FormUrl(GCConstants.URL_MAP_TILE, parameters);
 
-            var client = new WebClient();
-
-            client.DownloadStringAsync(new Uri(urlString));
+            new PhotoDownloader().DownloadPng(processImage, urlString);
         }
 
         /** Request JSON informations for a tile */

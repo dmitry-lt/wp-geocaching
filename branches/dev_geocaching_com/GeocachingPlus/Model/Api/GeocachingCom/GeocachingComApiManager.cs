@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
@@ -57,9 +58,8 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     // TODO: other types t.b.d
 
                     // The PNG must be requested first, otherwise the following request would always return with 204 - No Content
-                    /*
-                    Bitmap bitmap = Tile.requestMapTile(params);
-                    */
+                    // TODO: proces bitmap
+                    Tile.RequestMapTile(i => { }, parameters);
 
                     // Check bitmap size
                     /*

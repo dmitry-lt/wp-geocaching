@@ -50,6 +50,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZLib.Phone">
+      <HintPath>Libs\ImageTools\ICSharpCode.SharpZLib.Phone.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageTools">
+      <HintPath>Libs\ImageTools\ImageTools.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageTools.IO.Png">
+      <HintPath>Libs\ImageTools\ImageTools.IO.Png.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageTools.Utils">
+      <HintPath>Libs\ImageTools\ImageTools.Utils.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Devices.Sensors" />
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
@@ -60,6 +72,9 @@
     <Reference Include="Microsoft.Xna.Framework.GamerServices" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>Libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PhoneCodeContractsAssemblies">
+      <HintPath>Libs\ImageTools\PhoneCodeContractsAssemblies.dll</HintPath>
     </Reference>
     <Reference Include="system.data.linq" />
     <Reference Include="System.Device" />
