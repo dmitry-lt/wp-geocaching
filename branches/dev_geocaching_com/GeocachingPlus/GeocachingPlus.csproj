@@ -124,6 +124,7 @@
     <Compile Include="View\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="View\Converters\CacheTypeConverter.cs" />
     <Compile Include="View\Converters\CoordinateConverter.cs" />
+    <Compile Include="View\Converters\GeocachingComIconConverter.cs" />
     <Compile Include="View\Converters\GeocachingComToVisibilityConverter.cs" />
     <Compile Include="View\Converters\LongitudeConverter.cs" />
     <Compile Include="View\Converters\LatitudeConverter.cs" />
