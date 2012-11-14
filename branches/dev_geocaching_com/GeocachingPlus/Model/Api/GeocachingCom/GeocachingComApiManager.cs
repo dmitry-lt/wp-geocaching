@@ -193,8 +193,12 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             {
                 if (e.Error != null) return;
                 
-                var description = Regex.Matches(e.Result, PatternDesc, RegexOptions.Singleline)[0].Value;
-                processDescription(description);
+                var groups = Regex.Matches(e.Result, PatternDesc, RegexOptions.Singleline);
+                if (groups.Count > 0)
+                {
+                    var description = groups[0].Value;
+                    processDescription(description);
+                }
             };
             client.DownloadStringAsync(new Uri(sUrl));
         }
