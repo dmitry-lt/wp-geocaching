@@ -48,6 +48,10 @@ namespace GeocachingPlus.ViewModel
             {
                 count++;
             }
+            if (IsGeocachingComEnabled)
+            {
+                count++;
+            }
             return count > 1;
         }
 
@@ -63,7 +67,7 @@ namespace GeocachingPlus.ViewModel
                 RaisePropertyChanged(() => IsOpenCachingComEnabled);
             }
         }
-        public bool IsGeocachingSuEnabled 
+        public bool IsGeocachingSuEnabled
         {
             get { return settings.IsGeocachingSuEnabled; }
             set
@@ -73,6 +77,19 @@ namespace GeocachingPlus.ViewModel
                     settings.IsGeocachingSuEnabled = value;
                 }
                 RaisePropertyChanged(() => IsGeocachingSuEnabled);
+            }
+        }
+
+        public bool IsGeocachingComEnabled
+        {
+            get { return settings.IsGeocachingComEnabled; }
+            set
+            {
+                if (CanAssignCacheProviderValue(value))
+                {
+                    settings.IsGeocachingComEnabled = value;
+                }
+                RaisePropertyChanged(() => IsGeocachingComEnabled);
             }
         }
 

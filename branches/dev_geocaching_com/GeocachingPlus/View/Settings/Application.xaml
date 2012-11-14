@@ -22,6 +22,11 @@
             <TextBlock Text="{Binding Path=LocalizedResources.ShowCachesFrom, 
                 Source={StaticResource LocalizedStrings}}"
                        Style="{StaticResource HeaderTextBlockStyle}"/>
+            <CheckBox Content="geocaching.com" 
+                      FontSize="22" 
+                      HorizontalAlignment="Left"
+                      IsChecked="{Binding IsGeocachingComEnabled, Mode=TwoWay}"
+                      toolkit:TiltEffect.IsTiltEnabled="True"/>
             <CheckBox Content="opencaching.com" 
                       FontSize="22" 
                       HorizontalAlignment="Left"
