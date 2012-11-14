@@ -57,111 +57,117 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                     // TODO: other types t.b.d
 
+                    var currentTile = tile;
+
                     // The PNG must be requested first, otherwise the following request would always return with 204 - No Content
-                    // TODO: proces bitmap
-                    Tile.RequestMapTile(i => { }, parameters);
-
-                    // Check bitmap size
-                    /*
-                    if (bitmap != null && (bitmap.getWidth() != Tile.TILE_SIZE ||
-                            bitmap.getHeight() != Tile.TILE_SIZE)) {
-                        bitmap.recycle();
-                        bitmap = null;
-                    }
-                    */
-
-                    Action<DownloadStringCompletedEventArgs> downloadCachesCompleted = 
-                        (e) =>
+                    Action<WriteableBitmap> processBitmap = bitmap =>
+                    {
+                        // Check bitmap size
+                        if (bitmap != null && (bitmap.PixelWidth != Tile.TILE_SIZE || bitmap.PixelHeight != Tile.TILE_SIZE))
                         {
-                            if (e.Error != null) return;
+                            bitmap = null;
+                        }
 
-                            var jsonResult = e.Result;
-
-                            if (!String.IsNullOrWhiteSpace(jsonResult))
+                        Action<DownloadStringCompletedEventArgs> downloadCachesCompleted =
+                            (e) =>
                             {
-                                var nameCache = new Dictionary<string, string>(); // JSON id, cache name
+                                if (e.Error != null) return;
 
-                                var parsedData =
-                                    (GeocachingComApiCaches)
-                                    JsonConvert.DeserializeObject(jsonResult, typeof (GeocachingComApiCaches));
+                                var jsonResult = e.Result;
 
-                                var keys = parsedData.keys;
+                                if (!String.IsNullOrWhiteSpace(jsonResult))
+                                {
+                                    var nameCache = new Dictionary<string, string>(); // JSON id, cache name
 
-                                var positions = new Dictionary<string, List<UTFGridPosition>>();
+                                    var parsedData =
+                                        (GeocachingComApiCaches)
+                                        JsonConvert.DeserializeObject(jsonResult, typeof(GeocachingComApiCaches));
+
+                                    var keys = parsedData.keys;
+
+                                    var positions = new Dictionary<string, List<UTFGridPosition>>();
                                     // JSON id as key
-                                for (var i = 1; i < keys.Length; i++)
-                                {
-                                    // index 0 is empty
-                                    var key = keys[i];
-                                    if (!String.IsNullOrWhiteSpace(key))
+                                    for (var i = 1; i < keys.Length; i++)
                                     {
-                                        var pos = UTFGridPosition.FromString(key);
-
-                                        var dataForKey = parsedData.data[key];
-                                        foreach (var c in dataForKey)
+                                        // index 0 is empty
+                                        var key = keys[i];
+                                        if (!String.IsNullOrWhiteSpace(key))
                                         {
-                                            var id = c.i;
-                                            if (!nameCache.ContainsKey(id))
+                                            var pos = UTFGridPosition.FromString(key);
+
+                                            var dataForKey = parsedData.data[key];
+                                            foreach (var c in dataForKey)
                                             {
-                                                nameCache.Add(id, c.n);
+                                                var id = c.i;
+                                                if (!nameCache.ContainsKey(id))
+                                                {
+                                                    nameCache.Add(id, c.n);
+                                                }
+
+                                                if (!positions.ContainsKey(id))
+                                                {
+                                                    positions.Add(id, new List<UTFGridPosition>());
+                                                }
+
+                                                positions[id].Add(pos);
                                             }
 
-                                            if (!positions.ContainsKey(id))
-                                            {
-                                                positions.Add(id, new List<UTFGridPosition>());
-                                            }
-
-                                            positions[id].Add(pos);
                                         }
-
                                     }
+
+                                    var caches = new List<Cache>();
+
+                                    foreach (var id in positions.Keys)
+                                    {
+                                        var pos = positions[id];
+                                        var xy = UTFGrid.GetPositionInGrid(pos);
+                                        var cache = new GeocachingComCache()
+                                        {
+                                            Id = id,
+                                            Name = nameCache[id],
+                                            Location = currentTile.GetCoord(xy),
+                                            ReliableLocation = false,
+                                        };
+
+                                        IconDecoder.parseMapPNG(cache, bitmap, xy, currentTile.Zoomlevel);
+
+                                        caches.Add(cache);
+                                    }
+
+                                    processCaches(caches);
                                 }
+                            };
 
-                                var caches = new List<Cache>();
+                        currentTile.RequestMapInfo(downloadCachesCompleted, GCConstants.URL_MAP_INFO, parameters, GCConstants.URL_LIVE_MAP);
 
-                                foreach (var id in positions.Keys)
-                                {
-                                    var pos = positions[id];
-                                    var xy = UTFGrid.GetPositionInGrid(pos);
-                                    var cache = new GeocachingComCache()
-                                                    {
-                                                        Id = id,
-                                                        Name = nameCache[id],
-                                                        Location = tile.GetCoord(xy),
-                                                        ReliableLocation = false,
-                                                    };
-
-                                    caches.Add(cache);
-                                }
-
-                                processCaches(caches);
+                        /*
+                        String data = Tile.requestMapInfo(GCConstants.URL_MAP_INFO, params, GCConstants.URL_LIVE_MAP);
+                        if (StringUtils.isEmpty(data)) {
+                            Log.e("GCBase.searchByViewport: No data from server for tile (" + tile.getX() + "/" + tile.getY() + ")");
+                        } else {
+                            final SearchResult search = GCMap.parseMapJSON(data, tile, bitmap, strategy);
+                            if (search == null || CollectionUtils.isEmpty(search.getGeocodes())) {
+                                Log.e("GCBase.searchByViewport: No cache parsed for viewport " + viewport);
                             }
-                        };
-
-                    tile.RequestMapInfo(downloadCachesCompleted, GCConstants.URL_MAP_INFO, parameters, GCConstants.URL_LIVE_MAP);
-
-                    /*
-                    String data = Tile.requestMapInfo(GCConstants.URL_MAP_INFO, params, GCConstants.URL_LIVE_MAP);
-                    if (StringUtils.isEmpty(data)) {
-                        Log.e("GCBase.searchByViewport: No data from server for tile (" + tile.getX() + "/" + tile.getY() + ")");
-                    } else {
-                        final SearchResult search = GCMap.parseMapJSON(data, tile, bitmap, strategy);
-                        if (search == null || CollectionUtils.isEmpty(search.getGeocodes())) {
-                            Log.e("GCBase.searchByViewport: No cache parsed for viewport " + viewport);
+                            else {
+                                searchResult.addGeocodes(search.getGeocodes());
+                            }
+                            Tile.Cache.add(tile);
                         }
-                        else {
-                            searchResult.addGeocodes(search.getGeocodes());
-                        }
-                        Tile.Cache.add(tile);
-                    }
-                    */
+                        */
 
-                    // release native bitmap memory
-                    /*
-                    if (bitmap != null) {
-                        bitmap.recycle();
-                    }
-                    */
+                        // release native bitmap memory
+                        /*
+                        if (bitmap != null) {
+                            bitmap.recycle();
+                        }
+                        */
+                                                                    
+                    };
+
+
+                    Tile.RequestMapTile(processBitmap, parameters);
+
                 }
 
             }
