@@ -20,14 +20,13 @@ namespace Description
             InitializeComponent();
         }
 
-        private void showText(String text) 
+        private void showText(String text)
         {
-            this.textBox1.Text = text;
+            InfoBrowser.NavigateToString(text);
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            this.textBox1.Text = "Loading...";
             GetDescription test = new GetDescription();
             Action<string> processDescription;
             processDescription = delegate(string s) { showText(s); };
