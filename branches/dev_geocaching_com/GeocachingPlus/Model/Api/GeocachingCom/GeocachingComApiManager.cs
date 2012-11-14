@@ -199,6 +199,11 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     var description = groups[0].Value;
                     processDescription(description);
                 }
+                else
+                {
+                    //TODO: log error
+                    var cacheId = cache.Id;
+                }
             };
             client.DownloadStringAsync(new Uri(sUrl));
         }
