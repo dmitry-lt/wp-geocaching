@@ -74,6 +74,9 @@
     <Reference Include="mscorlib.extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml.Serialization" />
+    <Reference Include="WriteableBitmapExWinPhone">
+      <HintPath>Libs\WriteableBitmapExWinPhone.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -84,11 +87,13 @@
     </Compile>
     <Compile Include="Model\Api\ApiManager.cs" />
     <Compile Include="Model\Api\CacheProvider.cs" />
+    <Compile Include="Model\Api\GeocachingCom\ColorExtensions.cs" />
     <Compile Include="Model\Api\GeocachingCom\GCConstants.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComApiCaches.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComApiManager.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComCache.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeoCoordinateExtensions.cs" />
+    <Compile Include="Model\Api\GeocachingCom\IconDecoder.cs" />
     <Compile Include="Model\Api\GeocachingCom\ICoordinates.cs" />
     <Compile Include="Model\Api\GeocachingCom\LruCache.cs" />
     <Compile Include="Model\Api\GeocachingCom\Tile.cs" />
