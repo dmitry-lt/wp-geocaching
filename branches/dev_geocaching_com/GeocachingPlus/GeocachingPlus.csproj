@@ -350,6 +350,20 @@
     </Content>
     <Content Include="Libs\Microsoft.Phone.Controls.Toolkit.dll" />
     <Content Include="Resources\Icons\GeocachingCom\marker.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_ape.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_cito.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_earth.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_event.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_hq.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_letterbox.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_mega.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_multi.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_mystery.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_traditional.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_unknown.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_virtual.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_webcam.png" />
+    <Content Include="Resources\Icons\GeocachingCom\type_wherigo.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_multi_valid.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_puzzle_valid.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_traditional_valid.png" />
