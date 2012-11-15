@@ -120,6 +120,11 @@
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComCache.cs" />
     <Compile Include="Model\Api\PhotoDownloader.cs" />
+    <Compile Include="Resources\Localization\GeocachingComCacheType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeocachingComCacheType.resx</DependentUpon>
+    </Compile>
     <Compile Include="View\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="View\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="View\Converters\CacheTypeConverter.cs" />
@@ -448,6 +453,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localization\CacheTypeResources.ru-RU.resx">
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\GeocachingComCacheType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeocachingComCacheType.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localization\OpenCachingComCacheType.resx">
       <Generator>ResXFileCodeGenerator</Generator>
