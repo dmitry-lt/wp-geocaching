@@ -3,6 +3,8 @@ using GeocachingPlus.Model;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Collections.ObjectModel;
+using GeocachingPlus.Model.Api.GeocachingCom;
+using GeocachingPlus.Model.DataBase;
 using Microsoft.Phone.Controls.Maps;
 using GeocachingPlus.Model.Api;
 
@@ -95,8 +97,31 @@ namespace GeocachingPlus.ViewModel
         private readonly Dictionary<Cache, CachePushpin> _currentPushpins = new Dictionary<Cache, CachePushpin>();
         private readonly object _lock = new object();
 
+        private void CheckForMoreCacheDetailsInDb(Cache cache)
+        {
+            if (cache is GeocachingComCache)
+            {
+                var gcCache = cache as GeocachingComCache;
+                
+                // check for type
+                if (gcCache.Type == GeocachingComCache.Types.UNKNOWN)
+                {
+                    var cacheDataBase = new CacheDataBase();
+                    var dbCache = cacheDataBase.GetCache(cache.Id, CacheProvider.GeocachingCom);
+                    if (null != dbCache)
+                    {
+                        gcCache.Type = (GeocachingComCache.Types)dbCache.Type;
+                    }
+                }
+
+                // TODO: check for precise coordinates
+            }
+        }
+
         private void AddPushpin(Cache cache)
         {
+            CheckForMoreCacheDetailsInDb(cache);
+
             var pushpin = new CachePushpin()
             {
                 CacheInfo = cache
