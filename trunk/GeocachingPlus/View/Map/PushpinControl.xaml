@@ -21,7 +21,7 @@
             Source="/Resources/Icons/GeocachingCom/marker.png" 
             Visibility="{Binding ., Converter={StaticResource GeocachingComToVisibilityConverter}}"/>
         <Image 
-            Source="{Binding ., Converter={StaticResource GeocachingComIconConverter}}" 
+            Source="{Binding Type, Converter={StaticResource GeocachingComIconConverter}}" 
             Visibility="{Binding ., Converter={StaticResource GeocachingComToVisibilityConverter}}"/>
 
         <!-- All other caches -->

@@ -21,6 +21,7 @@ namespace GeocachingPlus.Model
         private string GetFilePath(Cache cache, string photoUrl)
         {
             var fileName = photoUrl.Substring(1 + photoUrl.LastIndexOf("/", StringComparison.Ordinal));
+            fileName = fileName.Replace("?", "");
             return String.Format(FilePath, cache.CacheProvider, cache.Id, fileName);
         }
 
