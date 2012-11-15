@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.Api.GeocachingSu;
 using GeocachingPlus.Model.Api.OpenCachingCom;
 using GeocachingPlus.Resources.Localization;
@@ -54,6 +55,63 @@ namespace GeocachingPlus.View.Converters
                         return OpenCachingComCacheType.Virtual;
                     case OpenCachingComCache.Types.Puzzle:
                         return OpenCachingComCacheType.Puzzle;
+                    default:
+                        return null;
+                }
+            }
+
+            if (value is GeocachingComCache)
+            {
+                switch ((value as GeocachingComCache).Type)
+                {
+                    case GeocachingComCache.Types.TRADITIONAL:
+                        return GeocachingComCacheType.TRADITIONAL;
+
+                    case GeocachingComCache.Types.MULTI:
+                        return GeocachingComCacheType.MULTI;
+
+                    case GeocachingComCache.Types.MYSTERY:
+                        return GeocachingComCacheType.MYSTERY;
+
+                    case GeocachingComCache.Types.LETTERBOX:
+                        return GeocachingComCacheType.LETTERBOX;
+
+                    case GeocachingComCache.Types.EVENT:
+                        return GeocachingComCacheType.EVENT;
+
+                    case GeocachingComCache.Types.MEGA_EVENT:
+                        return GeocachingComCacheType.MEGA_EVENT;
+
+                    case GeocachingComCache.Types.EARTH:
+                        return GeocachingComCacheType.EARTH;
+
+                    case GeocachingComCache.Types.CITO:
+                        return GeocachingComCacheType.CITO;
+
+                    case GeocachingComCache.Types.WEBCAM:
+                        return GeocachingComCacheType.WEBCAM;
+
+                    case GeocachingComCache.Types.VIRTUAL:
+                        return GeocachingComCacheType.VIRTUAL;
+
+                    case GeocachingComCache.Types.WHERIGO:
+                        return GeocachingComCacheType.WHERIGO;
+
+                    case GeocachingComCache.Types.LOSTANDFOUND:
+                        return GeocachingComCacheType.LOSTANDFOUND;
+
+                    case GeocachingComCache.Types.PROJECT_APE:
+                        return GeocachingComCacheType.PROJECT_APE;
+
+                    case GeocachingComCache.Types.GCHQ:
+                        return GeocachingComCacheType.GCHQ;
+
+                    case GeocachingComCache.Types.GPS_EXHIBIT:
+                        return GeocachingComCacheType.GPS_EXHIBIT;
+
+                    case GeocachingComCache.Types.UNKNOWN:
+                        return GeocachingComCacheType.UNKNOWN;
+
                     default:
                         return null;
                 }
