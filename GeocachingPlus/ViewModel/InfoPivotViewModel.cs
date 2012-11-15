@@ -45,14 +45,8 @@ namespace GeocachingPlus.ViewModel
             set
             {
                 _logbook = value;
-                if (value == null)
-                {
-                    NoLogbookMessageVisible = true;
-                }
-                else
-                {
-                    _logbookBrowser.NavigateToString(_logbook);
-                }
+                NoLogbookMessageVisible = value == null;
+                _logbookBrowser.NavigateToString(_logbook);
             }
         }
 
