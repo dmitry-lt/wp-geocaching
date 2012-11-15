@@ -221,7 +221,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     var cacheId = cache.Id;
                 }
 
-                processDescription(shortDescription + "<br/><br/>" + description);
+                processDescription(cache.Name + "<br/><br/>" + shortDescription + "<br/><br/>" + description);
 
                 // TODO: implement logbook
                 processLogbook("");
