@@ -163,7 +163,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                             bitmap.recycle();
                         }
                         */
-                                                                    
+
                     };
 
 
@@ -182,6 +182,46 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         private const string PatternShortdesc = "<span id=\"ctl00_ContentBody_ShortDescription\">(.*?)</span>\\s*</div>";
         private const string PatternDesc = "<span id=\"ctl00_ContentBody_LongDescription\">(.*?)</span>\\s*</div>\\s*<p>\\s*</p>\\s*<p id=\"ctl00_ContentBody_hints\">";
         private const string PatternImg = "<img.*?src=\"(.*?)\".*?/>";
+        private const string PatternType = "<img src=\"[^\"]*/WptTypes/\\d+\\.gif\" alt=\"([^\"]+?)\"[^>]*>";
+
+        private GeocachingComCache.Types GetType(string altText)
+        {
+            switch (altText.ToLower())
+            {
+                case "traditional cache":
+                    return GeocachingComCache.Types.TRADITIONAL;
+                case "multi-cache":
+                    return GeocachingComCache.Types.MULTI;
+                case "unknown cache":
+                    return GeocachingComCache.Types.UNKNOWN;
+                case "letterbox hybrid":
+                    return GeocachingComCache.Types.LETTERBOX;
+                case "event cache":
+                    return GeocachingComCache.Types.EVENT;
+                case "mega-event cache":
+                    return GeocachingComCache.Types.MEGA_EVENT;
+                case "earthcache":
+                    return GeocachingComCache.Types.EARTH;
+                case "cache in trash out event":
+                    return GeocachingComCache.Types.CITO;
+                case "webcam cache":
+                    return GeocachingComCache.Types.WEBCAM;
+                case "virtual cache":
+                    return GeocachingComCache.Types.VIRTUAL;
+                case "wherigo cache":
+                    return GeocachingComCache.Types.WHERIGO;
+                case "lost & found":
+                    return GeocachingComCache.Types.LOSTANDFOUND;
+                case "project ape cache":
+                    return GeocachingComCache.Types.PROJECT_APE;
+                case "groundspeak hq":
+                    return GeocachingComCache.Types.GCHQ;
+                case "gps cache exhibit":
+                    return GeocachingComCache.Types.GPS_EXHIBIT;
+                default:
+                    return GeocachingComCache.Types.UNKNOWN;
+            }
+        }
 
         public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
         {
@@ -189,7 +229,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             {
                 return;
             }
-                
+
             var sUrl = InfoUrl + cache.Id;
             var client = new WebClient();
 
@@ -226,7 +266,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 // TODO: implement logbook
                 processLogbook("");
 
-                
+
                 // searching for images in description
                 var photoUrls = new List<string>();
                 var urls = Regex.Matches(description, PatternImg);
