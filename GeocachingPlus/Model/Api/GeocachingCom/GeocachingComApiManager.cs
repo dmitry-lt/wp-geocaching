@@ -179,7 +179,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         private const string InfoUrl = "http://www.geocaching.com/seek/cache_details.aspx?wp=";
         private const string PatternShortdesc = "<span id=\"ctl00_ContentBody_ShortDescription\">(.*?)</span>\\s*</div>";
         private const string PatternDesc = "<span id=\"ctl00_ContentBody_LongDescription\">(.*?)</span>\\s*</div>\\s*<p>\\s*</p>\\s*<p id=\"ctl00_ContentBody_hints\">";
-        private const string PatternImg = "<img src=\"(.*?)\".*?/>";
+        private const string PatternImg = "<img.*?src=\"(.*?)\".*?/>";
 
         public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
         {
