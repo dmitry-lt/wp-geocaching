@@ -237,8 +237,10 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             {
                 if (e.Error != null) return;
 
+                var html = e.Result;
+
                 var shortDescription = "";
-                var matchesShortdesc = Regex.Matches(e.Result, PatternShortdesc, RegexOptions.Singleline);
+                var matchesShortdesc = Regex.Matches(html, PatternShortdesc, RegexOptions.Singleline);
                 if (matchesShortdesc.Count == 1)
                 {
                     shortDescription = matchesShortdesc[0].Groups[1].Value;
@@ -250,7 +252,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 }
 
                 var description = "";
-                var matches = Regex.Matches(e.Result, PatternDesc, RegexOptions.Singleline);
+                var matches = Regex.Matches(html, PatternDesc, RegexOptions.Singleline);
                 if (matches.Count == 1)
                 {
                     description = matches[0].Groups[1].Value;
