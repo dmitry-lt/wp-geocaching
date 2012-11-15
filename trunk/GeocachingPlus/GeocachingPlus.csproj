@@ -458,9 +458,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GeocachingComCacheType.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\GeocachingComCacheType.ru-RU.resx" />
     <EmbeddedResource Include="Resources\Localization\OpenCachingComCacheType.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>OpenCachingComCacheType.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localization\OpenCachingComCacheType.ru-Ru.resx" />
   </ItemGroup>
