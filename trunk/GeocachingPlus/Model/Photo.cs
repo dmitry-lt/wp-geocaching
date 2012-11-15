@@ -23,14 +23,6 @@ namespace GeocachingPlus.Model
             }
         }
 
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
         public bool IsPlaceholder { get; set; }
 
         public string PhotoName { get; set; }

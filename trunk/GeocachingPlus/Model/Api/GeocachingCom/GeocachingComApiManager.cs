@@ -267,7 +267,9 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     var cacheId = cache.Id;
                 }
 
-                processDescription(cache.Name + "<br/><br/>" + shortDescription + "<br/><br/>" + description);
+                var totalDescription = shortDescription + "<br/><br/>" + description;
+
+                processDescription(cache.Name + "<br/><br/>" + totalDescription);
 
                 var typeMatches = Regex.Matches(html, PatternType, RegexOptions.Singleline);
                 if (typeMatches.Count == 1)
@@ -291,7 +293,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                 // searching for images in description
                 var photoUrls = new List<string>();
-                var urls = Regex.Matches(description, PatternImg);
+                var urls = Regex.Matches(totalDescription, PatternImg);
 
                 for (var i = 0; i < urls.Count; i++)
                 {
