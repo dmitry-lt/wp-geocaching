@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Device.Location;
 using GeocachingPlus.Model.Api;
+using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.Api.GeocachingSu;
 using GeocachingPlus.Model.Api.OpenCachingCom;
 
@@ -26,12 +27,25 @@ namespace GeocachingPlus.Model.DataBase
         {
             var result =
                 new OpenCachingComCache()
-                    {
-                        Id = item.Id,
-                        Name = item.Name,
-                        Location = new GeoCoordinate(item.Latitude, item.Longitude),
-                        Type = (OpenCachingComCache.Types) item.Type,
-                    };
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Location = new GeoCoordinate(item.Latitude, item.Longitude),
+                    Type = (OpenCachingComCache.Types)item.Type,
+                };
+            return result;
+        }
+
+        private static GeocachingComCache ToGeocachingComCache(DbCache item)
+        {
+            var result =
+                new GeocachingComCache()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Location = new GeoCoordinate(item.Latitude, item.Longitude),
+                    Type = (GeocachingComCache.Types)item.Type,
+                };
             return result;
         }
 
@@ -41,7 +55,10 @@ namespace GeocachingPlus.Model.DataBase
             {
                 case CacheProvider.OpenCachingCom:
                     return ToOpenCachingComCache(item);
-                
+
+                case CacheProvider.GeocachingCom:
+                    return ToGeocachingComCache(item);
+
                 default:
                     return ToGeocachingSuCache(item);
             }
@@ -54,6 +71,11 @@ namespace GeocachingPlus.Model.DataBase
         }
 
         private static void InitOpenCachingComSpecificFields(DbCache result, OpenCachingComCache cache)
+        {
+            result.Type = (int)cache.Type;
+        }
+
+        private static void InitGeocachingComSpecificFields(DbCache result, GeocachingComCache cache)
         {
             result.Type = (int)cache.Type;
         }
@@ -75,6 +97,10 @@ namespace GeocachingPlus.Model.DataBase
             {
                 case CacheProvider.OpenCachingCom:
                     InitOpenCachingComSpecificFields(result, (OpenCachingComCache)cache);
+                    break;
+
+                case CacheProvider.GeocachingCom:
+                    InitGeocachingComSpecificFields(result, (GeocachingComCache)cache);
                     break;
 
                 default:

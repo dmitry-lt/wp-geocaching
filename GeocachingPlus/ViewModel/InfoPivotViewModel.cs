@@ -45,8 +45,14 @@ namespace GeocachingPlus.ViewModel
             set
             {
                 _logbook = value;
-                NoLogbookMessageVisible = value == null;
-                _logbookBrowser.NavigateToString(_logbook);
+                if (value == null)
+                {
+                    NoLogbookMessageVisible = true;
+                }
+                else
+                {
+                    _logbookBrowser.NavigateToString(_logbook);
+                }
             }
         }
 
@@ -94,9 +100,12 @@ namespace GeocachingPlus.ViewModel
         private bool _photoUrlLoaded;
         private void ProcessPhotoUrls(List<string> photoUrls)
         {
-            foreach (var photoUrl in photoUrls)
+            if (null != photoUrls)
             {
-                _photoInfos.Add(new PhotoInfo() { Url = photoUrl });
+                foreach (var photoUrl in photoUrls)
+                {
+                    _photoInfos.Add(new PhotoInfo() {Url = photoUrl});
+                }
             }
 
             if (null == _photoInfos || !_photoInfos.Any())

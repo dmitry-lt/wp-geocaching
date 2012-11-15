@@ -181,7 +181,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
         public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
         {
-            if (null == processDescription)
+            if (null == processDescription || null == processLogbook || null == processPhotoUrls)
             {
                 return;
             }
@@ -192,18 +192,23 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             client.DownloadStringCompleted += (sender, e) =>
             {
                 if (e.Error != null) return;
-                
+
+                var description = "";
                 var groups = Regex.Matches(e.Result, PatternDesc, RegexOptions.Singleline);
                 if (groups.Count > 0)
                 {
-                    var description = groups[0].Value;
-                    processDescription(description);
+                    description = groups[0].Value;
                 }
                 else
                 {
                     //TODO: log error
                     var cacheId = cache.Id;
                 }
+                processDescription(description);
+
+                // TODO: implement
+                processLogbook(null);
+                processPhotoUrls(null);
             };
             client.DownloadStringAsync(new Uri(sUrl));
         }
