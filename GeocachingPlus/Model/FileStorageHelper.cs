@@ -106,7 +106,8 @@ namespace GeocachingPlus.Model
                 CreateCacheDirectories(cache);
                 foreach (var p in photos.Where(p => !p.IsPlaceholder))
                 {
-                    SavePhoto(cache, p.PhotoName, (WriteableBitmap) p.PhotoSource);
+                    var writeableBitmap = (p.PhotoSource as WriteableBitmap) ?? new WriteableBitmap(p.PhotoSource as BitmapSource);
+                    SavePhoto(cache, p.PhotoName, writeableBitmap);
                 }
             }
         }
