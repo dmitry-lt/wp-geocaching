@@ -186,6 +186,10 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
         private GeocachingComCache.Types GetType(string altText)
         {
+            if (altText == null)
+            {
+                return GeocachingComCache.Types.UNKNOWN;
+            }
             switch (altText.ToLower())
             {
                 case "traditional cache":
@@ -264,6 +268,22 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 }
 
                 processDescription(cache.Name + "<br/><br/>" + shortDescription + "<br/><br/>" + description);
+
+                var typeMatches = Regex.Matches(html, PatternType, RegexOptions.Singleline);
+                if (typeMatches.Count == 1)
+                {
+                    var typeString = typeMatches[0].Groups[1].Value;
+                    var cacheType = GetType(typeString);
+                    if (GeocachingComCache.Types.UNKNOWN != cacheType)
+                    {
+                        ((GeocachingComCache) cache).Type = cacheType;
+                    }
+                }
+                else
+                {
+                    //TODO: log error
+                    var cacheId = cache.Id;
+                }
 
                 // TODO: implement logbook
                 processLogbook("");
