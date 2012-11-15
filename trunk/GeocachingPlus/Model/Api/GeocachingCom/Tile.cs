@@ -247,33 +247,5 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
             client.DownloadStringAsync(new Uri(urlString));
         }
-
-
-
-        public static class TileCache {
-            private static LruCache<int, Tile> tileCache = new LruCache<int, Tile>(64);
-
-/*
-            public static void RemoveFromTileCache(GeoCoordinate point) {
-                if (point != null) {
-                    var tiles = tileCache.GetValues();
-                    foreach (Tile tile in tiles) {
-                        if (tile.ContainsPoint(point)) {
-                            tileCache.remove(tile.GetHashCode());
-                        }
-                    }
-                }
-            }
-*/
-
-            public static bool Contains(Tile tile) {
-                return tileCache.ContainsKey(tile.GetHashCode());
-            }
-
-            public static void Add(Tile tile) {
-                tileCache.Add(tile.GetHashCode(), tile);
-            }
-        }
-
     }
 }
