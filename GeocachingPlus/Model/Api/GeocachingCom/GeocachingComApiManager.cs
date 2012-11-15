@@ -177,7 +177,8 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
 
         private const string InfoUrl = "http://www.geocaching.com/seek/cache_details.aspx?wp=";
-        private const string PatternDesc = "<span id=\"ctl00_ContentBody_LongDescription\">(.*)</span>\\s*</div>\\s*<p>\\s*</p>\\s*<p id=\"ctl00_ContentBody_hints\">";
+        private const string PatternDesc = "<span id=\"ctl00_ContentBody_LongDescription\">(.*?)</span>\\s*</div>\\s*<p>\\s*</p>\\s*<p id=\"ctl00_ContentBody_hints\">";
+        private const string PatternImg = "<img src=\"(.*?)\".*?/>";
 
         public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
         {
@@ -194,10 +195,10 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 if (e.Error != null) return;
 
                 var description = "";
-                var groups = Regex.Matches(e.Result, PatternDesc, RegexOptions.Singleline);
-                if (groups.Count > 0)
+                var matches = Regex.Matches(e.Result, PatternDesc, RegexOptions.Singleline);
+                if (matches.Count == 1)
                 {
-                    description = groups[0].Value;
+                    description = matches[0].Groups[1].Value;
                 }
                 else
                 {
@@ -206,9 +207,21 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 }
                 processDescription(description);
 
-                // TODO: implement
+                // TODO: implement logbook
                 processLogbook(null);
-                processPhotoUrls(null);
+
+                
+                // searching for images in description
+                var photoUrls = new List<string>();
+                var urls = Regex.Matches(description, PatternImg);
+
+                for (var i = 0; i < urls.Count; i++)
+                {
+                    var photoUrl = urls[i].Groups[1].Value;
+                    photoUrls.Add(photoUrl);
+                }
+                processPhotoUrls(photoUrls);
+
             };
             client.DownloadStringAsync(new Uri(sUrl));
         }
