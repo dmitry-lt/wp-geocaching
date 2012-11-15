@@ -208,7 +208,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 processDescription(description);
 
                 // TODO: implement logbook
-                processLogbook(null);
+                processLogbook("");
 
                 
                 // searching for images in description
