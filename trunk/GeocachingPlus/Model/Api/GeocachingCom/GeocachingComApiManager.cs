@@ -176,7 +176,9 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         }
 
 
-        private const string InfoUrl = "http://www.geocaching.com/seek/cache_details.aspx?wp=";
+        private const string GeocachingComUrl = "http://www.geocaching.com";
+        private const string GeocachingComSeekUrl = GeocachingComUrl + "/seek/";
+        private const string InfoUrl = GeocachingComSeekUrl + "cache_details.aspx?wp=";
         private const string PatternShortdesc = "<span id=\"ctl00_ContentBody_ShortDescription\">(.*?)</span>\\s*</div>";
         private const string PatternDesc = "<span id=\"ctl00_ContentBody_LongDescription\">(.*?)</span>\\s*</div>\\s*<p>\\s*</p>\\s*<p id=\"ctl00_ContentBody_hints\">";
         private const string PatternImg = "<img.*?src=\"(.*?)\".*?/>";
@@ -232,6 +234,17 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 for (var i = 0; i < urls.Count; i++)
                 {
                     var photoUrl = urls[i].Groups[1].Value;
+                    if (!photoUrl.StartsWith("http://") && !photoUrl.StartsWith("https://"))
+                    {
+                        if (photoUrl.StartsWith("/"))
+                        {
+                            photoUrl = GeocachingComUrl + photoUrl;
+                        }
+                        else
+                        {
+                            photoUrl = GeocachingComSeekUrl + photoUrl;
+                        }
+                    }
                     photoUrls.Add(photoUrl);
                 }
                 processPhotoUrls(photoUrls);
