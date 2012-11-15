@@ -177,6 +177,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
 
         private const string InfoUrl = "http://www.geocaching.com/seek/cache_details.aspx?wp=";
+        private const string PatternShortdesc = "<span id=\"ctl00_ContentBody_ShortDescription\">(.*?)</span>\\s*</div>";
         private const string PatternDesc = "<span id=\"ctl00_ContentBody_LongDescription\">(.*?)</span>\\s*</div>\\s*<p>\\s*</p>\\s*<p id=\"ctl00_ContentBody_hints\">";
         private const string PatternImg = "<img src=\"(.*?)\".*?/>";
 
@@ -194,6 +195,18 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             {
                 if (e.Error != null) return;
 
+                var shortDescription = "";
+                var matchesShortdesc = Regex.Matches(e.Result, PatternShortdesc, RegexOptions.Singleline);
+                if (matchesShortdesc.Count == 1)
+                {
+                    shortDescription = matchesShortdesc[0].Groups[1].Value;
+                }
+                else
+                {
+                    //TODO: log error
+                    var cacheId = cache.Id;
+                }
+
                 var description = "";
                 var matches = Regex.Matches(e.Result, PatternDesc, RegexOptions.Singleline);
                 if (matches.Count == 1)
@@ -205,7 +218,8 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     //TODO: log error
                     var cacheId = cache.Id;
                 }
-                processDescription(description);
+
+                processDescription(shortDescription + "<br/><br/>" + description);
 
                 // TODO: implement logbook
                 processLogbook("");
