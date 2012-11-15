@@ -45,7 +45,10 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             LRUCacheItem<K, V> cacheItem = new LRUCacheItem<K, V>(key, val);
             LinkedListNode<LRUCacheItem<K, V>> node = new LinkedListNode<LRUCacheItem<K, V>>(cacheItem);
             lruList.AddLast(node);
-            cacheMap.Add(key, node);
+            if (!cacheMap.ContainsKey(key))
+            {
+                cacheMap.Add(key, node);
+            }
         }
 
         public IEnumerable<V> GetValues()
