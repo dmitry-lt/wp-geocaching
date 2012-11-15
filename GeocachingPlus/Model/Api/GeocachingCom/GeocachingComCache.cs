@@ -1,6 +1,9 @@
-﻿namespace GeocachingPlus.Model.Api.GeocachingCom
+﻿using System.ComponentModel;
+using GeocachingPlus.Model.Utils;
+
+namespace GeocachingPlus.Model.Api.GeocachingCom
 {
-    public class GeocachingComCache : Cache
+    public class GeocachingComCache : Cache, INotifyPropertyChanged
     {
         public enum Types
         {
@@ -22,7 +25,16 @@
             UNKNOWN = 216,
         }
 
-        public Types Type { get; set; }
+        private Types _type;
+        public Types Type
+        {
+            get { return _type; }
+            set 
+            { 
+                _type = value;
+                PropertyChanged.Raise(() => Type);
+            }
+        }
 
         public bool ReliableLocation { get; set; }
 
@@ -31,5 +43,7 @@
             CacheProvider = CacheProvider.GeocachingCom;
             Type = Types.UNKNOWN;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
