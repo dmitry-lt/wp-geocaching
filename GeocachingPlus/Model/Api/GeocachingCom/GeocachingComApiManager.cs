@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Media.Imaging;
@@ -9,6 +10,15 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 {
     public class GeocachingComApiManager : IApiManager
     {
+        private TileCache _tileCache = new TileCache();
+
+        internal GeocachingComApiManager()
+        {
+            Caches = new HashSet<Cache>();
+        }
+
+        public HashSet<Cache> Caches { get; private set; }
+
         private double MilliTimeStamp()
         {
             DateTime d1 = new DateTime(1970, 1, 1);
@@ -17,15 +27,24 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             return ts.TotalMilliseconds;
         }
 
-        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
+        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
-            var viewport = new Viewport(lngmax, lgnmin, latmax, latmin);
+            if (processCaches == null) return;
+            var cacheList = (from cache in Caches
+                        where ((cache.Location.Latitude <= latmax) &&
+                               (cache.Location.Latitude >= latmin) &&
+                               (cache.Location.Longitude <= lngmax) &&
+                               (cache.Location.Longitude >= lngmin))
+                        select cache).ToList<Cache>();
+            processCaches(cacheList);
+
+            var viewport = new Viewport(lngmax, lngmin, latmax, latmin);
 
             var tiles = Tile.GetTilesForViewport(viewport);
 
             foreach (Tile tile in tiles)
             {
-                if (!Tile.TileCache.Contains(tile))
+                if (!_tileCache.Contains(tile))
                 {
                     var parameters = new Dictionary<string, string>()
                     {
@@ -135,7 +154,24 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                         caches.Add(cache);
                                     }
 
-                                    processCaches(caches);
+                                    _tileCache.Add(currentTile);
+
+                                    foreach (var p in caches)
+                                    {
+                                        if (!Caches.Contains(p))
+                                        {
+                                            Caches.Add(p);
+                                        }
+                                    }
+
+                                    if (processCaches == null) return;
+                                    var list = (from cache in Caches
+                                                where ((cache.Location.Latitude <= latmax) &&
+                                                       (cache.Location.Latitude >= latmin) &&
+                                                       (cache.Location.Longitude <= lngmax) &&
+                                                       (cache.Location.Longitude >= lngmin))
+                                                select cache).ToList<Cache>();
+                                    processCaches(list);
                                 }
                             };
 
@@ -315,6 +351,34 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
             };
             client.DownloadStringAsync(new Uri(sUrl));
+        }
+
+        private class TileCache
+        {
+            private readonly LruCache<int, Tile> _tileCache = new LruCache<int, Tile>(64);
+
+            /*
+                        public static void RemoveFromTileCache(GeoCoordinate point) {
+                            if (point != null) {
+                                var tiles = tileCache.GetValues();
+                                foreach (Tile tile in tiles) {
+                                    if (tile.ContainsPoint(point)) {
+                                        tileCache.remove(tile.GetHashCode());
+                                    }
+                                }
+                            }
+                        }
+            */
+
+            public bool Contains(Tile tile)
+            {
+                return _tileCache.ContainsKey(tile.GetHashCode());
+            }
+
+            public void Add(Tile tile)
+            {
+                _tileCache.Add(tile.GetHashCode(), tile);
+            }
         }
     }
 }
