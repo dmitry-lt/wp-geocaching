@@ -15,6 +15,7 @@ namespace GeocachingPlus.ViewModel
         public ICommand ChooseRoadModeCommand { get; private set; }
         public ICommand ChooseAerialModeCommand { get; private set; }
         public ICommand ShowPrivacyStatementDialogCommand { get; private set; }
+        public ICommand ShowGeocachingComLoginDialogCommand { get; private set; }
         public bool IsAerialChecked { get; private set; }
         public bool IsRoadChecked { get; private set; }
 
@@ -101,6 +102,7 @@ namespace GeocachingPlus.ViewModel
             ChooseRoadModeCommand = new ButtonCommand(ChooseRoadMode);
             ChooseAerialModeCommand = new ButtonCommand(ChooseAerialMode);
             ShowPrivacyStatementDialogCommand = new ButtonCommand(ShowPrivacyStatementDialog);
+            ShowGeocachingComLoginDialogCommand = new ButtonCommand(ShowGeocachingComLoginDialog);
 
             if (settings.MapMode == MapMode.Road)
             {
@@ -139,7 +141,11 @@ namespace GeocachingPlus.ViewModel
         {
             PrivacyStatementDialog.Show();
         }
+
+        private void ShowGeocachingComLoginDialog(object p)
+        {
+            // TODO: implement
+        }
+        
     }
-
-
 }

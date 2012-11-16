@@ -336,4 +336,7 @@
   <data name="Edit" xml:space="preserve">
     <value>изменить</value>
   </data>
+  <data name="GeocachingComLogin" xml:space="preserve">
+    <value>Войти</value>
+  </data>
 </root>

@@ -327,6 +327,9 @@
   <data name="PrivacyStatementTitle" xml:space="preserve">
     <value>Privacy statement</value>
   </data>
+  <data name="GeocachingComLogin" xml:space="preserve">
+    <value>Login</value>
+  </data>
   <data name="DisabledLocationMessage" xml:space="preserve">
     <value>Location service is disabled. You can enable it in the settings page.</value>
   </data>
