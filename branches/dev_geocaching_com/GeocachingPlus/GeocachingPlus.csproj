@@ -125,6 +125,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GeocachingComCacheType.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Localization\GeocachingComLogin.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeocachingComLogin.resx</DependentUpon>
+    </Compile>
     <Compile Include="View\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="View\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="View\Converters\CacheTypeConverter.cs" />
@@ -473,6 +478,11 @@
       <LastGenOutput>GeocachingComCacheType.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localization\GeocachingComCacheType.ru-RU.resx" />
+    <EmbeddedResource Include="Resources\Localization\GeocachingComLogin.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeocachingComLogin.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\GeocachingComLogin.ru-RU.resx" />
     <EmbeddedResource Include="Resources\Localization\OpenCachingComCacheType.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>OpenCachingComCacheType.Designer.cs</LastGenOutput>
