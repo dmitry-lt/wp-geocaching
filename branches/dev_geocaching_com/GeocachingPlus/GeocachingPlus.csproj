@@ -262,8 +262,8 @@
     <Compile Include="View\Settings\Application.xaml.cs">
       <DependentUpon>Application.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Settings\GeocachingComLogin.xaml.cs">
-      <DependentUpon>GeocachingComLogin.xaml</DependentUpon>
+    <Compile Include="View\Settings\GeocachingComLoginIndicator.xaml.cs">
+      <DependentUpon>GeocachingComLoginIndicator.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -338,7 +338,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Settings\GeocachingComLogin.xaml">
+    <Page Include="View\Settings\GeocachingComLoginIndicator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

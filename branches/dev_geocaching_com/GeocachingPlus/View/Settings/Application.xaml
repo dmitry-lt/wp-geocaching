@@ -29,7 +29,7 @@
                       HorizontalAlignment="Left"
                       IsChecked="{Binding IsGeocachingComEnabled, Mode=TwoWay}"
                       toolkit:TiltEffect.IsTiltEnabled="True"/>
-                <settings:GeocachingComLogin/>
+                <settings:GeocachingComLoginIndicator/>
             </StackPanel>
             <CheckBox Content="opencaching.com" 
                       FontSize="22" 
