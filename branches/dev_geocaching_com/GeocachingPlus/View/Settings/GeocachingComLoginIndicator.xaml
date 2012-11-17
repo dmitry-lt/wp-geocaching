@@ -15,7 +15,7 @@
             <HyperlinkButton Content="{Binding Path=LocalizedResources.GeocachingComLogin, 
                 Source={StaticResource LocalizedStrings}}" FontSize="22" 
                              HorizontalAlignment="Left"
-                             Command="{Binding ShowGeocachingComLoginDialogCommand}" Height="30"
+                             Command="{Binding ShowGeocachingComLoginCommand}" Height="30"
                              toolkit:TiltEffect.IsTiltEnabled="True"/>
         </StackPanel>
     </Grid>
