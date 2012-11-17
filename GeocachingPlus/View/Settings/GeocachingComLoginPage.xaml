@@ -33,6 +33,15 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"> 
             <StackPanel Orientation="Vertical">
+                <RichTextBox TextWrapping="Wrap">
+                    <Paragraph>
+                        <Run Text="{Binding Path=GeocachingComLogin.LegalNoteBeginning, Source={StaticResource LocalizedStrings}}"/>
+                        <Hyperlink NavigateUri="http://www.geocaching.com/about/termsofuse.aspx" TargetName="_blank">
+                            <Run Text="{Binding Path=GeocachingComLogin.GroundspeakDisclaimer, Source={StaticResource LocalizedStrings}}"/>
+                        </Hyperlink>
+                        <Run Text="{Binding Path=GeocachingComLogin.LegalNoteEnding, Source={StaticResource LocalizedStrings}}"/>
+                    </Paragraph>
+                </RichTextBox>
                 <Button 
                     Content="{Binding Path=LocalizedResources.GeocachingComLogin, Source={StaticResource LocalizedStrings}}" >
                 </Button>

@@ -18,7 +18,9 @@ namespace GeocachingPlus.Resources.Localization
         }
 
         private static AppResources localizedResources = new AppResources();
+        private static GeocachingComLogin geocachingComLogin = new GeocachingComLogin();
 
         public AppResources LocalizedResources { get { return localizedResources; } }
+        public GeocachingComLogin GeocachingComLogin { get { return geocachingComLogin; } }
     }
 }
