@@ -47,6 +47,10 @@
                 <Button 
                     Content="{Binding Path=LocalizedResources.GeocachingComLogin, Source={StaticResource LocalizedStrings}}" >
                 </Button>
+                <HyperlinkButton 
+                    HorizontalAlignment="Left"
+                    NavigateUri="https://www.geocaching.com/membership/register.aspx" TargetName="_blank" 
+                    Content="{Binding Path=GeocachingComLogin.SignUp, Source={StaticResource LocalizedStrings}}"/>
             </StackPanel>
         </Grid>
     </Grid>
