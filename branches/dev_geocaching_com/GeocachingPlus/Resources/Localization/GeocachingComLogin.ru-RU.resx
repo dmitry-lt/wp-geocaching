@@ -124,7 +124,7 @@
     <value>Чтобы использовать сервис geocaching.com, вы должны принять</value>
   </data>
   <data name="LegalNoteEnding" xml:space="preserve">
-    <value>.</value>
+    <value />
   </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>

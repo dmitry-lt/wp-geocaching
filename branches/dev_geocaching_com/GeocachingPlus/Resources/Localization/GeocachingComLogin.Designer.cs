@@ -79,7 +79,7 @@ namespace GeocachingPlus.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to have to be agreed..
+        ///   Looks up a localized string similar to have to be agreed.
         /// </summary>
         public static string LegalNoteEnding {
             get {
