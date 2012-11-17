@@ -42,9 +42,10 @@
                         <Run Text="{Binding Path=GeocachingComLogin.LegalNoteEnding, Source={StaticResource LocalizedStrings}}"/>
                     </Paragraph>
                 </RichTextBox>
-                <TextBox/>
-                <PasswordBox/>
+                <TextBox Text="{Binding Username}"/>
+                <PasswordBox Password="{Binding Password}"/>
                 <Button 
+                    Command="{Binding LoginCommand}"
                     Content="{Binding Path=LocalizedResources.GeocachingComLogin, Source={StaticResource LocalizedStrings}}" >
                 </Button>
                 <HyperlinkButton 
