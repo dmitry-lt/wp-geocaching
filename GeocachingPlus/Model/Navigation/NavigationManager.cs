@@ -89,11 +89,6 @@ namespace GeocachingPlus.Model.Navigation
                 Params.Index, index));
         }
 
-        public void  NavigateToSettings()
-        {
-            Navigate("//View/Settings/Settings.xaml");
-        }
-
         public void NavigateToFavorites()
         {
             Navigate("/View/Favorites/FavoritesPage.xaml");
@@ -103,5 +98,16 @@ namespace GeocachingPlus.Model.Navigation
         {
             Navigate("/View/Map/BingMap.xaml");
         }
+
+        public void NavigateToSettings()
+        {
+            Navigate("//View/Settings/Settings.xaml");
+        }
+
+        public void NavigateToGeocachingComLogin()
+        {
+            Navigate("/View/Settings/GeocachingComLoginPage.xaml");
+        }
+        
     }
 }
