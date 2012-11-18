@@ -4,6 +4,7 @@ import org.mortbay.jetty.Server;
 import org.mortbay.jetty.handler.AbstractHandler;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
@@ -46,12 +47,35 @@ public class Main {
 //        try {
 //            out = new FileOutputStream(fileName);
 
-            Enumeration<String> headers = request.getHeaderNames();
-            while (headers.hasMoreElements()) {
-                String h = headers.nextElement();
-                String v = request.getHeader(h);
-                System.out.println(h + ": " + v);
-            }
+        Enumeration<String> headers = request.getHeaderNames();
+        while (headers.hasMoreElements()) {
+            String h = headers.nextElement();
+            String v = request.getHeader(h);
+            System.out.println(h + ": " + v);
+        }
+//        } catch (IOException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        } finally {
+//            if (null != out) {
+//                try {
+//                    out.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//                }
+//            }
+//        }
+    }
+
+    private static void logRequestCookies(HttpServletRequest request) {
+//        String fileName = "h_" + new Date().getTime() + ".req";
+        OutputStream out = null;
+//        try {
+//            out = new FileOutputStream(fileName);
+
+        Cookie[] cookies = request.getCookies();
+        for (Cookie c : cookies) {
+            System.out.println("Cookie " + c.getName() + ": " + c.getValue());
+        }
 //        } catch (IOException e) {
 //            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 //        } finally {
@@ -71,6 +95,7 @@ public class Main {
                     throws IOException, ServletException {
                 logRequest(request);
                 logRequestHeaders(request);
+                logRequestCookies(request);
                 response.setContentType("text/html");
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().println("<h1>Hello</h1>");
