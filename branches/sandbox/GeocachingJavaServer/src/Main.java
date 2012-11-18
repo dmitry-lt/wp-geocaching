@@ -73,8 +73,10 @@ public class Main {
 //            out = new FileOutputStream(fileName);
 
         Cookie[] cookies = request.getCookies();
-        for (Cookie c : cookies) {
-            System.out.println("Cookie " + c.getName() + ": " + c.getValue());
+        if (null != cookies) {
+            for (Cookie c : cookies) {
+                System.out.println("Cookie " + c.getName() + ": " + c.getValue());
+            }
         }
 //        } catch (IOException e) {
 //            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
