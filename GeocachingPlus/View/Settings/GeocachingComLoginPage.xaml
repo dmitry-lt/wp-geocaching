@@ -42,8 +42,8 @@
                         <Run Text="{Binding Path=GeocachingComLogin.LegalNoteEnding, Source={StaticResource LocalizedStrings}}"/>
                     </Paragraph>
                 </RichTextBox>
-                <TextBox Text="{Binding Username}"/>
-                <PasswordBox Password="{Binding Password}"/>
+                <TextBox Text="{Binding Username, Mode=TwoWay}"/>
+                <PasswordBox Password="{Binding Password, Mode=TwoWay}"/>
                 <Button 
                     Command="{Binding LoginCommand}"
                     Content="{Binding Path=LocalizedResources.GeocachingComLogin, Source={StaticResource LocalizedStrings}}" >
