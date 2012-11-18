@@ -122,6 +122,14 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             return a == null || a.All(String.IsNullOrWhiteSpace);
         }
 
+        private static void AddViewstateParameter(Dictionary<string, string> parameters, string paramName, string viewstate)
+        {
+            // TODO: why doesn't it get correctly encoded itself?
+            var encodedViewstate = viewstate.Replace("/", "%2F").Replace("+", "%2B").Replace("=", "%3D");
+
+            parameters.Add(paramName, encodedViewstate);
+        }
+
         /**
          * put viewstates into request parameters
          */
@@ -129,10 +137,10 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             if (IsEmpty(viewstates)) {
                 return;
             }
-            parameters.Add("__VIEWSTATE", viewstates[0]);
+            AddViewstateParameter(parameters, "__VIEWSTATE", viewstates[0]);
             if (viewstates.Length > 1) {
                 for (var i = 1; i < viewstates.Length; i++) {
-                    parameters.Add("__VIEWSTATE" + i, viewstates[i]);
+                    AddViewstateParameter(parameters, "__VIEWSTATE" + i, viewstates[i]);
                 }
                 parameters.Add("__VIEWSTATEFIELDCOUNT", viewstates.Length + "");
             }
