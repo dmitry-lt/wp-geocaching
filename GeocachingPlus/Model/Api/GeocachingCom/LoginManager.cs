@@ -149,7 +149,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             }
 
 //            Login.setActualStatus(cgeoapplication.getInstance().getString(R.string.init_login_popup_working));
-            var client = new WebClient();
+            var client = new ExtendedWebClient();
 
             client.DownloadStringCompleted += (sender, e) =>
             {
@@ -203,39 +203,54 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 }
                 PutViewstates(parameters, viewstates);
 
-                // TODO: 
+                Action<string> onResponseGot = 
+                    s =>
+                    {
+                        loginData = s;
+
+                        if (String.IsNullOrWhiteSpace(loginData))
+                        {
+//                            Log.e("Login.login: Failed to retrieve login page (2nd)");
+                            // FIXME: should it be CONNECTION_FAILED to match the first attempt?
+                            processResult(StatusCode.COMMUNICATION_ERROR); // no login page
+                            return;
+                        }
+
+                        // TODO:
 /*
-                loginResponse = Network.postRequest("https://www.geocaching.com/login/default.aspx", params);
-                loginData = Network.getResponseData(loginResponse);
+                        if (Login.getLoginStatus(loginData))
+                        {
+                            Log.i("Successfully logged in Geocaching.com as " +
+                                    login.left + " (" + Settings.getMemberStatus() + ')');
 
-                if (StringUtils.isBlank(loginData)) {
-                    Log.e("Login.login: Failed to retrieve login page (2nd)");
-                    // FIXME: should it be CONNECTION_FAILED to match the first attempt?
-                    return StatusCode.COMMUNICATION_ERROR; // no login page
-                }
+                            Login.switchToEnglish(loginData);
+                            Settings.setCookieStore(Cookies.dumpCookieStore());
 
-                if (Login.getLoginStatus(loginData)) {
-                    Log.i("Successfully logged in Geocaching.com as " + login.left + " (" + Settings.getMemberStatus() + ')');
+                            return StatusCode.NO_ERROR; // logged in
+                        }
 
-                    Login.switchToEnglish(loginData);
-                    Settings.setCookieStore(Cookies.dumpCookieStore());
+                        if (
+                            loginData.contains(
+                                "Your username/password combination does not match."))
+                        {
+                            Log.i("Failed to log in Geocaching.com as " + login.left +
+                                    " because of wrong username/password");
+                            return StatusCode.WRONG_LOGIN_DATA; // wrong login
+                        }
 
-                    return StatusCode.NO_ERROR; // logged in
-                }
-
-                if (loginData.contains("Your username/password combination does not match.")) {
-                    Log.i("Failed to log in Geocaching.com as " + login.left + " because of wrong username/password");
-                    return StatusCode.WRONG_LOGIN_DATA; // wrong login
-                }
-
-                Log.i("Failed to log in Geocaching.com as " + login.left + " for some unknown reason");
-                if (retry) {
-                    Login.switchToEnglish(loginData);
-                    return login(false);
-                }
-
-                return StatusCode.UNKNOWN_ERROR; // can't login
+                        Log.i("Failed to log in Geocaching.com as " + login.left +
+                                " for some unknown reason");
+                        if (retry)
+                        {
+                            Login.switchToEnglish(loginData);
+                            return login(false);
+                        }
 */
+
+                        processResult(StatusCode.UNKNOWN_ERROR); // can't login
+                    };
+
+                client.Post("https://www.geocaching.com/login/default.aspx", parameters, onResponseGot);
             };
             
             client.DownloadStringAsync(new Uri("https://www.geocaching.com/login/default.aspx"));
