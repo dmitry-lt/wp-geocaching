@@ -62,20 +62,25 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                             var request = (HttpWebRequest)asynchResult.AsyncState;
 
                             // End the operation
-                            var response = (HttpWebResponse)request.EndGetResponse(asynchResult);
-                            var rcode = response.StatusCode;
-                            var streamResponse = response.GetResponseStream();
-                            var streamRead = new StreamReader(streamResponse);
-
-                            var responseString = streamRead.ReadToEnd();
-
-                            // Close the stream object
-                            streamResponse.Close();
-                            streamRead.Close();
-                            // Release the HttpWebResponse
-                            response.Close();
-
-                            onResponseGot(responseString);
+                            try
+                            {
+                                using (var response = (HttpWebResponse)request.EndGetResponse(asynchResult))
+                                {
+                                    var rcode = response.StatusCode;
+                                    using (var streamResponse = response.GetResponseStream())
+                                    {
+                                        using (var streamRead = new StreamReader(streamResponse))
+                                        {
+                                            var responseString = streamRead.ReadToEnd();
+                                            onResponseGot(responseString);
+                                        }
+                                    }
+                                }
+                            }
+                            catch (WebException e)
+                            {
+                                onResponseGot(null);
+                            }
                         };
 
                         // Start the asynchronous operation to get the response
@@ -90,9 +95,6 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(address);
                 httpWebRequest.Method = "POST";
                 
-                // TODO:
-                httpWebRequest.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
-
                 // start the asynchronous operation
                 httpWebRequest.BeginGetRequestStream(new AsyncCallback(getRequestStreamCallback), httpWebRequest);
             }
