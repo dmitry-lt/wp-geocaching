@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 
@@ -111,6 +112,32 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             return null;
         }
 
+        /**
+         * checks if an Array of Strings is empty or not. Empty means:
+         * - Array is null
+         * - or all elements are null or empty strings
+         */
+        public static bool IsEmpty(string[] a)
+        {
+            return a == null || a.All(String.IsNullOrWhiteSpace);
+        }
+
+        /**
+         * put viewstates into request parameters
+         */
+        public static void PutViewstates(Dictionary<string, string> parameters, string[] viewstates) {
+            if (IsEmpty(viewstates)) {
+                return;
+            }
+            parameters.Add("__VIEWSTATE", viewstates[0]);
+            if (viewstates.Length > 1) {
+                for (var i = 1; i < viewstates.Length; i++) {
+                    parameters.Add("__VIEWSTATE" + i, viewstates[i]);
+                }
+                parameters.Add("__VIEWSTATEFIELDCOUNT", viewstates.Length + "");
+            }
+        }
+
         private void Login(Action<StatusCode> processResult, string username, string password, bool retry) {
             var login = new ImmutablePair<string, string>(username, password);
 
@@ -169,14 +196,15 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                 var viewstates = GetViewstates(loginData);
                 
-                // TODO:
-/*
-                if (isEmpty(viewstates)) {
-                    Log.e("Login.login: Failed to find viewstates");
-                    return StatusCode.LOGIN_PARSE_ERROR; // no viewstates
+                if (IsEmpty(viewstates)) {
+//                    Log.e("Login.login: Failed to find viewstates");
+                    processResult(StatusCode.LOGIN_PARSE_ERROR); // no viewstates
+                    return;
                 }
-                Login.putViewstates(params, viewstates);
+                PutViewstates(parameters, viewstates);
 
+                // TODO: 
+/*
                 loginResponse = Network.postRequest("https://www.geocaching.com/login/default.aspx", params);
                 loginData = Network.getResponseData(loginResponse);
 
