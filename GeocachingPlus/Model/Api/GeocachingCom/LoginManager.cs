@@ -55,9 +55,8 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             return false;
         }
 
-        private void Login(Action<StatusCode> processResult, bool retry) {
-            //TODO: get from settings
-            var login = new ImmutablePair<string, string>("test", "test");
+        private void Login(Action<StatusCode> processResult, string username, string password, bool retry) {
+            var login = new ImmutablePair<string, string>(username, password);
 
             if (login == null || String.IsNullOrWhiteSpace(login.left) || String.IsNullOrWhiteSpace(login.right)) {
 //                Login.setActualStatus(cgeoapplication.getInstance().getString(R.string.err_login));
@@ -151,9 +150,9 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             client.DownloadStringAsync(new Uri("https://www.geocaching.com/login/default.aspx"));
         }
 
-        public void Login(Action<StatusCode> processResult)
+        public void Login(Action<StatusCode> processResult, string username, string password)
         {
-            Login(processResult, true);
+            Login(processResult, username, password, true);
         }
 
     }
