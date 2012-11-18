@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.Enumeration;
 
 public class Main {
 
@@ -39,11 +40,37 @@ public class Main {
         }
     }
 
+    private static void logRequestHeaders(HttpServletRequest request) {
+//        String fileName = "h_" + new Date().getTime() + ".req";
+        OutputStream out = null;
+//        try {
+//            out = new FileOutputStream(fileName);
+
+            Enumeration<String> headers = request.getHeaderNames();
+            while (headers.hasMoreElements()) {
+                String h = headers.nextElement();
+                String v = request.getHeader(h);
+                System.out.println(h + ": " + v);
+            }
+//        } catch (IOException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        } finally {
+//            if (null != out) {
+//                try {
+//                    out.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//                }
+//            }
+//        }
+    }
+
     public static void main(String[] args) throws Exception {
         Handler handler = new AbstractHandler() {
             public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch)
                     throws IOException, ServletException {
                 logRequest(request);
+                logRequestHeaders(request);
                 response.setContentType("text/html");
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().println("<h1>Hello</h1>");
