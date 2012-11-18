@@ -1,4 +1,6 @@
-﻿namespace GeocachingPlus.Model.Api.GeocachingCom
+﻿using System.Text.RegularExpressions;
+
+namespace GeocachingPlus.Model.Api.GeocachingCom
 {
     public class GCConstants
     {
@@ -14,5 +16,12 @@
         // Info box top-right
         public const string PATTERN_LOGIN_NAME = "\"SignedInProfileLink\">([^<]+)</a>";
         public const string PATTERN_LOGIN_NAME_LOGIN_PAGE = "<h4>Success:</h4> <p>You are logged in as[^<]*<strong><span id=\"ctl00_ContentBody_lbUsername\"[^>]*>([^<]+)[^<]*</span>";
+
+        public const string PATTERN_VIEWSTATEFIELDCOUNT = "id=\"__VIEWSTATEFIELDCOUNT\"[^(value)]+value=\"(\\d+)\"[^>]+>";
+        public static Regex ViewstateFieldCountRegex = new Regex(PATTERN_VIEWSTATEFIELDCOUNT, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+        public const string PATTERN_VIEWSTATES = "id=\"__VIEWSTATE(\\d*)\"[^(value)]+value=\"([^\"]+)\"[^>]+>";
+        public static Regex ViewstatesRegex = new Regex(PATTERN_VIEWSTATES, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
     }
 }
