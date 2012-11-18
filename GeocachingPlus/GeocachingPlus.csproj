@@ -117,6 +117,7 @@
     <Compile Include="Model\Api\GeocachingCom\LruCache.cs" />
     <Compile Include="Model\Api\GeocachingCom\StatusCode.cs" />
     <Compile Include="Model\Api\GeocachingCom\Tile.cs" />
+    <Compile Include="Model\Api\GeocachingCom\UrlHelper.cs" />
     <Compile Include="Model\Api\GeocachingCom\UTFGrid.cs" />
     <Compile Include="Model\Api\GeocachingCom\UTFGridPosition.cs" />
     <Compile Include="Model\Api\GeocachingCom\Viewport.cs" />
