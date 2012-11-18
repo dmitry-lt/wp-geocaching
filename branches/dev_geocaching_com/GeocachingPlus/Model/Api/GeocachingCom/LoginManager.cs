@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
 {
@@ -55,6 +57,60 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             return false;
         }
 
+        /**
+         * read all viewstates from page
+         *
+         * @return string[] with all view states
+         */
+        public string[] GetViewstates(string page) {
+            // Get the number of viewstates.
+            // If there is only one viewstate, __VIEWSTATEFIELDCOUNT is not present
+
+            if (page == null) { // no network access
+                return null;
+            }
+
+            // TODO: not sure if viewstates are matched correctly
+            var count = 1;
+            var matcherViewstateCount = GCConstants.ViewstateFieldCountRegex.Match(page);
+            if (matcherViewstateCount.Groups.Count > 0) {
+                try {
+                    count = Convert.ToInt32(matcherViewstateCount.Groups[1].Value);
+                } catch (Exception e) {
+//                    Log.e("getViewStates", e);
+                }
+            }
+
+            var viewstates = new string[count];
+
+            // Get the viewstates
+            var matcherViewstates = GCConstants.ViewstatesRegex.Matches(page);
+            foreach (Match mvs in matcherViewstates)
+            {
+                var sno = mvs.Groups[1].Value; // number of viewstate
+                int no;
+                if (sno.Length == 0) {
+                    no = 0;
+                }
+                else {
+                    try {
+                        no = Convert.ToInt32(sno);
+                    } catch (Exception e) {
+//                        Log.e("getViewStates", e);
+                        no = 0;
+                    }
+                }
+                viewstates[no] = mvs.Groups[2].Value;
+            }
+
+            if (viewstates.Length != 1 || viewstates[0] != null) {
+                return viewstates;
+            }
+
+            // no viewstates were present
+            return null;
+        }
+
         private void Login(Action<StatusCode> processResult, string username, string password, bool retry) {
             var login = new ImmutablePair<string, string>(username, password);
 
@@ -99,15 +155,22 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 /*
                 Cookies.clearCookies();
                 Settings.setCookieStore(null);
+*/
+                                    
+                var parameters = new Dictionary<string, string>()
+                    {
+                        {"__EVENTTARGET", ""},
+                        {"__EVENTARGUMENT", ""},
+                        {"ctl00$ContentBody$tbUsername", login.left},
+                        {"ctl00$ContentBody$tbPassword", login.right},
+                        {"ctl00$ContentBody$cbRememberMe", "on"},
+                        {"ctl00$ContentBody$btnSignIn", "Login"},
+                    };
 
-                final Parameters params = new Parameters(
-                        "__EVENTTARGET", "",
-                        "__EVENTARGUMENT", "",
-                        "ctl00$ContentBody$tbUsername", login.left,
-                        "ctl00$ContentBody$tbPassword", login.right,
-                        "ctl00$ContentBody$cbRememberMe", "on",
-                        "ctl00$ContentBody$btnSignIn", "Login");
-                final String[] viewstates = Login.getViewstates(loginData);
+                var viewstates = GetViewstates(loginData);
+                
+                // TODO:
+/*
                 if (isEmpty(viewstates)) {
                     Log.e("Login.login: Failed to find viewstates");
                     return StatusCode.LOGIN_PARSE_ERROR; // no viewstates
