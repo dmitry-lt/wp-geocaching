@@ -76,6 +76,9 @@
     <Reference Include="PhoneCodeContractsAssemblies">
       <HintPath>Libs\ImageTools\PhoneCodeContractsAssemblies.dll</HintPath>
     </Reference>
+    <Reference Include="SharpZipLib.WindowsPhone7">
+      <HintPath>Libs\SharpZipLib.WindowsPhone7.dll</HintPath>
+    </Reference>
     <Reference Include="system.data.linq" />
     <Reference Include="System.Device" />
     <Reference Include="System.Runtime.Serialization" />
