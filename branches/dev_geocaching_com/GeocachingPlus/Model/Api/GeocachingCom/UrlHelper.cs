@@ -6,21 +6,23 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
     {
         public static string FormUrl(string baseUrl, Dictionary<string, string> parameters)
         {
-            var urlString = baseUrl;
+            return baseUrl + "?" + FormUrlParameterQuery(parameters);
+        }
+
+        public static string FormUrlParameterQuery(Dictionary<string, string> parameters)
+        {
+            var result = "";
             var firstParameter = true;
             foreach (var k in parameters.Keys)
             {
-                if (firstParameter)
+                if (!firstParameter)
                 {
-                    urlString += "?" + k + "=" + parameters[k];
-                    firstParameter = false;
+                    result += "&";
                 }
-                else
-                {
-                    urlString += "&" + k + "=" + parameters[k];
-                }
+                result += k + "=" + parameters[k];
+                firstParameter = false;
             }
-            return urlString;
+            return result;
         }
     }
 }
