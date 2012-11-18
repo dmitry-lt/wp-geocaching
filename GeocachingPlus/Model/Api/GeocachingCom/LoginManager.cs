@@ -216,36 +216,36 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                             return;
                         }
 
-                        // TODO:
-/*
-                        if (Login.getLoginStatus(loginData))
+                        if (GetLoginStatus(loginData))
                         {
-                            Log.i("Successfully logged in Geocaching.com as " +
-                                    login.left + " (" + Settings.getMemberStatus() + ')');
+//                            Log.i("Successfully logged in Geocaching.com as " + login.left + " (" + Settings.getMemberStatus() + ')');
 
-                            Login.switchToEnglish(loginData);
-                            Settings.setCookieStore(Cookies.dumpCookieStore());
+                            // TODO:
+//                            Login.switchToEnglish(loginData);
+//                            Settings.setCookieStore(Cookies.dumpCookieStore());
 
-                            return StatusCode.NO_ERROR; // logged in
+                            processResult(StatusCode.NO_ERROR); // logged in
+                            return;
                         }
 
-                        if (
-                            loginData.contains(
-                                "Your username/password combination does not match."))
+                        // TODO:
+/*
+                        if (loginData.contains("Your username/password combination does not match."))
                         {
                             Log.i("Failed to log in Geocaching.com as " + login.left +
                                     " because of wrong username/password");
                             return StatusCode.WRONG_LOGIN_DATA; // wrong login
                         }
 
-                        Log.i("Failed to log in Geocaching.com as " + login.left +
-                                " for some unknown reason");
+                        Log.i("Failed to log in Geocaching.com as " + login.left + " for some unknown reason");
+*/
                         if (retry)
                         {
-                            Login.switchToEnglish(loginData);
-                            return login(false);
+                            // TODO:
+//                            Login.switchToEnglish(loginData);
+                            Login(processResult, username, password, false);
+                            return;
                         }
-*/
 
                         processResult(StatusCode.UNKNOWN_ERROR); // can't login
                     };
