@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Security;
@@ -28,7 +29,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         public void Post(string address, string parameters, Action<string> onResponseGot)
         {
             var uri = new Uri(address);
-            var r = (HttpWebRequest)WebRequest.Create(uri);
+            var r = (HttpWebRequest) WebRequest.Create(uri);
             r.Method = "POST";
 
             r.BeginGetRequestStream(delegate(IAsyncResult req)
@@ -36,13 +37,15 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 var outStream = r.EndGetRequestStream(req);
 
                 using (var w = new StreamWriter(outStream))
+                {
                     w.Write(parameters);
+                }
 
                 r.BeginGetResponse(delegate(IAsyncResult result)
                 {
                     try
                     {
-                        var response = (HttpWebResponse)r.EndGetResponse(result);
+                        var response = (HttpWebResponse) r.EndGetResponse(result);
 
                         using (var stream = response.GetResponseStream())
                         {
@@ -60,6 +63,11 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 }, null);
 
             }, null);
+        }
+
+        public void Post(string address, Dictionary<string, string> parameters, Action<string> onResponseGot)
+        {
+            Post(address, UrlHelper.FormUrlParameterQuery(parameters), onResponseGot);
         }
     }
 }
