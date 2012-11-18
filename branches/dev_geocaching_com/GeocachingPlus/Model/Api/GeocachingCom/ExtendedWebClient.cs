@@ -51,6 +51,9 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                         req.Headers["Accept-Charset"] = "utf-8,iso-8859-1;q=0.8,utf-16;q=0.8,*;q=0.7";
                         req.Headers["Accept-Language"] = "en-US,*;q=0.9";
                         req.Headers["X-Requested-With"] = "XMLHttpRequest";
+//                        req.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
+                        req.Headers["User-Agent"] = "Mozilla/5.0 (X11; Linux x86_64; rv:9.0.1) Gecko/20100101 Firefox/9.0.1";
+
 
                         // End the operation
                         var postStream = req.EndGetRequestStream(asynchronousResult);
