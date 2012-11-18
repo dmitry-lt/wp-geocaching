@@ -102,7 +102,9 @@
     </Compile>
     <Compile Include="Model\Api\ApiManager.cs" />
     <Compile Include="Model\Api\CacheProvider.cs" />
+    <Compile Include="Model\Api\GeocachingCom\BaseUtils.cs" />
     <Compile Include="Model\Api\GeocachingCom\ColorExtensions.cs" />
+    <Compile Include="Model\Api\GeocachingCom\ExtendedWebClient.cs" />
     <Compile Include="Model\Api\GeocachingCom\GCConstants.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComApiCaches.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComApiManager.cs" />
@@ -110,7 +112,10 @@
     <Compile Include="Model\Api\GeocachingCom\GeoCoordinateExtensions.cs" />
     <Compile Include="Model\Api\GeocachingCom\IconDecoder.cs" />
     <Compile Include="Model\Api\GeocachingCom\ICoordinates.cs" />
+    <Compile Include="Model\Api\GeocachingCom\ImmutablePair.cs" />
+    <Compile Include="Model\Api\GeocachingCom\LoginManager.cs" />
     <Compile Include="Model\Api\GeocachingCom\LruCache.cs" />
+    <Compile Include="Model\Api\GeocachingCom\StatusCode.cs" />
     <Compile Include="Model\Api\GeocachingCom\Tile.cs" />
     <Compile Include="Model\Api\GeocachingCom\UTFGrid.cs" />
     <Compile Include="Model\Api\GeocachingCom\UTFGridPosition.cs" />
