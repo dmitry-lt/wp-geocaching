@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Security;
+using System.Text;
+using System.Windows.Navigation;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
 {
@@ -26,20 +28,116 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             return request;
         }
 
+        private static byte[] GetBytes(string str)
+        {
+            var bytes = new byte[str.Length * sizeof(char)];
+            Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            return bytes;
+        }
+
+        public void Post(string address, string parameters, Action<string> onResponseGot)
+        {
+            try
+            {
+                Action<IAsyncResult> getRequestStreamCallback = (IAsyncResult asynchronousResult) =>
+                {
+                    var post = parameters;
+
+                    try
+                    {
+                        var req = (HttpWebRequest)asynchronousResult.AsyncState;
+
+                        // End the operation
+                        var postStream = req.EndGetRequestStream(asynchronousResult);
+
+                        // Convert the string into a byte array.
+                        var postBytes = Encoding.UTF8.GetBytes(post);
+
+                        // Write to the request stream.
+                        postStream.Write(postBytes, 0, postBytes.Length);
+                        postStream.Close();
+
+                        AsyncCallback getResponseCallback = (IAsyncResult asynchResult) =>
+                        {
+                            var request = (HttpWebRequest)asynchResult.AsyncState;
+
+                            // End the operation
+                            var response = (HttpWebResponse)request.EndGetResponse(asynchResult);
+                            var rcode = response.StatusCode;
+                            var streamResponse = response.GetResponseStream();
+                            var streamRead = new StreamReader(streamResponse);
+
+                            var responseString = streamRead.ReadToEnd();
+
+                            // Close the stream object
+                            streamResponse.Close();
+                            streamRead.Close();
+                            // Release the HttpWebResponse
+                            response.Close();
+
+                            onResponseGot(responseString);
+                        };
+
+                        // Start the asynchronous operation to get the response
+                        req.BeginGetResponse(getResponseCallback, req);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                };
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(address);
+                httpWebRequest.Method = "POST";
+                
+                // TODO:
+                httpWebRequest.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
+
+                // start the asynchronous operation
+                httpWebRequest.BeginGetRequestStream(new AsyncCallback(getRequestStreamCallback), httpWebRequest);
+            }
+            catch (Exception ex)
+            {
+            
+            }
+        }
+
+
+/*
         public void Post(string address, string parameters, Action<string> onResponseGot)
         {
             var uri = new Uri(address);
-            var r = (HttpWebRequest) WebRequest.Create(uri);
-            r.Method = "POST";
+
+
+            var getResponseCallback = 
+                req =>
+                    {
+                        
+                    }
+
+            var request = (HttpWebRequest)WebRequest.Create(uri); ;
+            request.Method = "POST";
+
+            // End the operation
+            Stream postStream = request.EndGetRequestStream(asynchronousResult);
+
+            // Convert the string into a byte array.
+            byte[] postBytes = Encoding.UTF8.GetBytes(post);
+
+            // Write to the request stream.
+            postStream.Write(postBytes, 0, postBytes.Length);
+            postStream.Close();
+
+            // Start the asynchronous operation to get the response
+            request.BeginGetResponse(new AsyncCallback(getResponseCallback), request);
 
             r.BeginGetRequestStream(delegate(IAsyncResult req)
             {
                 var outStream = r.EndGetRequestStream(req);
 
-                using (var w = new StreamWriter(outStream))
-                {
-                    w.Write(parameters);
-                }
+                var bytes = GetBytes(parameters);
+                outStream.Write(bytes, 0, bytes.Length);
+                outStream.Flush();
 
                 r.BeginGetResponse(delegate(IAsyncResult result)
                 {
@@ -55,7 +153,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                             }
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         onResponseGot(null);
                     }
@@ -64,10 +162,12 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
             }, null);
         }
+*/
 
         public void Post(string address, Dictionary<string, string> parameters, Action<string> onResponseGot)
         {
-            Post(address, UrlHelper.FormUrlParameterQuery(parameters), onResponseGot);
+            var stringParams = UrlHelper.FormUrlParameterQuery(parameters);
+            Post(address, stringParams, onResponseGot);
         }
     }
 }
