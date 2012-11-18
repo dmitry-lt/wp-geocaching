@@ -53,7 +53,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                         req.Headers["X-Requested-With"] = "XMLHttpRequest";
                         req.ContentType = "application/x-www-form-urlencoded";
                         req.Headers["User-Agent"] = "Mozilla/5.0 (X11; Linux x86_64; rv:9.0.1) Gecko/20100101 Firefox/9.0.1";
-
+                        req.Headers["Accept-Encoding"] = "gzip";
                         
 
                         // TODO: ???
