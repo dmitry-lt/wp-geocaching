@@ -11,5 +11,8 @@
         public const string URL_MAP_INFO = GC_URL + "map/map.info";
         /** Tile itself */
         public const string URL_MAP_TILE = GC_URL + "map/map.png";
+        // Info box top-right
+        public const string PATTERN_LOGIN_NAME = "\"SignedInProfileLink\">([^<]+)</a>";
+        public const string PATTERN_LOGIN_NAME_LOGIN_PAGE = "<h4>Success:</h4> <p>You are logged in as[^<]*<strong><span id=\"ctl00_ContentBody_lbUsername\"[^>]*>([^<]+)[^<]*</span>";
     }
 }
