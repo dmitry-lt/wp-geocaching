@@ -255,10 +255,6 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 // ???
                 stringParams = stringParams.Replace("$", "%24");
 
-                client.Headers["Accept-Charset"] = "utf-8,iso-8859-1;q=0.8,utf-16;q=0.8,*;q=0.7";
-                client.Headers["Accept-Language"] = "en-US,*;q=0.9";
-                client.Headers["X-Requested-With"] = "XMLHttpRequest";
-
                 client.Post("https://www.geocaching.com/login/default.aspx", stringParams, onResponseGot);
 //                client.Post("http://localhost:8080", stringParams, onResponseGot);
             };
