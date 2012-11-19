@@ -11,7 +11,13 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
          */
         public static bool Matches(string data, string pattern)
         {
-            // TODO: implement!
+            var matches = Regex.Matches(data, pattern, RegexOptions.Singleline);
+            if (matches.Count == 1)
+            {
+                var value = matches[0].Groups[0].Value;
+                return !string.IsNullOrWhiteSpace(value);
+            }
+
             return false;
         }
     }
