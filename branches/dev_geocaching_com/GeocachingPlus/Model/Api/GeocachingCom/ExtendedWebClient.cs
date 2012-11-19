@@ -48,24 +48,11 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     {
                         var req = (HttpWebRequest)asynchronousResult.AsyncState;
 
-                        // TODO:
-                        req.Headers["Accept-Charset"] = "utf-8,iso-8859-1;q=0.8,utf-16;q=0.8,*;q=0.7";
-                        req.Headers["Accept-Language"] = "en-US,*;q=0.9";
-                        req.Headers["X-Requested-With"] = "XMLHttpRequest";
-                        req.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-                        req.Headers["User-Agent"] = "Mozilla/5.0 (X11; Linux x86_64; rv:9.0.1) Gecko/20100101 Firefox/9.0.1";
-                        req.Headers["Accept-Encoding"] = "gzip";
-
-                        // TODO: ???
-                        req.Headers["Host"] = "www.geocaching.com";
-//                        req.Headers["Origin"] = "http://www.geocaching.com";
-                        req.Headers["Referer"] = "http://www.geocaching.com/";
-
                         // End the operation
                         var postStream = req.EndGetRequestStream(asynchronousResult);
 
                         // Convert the string into a byte array.
-                        var postBytes = Encoding.UTF8.GetBytes(post);
+                        var postBytes = new AsciiEncoding().GetBytes(post);
 
                         // Write to the request stream.
                         postStream.Write(postBytes, 0, postBytes.Length);
@@ -117,7 +104,23 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(address);
                 httpWebRequest.Method = "POST";
+                var cookies = new CookieContainer();
+                httpWebRequest.CookieContainer = cookies;
+
+                // TODO:
+//                        httpWebRequest.Headers["Accept-Charset"] = "utf-8,iso-8859-1;q=0.8,utf-16;q=0.8,*;q=0.7";
+//                        httpWebRequest.Headers["Accept-Language"] = "en-US,*;q=0.9";
+//                        httpWebRequest.Headers["X-Requested-With"] = "XMLHttpRequest";
+                httpWebRequest.ContentType = "application/x-www-form-urlencoded";
+//                        httpWebRequest.Headers["User-Agent"] = "Mozilla/5.0 (X11; Linux x86_64; rv:9.0.1) Gecko/20100101 Firefox/9.0.1";
+//                        httpWebRequest.Headers["Accept-Encoding"] = "gzip";
+
+                // TODO: ???
+//                        httpWebRequest.Headers["Host"] = "www.geocaching.com";
+//                        httpWebRequest.Headers["Origin"] = "http://www.geocaching.com";
+//                        httpWebRequest.Headers["Referer"] = "http://www.geocaching.com/";
                 
+
                 // start the asynchronous operation
                 httpWebRequest.BeginGetRequestStream(new AsyncCallback(getRequestStreamCallback), httpWebRequest);
             }
@@ -195,4 +198,50 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             Post(address, stringParams, onResponseGot);
         }
     }
+
+
+    public class AsciiEncoding : System.Text.Encoding
+    {
+        public override int GetMaxByteCount(int charCount)
+        {
+            return charCount;
+        }
+        public override int GetMaxCharCount(int byteCount)
+        {
+            return byteCount;
+        }
+        public override int GetByteCount(char[] chars, int index, int count)
+        {
+            return count;
+        }
+        public override byte[] GetBytes(char[] chars)
+        {
+            return base.GetBytes(chars);
+        }
+        public override int GetCharCount(byte[] bytes)
+        {
+            return bytes.Length;
+        }
+        public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+        {
+            for (int i = 0; i < charCount; i++)
+            {
+                bytes[byteIndex + i] = (byte)chars[charIndex + i];
+            }
+            return charCount;
+        }
+        public override int GetCharCount(byte[] bytes, int index, int count)
+        {
+            return count;
+        }
+        public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
+        {
+            for (int i = 0; i < byteCount; i++)
+            {
+                chars[charIndex + i] = (char)bytes[byteIndex + i];
+            }
+            return byteCount;
+        }
+    }
+
 }
