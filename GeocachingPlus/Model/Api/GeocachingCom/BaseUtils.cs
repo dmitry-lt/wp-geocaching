@@ -9,12 +9,10 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
          *
          * @return true if data contains the pattern p
          */
-        public static bool Matches(string data, string pattern) {
-            if (data == null) {
-                return false;
-            }
-            // matcher is faster than String.contains() and more flexible - it takes patterns instead of fixed texts
-            return Regex.IsMatch(data, pattern, RegexOptions.Singleline);
+        public static bool Matches(string data, string pattern)
+        {
+            // TODO: implement!
+            return false;
         }
     }
 }

@@ -101,7 +101,9 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                         no = 0;
                     }
                 }
-                viewstates[no] = mvs.Groups[2].Value;
+                var viewstateToEncode = mvs.Groups[2].Value;
+                var viewstate = HttpUtilityEx.UrlEncodeUnicode(viewstateToEncode);
+                viewstates[no] = viewstate;
             }
 
             if (viewstates.Length != 1 || viewstates[0] != null) {
@@ -124,10 +126,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
         private static void AddViewstateParameter(Dictionary<string, string> parameters, string paramName, string viewstate)
         {
-            // TODO: why doesn't it get correctly encoded itself?
-            var encodedViewstate = viewstate.Replace("/", "%2F").Replace("+", "%2B").Replace("=", "%3D");
-
-            parameters.Add(paramName, encodedViewstate);
+            parameters.Add(paramName, viewstate);
         }
 
         /**
@@ -194,8 +193,8 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                     
                 var parameters = new Dictionary<string, string>()
                     {
-                        {"__EVENTTARGET", ""},
-                        {"__EVENTARGUMENT", ""},
+//                        {"__EVENTTARGET", ""},
+//                        {"__EVENTARGUMENT", ""},
                         {"ctl00$ContentBody$tbUsername", login.left},
                         {"ctl00$ContentBody$tbPassword", login.right},
                         {"ctl00$ContentBody$cbRememberMe", "on"},
@@ -259,12 +258,8 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     };
 
                 var stringParams = UrlHelper.FormUrlParameterQuery(parameters);
-                
-                // ???
-                stringParams = stringParams.Replace("$", "%24");
 
                 client.Post("https://www.geocaching.com/login/default.aspx", stringParams, onResponseGot);
-//                client.Post("http://localhost:8080", stringParams, onResponseGot);
             };
             
             client.DownloadStringAsync(new Uri("https://www.geocaching.com/login/default.aspx"));
