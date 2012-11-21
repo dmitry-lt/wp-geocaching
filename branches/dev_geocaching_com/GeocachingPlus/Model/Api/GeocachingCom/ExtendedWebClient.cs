@@ -2,22 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Net.Browser;
 using System.Security;
-using System.Text;
-using System.Windows.Navigation;
 using ICSharpCode.SharpZipLib.GZip;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
 {
     public class ExtendedWebClient : WebClient
     {
-        public CookieContainer CookieContainer { get; private set; }
-
         [SecuritySafeCritical]
         public ExtendedWebClient()
         {
-            CookieContainer = new CookieContainer();
         }
 
         protected override WebRequest GetWebRequest(Uri address)
@@ -25,7 +19,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             var request = base.GetWebRequest(address);
 
             if (request is HttpWebRequest)
-                (request as HttpWebRequest).CookieContainer = CookieContainer;
+                (request as HttpWebRequest).CookieContainer = GeocachingComCookies.CookieContainer; 
 
             return request;
         }
@@ -105,8 +99,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(address);
                 httpWebRequest.Method = "POST";
-                var cookies = new CookieContainer();
-                httpWebRequest.CookieContainer = cookies;
+                httpWebRequest.CookieContainer = GeocachingComCookies.CookieContainer;
 
                 // TODO:
 //                        httpWebRequest.Headers["Accept-Charset"] = "utf-8,iso-8859-1;q=0.8,utf-16;q=0.8,*;q=0.7";
@@ -139,7 +132,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
         public void Get(string url, Action<string> onResponseGot)
         {
-            var cookies = new CookieContainer();
+            var cookies = GeocachingComCookies.CookieContainer;
 
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";

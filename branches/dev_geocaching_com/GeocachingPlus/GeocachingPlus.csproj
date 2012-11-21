@@ -113,6 +113,7 @@
     <Compile Include="Model\Api\GeocachingCom\GeocachingComApiCaches.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComApiManager.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComCache.cs" />
+    <Compile Include="Model\Api\GeocachingCom\GeocachingComCookies.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeoCoordinateExtensions.cs" />
     <Compile Include="Model\Api\GeocachingCom\HttpUtilityEx.cs" />
     <Compile Include="Model\Api\GeocachingCom\IconDecoder.cs" />
