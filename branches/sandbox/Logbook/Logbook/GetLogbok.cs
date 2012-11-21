@@ -25,7 +25,7 @@ namespace Logbook
                 String patternLogbook = "initalLogs = (\\{.+\\});";
                 if (null != processLogbook)
                 {
-                   var logbook = Regex.Matches(e.Result, patternLogbook, RegexOptions.Singleline)[0].Value;
+                   var logbook = Regex.Matches(e.Result, patternLogbook, RegexOptions.Multiline)[0].Value;
                     processLogbook(logbook);
                 }
             };
