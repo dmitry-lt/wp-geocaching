@@ -8,7 +8,9 @@ namespace GeocachingPlus.View.Settings
         public GeocachingComLoginPage()
         {
             InitializeComponent();
-            DataContext = new GeocachingComLoginPageViewModel(Dispatcher);
+            var vm = new GeocachingComLoginPageViewModel(Dispatcher);
+            DataContext = vm;
+            vm.LoginSuccess += (s, e) => NavigationService.GoBack();
         }
     }
 }
