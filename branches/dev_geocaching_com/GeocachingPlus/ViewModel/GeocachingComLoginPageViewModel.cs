@@ -31,6 +31,13 @@ namespace GeocachingPlus.ViewModel
                                     _dispatcher.BeginInvoke(() =>
                                     {
                                         Loading = false;
+                                        if (sc == StatusCode.NO_ERROR)
+                                        {
+                                            if (null != LoginSuccess)
+                                            {
+                                                LoginSuccess(this, new EventArgs());
+                                            }
+                                        }
                                     });
 
                             _loginManager.Login(processResult, Username, Password);
@@ -50,7 +57,9 @@ namespace GeocachingPlus.ViewModel
             }
         }
 
-        private Dispatcher _dispatcher;
+        private readonly Dispatcher _dispatcher;
+
+        public event EventHandler LoginSuccess;
 
         public GeocachingComLoginPageViewModel(Dispatcher dispatcher)
         {
