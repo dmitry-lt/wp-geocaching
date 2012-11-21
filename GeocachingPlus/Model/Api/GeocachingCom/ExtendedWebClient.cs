@@ -7,28 +7,11 @@ using ICSharpCode.SharpZipLib.GZip;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
 {
-    public class ExtendedWebClient : WebClient
+    public class ExtendedWebClient 
     {
         [SecuritySafeCritical]
         public ExtendedWebClient()
         {
-        }
-
-        protected override WebRequest GetWebRequest(Uri address)
-        {
-            var request = base.GetWebRequest(address);
-
-            if (request is HttpWebRequest)
-                (request as HttpWebRequest).CookieContainer = GeocachingComCookies.CookieContainer; 
-
-            return request;
-        }
-
-        private static byte[] GetBytes(string str)
-        {
-            var bytes = new byte[str.Length * sizeof(char)];
-            Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
         }
 
         public void Post(string address, string parameters, Action<string> onResponseGot)
