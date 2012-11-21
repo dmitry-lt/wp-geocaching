@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -44,6 +45,7 @@
                 </RichTextBox>
                 <TextBox Text="{Binding Username, Mode=TwoWay}"/>
                 <PasswordBox Password="{Binding Password, Mode=TwoWay}"/>
+                <toolkit:PerformanceProgressBar IsIndeterminate="{Binding Loading}"/>
                 <Button 
                     Command="{Binding LoginCommand}"
                     Content="{Binding Path=LocalizedResources.GeocachingComLogin, Source={StaticResource LocalizedStrings}}" >
