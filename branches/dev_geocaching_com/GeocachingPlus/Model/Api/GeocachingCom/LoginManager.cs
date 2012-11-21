@@ -158,26 +158,19 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 //            Login.setActualStatus(cgeoapplication.getInstance().getString(R.string.init_login_popup_working));
             var client = new ExtendedWebClient();
 
-            client.DownloadStringCompleted += (sender, e) =>
+            Action<string> downloadStringCompleted = stringData =>
             {
-                if (e.Error != null)
-                {
-                    processResult(StatusCode.CONNECTION_FAILED);
-                    return;
-                }
-
-                var loginData = e.Result;
 //                if (e.loginResponse != null && loginResponse.getStatusLine().getStatusCode() == 503 && BaseUtils.matches(loginData, GCConstants.PATTERN_MAINTENANCE)) {
 //                    return StatusCode.MAINTENANCE;
 //                }
 
-                if (String.IsNullOrWhiteSpace(loginData)) {
+                if (String.IsNullOrWhiteSpace(stringData)) {
 //                    Log.e("Login.login: Failed to retrieve login page (1st)");
                     processResult(StatusCode.CONNECTION_FAILED); // no loginpage
                     return;
                 }
 
-                if (GetLoginStatus(loginData)) {
+                if (GetLoginStatus(stringData)) {
 //                    Log.i("Already logged in Geocaching.com as " + login.left + " (" + Settings.getMemberStatus() + ')');
                     // TODO: do we need to switch to English?
 //                    Login.switchToEnglish(loginData);
@@ -201,7 +194,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                         {"ctl00$ContentBody$btnSignIn", "Login"},
                     };
 
-                var viewstates = GetViewstates(loginData);
+                var viewstates = GetViewstates(stringData);
                 
                 if (IsEmpty(viewstates)) {
 //                    Log.e("Login.login: Failed to find viewstates");
@@ -213,9 +206,9 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 Action<string> onResponseGot = 
                     s =>
                     {
-                        loginData = s;
+                        stringData = s;
 
-                        if (String.IsNullOrWhiteSpace(loginData))
+                        if (String.IsNullOrWhiteSpace(stringData))
                         {
 //                            Log.e("Login.login: Failed to retrieve login page (2nd)");
                             // FIXME: should it be CONNECTION_FAILED to match the first attempt?
@@ -223,7 +216,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                             return;
                         }
 
-                        if (GetLoginStatus(loginData))
+                        if (GetLoginStatus(stringData))
                         {
 //                            Log.i("Successfully logged in Geocaching.com as " + login.left + " (" + Settings.getMemberStatus() + ')');
 
@@ -262,7 +255,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 client.Post("https://www.geocaching.com/login/default.aspx", stringParams, onResponseGot);
             };
             
-            client.DownloadStringAsync(new Uri("https://www.geocaching.com/login/default.aspx"));
+            client.Get("https://www.geocaching.com/login/default.aspx", downloadStringCompleted);
         }
 
         public void Login(Action<StatusCode> processResult, string username, string password)

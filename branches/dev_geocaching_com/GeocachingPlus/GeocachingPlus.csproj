@@ -105,6 +105,7 @@
     </Compile>
     <Compile Include="Model\Api\ApiManager.cs" />
     <Compile Include="Model\Api\CacheProvider.cs" />
+    <Compile Include="Model\Api\GeocachingCom\AsciiEncoding.cs" />
     <Compile Include="Model\Api\GeocachingCom\BaseUtils.cs" />
     <Compile Include="Model\Api\GeocachingCom\ColorExtensions.cs" />
     <Compile Include="Model\Api\GeocachingCom\ExtendedWebClient.cs" />
