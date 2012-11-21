@@ -271,13 +271,11 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             }
 
             var sUrl = InfoUrl + cache.Id;
-            var client = new WebClient();
+            var client = new ExtendedWebClient();
 
-            client.DownloadStringCompleted += (sender, e) =>
+            Action<string> downloadStringCompleted = html =>
             {
-                if (e.Error != null) return;
-
-                var html = e.Result;
+                if (html == null) return;
 
                 var shortDescription = "";
                 var matchesShortdesc = Regex.Matches(html, PatternShortdesc, RegexOptions.Singleline);
@@ -350,7 +348,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 processPhotoUrls(photoUrls);
 
             };
-            client.DownloadStringAsync(new Uri(sUrl));
+            client.Get(sUrl, downloadStringCompleted);
         }
 
         private class TileCache
