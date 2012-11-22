@@ -394,6 +394,15 @@ namespace GeocachingPlus.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login failed.
+        /// </summary>
+        public static string LoginFailed {
+            get {
+                return ResourceManager.GetString("LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Longitude.
         /// </summary>
         public static string Longitude {

@@ -10,7 +10,7 @@ namespace GeocachingPlus.View.Settings
             InitializeComponent();
             var vm = new GeocachingComLoginPageViewModel(Dispatcher);
             DataContext = vm;
-            vm.LoginSuccess += (s, e) => NavigationService.GoBack();
+            vm.LoginSucceeded += (s, e) => NavigationService.GoBack();
         }
     }
 }

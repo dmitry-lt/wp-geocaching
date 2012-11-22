@@ -339,4 +339,7 @@
   <data name="GeocachingComLogin" xml:space="preserve">
     <value>Войти</value>
   </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Авторизоваться не удалось</value>
+  </data>
 </root>

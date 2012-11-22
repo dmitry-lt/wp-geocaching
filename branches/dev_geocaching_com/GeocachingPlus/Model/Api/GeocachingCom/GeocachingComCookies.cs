@@ -4,8 +4,18 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 {
     public static class GeocachingComCookies
     {
-        private static readonly CookieContainer CookieContainerField = new CookieContainer();
+        private static CookieContainer _cookieContainerField;
 
-        public static CookieContainer CookieContainer { get { return CookieContainerField; } }
+        static GeocachingComCookies()
+        {
+            ResetCookies();
+        }
+
+        public static void ResetCookies()
+        {
+            _cookieContainerField = new CookieContainer();
+        }
+
+        public static CookieContainer CookieContainer { get { return _cookieContainerField; } }
     }
 }

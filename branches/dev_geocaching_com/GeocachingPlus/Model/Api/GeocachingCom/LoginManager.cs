@@ -263,5 +263,10 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             Login(processResult, username, password, true);
         }
 
+        public void Logout()
+        {
+            GeocachingComCookies.ResetCookies();
+        }
+
     }
 }
