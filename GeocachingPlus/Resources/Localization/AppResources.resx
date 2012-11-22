@@ -339,4 +339,7 @@
   <data name="Edit" xml:space="preserve">
     <value>edit</value>
   </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Login failed</value>
+  </data>
 </root>

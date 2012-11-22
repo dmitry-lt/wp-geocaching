@@ -20,7 +20,11 @@ namespace GeocachingPlus.ViewModel
                 return new ButtonCommand(
                     o =>
                         {
+                            // logout first
+                            _loginManager.Logout();
+
                             Loading = true;
+                            LoginFailed = false;
 
                             _settings.GeocachingComLogin = Username;
                             _settings.GeocachingComPassword = Password;
@@ -33,10 +37,14 @@ namespace GeocachingPlus.ViewModel
                                         Loading = false;
                                         if (sc == StatusCode.NO_ERROR)
                                         {
-                                            if (null != LoginSuccess)
+                                            if (null != LoginSucceeded)
                                             {
-                                                LoginSuccess(this, new EventArgs());
+                                                LoginSucceeded(this, new EventArgs());
                                             }
+                                        }
+                                        else
+                                        {
+                                            LoginFailed = true;
                                         }
                                     });
 
@@ -50,16 +58,27 @@ namespace GeocachingPlus.ViewModel
         public bool Loading
         {
             get { return _loading; }
-            set 
-            { 
+            set
+            {
                 _loading = value;
                 RaisePropertyChanged(() => Loading);
             }
         }
 
+        private bool _loginFailed;
+        public bool LoginFailed
+        {
+            get { return _loginFailed; }
+            set
+            {
+                _loginFailed = value;
+                RaisePropertyChanged(() => LoginFailed);
+            }
+        }
+
         private readonly Dispatcher _dispatcher;
 
-        public event EventHandler LoginSuccess;
+        public event EventHandler LoginSucceeded;
 
         public GeocachingComLoginPageViewModel(Dispatcher dispatcher)
         {

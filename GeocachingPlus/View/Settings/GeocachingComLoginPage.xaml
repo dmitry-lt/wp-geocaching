@@ -45,6 +45,8 @@
                 </RichTextBox>
                 <TextBox Text="{Binding Username, Mode=TwoWay}"/>
                 <PasswordBox Password="{Binding Password, Mode=TwoWay}"/>
+                <TextBlock Padding="12" Text="{Binding Path=LocalizedResources.LoginFailed, Source={StaticResource LocalizedStrings}}" 
+                           Visibility="{Binding LoginFailed, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <toolkit:PerformanceProgressBar IsIndeterminate="{Binding Loading}"/>
                 <Button 
                     Command="{Binding LoginCommand}"
