@@ -14,6 +14,11 @@ namespace GeocachingPlus.View.Converters
 
             var isVisible = (bool)value;
 
+            if ("reverse".Equals(parameter))
+            {
+                isVisible = !isVisible;
+            }
+
             return isVisible ? Visibility.Visible : Visibility.Collapsed;
         }
 

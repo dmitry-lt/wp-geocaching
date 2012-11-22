@@ -3,12 +3,15 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
-    xmlns:Converters="clr-namespace:GeocachingPlus.View.Converters">
+    xmlns:Converters="clr-namespace:GeocachingPlus.View.Converters"
+    xmlns:viewModel="clr-namespace:GeocachingPlus.ViewModel">
 
     <!--Application Resources-->
     <Application.Resources>
         <local:LocalizedStrings xmlns:local="clr-namespace:GeocachingPlus.Resources.Localization" x:Key="LocalizedStrings" />
         <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" x:Name="BooleanToVisibilityConverter"/>
+        <Converters:NegateConverter x:Key="NegateConverter" x:Name="NegateConverter"/>
+        <viewModel:GeocachingComLoginPageViewModel x:Key="GeocachingComLoginPageViewModel"/>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

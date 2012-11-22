@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GeocachingPlus.Model;
@@ -31,8 +32,8 @@ namespace GeocachingPlus.ViewModel
                             
                             //TODO: implement
                             Action<StatusCode> processResult = 
-                                sc => 
-                                    _dispatcher.BeginInvoke(() =>
+                                sc =>
+                                    Deployment.Current.Dispatcher.BeginInvoke(() =>
                                     {
                                         Loading = false;
                                         if (sc == StatusCode.NO_ERROR)
@@ -76,14 +77,10 @@ namespace GeocachingPlus.ViewModel
             }
         }
 
-        private readonly Dispatcher _dispatcher;
-
         public event EventHandler LoginSucceeded;
 
-        public GeocachingComLoginPageViewModel(Dispatcher dispatcher)
+        public GeocachingComLoginPageViewModel()
         {
-            _dispatcher = dispatcher;
-
              Username = _settings.GeocachingComLogin;
              Password = _settings.GeocachingComPassword;
         }

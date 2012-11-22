@@ -153,6 +153,7 @@
     <Compile Include="View\Converters\LatitudeConverter.cs" />
     <Compile Include="View\Converters\DistanceToPointConverter.cs" />
     <Compile Include="View\Converters\MapModeConverter.cs" />
+    <Compile Include="View\Converters\NegateConverter.cs" />
     <Compile Include="View\Converters\ValidConverter.cs" />
     <Compile Include="View\Converters\VersionConverter.cs" />
     <Compile Include="Model\DataBase\DbCache.cs" />
