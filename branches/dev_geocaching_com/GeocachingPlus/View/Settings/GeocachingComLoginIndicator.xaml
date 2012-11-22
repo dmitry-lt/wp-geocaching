@@ -9,8 +9,8 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
-    
-    <Grid x:Name="LayoutRoot">
+
+    <Grid x:Name="LayoutRoot" Visibility="{Binding IsGeocachingComEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
         <StackPanel Orientation="Horizontal">
             <HyperlinkButton Content="{Binding Path=LocalizedResources.GeocachingComLogin, 
                 Source={StaticResource LocalizedStrings}}" FontSize="22" 
