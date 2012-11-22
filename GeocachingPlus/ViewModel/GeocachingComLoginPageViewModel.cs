@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using GeocachingPlus.Model;
 using GeocachingPlus.Model.Api.GeocachingCom;
 
@@ -12,6 +11,17 @@ namespace GeocachingPlus.ViewModel
         private readonly Settings _settings = new Settings();
         private readonly LoginManager _loginManager = new LoginManager();
 
+        public bool _loggedIn;
+        public bool LoggedIn
+        {
+            get { return _loggedIn; }
+            set
+            {
+                _loggedIn = value;
+                RaisePropertyChanged(() => LoggedIn);
+                _settings.GeocachingComLoggedIn = value;
+            }
+        }
         public string Username { get; set; }
         public string Password { get; set; }
         public ICommand LoginCommand
@@ -38,6 +48,7 @@ namespace GeocachingPlus.ViewModel
                                         Loading = false;
                                         if (sc == StatusCode.NO_ERROR)
                                         {
+                                            LoggedIn = true;
                                             if (null != LoginSucceeded)
                                             {
                                                 LoginSucceeded(this, new EventArgs());
@@ -45,6 +56,7 @@ namespace GeocachingPlus.ViewModel
                                         }
                                         else
                                         {
+                                            LoggedIn = false;
                                             LoginFailed = true;
                                         }
                                     });
@@ -83,6 +95,7 @@ namespace GeocachingPlus.ViewModel
         {
              Username = _settings.GeocachingComLogin;
              Password = _settings.GeocachingComPassword;
+             _loggedIn = _settings.GeocachingComLoggedIn;
         }
     }
 }

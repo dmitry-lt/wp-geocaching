@@ -13,7 +13,7 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True"
-    DataContext="{StaticResource GeocachingComLoginPageViewModel}"    
+    DataContext="{StaticResource GeocachingComLoginPageViewModel}"
     >
 
     <!--LayoutRoot is the root grid where all page content is placed-->
