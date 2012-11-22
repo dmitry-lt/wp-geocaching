@@ -1,4 +1,5 @@
-﻿using Microsoft.Phone.Controls;
+﻿using System;
+using Microsoft.Phone.Controls;
 using GeocachingPlus.ViewModel;
 
 namespace GeocachingPlus.View.Settings
@@ -8,7 +9,14 @@ namespace GeocachingPlus.View.Settings
         public GeocachingComLoginPage()
         {
             InitializeComponent();
-            ((GeocachingComLoginPageViewModel)DataContext).LoginSucceeded += (s, e) => NavigationService.GoBack();
+            var vm = ((GeocachingComLoginPageViewModel)DataContext);
+            vm.LoginSucceeded -= GoBack;
+            vm.LoginSucceeded += GoBack;
+        }
+
+        private void GoBack(object sender, EventArgs e)
+        {
+            NavigationService.GoBack();
         }
     }
 }
