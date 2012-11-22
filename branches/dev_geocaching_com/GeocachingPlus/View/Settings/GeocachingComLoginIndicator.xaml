@@ -14,11 +14,24 @@
 
     <Grid x:Name="LayoutRoot" Visibility="{Binding IsGeocachingComEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
         <StackPanel Orientation="Horizontal">
-            <HyperlinkButton Content="{Binding Path=LocalizedResources.GeocachingComLogin, 
-                Source={StaticResource LocalizedStrings}}" FontSize="22" 
-                             HorizontalAlignment="Left"
-                             Command="{Binding ShowGeocachingComLoginCommand}" Height="30"
-                             toolkit:TiltEffect.IsTiltEnabled="True"/>
+            <HyperlinkButton 
+                Content="{Binding Path=LocalizedResources.GeocachingComLogin, Source={StaticResource LocalizedStrings}}" 
+                FontSize="22" 
+                HorizontalAlignment="Left"
+                Command="{Binding ShowGeocachingComLoginCommand}" Height="30"
+                toolkit:TiltEffect.IsTiltEnabled="True"
+                Visibility="{Binding Path=LoggedIn, Source={StaticResource GeocachingComLoginPageViewModel}, 
+                Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=reverse}" 
+                />
+            <HyperlinkButton 
+                Content="{Binding Path=Username, Source={StaticResource GeocachingComLoginPageViewModel}}" 
+                FontSize="22" 
+                HorizontalAlignment="Left"
+                Command="{Binding ShowGeocachingComLoginCommand}" Height="30"
+                toolkit:TiltEffect.IsTiltEnabled="True"
+                Visibility="{Binding Path=LoggedIn, Source={StaticResource GeocachingComLoginPageViewModel}, 
+                Converter={StaticResource BooleanToVisibilityConverter}}" 
+                />
         </StackPanel>
     </Grid>
 </UserControl>
