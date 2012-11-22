@@ -29,6 +29,7 @@ namespace GeocachingPlus.Model
         private const string IsOpenCachingComEnabledKeyName = "IsOpenCachingComEnabled";
         private const string IsGeocachingSuEnabledKeyName = "IsGeocachingSuEnabled";
         private const string IsGeocachingComEnabledKeyName = "IsGeocachingComEnabled";
+        private const string GeocachingComLoggedInKeyName = "GeocachingComLoggedInKey";
         private const string GeocachingComLoginKeyName = "GeocachingComLoginKey";
         private const string GeocachingComPasswordKeyName = "GeocachingComPassword";
 
@@ -227,6 +228,22 @@ namespace GeocachingPlus.Model
             if (AddOrUpdateValue(LatestSoughtCacheProviderKeyName, LatestSoughtCacheProviderDefault))
             {
                 Save();
+            }
+        }
+
+        public bool GeocachingComLoggedIn
+        {
+            get
+            {
+
+                return GetValueOrDefault(GeocachingComLoggedInKeyName, false);
+            }
+            set
+            {
+                if (AddOrUpdateValue(GeocachingComLoggedInKeyName, value))
+                {
+                    Save();
+                }
             }
         }
 
