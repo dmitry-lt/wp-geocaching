@@ -2,8 +2,8 @@
 
 
 Short description:
-Russian: Клиент для geocaching.su и opencaching.com
-English: Opencaching.com and geocaching.su mobile app
+Russian: Клиент для geocaching.su, geocaching.com и opencaching.com
+English: Geocaching.com, opencaching.com and geocaching.su mobile app
 
 
 Detailed description:
@@ -16,8 +16,6 @@ Russian:
 - сохранять тайники в избранное
 - искать избранные тайники с помощью карты и компаса
 
-Сайт проекта http://code.google.com/p/wp-geocaching/
-
 
 Geocaching Plus is a mobile client for the geocaching.com, opencaching.com and geocaching.su services
 
@@ -26,5 +24,3 @@ This app will improve your geocaching experience by letting you
 - see detailed cache information
 - add caches to favorites for further searching
 - physically search favorite caches with the help of map and compass
-
-Project site: http://code.google.com/p/wp-geocaching/
