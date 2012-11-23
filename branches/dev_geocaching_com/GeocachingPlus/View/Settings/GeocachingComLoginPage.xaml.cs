@@ -14,6 +14,7 @@ namespace GeocachingPlus.View.Settings
 
         private void Subscribe()
         {
+            Unsubscribe();
             var vm = ((GeocachingComLoginPageViewModel)DataContext);
             vm.LoginSucceeded += GoBack;
         }
@@ -33,6 +34,11 @@ namespace GeocachingPlus.View.Settings
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
             Unsubscribe();
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            Subscribe();
         }
 
     }
