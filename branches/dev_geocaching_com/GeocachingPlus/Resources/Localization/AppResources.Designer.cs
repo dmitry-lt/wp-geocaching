@@ -322,6 +322,15 @@ namespace GeocachingPlus.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to hint.
+        /// </summary>
+        public static string HintButton {
+            get {
+                return ResourceManager.GetString("HintButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Info.
         /// </summary>
         public static string InfoAbout {
