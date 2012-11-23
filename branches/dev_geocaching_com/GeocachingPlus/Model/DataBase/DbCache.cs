@@ -36,5 +36,8 @@ namespace GeocachingPlus.Model.DataBase
 
         [Column(DbType = "NTEXT", UpdateCheck = UpdateCheck.WhenChanged)]
         public string HtmlLogbook { get; set; }
+
+        [Column(CanBeNull = true)]
+        public bool ReliableLocation { get; set; }
     }
 }
