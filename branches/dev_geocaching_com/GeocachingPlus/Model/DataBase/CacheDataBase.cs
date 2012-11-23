@@ -41,6 +41,7 @@ namespace GeocachingPlus.Model.DataBase
                         dbUpdater.DatabaseSchemaVersion = 3;
 
                         dbUpdater.AddColumn<DbCache>("ReliableLocation");
+                        dbUpdater.AddColumn<DbCache>("Hint");
 
                         // Perform the database update in a single transaction.
                         dbUpdater.Execute();
@@ -49,7 +50,7 @@ namespace GeocachingPlus.Model.DataBase
             }
         }
 
-        public void AddCache(Cache cache, string details, string logbook)
+        public void AddCache(Cache cache, string details, string logbook, string hint)
         {
             if (cache == null)
             {
@@ -59,7 +60,7 @@ namespace GeocachingPlus.Model.DataBase
             {
                 if (GetCache(cache.Id, cache.CacheProvider) != null) return;
 
-                var newItem = DbConvert.ToDbCacheItem(cache, details, logbook);
+                var newItem = DbConvert.ToDbCacheItem(cache, details, logbook, hint);
 
                 db.Caches.InsertOnSubmit(newItem);
                 db.SubmitChanges();

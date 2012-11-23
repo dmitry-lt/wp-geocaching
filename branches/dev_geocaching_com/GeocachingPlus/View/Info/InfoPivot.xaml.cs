@@ -127,7 +127,7 @@ namespace GeocachingPlus.View.Info
 
         private void AddCache()
         {
-            _db.AddCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook);
+            _db.AddCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook, _infoPivotViewModel.Hint);
 
             var helper = new FileStorageHelper();
             helper.SavePhotos(_infoPivotViewModel.Cache, _infoPivotViewModel.Previews);
