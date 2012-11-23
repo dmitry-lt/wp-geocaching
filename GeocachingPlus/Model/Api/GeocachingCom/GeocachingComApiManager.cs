@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 
@@ -303,7 +304,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                 var totalDescription = shortDescription + "<br/><br/>" + description;
 
-                processDescription(cache.Name + "<br/><br/>" + totalDescription);
+                Deployment.Current.Dispatcher.BeginInvoke(() => processDescription(cache.Name + "<br/><br/>" + totalDescription));
 
                 var typeMatches = Regex.Matches(html, PatternType, RegexOptions.Singleline);
                 if (typeMatches.Count == 1)
@@ -312,7 +313,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     var cacheType = GetType(typeString);
                     if (GeocachingComCache.Types.UNKNOWN != cacheType)
                     {
-                        ((GeocachingComCache) cache).Type = cacheType;
+                        Deployment.Current.Dispatcher.BeginInvoke(() => ((GeocachingComCache) cache).Type = cacheType);
                     }
                 }
                 else
@@ -322,7 +323,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 }
 
                 // TODO: implement logbook
-                processLogbook("");
+                Deployment.Current.Dispatcher.BeginInvoke(() => processLogbook(""));
 
 
                 // searching for images in description
@@ -345,7 +346,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     }
                     photoUrls.Add(photoUrl);
                 }
-                processPhotoUrls(photoUrls);
+                Deployment.Current.Dispatcher.BeginInvoke(() => processPhotoUrls(photoUrls));
 
             };
             client.Get(sUrl, downloadStringCompleted);
