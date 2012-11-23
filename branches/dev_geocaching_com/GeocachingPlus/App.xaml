@@ -11,6 +11,7 @@
         <local:LocalizedStrings xmlns:local="clr-namespace:GeocachingPlus.Resources.Localization" x:Key="LocalizedStrings" />
         <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" x:Name="BooleanToVisibilityConverter"/>
         <Converters:NegateConverter x:Key="NegateConverter" x:Name="NegateConverter"/>
+        <Converters:GeocachingComToVisibilityConverter x:Key="GeocachingComToVisibilityConverter"/>
         <viewModel:GeocachingComLoginPageViewModel x:Key="GeocachingComLoginPageViewModel"/>
     </Application.Resources>
 
