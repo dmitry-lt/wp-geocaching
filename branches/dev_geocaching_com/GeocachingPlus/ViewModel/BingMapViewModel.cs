@@ -103,18 +103,18 @@ namespace GeocachingPlus.ViewModel
             {
                 var gcCache = cache as GeocachingComCache;
                 
-                // check for type
-                if (gcCache.Type == GeocachingComCache.Types.UNKNOWN)
+                // check for type and reliable location
+                if (gcCache.Type == GeocachingComCache.Types.UNKNOWN || !gcCache.ReliableLocation)
                 {
                     var cacheDataBase = new CacheDataBase();
                     var dbCache = cacheDataBase.GetCache(cache.Id, CacheProvider.GeocachingCom);
                     if (null != dbCache)
                     {
                         gcCache.Type = (GeocachingComCache.Types)dbCache.Type;
+                        gcCache.Location = new GeoCoordinate(dbCache.Latitude, dbCache.Longitude);
+                        gcCache.ReliableLocation = dbCache.ReliableLocation.HasValue && dbCache.ReliableLocation.Value;
                     }
                 }
-
-                // TODO: check for precise coordinates
             }
         }
 
