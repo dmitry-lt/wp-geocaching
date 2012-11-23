@@ -22,8 +22,20 @@ namespace GeocachingPlus.ViewModel
                 _settings.GeocachingComLoggedIn = value;
             }
         }
-        public string Username { get; set; }
+
+        private string _username;
+        public string Username
+        {
+            get { return _username; } 
+            set 
+            { 
+                _username = value;
+                RaisePropertyChanged(() => Username);
+            }
+        }
+        
         public string Password { get; set; }
+
         public ICommand LoginCommand
         {
             get
