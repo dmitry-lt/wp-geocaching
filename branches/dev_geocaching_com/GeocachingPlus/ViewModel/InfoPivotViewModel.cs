@@ -50,6 +50,16 @@ namespace GeocachingPlus.ViewModel
             }
         }
 
+        private string _hint;
+        public string Hint
+        {
+            get { return _hint; }
+            set
+            {
+                _hint = value;
+            }
+        }
+
         private bool _infoLoaded;
         private void ProcessInfo(string info)
         {
@@ -63,6 +73,14 @@ namespace GeocachingPlus.ViewModel
         {
             Logbook = logbook;
             _logbookLoaded = true;
+            CheckFullyLoaded();
+        }
+
+        private bool _hintLoaded;
+        private void ProcessHint(string hint)
+        {
+            Hint = hint;
+            _hintLoaded = true;
             CheckFullyLoaded();
         }
 
@@ -141,7 +159,7 @@ namespace GeocachingPlus.ViewModel
         {
             lock (_lock)
             {
-                if (_infoLoaded && _logbookLoaded && _photoUrlLoaded && _photoInfos.All(p => p.Loaded))
+                if (_infoLoaded && _logbookLoaded && _photoUrlLoaded && _photoInfos.All(p => p.Loaded) && _hintLoaded)
                 {
                     CacheFullyLoaded(this, new EventArgs());
                 }
@@ -160,7 +178,7 @@ namespace GeocachingPlus.ViewModel
                 var dbCache = db.GetCache(Cache.Id, Cache.CacheProvider);
                 if (null == dbCache || null == dbCache.HtmlDescription || null == dbCache.HtmlLogbook)
                 {
-                    ApiManager.Instance.FetchCacheDetails(ProcessInfo, ProcessLogbook, ProcessPhotoUrls, Cache);
+                    ApiManager.Instance.FetchCacheDetails(ProcessInfo, ProcessLogbook, ProcessPhotoUrls, ProcessHint, Cache);
                 }
                 else
                 {
