@@ -220,6 +220,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         private const string PatternDesc = "<span id=\"ctl00_ContentBody_LongDescription\">(.*?)</span>\\s*</div>\\s*<p>\\s*</p>\\s*<p id=\"ctl00_ContentBody_hints\">";
         private const string PatternImg = "<img.*?src=\"(.*?)\".*?/>";
         private const string PatternType = "<img src=\"[^\"]*/WptTypes/\\d+\\.gif\" alt=\"([^\"]+?)\"[^>]*>";
+        private const string PatternSpoilerImage = "<a href=\"(http://img\\.geocaching\\.com/cache/[^.]+\\.jpe?g)\"[^>]+><img[^>]+><span>([^<]+)</span></a>(?:<br />([^<]+)<br /><br />)?";
 
         private GeocachingComCache.Types GetType(string altText)
         {
@@ -346,6 +347,26 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     }
                     photoUrls.Add(photoUrl);
                 }
+
+                // spoiler images
+                var spoilerImageUrls = Regex.Matches(html, PatternSpoilerImage);
+                for (var i = 0; i < spoilerImageUrls.Count; i++)
+                {
+                    var photoUrl = spoilerImageUrls[i].Groups[1].Value;
+                    if (!photoUrl.StartsWith("http://") && !photoUrl.StartsWith("https://"))
+                    {
+                        if (photoUrl.StartsWith("/"))
+                        {
+                            photoUrl = GeocachingComUrl + photoUrl;
+                        }
+                        else
+                        {
+                            photoUrl = GeocachingComSeekUrl + photoUrl;
+                        }
+                    }
+                    photoUrls.Add(photoUrl);
+                }
+
                 Deployment.Current.Dispatcher.BeginInvoke(() => processPhotoUrls(photoUrls));
 
             };
