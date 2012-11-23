@@ -87,6 +87,9 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
 
         [DataMember]
         public OpenCachingComApiImage[] images { get; set; }
+
+        [DataMember]
+        public string hint { get; set; }
     }
 
     [DataContract]

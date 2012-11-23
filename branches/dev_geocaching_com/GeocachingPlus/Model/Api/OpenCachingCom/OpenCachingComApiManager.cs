@@ -191,6 +191,14 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
                         }
                         processPhotoUrls(photoUrls);
                     }
+
+                    // hint
+                    var hint = parsedCache.hint;
+                    if (!String.IsNullOrWhiteSpace(hint))
+                    {
+//                        processHint(hint);
+                    }
+
                 }
             };
 
