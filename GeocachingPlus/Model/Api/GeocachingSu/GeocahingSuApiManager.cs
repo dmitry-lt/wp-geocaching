@@ -67,7 +67,7 @@ namespace GeocachingPlus.Model.Api.GeocachingSu
             client.DownloadStringAsync(new Uri(sUrl));
         }
 
-        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Action<string> processHint, Cache cache)
         {
             if (null != processDescription)
             {
@@ -82,6 +82,11 @@ namespace GeocachingPlus.Model.Api.GeocachingSu
             if (null != processPhotoUrls)
             {
                 DownloadAndProcessPhotoUrls(processPhotoUrls, cache);
+            }
+
+            if (null != processHint)
+            {
+                processHint("");
             }
         }
 

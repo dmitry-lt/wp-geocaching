@@ -266,9 +266,9 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             }
         }
 
-        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Action<string> processHint, Cache cache)
         {
-            if (null == processDescription || null == processLogbook || null == processPhotoUrls)
+            if (null == processDescription || null == processLogbook || null == processPhotoUrls || null == processHint)
             {
                 return;
             }
@@ -384,6 +384,10 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 }
 
                 Deployment.Current.Dispatcher.BeginInvoke(() => processPhotoUrls(photoUrls));
+
+
+                // TODO: implement hint
+                Deployment.Current.Dispatcher.BeginInvoke(() => processHint(""));
 
             };
             client.Get(sUrl, downloadStringCompleted);

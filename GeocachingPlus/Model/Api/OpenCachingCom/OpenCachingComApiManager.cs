@@ -139,7 +139,7 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
             client.DownloadStringAsync(new Uri(sUrl));
         }
 
-        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Action<string> processHint, Cache cache)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, CacheDescriptionUrl, cache.Id);
 
@@ -193,10 +193,10 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
                     }
 
                     // hint
-                    var hint = parsedCache.hint;
-                    if (!String.IsNullOrWhiteSpace(hint))
+                    if (null != processHint)
                     {
-//                        processHint(hint);
+                        var hint = parsedCache.hint ?? "";
+                        processHint(hint);
                     }
 
                 }
