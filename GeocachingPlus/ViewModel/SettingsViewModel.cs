@@ -12,6 +12,8 @@ namespace GeocachingPlus.ViewModel
         private Settings settings;
         private bool isLocationEnabled;
 
+        public string SupportEmail { get { return Support.Email; } }
+
         public ICommand SendEmailCommand { get; private set; }
         public ICommand ChooseRoadModeCommand { get; private set; }
         public ICommand ChooseAerialModeCommand { get; private set; }
@@ -122,7 +124,7 @@ namespace GeocachingPlus.ViewModel
             var emailComposeTask = new EmailComposeTask
             {
                 Subject = AppResources.EmailSubject,
-                To = AppResources.SupportEmail
+                To = Support.Email
             };
 
             emailComposeTask.Show();
