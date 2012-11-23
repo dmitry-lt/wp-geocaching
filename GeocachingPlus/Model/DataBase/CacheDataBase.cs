@@ -13,7 +13,7 @@ namespace GeocachingPlus.Model.DataBase
     {
         private const string ConnectionString = "Data Source=isostore:/DataBase.sdf";
 
-        private const int CurrentDbVersion = 2;
+        private const int CurrentDbVersion = 3;
 
         public static void UpdateSchema()
         {
@@ -32,22 +32,20 @@ namespace GeocachingPlus.Model.DataBase
                     // Perform the database update in a single transaction.
                     dbUpdater.Execute();
                 }
-                /*
                 else
                 {
- 
                     var dbUpdater = db.CreateDatabaseSchemaUpdater();
                     if (dbUpdater.DatabaseSchemaVersion < 3)
                     {
                         // Add the new database version.
                         dbUpdater.DatabaseSchemaVersion = 3;
 
+                        dbUpdater.AddColumn<DbCache>("ReliableLocation");
+
                         // Perform the database update in a single transaction.
                         dbUpdater.Execute();
                     }
-
                 }
-                */
             }
         }
 
