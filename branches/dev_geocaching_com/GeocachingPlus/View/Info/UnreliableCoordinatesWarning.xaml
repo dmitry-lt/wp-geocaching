@@ -4,14 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    xmlns:Converters="clr-namespace:GeocachingPlus.View.Converters" mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480"
     >
 
-    <Grid x:Name="LayoutRoot">
+    <UserControl.Resources>
+        <Converters:UnreliableCoordinatesToVisibilityConverter x:Key="UnreliableCoordinatesToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Visibility="{Binding ., Converter={StaticResource UnreliableCoordinatesToVisibilityConverter}}">
+<!--        TODO: implement-->
         <TextBlock Text="Unreliable coordinates!"/>
     </Grid>
 </UserControl>
