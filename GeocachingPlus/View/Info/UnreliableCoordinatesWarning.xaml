@@ -4,18 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Converters="clr-namespace:GeocachingPlus.View.Converters" mc:Ignorable="d"
+    mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480"
+    Visibility="{Binding ., Converter={StaticResource GeocachingComToVisibilityConverter}}"
     >
 
-    <UserControl.Resources>
-        <Converters:UnreliableCoordinatesToVisibilityConverter x:Key="UnreliableCoordinatesToVisibilityConverter"/>
-    </UserControl.Resources>
-
-    <Grid x:Name="LayoutRoot" Visibility="{Binding ., Converter={StaticResource UnreliableCoordinatesToVisibilityConverter}}">
+    <Grid x:Name="LayoutRoot" Visibility="{Binding ReliableLocation, 
+        Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=reverse}">
 <!--        TODO: implement-->
         <TextBlock Text="Unreliable coordinates!"/>
     </Grid>
