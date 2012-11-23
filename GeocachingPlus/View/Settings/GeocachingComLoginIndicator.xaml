@@ -23,15 +23,20 @@
                 Visibility="{Binding Path=LoggedIn, Source={StaticResource GeocachingComLoginPageViewModel}, 
                 Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=reverse}" 
                 />
-            <HyperlinkButton 
-                Content="{Binding Path=Username, Source={StaticResource GeocachingComLoginPageViewModel}}" 
-                FontSize="22" 
-                HorizontalAlignment="Left"
-                Command="{Binding ShowGeocachingComLoginCommand}" Height="30"
-                toolkit:TiltEffect.IsTiltEnabled="True"
+            <RichTextBox 
+                TextWrapping="Wrap"
                 Visibility="{Binding Path=LoggedIn, Source={StaticResource GeocachingComLoginPageViewModel}, 
                 Converter={StaticResource BooleanToVisibilityConverter}}" 
-                />
+                Padding="0" Margin="0"
+                >
+                <Paragraph>
+                    <Run Text="("/>
+                    <Hyperlink Command="{Binding ShowGeocachingComLoginCommand}">
+                        <Run Text="{Binding Path=Username, Source={StaticResource GeocachingComLoginPageViewModel}}"/>
+                    </Hyperlink>
+                    <Run Text=")"/>
+                </Paragraph>
+            </RichTextBox>
         </StackPanel>
     </Grid>
 </UserControl>
