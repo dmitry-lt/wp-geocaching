@@ -38,6 +38,6 @@ namespace GeocachingPlus.Model.DataBase
         public string HtmlLogbook { get; set; }
 
         [Column(CanBeNull = true)]
-        public bool ReliableLocation { get; set; }
+        public bool? ReliableLocation { get; set; }
     }
 }

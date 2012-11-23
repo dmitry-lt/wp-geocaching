@@ -45,6 +45,7 @@ namespace GeocachingPlus.Model.DataBase
                     Name = item.Name,
                     Location = new GeoCoordinate(item.Latitude, item.Longitude),
                     Type = (GeocachingComCache.Types)item.Type,
+                    ReliableLocation = item.ReliableLocation.HasValue && item.ReliableLocation.Value,
                 };
             return result;
         }
@@ -78,6 +79,7 @@ namespace GeocachingPlus.Model.DataBase
         private static void InitGeocachingComSpecificFields(DbCache result, GeocachingComCache cache)
         {
             result.Type = (int)cache.Type;
+            result.ReliableLocation = cache.ReliableLocation;
         }
 
         public static DbCache ToDbCacheItem(Cache cache, string details, string logbook)
