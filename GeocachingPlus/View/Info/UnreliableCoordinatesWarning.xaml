@@ -9,12 +9,17 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480"
-    Visibility="{Binding ., Converter={StaticResource GeocachingComToVisibilityConverter}}"
+    Visibility="{Binding IsCacheFullyLoaded, Converter={StaticResource BooleanToVisibilityConverter}}"
     >
 
-    <Grid x:Name="LayoutRoot" Visibility="{Binding ReliableLocation, 
-        Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=reverse}">
-<!--        TODO: implement-->
-        <TextBlock Text="Unreliable coordinates!"/>
+    <Grid x:Name="LayoutRoot" 
+          Visibility="{Binding Cache, Converter={StaticResource GeocachingComToVisibilityConverter}}"
+          >
+        <Grid 
+            Visibility="{Binding Cache.ReliableLocation, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=reverse}"
+            >
+            <!-- TODO: implement-->
+            <TextBlock Text="Unreliable coordinates!"/>
+        </Grid>
     </Grid>
 </UserControl>

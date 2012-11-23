@@ -236,6 +236,20 @@ namespace GeocachingPlus.ViewModel
             }
         }
 
+        private bool _isCacheFullyLoaded;
+        public bool IsCacheFullyLoaded
+        {
+            get
+            {
+                return _isCacheFullyLoaded;
+            }
+            set
+            {
+                _isCacheFullyLoaded = value;
+                RaisePropertyChanged(() => IsCacheFullyLoaded);
+            }
+        }
+
         public InfoPivotViewModel(Action closeAction, WebBrowser infoBrowser, WebBrowser logbookBrowser)
         {
             _closeAction = closeAction;
@@ -243,6 +257,8 @@ namespace GeocachingPlus.ViewModel
             _infoBrowser = infoBrowser;
 
             Previews = new ObservableCollection<Photo>();
+
+            CacheFullyLoaded += (s,e) => IsCacheFullyLoaded = true;
         }
 
         public void ShowConfirmDeleteDialog(Dispatcher dispatcher)
