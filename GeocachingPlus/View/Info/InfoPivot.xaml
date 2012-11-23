@@ -50,7 +50,7 @@
                 </Style>
             </Grid.Resources>
 
-            <Info:UnreliableCoordinatesWarning/>
+            <Info:UnreliableCoordinatesWarning DataContext="{Binding Cache}"/>
 
             <controls:Pivot x:Name="Info" Grid.Row="1">
                 <controls:PivotItem x:Name="DetailsPivotItem">
