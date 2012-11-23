@@ -339,4 +339,7 @@
   <data name="LoginFailed" xml:space="preserve">
     <value>Авторизоваться не удалось</value>
   </data>
+  <data name="HintButton" xml:space="preserve">
+    <value>подсказка</value>
+  </data>
 </root>

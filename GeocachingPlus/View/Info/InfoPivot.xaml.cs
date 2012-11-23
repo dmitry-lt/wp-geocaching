@@ -32,14 +32,19 @@ namespace GeocachingPlus.View.Info
         private bool _isAppBarEnabled;
         private void ShowAppBar(object sender, EventArgs e)
         {
-            if (_isAppBarEnabled)
+            var hintAvailable = !String.IsNullOrWhiteSpace(_infoPivotViewModel.Hint);
+            if (_isAppBarEnabled || hintAvailable)
             {
                 ApplicationBar.IsVisible = true;
-                if (ApplicationBar.IsVisible)
-                {
-                    SetApplicationBarItems();
-                    UpdateFavoriteButton();
-                }
+            }
+            if (_isAppBarEnabled)
+            {
+                SetApplicationBarItems();
+                UpdateFavoriteButton();
+            }
+            if (hintAvailable)
+            {
+                SetHintButton();
             }
         }
 
@@ -105,6 +110,18 @@ namespace GeocachingPlus.View.Info
             {
                 GetDeleteButton();
             }
+        }
+
+        private void SetHintButton()
+        {
+            var hintButton = new ApplicationBarIconButton
+            {
+                IconUri = new Uri("Resources/Images/appbar.questionmark.rest.png", UriKind.Relative),
+                Text = AppResources.HintButton
+            };
+            // TODO: implement
+            // hintButton.Click += HintButtonClick;
+            ApplicationBar.Buttons.Add(hintButton);
         }
 
         private void GetAddButton()

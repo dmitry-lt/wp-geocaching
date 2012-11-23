@@ -180,6 +180,9 @@
   <data name="SearchButton" xml:space="preserve">
     <value>search</value>
   </data>
+  <data name="HintButton" xml:space="preserve">
+    <value>hint</value>
+  </data>
   <data name="ShowAllMenuItem" xml:space="preserve">
     <value>show all</value>
   </data>
