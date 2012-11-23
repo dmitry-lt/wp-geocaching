@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -183,7 +184,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                         if (StringUtils.isEmpty(data)) {
                             Log.e("GCBase.searchByViewport: No data from server for tile (" + tile.getX() + "/" + tile.getY() + ")");
                         } else {
-                            final SearchResult search = GCMap.parseMapJSON(data, tile, bitmap, strategy);
+                             SearchResult search = GCMap.parseMapJSON(data, tile, bitmap, strategy);
                             if (search == null || CollectionUtils.isEmpty(search.getGeocodes())) {
                                 Log.e("GCBase.searchByViewport: No cache parsed for viewport " + viewport);
                             }
@@ -221,6 +222,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         private const string PatternImg = "<img.*?src=\"(.*?)\".*?/>";
         private const string PatternType = "<img src=\"[^\"]*/WptTypes/\\d+\\.gif\" alt=\"([^\"]+?)\"[^>]*>";
         private const string PatternSpoilerImage = "<a href=\"(http://img\\.geocaching\\.com/cache/[^.]+\\.jpe?g)\"[^>]+><img[^>]+><span>([^<]+)</span></a>(?:<br />([^<]+)<br /><br />)?";
+        private const string PatternLatLon = "<span id=\"uxLatLon\" style=\"font-weight:bold;\"[^>]*>(.*?)</span>";
 
         private GeocachingComCache.Types GetType(string altText)
         {
@@ -307,6 +309,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                 Deployment.Current.Dispatcher.BeginInvoke(() => processDescription(cache.Name + "<br/><br/>" + totalDescription));
 
+                // cache type
                 var typeMatches = Regex.Matches(html, PatternType, RegexOptions.Singleline);
                 if (typeMatches.Count == 1)
                 {
@@ -321,6 +324,20 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 {
                     //TODO: log error
                     var cacheId = cache.Id;
+                }
+
+                // cache location
+                var locationMatches = Regex.Matches(html, PatternLatLon, RegexOptions.Singleline);
+                if (locationMatches.Count > 0)
+                {
+                    var locationString = locationMatches[0].Groups[1].Value;
+                    var cacheLocation = GeopointParser.Parse(locationString);
+                    Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        var gcCache = ((GeocachingComCache)cache);
+                        gcCache.Location = cacheLocation;
+                        gcCache.ReliableLocation = true;
+                    });
                 }
 
                 // TODO: implement logbook
