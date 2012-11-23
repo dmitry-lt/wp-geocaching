@@ -39,5 +39,8 @@ namespace GeocachingPlus.Model.DataBase
 
         [Column(CanBeNull = true)]
         public bool? ReliableLocation { get; set; }
+
+        [Column(CanBeNull = true)]
+        public string Hint { get; set; }
     }
 }

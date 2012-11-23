@@ -82,7 +82,7 @@ namespace GeocachingPlus.Model.DataBase
             result.ReliableLocation = cache.ReliableLocation;
         }
 
-        public static DbCache ToDbCacheItem(Cache cache, string details, string logbook)
+        public static DbCache ToDbCacheItem(Cache cache, string details, string logbook, string hint)
         {
             var result =
                 new DbCache()
@@ -112,13 +112,15 @@ namespace GeocachingPlus.Model.DataBase
 
             result.HtmlDescription = details;
             result.HtmlLogbook = logbook;
+            result.Hint = hint;
 
             return result;
         }
 
+        [Obsolete]
         public static DbCache ToDbCacheItem(Cache cache)
         {
-            return ToDbCacheItem(cache, null, null);
+            return ToDbCacheItem(cache, null, null, null);
         }
 
     }

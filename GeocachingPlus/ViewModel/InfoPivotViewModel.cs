@@ -184,6 +184,7 @@ namespace GeocachingPlus.ViewModel
                 {
                     Info = dbCache.HtmlDescription;
                     Logbook = dbCache.HtmlLogbook;
+                    Hint = dbCache.Hint;
                     var helper = new FileStorageHelper();
                     foreach (var source in helper.GetPhotos(_cache))
                     {
