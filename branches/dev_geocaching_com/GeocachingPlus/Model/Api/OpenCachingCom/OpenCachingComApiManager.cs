@@ -88,7 +88,11 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
 
             client.DownloadStringCompleted += (sender, e) =>
             {
-                if (e.Error != null) return;
+                if (e.Error != null)
+                {
+                    RequestCounter.LiveMap.RequestFailed();
+                    return;
+                }
 
                 var jsonResult = e.Result;
 
@@ -134,7 +138,11 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
                                 select cache).ToList<Cache>();
                     processCaches(list);
                 }
+
+                RequestCounter.LiveMap.RequestSucceeded();
             };
+
+            RequestCounter.LiveMap.RequestSent();
 
             client.DownloadStringAsync(new Uri(sUrl));
         }
