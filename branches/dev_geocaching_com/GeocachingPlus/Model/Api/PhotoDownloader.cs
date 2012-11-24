@@ -49,6 +49,10 @@ namespace GeocachingPlus.Model.Api
                         var writeableBitmap = ei.ToBitmap();
                         processImage(writeableBitmap);
                     }
+                    else
+                    {
+                        processImage(null);
+                    }
                 };
             webClient.OpenReadAsync(new Uri(photoUrl));
         }
