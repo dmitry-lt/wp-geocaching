@@ -42,7 +42,11 @@ namespace GeocachingPlus.Model.Api.GeocachingSu
                              };
             client.DownloadStringCompleted += (sender, e) =>
             {
-                if (e.Error != null) return;
+                if (e.Error != null)
+                {
+                    RequestCounter.LiveMap.RequestFailed();
+                    return;
+                }
                 var caches = XElement.Parse(e.Result);
                 var parser = new GeocachingSuCacheParser();
                 var downloadedCaches = parser.Parse(caches);
@@ -63,7 +67,12 @@ namespace GeocachingPlus.Model.Api.GeocachingSu
                                    (cache.Location.Longitude >= lngmin))
                             select cache).ToList<Cache>();
                 processCaches(list);
+
+                RequestCounter.LiveMap.RequestSucceeded();
             };
+            
+            RequestCounter.LiveMap.RequestSent();
+
             client.DownloadStringAsync(new Uri(sUrl));
         }
 

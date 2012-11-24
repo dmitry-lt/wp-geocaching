@@ -8,6 +8,7 @@
     xmlns:Microsoft_Phone_Controls_Maps="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps" 
     x:Class="GeocachingPlus.View.Map.BingMap"
     xmlns:c="clr-namespace:GeocachingPlus.View.Converters" xmlns:Map="clr-namespace:GeocachingPlus.View.Map"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -41,20 +42,26 @@
         </Grid.Resources>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28" Orientation="Horizontal">
-            <StackPanel Background="{StaticResource PhoneAccentBrush}">
+        <Grid Grid.Row="0" Margin="12,17,0,28">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Background="{StaticResource PhoneAccentBrush}">
                 <Image Source="/GeocachingPlus;component/Resources/Images/application_logo_small_white.png"/>
             </StackPanel>
-            <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
+            <TextBlock Grid.Column="1" x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
                 Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"
                 FontSize="28" VerticalAlignment="Center"/>
-        </StackPanel>
+            <toolkit:PerformanceProgressBar Grid.Column="2" IsIndeterminate="{Binding RequestCounter.IsLoading}"/>
+        </Grid>
+
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"/>
+        <Grid x:Name="ContentPanel" Grid.Row="1">
 
         <Microsoft_Phone_Controls_Maps:Map x:Name="Map" 
                                            Margin="12,0,12,8" 
-                                           Grid.Row="1" 
                                            Center="{Binding MapCenter, Mode=TwoWay}" 
                                            ZoomLevel="{Binding Zoom, Mode=TwoWay}"
                                            ViewChangeEnd="MapViewChangeEnd"
@@ -90,7 +97,7 @@
                 <Border Background="{StaticResource PhoneChromeBrush}" 
                 Opacity="0.7" VerticalAlignment="Bottom" 
                 Visibility="{Binding UndetectedLocationMessageVisibility}" 
-                Margin="0,0,0,112" Grid.Row="1">
+                Margin="0,0,0,112">
                     <TextBlock Text="{Binding Path=LocalizedResources.UndetectedLocationMessage, 
                            Source={StaticResource LocalizedStrings}}" 
                        FontSize="22" 
@@ -99,6 +106,8 @@
                 </Border>
             </Microsoft_Phone_Controls_Maps:MapLayer>
         </Microsoft_Phone_Controls_Maps:Map>       
+        </Grid>
+        
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
