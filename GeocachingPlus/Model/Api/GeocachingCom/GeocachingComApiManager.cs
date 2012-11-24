@@ -222,6 +222,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         private const string PatternType = "<img src=\"[^\"]*/WptTypes/\\d+\\.gif\" alt=\"([^\"]+?)\"[^>]*>";
         private const string PatternSpoilerImage = "<a href=\"(http://img\\.geocaching\\.com/cache/[^.]+\\.jpe?g)\"[^>]+><img[^>]+><span>([^<]+)</span></a>(?:<br />([^<]+)<br /><br />)?";
         private const string PatternLatLon = "<span id=\"uxLatLon\" style=\"font-weight:bold;\"[^>]*>(.*?)</span>";
+        private const string PatternHint = "<div id=\"div_hint\"[^>]*>(.*?)</div>";
 
         private GeocachingComCache.Types GetType(string altText)
         {
@@ -385,9 +386,14 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                 Deployment.Current.Dispatcher.BeginInvoke(() => processPhotoUrls(photoUrls));
 
+                var hint = "";
+                var hintUrls = Regex.Matches(html, PatternHint, RegexOptions.Singleline);
+                for (var i = 0; i < hintUrls.Count; i++)
+                {
+                    hint += hintUrls[i].Groups[1].Value;
+                }
 
-                // TODO: implement hint
-                Deployment.Current.Dispatcher.BeginInvoke(() => processHint(""));
+                Deployment.Current.Dispatcher.BeginInvoke(() => processHint(hint));
 
             };
             client.Get(sUrl, downloadStringCompleted);
