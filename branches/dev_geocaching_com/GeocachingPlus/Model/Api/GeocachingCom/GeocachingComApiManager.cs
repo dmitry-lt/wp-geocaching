@@ -61,29 +61,27 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         #endregion
 */
 
-/*
         private readonly object _lock = new object();
-        private int _fetchTilesCallNumber;
-        private int InitNextFetchTilesCallNumber()
+        private int _fetchCachesCallNumber;
+        private int InitNextFetchCachesCallNumber()
         {
             lock (_lock)
             {
-                return _fetchTilesCallNumber++;
+                return ++_fetchCachesCallNumber;
             }
         }
 
-        private int GetFetchTilesCallNumber()
+        private int GetFetchCachesCallNumber()
         {
             lock (_lock)
             {
-                return _fetchTilesCallNumber;
+                return _fetchCachesCallNumber;
             }
         }
-*/
 
-        private void FetchTile(ICollection<Tile> tiles, int tileIndex, Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        private void FetchTile(int fetchCachesCallNumber, ICollection<Tile> tiles, int tileIndex, Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
-            if (tileIndex >= tiles.Count())
+            if (tileIndex >= tiles.Count() || fetchCachesCallNumber != GetFetchCachesCallNumber())
             {
                 return;
             }
@@ -234,7 +232,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                                 RequestCounter.LiveMap.RequestSucceeded();
 
-                                FetchTile(tiles, tileIndex + 1, processCaches, lngmax, lngmin, latmax, latmin);
+                                FetchTile(fetchCachesCallNumber, tiles, tileIndex + 1, processCaches, lngmax, lngmin, latmax, latmin);
                             }
                         };
 
@@ -288,7 +286,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
             var tiles = Tile.GetTilesForViewport(viewport);
 
-            FetchTile(tiles, 0, processCaches, lngmax, lngmin, latmax, latmin);
+            FetchTile(InitNextFetchCachesCallNumber(), tiles, 0, processCaches, lngmax, lngmin, latmax, latmin);
         }
 
 
