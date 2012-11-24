@@ -403,6 +403,8 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 }
                 hint = hint.Trim();
 
+                hint = CryptUtils.Rot13(hint);
+
                 Deployment.Current.Dispatcher.BeginInvoke(() => processHint(hint));
 
             };

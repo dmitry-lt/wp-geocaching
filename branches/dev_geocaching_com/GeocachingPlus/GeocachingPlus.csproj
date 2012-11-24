@@ -108,6 +108,7 @@
     <Compile Include="Model\Api\GeocachingCom\AsciiEncoding.cs" />
     <Compile Include="Model\Api\GeocachingCom\BaseUtils.cs" />
     <Compile Include="Model\Api\GeocachingCom\ColorExtensions.cs" />
+    <Compile Include="Model\Api\GeocachingCom\CryptUtils.cs" />
     <Compile Include="Model\Api\GeocachingCom\ExtendedWebClient.cs" />
     <Compile Include="Model\Api\GeocachingCom\GCConstants.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComApiCaches.cs" />
