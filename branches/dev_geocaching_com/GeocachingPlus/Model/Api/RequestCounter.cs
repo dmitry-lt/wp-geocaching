@@ -42,6 +42,7 @@ namespace GeocachingPlus.Model.Api
             lock (_lock)
             {
                 _requestsSent++;
+                PropertyChanged.Raise(() => RequestsSent);
                 CheckLoading();
             }
         }
@@ -51,6 +52,7 @@ namespace GeocachingPlus.Model.Api
             lock (_lock)
             {
                 _requestsSucceeded++;
+                PropertyChanged.Raise(() => RequestsSucceeded);
                 CheckLoading();
             }
         }
@@ -60,6 +62,7 @@ namespace GeocachingPlus.Model.Api
             lock (_lock)
             {
                 _requestsFailed++;
+                PropertyChanged.Raise(() => RequestsFailed);
                 CheckLoading();
             }
         }
