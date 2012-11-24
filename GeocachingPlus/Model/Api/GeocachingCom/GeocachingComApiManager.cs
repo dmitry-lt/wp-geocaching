@@ -83,6 +83,15 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     // The PNG must be requested first, otherwise the following request would always return with 204 - No Content
                     Action<WriteableBitmap> processBitmap = bitmap =>
                     {
+                        if (null == bitmap)
+                        {
+                            RequestCounter.LiveMap.RequestFailed();
+                        }
+                        else
+                        {
+                            RequestCounter.LiveMap.RequestSucceeded();
+                        }
+
                         // Check bitmap size
                         if (bitmap != null && (bitmap.PixelWidth != Tile.TILE_SIZE || bitmap.PixelHeight != Tile.TILE_SIZE))
                         {
@@ -92,7 +101,11 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                         Action<DownloadStringCompletedEventArgs> downloadCachesCompleted =
                             (e) =>
                             {
-                                if (e.Error != null) return;
+                                if (e.Error != null)
+                                {
+                                    RequestCounter.LiveMap.RequestFailed();
+                                    return;
+                                }
 
                                 var jsonResult = e.Result;
 
@@ -173,8 +186,12 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                                        (cache.Location.Longitude >= lngmin))
                                                 select cache).ToList<Cache>();
                                     processCaches(list);
+
+                                    RequestCounter.LiveMap.RequestSucceeded();
                                 }
                             };
+
+                        RequestCounter.LiveMap.RequestSent();
 
                         currentTile.RequestMapInfo(downloadCachesCompleted, GCConstants.URL_MAP_INFO, parameters, GCConstants.URL_LIVE_MAP);
 
@@ -203,6 +220,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                     };
 
+                    RequestCounter.LiveMap.RequestSent();
 
                     Tile.RequestMapTile(processBitmap, parameters);
 
