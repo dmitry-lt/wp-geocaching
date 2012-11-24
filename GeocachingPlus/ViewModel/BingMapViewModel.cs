@@ -81,6 +81,8 @@ namespace GeocachingPlus.ViewModel
             }
         }
 
+        public RequestCounter RequestCounter { get { return RequestCounter.LiveMap; } }
+
         public BingMapViewModel(IApiManager apiManager)
         {
             MapMode = settings.MapMode;
