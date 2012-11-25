@@ -229,10 +229,9 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                                        (cache.Location.Longitude >= lngmin))
                                                 select cache).ToList<Cache>();
                                     processCaches(list);
-
-                                    RequestCounter.LiveMap.RequestSucceeded();
-
                                 }
+                                
+                                RequestCounter.LiveMap.RequestSucceeded();
                             }
 
                             FetchTile(fetchCachesCallNumber, tiles, tileIndex + 1, processCaches, lngmax, lngmin, latmax, latmin);
