@@ -147,93 +147,95 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                             if (e.Error != null)
                             {
                                 RequestCounter.LiveMap.RequestFailed();
-                                return;
                             }
-
-                            var jsonResult = e.Result;
-
-                            if (!String.IsNullOrWhiteSpace(jsonResult))
+                            else
                             {
-                                var nameCache = new Dictionary<string, string>(); // JSON id, cache name
+                                var jsonResult = e.Result;
 
-                                var parsedData =
-                                    (GeocachingComApiCaches)
-                                    JsonConvert.DeserializeObject(jsonResult, typeof(GeocachingComApiCaches));
-
-                                var keys = parsedData.keys;
-
-                                var positions = new Dictionary<string, List<UTFGridPosition>>();
-                                // JSON id as key
-                                for (var i = 1; i < keys.Length; i++)
+                                if (!String.IsNullOrWhiteSpace(jsonResult))
                                 {
-                                    // index 0 is empty
-                                    var key = keys[i];
-                                    if (!String.IsNullOrWhiteSpace(key))
-                                    {
-                                        var pos = UTFGridPosition.FromString(key);
+                                    var nameCache = new Dictionary<string, string>(); // JSON id, cache name
 
-                                        var dataForKey = parsedData.data[key];
-                                        foreach (var c in dataForKey)
+                                    var parsedData =
+                                        (GeocachingComApiCaches)
+                                        JsonConvert.DeserializeObject(jsonResult, typeof(GeocachingComApiCaches));
+
+                                    var keys = parsedData.keys;
+
+                                    var positions = new Dictionary<string, List<UTFGridPosition>>();
+                                    // JSON id as key
+                                    for (var i = 1; i < keys.Length; i++)
+                                    {
+                                        // index 0 is empty
+                                        var key = keys[i];
+                                        if (!String.IsNullOrWhiteSpace(key))
                                         {
-                                            var id = c.i;
-                                            if (!nameCache.ContainsKey(id))
+                                            var pos = UTFGridPosition.FromString(key);
+
+                                            var dataForKey = parsedData.data[key];
+                                            foreach (var c in dataForKey)
                                             {
-                                                nameCache.Add(id, c.n);
+                                                var id = c.i;
+                                                if (!nameCache.ContainsKey(id))
+                                                {
+                                                    nameCache.Add(id, c.n);
+                                                }
+
+                                                if (!positions.ContainsKey(id))
+                                                {
+                                                    positions.Add(id, new List<UTFGridPosition>());
+                                                }
+
+                                                positions[id].Add(pos);
                                             }
 
-                                            if (!positions.ContainsKey(id))
-                                            {
-                                                positions.Add(id, new List<UTFGridPosition>());
-                                            }
-
-                                            positions[id].Add(pos);
                                         }
-
                                     }
-                                }
 
-                                var caches = new List<Cache>();
+                                    var caches = new List<Cache>();
 
-                                foreach (var id in positions.Keys)
-                                {
-                                    var pos = positions[id];
-                                    var xy = UTFGrid.GetPositionInGrid(pos);
-                                    var cache = new GeocachingComCache()
+                                    foreach (var id in positions.Keys)
                                     {
-                                        Id = id,
-                                        Name = nameCache[id],
-                                        Location = currentTile.GetCoord(xy),
-                                        ReliableLocation = false,
-                                    };
+                                        var pos = positions[id];
+                                        var xy = UTFGrid.GetPositionInGrid(pos);
+                                        var cache = new GeocachingComCache()
+                                        {
+                                            Id = id,
+                                            Name = nameCache[id],
+                                            Location = currentTile.GetCoord(xy),
+                                            ReliableLocation = false,
+                                        };
 
-                                    IconDecoder.parseMapPNG(cache, bitmap, xy, currentTile.Zoomlevel);
+                                        IconDecoder.parseMapPNG(cache, bitmap, xy, currentTile.Zoomlevel);
 
-                                    caches.Add(cache);
-                                }
-
-                                _tileCache.Add(currentTile);
-
-                                foreach (var p in caches)
-                                {
-                                    if (!Caches.Contains(p))
-                                    {
-                                        Caches.Add(p);
+                                        caches.Add(cache);
                                     }
+
+                                    _tileCache.Add(currentTile);
+
+                                    foreach (var p in caches)
+                                    {
+                                        if (!Caches.Contains(p))
+                                        {
+                                            Caches.Add(p);
+                                        }
+                                    }
+
+                                    if (processCaches == null) return;
+                                    var list = (from cache in Caches
+                                                where ((cache.Location.Latitude <= latmax) &&
+                                                       (cache.Location.Latitude >= latmin) &&
+                                                       (cache.Location.Longitude <= lngmax) &&
+                                                       (cache.Location.Longitude >= lngmin))
+                                                select cache).ToList<Cache>();
+                                    processCaches(list);
+
+                                    RequestCounter.LiveMap.RequestSucceeded();
+
                                 }
-
-                                if (processCaches == null) return;
-                                var list = (from cache in Caches
-                                            where ((cache.Location.Latitude <= latmax) &&
-                                                   (cache.Location.Latitude >= latmin) &&
-                                                   (cache.Location.Longitude <= lngmax) &&
-                                                   (cache.Location.Longitude >= lngmin))
-                                            select cache).ToList<Cache>();
-                                processCaches(list);
-
-                                RequestCounter.LiveMap.RequestSucceeded();
-
-                                FetchTile(fetchCachesCallNumber, tiles, tileIndex + 1, processCaches, lngmax, lngmin, latmax, latmin);
                             }
+
+                            FetchTile(fetchCachesCallNumber, tiles, tileIndex + 1, processCaches, lngmax, lngmin, latmax, latmin);
                         };
 
                     RequestCounter.LiveMap.RequestSent();
