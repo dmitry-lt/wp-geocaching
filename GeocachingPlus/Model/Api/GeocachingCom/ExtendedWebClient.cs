@@ -76,7 +76,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     }
                     catch (Exception ex)
                     {
-
+                        onResponseGot(null);
                     }
                 };
 
