@@ -151,6 +151,8 @@ namespace GeocachingPlus.ViewModel
 
         private bool _tooManyCachesOnScreen;
 
+        public int AllCachesCount { get { return _allCaches.Count; } }
+
         private void ProcessCaches(List<Cache> caches)
         {
             lock (_lock)
@@ -164,6 +166,7 @@ namespace GeocachingPlus.ViewModel
                             _allCaches.Add(c);
                         }
                     }
+                    RaisePropertyChanged(() => AllCachesCount);
                 }
 
                 var cachesOnScreen = new HashSet<Cache>();
@@ -220,11 +223,23 @@ namespace GeocachingPlus.ViewModel
             }
         }
 
+        private int _fetchCachesCalls;
+        public int FetchCachesCalls
+        {
+            get { return _fetchCachesCalls; }
+            private set
+            {
+                _fetchCachesCalls = value;
+                RaisePropertyChanged(() => FetchCachesCalls);
+            }
+        }
+
         private void SetPushpinsOnMap()
         {
             ProcessCaches(null);
             if (!_tooManyCachesOnScreen)
             {
+                FetchCachesCalls++;
                 apiManager.FetchCaches(ProcessCaches, BoundingRectangle.East, BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
             }
         }
