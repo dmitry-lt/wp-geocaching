@@ -81,7 +81,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
         private void FetchTile(int fetchCachesCallNumber, ICollection<Tile> tiles, int tileIndex, Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
-            if (tileIndex >= tiles.Count() || fetchCachesCallNumber != GetFetchCachesCallNumber())
+            if (tileIndex > 0 || tileIndex >= tiles.Count() || fetchCachesCallNumber != GetFetchCachesCallNumber())
             {
                 return;
             }
@@ -476,7 +476,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 var breaks = Regex.Matches(hint, PatternLinebreak, RegexOptions.Singleline);
                 for (var i = 0; i < breaks.Count; i++)
                 {
-                    var lineBreak = breaks[i].Groups[1].Value;
+                    var lineBreak = breaks[i].Groups[0].Value;
                     hint = hint.Replace(lineBreak, "\n");
                 }
                 hint = hint.Trim();
