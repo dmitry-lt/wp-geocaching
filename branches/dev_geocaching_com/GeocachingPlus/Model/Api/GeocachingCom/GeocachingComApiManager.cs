@@ -81,7 +81,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
         private void FetchTile(int fetchCachesCallNumber, ICollection<Tile> tiles, int tileIndex, Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
-            if (tileIndex > 0 || tileIndex >= tiles.Count() || fetchCachesCallNumber != GetFetchCachesCallNumber())
+            if (tileIndex >= tiles.Count() || fetchCachesCallNumber != GetFetchCachesCallNumber())
             {
                 return;
             }
