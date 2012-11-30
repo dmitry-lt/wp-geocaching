@@ -16,6 +16,9 @@
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True" Title="" OpacityMask="{x:Null}">
 
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="{Binding RequestCounter.IsLoading}" IsVisible="{Binding RequestCounter.IsLoading}"/>
+    </shell:SystemTray.ProgressIndicator>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -54,7 +57,6 @@
             <TextBlock Grid.Column="1" x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
                 Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"
                 FontSize="28" VerticalAlignment="Center"/>
-            <toolkit:PerformanceProgressBar Grid.Column="2" IsIndeterminate="{Binding RequestCounter.IsLoading}"/>
             <StackPanel Grid.Column="2" Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{Binding RequestCounter.RequestsSent}" Margin="5 0"/>
