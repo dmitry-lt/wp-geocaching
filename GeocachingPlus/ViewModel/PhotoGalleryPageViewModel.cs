@@ -58,7 +58,10 @@ namespace GeocachingPlus.ViewModel
         public void SetImageSource(BitmapSource source)
         {
             ImageSource = source;
-            MaxHeight = source.PixelHeight * Math.Sqrt(2);
+            if (null != source)
+            {
+                MaxHeight = source.PixelHeight*Math.Sqrt(2);
+            }
         }
 
         public void LoadNext(Action action)
