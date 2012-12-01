@@ -23,7 +23,14 @@ namespace GeocachingPlus.Model.Api
                         WriteableBitmap photo = null;
                         if (e.Error == null)
                         {
-                            photo = PictureDecoder.DecodeJpeg(e.Result);
+                            try
+                            {
+                                photo = PictureDecoder.DecodeJpeg(e.Result);
+                            }
+                            catch (Exception ex)
+                            {
+                                // TODO: log
+                            }
                         }
                         processPhoto(photo);
                     };
