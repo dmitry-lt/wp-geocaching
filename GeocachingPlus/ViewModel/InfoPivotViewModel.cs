@@ -266,6 +266,15 @@ namespace GeocachingPlus.ViewModel
             {
                 _isCacheFullyLoaded = value;
                 RaisePropertyChanged(() => IsCacheFullyLoaded);
+                RaisePropertyChanged(() => IsCacheLoading);
+            }
+        }
+
+        public bool IsCacheLoading
+        {
+            get
+            {
+                return !_isCacheFullyLoaded;
             }
         }
 
