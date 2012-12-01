@@ -342,4 +342,10 @@
   <data name="LoginFailed" xml:space="preserve">
     <value>Login failed</value>
   </data>
+  <data name="CacheCoordinatesInaccurate" xml:space="preserve">
+    <value>We don't have accurate coordinates for this cache yet.</value>
+  </data>
+  <data name="CacheCoordinatesUpdate" xml:space="preserve">
+    <value>Update cache info</value>
+  </data>
 </root>

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -18,8 +19,17 @@
         <Grid 
             Visibility="{Binding Cache.ReliableLocation, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=reverse}"
             >
-            <!-- TODO: implement-->
-            <TextBlock Text="Unreliable coordinates!"/>
+            <RichTextBox 
+                TextWrapping="Wrap"
+                Padding="0" Margin="0"
+                >
+                <Paragraph>
+                    <Run Text="{Binding Path=LocalizedResources.CacheCoordinatesInaccurate, Source={StaticResource LocalizedStrings}}"/>
+                    <Hyperlink toolkit:TiltEffect.IsTiltEnabled="True">
+                        <Run Text="{Binding Path=LocalizedResources.CacheCoordinatesUpdate, Source={StaticResource LocalizedStrings}}"/>
+                    </Hyperlink>
+                </Paragraph>
+            </RichTextBox>
         </Grid>
     </Grid>
 </UserControl>

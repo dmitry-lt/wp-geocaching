@@ -124,6 +124,24 @@ namespace GeocachingPlus.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We don&apos;t have accurate coordinates for this cache yet..
+        /// </summary>
+        public static string CacheCoordinatesInaccurate {
+            get {
+                return ResourceManager.GetString("CacheCoordinatesInaccurate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update cache info.
+        /// </summary>
+        public static string CacheCoordinatesUpdate {
+            get {
+                return ResourceManager.GetString("CacheCoordinatesUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {

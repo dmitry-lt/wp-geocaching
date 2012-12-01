@@ -342,4 +342,10 @@
   <data name="HintButton" xml:space="preserve">
     <value>подсказка</value>
   </data>
+  <data name="CacheCoordinatesInaccurate" xml:space="preserve">
+    <value>Координаты тайника определены неточно.</value>
+  </data>
+  <data name="CacheCoordinatesUpdate" xml:space="preserve">
+    <value>Обновить информацию о тайнике</value>
+  </data>
 </root>
