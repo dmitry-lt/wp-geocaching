@@ -381,6 +381,8 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             {
                 if (html == null) return;
 
+                html = WebBrowserHelper.ConvertExtendedASCII(html);
+
                 var shortDescription = "";
                 var matchesShortdesc = Regex.Matches(html, PatternShortdesc, RegexOptions.Singleline);
                 if (matchesShortdesc.Count == 1)

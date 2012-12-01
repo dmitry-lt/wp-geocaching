@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Security;
+using System.Text;
 using ICSharpCode.SharpZipLib.GZip;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
@@ -139,7 +140,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                         }
                         using (streamResponse)
                         {
-                            using (var streamRead = new StreamReader(streamResponse))
+                            using (var streamRead = new StreamReader(streamResponse, Encoding.UTF8))
                             {
                                 var responseString = streamRead.ReadToEnd();
                                 onResponseGot(responseString);
