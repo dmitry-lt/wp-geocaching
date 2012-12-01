@@ -36,6 +36,31 @@ namespace GeocachingPlus.ViewModel
         
         public string Password { get; set; }
 
+        public void Login()
+        {
+            Action<StatusCode> processResult =
+                sc =>
+                    Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        Loading = false;
+                        if (sc == StatusCode.NO_ERROR)
+                        {
+                            LoggedIn = true;
+                            if (null != LoginSucceeded)
+                            {
+                                LoginSucceeded(this, new EventArgs());
+                            }
+                        }
+                        else
+                        {
+                            LoggedIn = false;
+                            LoginFailed = true;
+                        }
+                    });
+
+            _loginManager.Login(processResult, Username, Password);
+        }
+
         public ICommand LoginCommand
         {
             get
@@ -51,29 +76,8 @@ namespace GeocachingPlus.ViewModel
 
                             _settings.GeocachingComLogin = Username;
                             _settings.GeocachingComPassword = Password;
-                            
-                            //TODO: implement
-                            Action<StatusCode> processResult = 
-                                sc =>
-                                    Deployment.Current.Dispatcher.BeginInvoke(() =>
-                                    {
-                                        Loading = false;
-                                        if (sc == StatusCode.NO_ERROR)
-                                        {
-                                            LoggedIn = true;
-                                            if (null != LoginSucceeded)
-                                            {
-                                                LoginSucceeded(this, new EventArgs());
-                                            }
-                                        }
-                                        else
-                                        {
-                                            LoggedIn = false;
-                                            LoginFailed = true;
-                                        }
-                                    });
 
-                            _loginManager.Login(processResult, Username, Password);
+                            Login();
                         }
                 );
             }
