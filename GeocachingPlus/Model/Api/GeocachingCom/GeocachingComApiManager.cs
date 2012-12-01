@@ -5,13 +5,14 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using GeocachingPlus.ViewModel;
 using Newtonsoft.Json;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
 {
     public class GeocachingComApiManager : IApiManager
     {
-        private TileCache _tileCache = new TileCache();
+        private readonly TileCache _tileCache = new TileCache();
 
         internal GeocachingComApiManager()
         {
@@ -22,9 +23,9 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
         private double MilliTimeStamp()
         {
-            DateTime d1 = new DateTime(1970, 1, 1);
-            DateTime d2 = DateTime.UtcNow;
-            TimeSpan ts = new TimeSpan(d2.Ticks - d1.Ticks);
+            var d1 = new DateTime(1970, 1, 1);
+            var d2 = DateTime.UtcNow;
+            var ts = new TimeSpan(d2.Ticks - d1.Ticks);
             return ts.TotalMilliseconds;
         }
 
@@ -272,8 +273,28 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             }
         }
 
+        private bool _triedToLogin;
+        private void TryToLogin()
+        {
+            if (!_triedToLogin)
+            {
+                _triedToLogin = true;
+                var key = typeof (GeocachingComLoginPageViewModel).Name;
+                if (((App) Application.Current).Resources.Contains(key))
+                {
+                    var obj = ((App) Application.Current).Resources[key];
+                    if (obj is GeocachingComLoginPageViewModel)
+                    {
+                        var vm = obj as GeocachingComLoginPageViewModel;
+                        vm.Login();
+                    }
+                }
+            }
+        }
+
         public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
+            TryToLogin();
             if (processCaches == null) return;
             var cacheList = (from cache in Caches
                         where ((cache.Location.Latitude <= latmax) &&
