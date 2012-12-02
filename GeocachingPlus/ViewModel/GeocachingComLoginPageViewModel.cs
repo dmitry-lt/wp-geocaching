@@ -38,6 +38,11 @@ namespace GeocachingPlus.ViewModel
 
         public void Login()
         {
+            Login(null, null);
+        }
+
+        public void Login(Action<object> succeededCallback, Action<object> failedCallback)
+        {
             Action<StatusCode> processResult =
                 sc =>
                     Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -50,11 +55,19 @@ namespace GeocachingPlus.ViewModel
                             {
                                 LoginSucceeded(this, new EventArgs());
                             }
+                            if (null != succeededCallback)
+                            {
+                                succeededCallback(null);
+                            }
                         }
                         else
                         {
                             LoggedIn = false;
                             LoginFailed = true;
+                            if (null != failedCallback)
+                            {
+                                failedCallback(null);
+                            }
                         }
                     });
 

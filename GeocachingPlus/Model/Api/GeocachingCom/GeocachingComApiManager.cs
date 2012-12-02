@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -297,7 +298,8 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             TryToLogin();
             if (processCaches == null) return;
             var cacheList = (from cache in Caches
-                        where ((cache.Location.Latitude <= latmax) &&
+                        where ((cache.Location != null) &&
+                               (cache.Location.Latitude <= latmax) &&
                                (cache.Location.Latitude >= latmin) &&
                                (cache.Location.Longitude <= lngmax) &&
                                (cache.Location.Longitude >= lngmin))
@@ -377,11 +379,11 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             var sUrl = InfoUrl + cache.Id;
             var client = new ExtendedWebClient();
 
-            Action<string> downloadStringCompleted = html =>
+            Action<string> downloadStringCompleted = initialHtml =>
             {
-                if (html == null) return;
+                if (initialHtml == null) return;
 
-                html = WebBrowserHelper.ConvertExtendedASCII(html);
+                var html = WebBrowserHelper.ConvertExtendedASCII(initialHtml);
 
                 var shortDescription = "";
                 var matchesShortdesc = Regex.Matches(html, PatternShortdesc, RegexOptions.Singleline);
@@ -409,18 +411,13 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                 var totalDescription = shortDescription + "<br/><br/>" + description;
 
-                Deployment.Current.Dispatcher.BeginInvoke(() => processDescription(cache.Name + "<br/><br/>" + totalDescription));
-
                 // cache type
-                var typeMatches = Regex.Matches(html, PatternType, RegexOptions.Singleline);
+                var cacheType = GeocachingComCache.Types.UNKNOWN;
+                var typeMatches = Regex.Matches(initialHtml, PatternType, RegexOptions.Singleline);
                 if (typeMatches.Count == 1)
                 {
                     var typeString = typeMatches[0].Groups[1].Value;
-                    var cacheType = GetType(typeString);
-                    if (GeocachingComCache.Types.UNKNOWN != cacheType)
-                    {
-                        Deployment.Current.Dispatcher.BeginInvoke(() => ((GeocachingComCache) cache).Type = cacheType);
-                    }
+                    cacheType = GetType(typeString);
                 }
                 else
                 {
@@ -429,18 +426,30 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 }
 
                 // cache location
-                var locationMatches = Regex.Matches(html, PatternLatLon, RegexOptions.Singleline);
+                GeoCoordinate cacheLocation = null;
+                var locationMatches = Regex.Matches(initialHtml, PatternLatLon, RegexOptions.Singleline);
                 if (locationMatches.Count > 0)
                 {
                     var locationString = locationMatches[0].Groups[1].Value;
-                    var cacheLocation = GeopointParser.Parse(locationString);
-                    Deployment.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        var gcCache = ((GeocachingComCache)cache);
-                        gcCache.Location = cacheLocation;
-                        gcCache.ReliableLocation = true;
-                    });
+                    cacheLocation = GeopointParser.Parse(locationString);
                 }
+
+                Deployment.Current.Dispatcher.BeginInvoke(
+                    () =>
+                        {
+                            var gcCache = ((GeocachingComCache)cache);
+                            if (GeocachingComCache.Types.UNKNOWN != cacheType)
+                            {
+                                gcCache.Type = cacheType;
+                            }
+                            if (null != cacheLocation)
+                            {
+                                gcCache.Location = cacheLocation;
+                                gcCache.ReliableLocation = true;
+                            }
+
+                            processDescription(cache.Name + "<br/><br/>" + totalDescription);
+                        });
 
                 // TODO: implement logbook
                 Deployment.Current.Dispatcher.BeginInvoke(() => processLogbook(""));
