@@ -82,7 +82,7 @@ namespace GeocachingPlus.Model.DataBase
                     existingDbCache.ReliableLocation = dbCache.ReliableLocation;
                     existingDbCache.Hint = dbCache.Hint;
                 }
-                db.SubmitChanges();
+                db.SubmitChanges(ConflictMode.ContinueOnConflict);
             }
         }
 
