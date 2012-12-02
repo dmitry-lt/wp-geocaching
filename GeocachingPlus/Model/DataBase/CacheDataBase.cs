@@ -59,9 +59,28 @@ namespace GeocachingPlus.Model.DataBase
             using (var db = new CacheDataContext(ConnectionString))
             {
                 var dbCache = DbConvert.ToDbCacheItem(cache, details, logbook, hint);
-                if (GetCache(cache.Id, cache.CacheProvider) == null)
+
+                var query = GetCacheQuery(db.Caches, cache);
+                var existingDbCache = query.FirstOrDefault();
+
+                if (existingDbCache == null)
                 {
+                    // insert
                     db.Caches.InsertOnSubmit(dbCache);
+                }
+                else
+                {
+                    // update
+                    existingDbCache.Name = dbCache.Name;
+                    existingDbCache.Latitude = dbCache.Latitude;
+                    existingDbCache.Longitude = dbCache.Longitude;
+                    existingDbCache.Type = dbCache.Type;
+                    existingDbCache.Subtype = dbCache.Subtype;
+                    existingDbCache.UpdateTime = DateTime.Now;
+                    existingDbCache.HtmlDescription = dbCache.HtmlDescription;
+                    existingDbCache.HtmlLogbook = dbCache.HtmlLogbook;
+                    existingDbCache.ReliableLocation = dbCache.ReliableLocation;
+                    existingDbCache.Hint = dbCache.Hint;
                 }
                 db.SubmitChanges();
             }
