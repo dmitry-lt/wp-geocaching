@@ -50,7 +50,7 @@ namespace GeocachingPlus.Model.DataBase
             }
         }
 
-        public void AddCache(Cache cache, string details, string logbook, string hint)
+        public void SaveCache(Cache cache, string details, string logbook, string hint)
         {
             if (cache == null)
             {
@@ -58,11 +58,11 @@ namespace GeocachingPlus.Model.DataBase
             }
             using (var db = new CacheDataContext(ConnectionString))
             {
-                if (GetCache(cache.Id, cache.CacheProvider) != null) return;
-
-                var newItem = DbConvert.ToDbCacheItem(cache, details, logbook, hint);
-
-                db.Caches.InsertOnSubmit(newItem);
+                var dbCache = DbConvert.ToDbCacheItem(cache, details, logbook, hint);
+                if (GetCache(cache.Id, cache.CacheProvider) == null)
+                {
+                    db.Caches.InsertOnSubmit(dbCache);
+                }
                 db.SubmitChanges();
             }
         }

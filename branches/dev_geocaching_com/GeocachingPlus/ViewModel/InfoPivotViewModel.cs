@@ -202,6 +202,7 @@ namespace GeocachingPlus.ViewModel
         // invoke this event to hide photos tab
         public event EventHandler HidePhotos;
         public event EventHandler CacheFullyLoaded;
+        public event EventHandler CacheUpdating;
 
         public ObservableCollection<Photo> Previews 
         { 
@@ -299,9 +300,41 @@ namespace GeocachingPlus.ViewModel
             _confirmDeleteDialog.Show();
         }
 
+        private void DoUpdateCache(object o)
+        {
+            _infoLoaded = false;
+            _logbookLoaded = false;
+            _photoUrlLoaded = false;
+            _photoInfos.Clear();
+            _hintLoaded = false;
+
+            ApiManager.Instance.FetchCacheDetails(ProcessInfo, ProcessLogbook, ProcessPhotoUrls, ProcessHint, Cache);            
+        }
+
+        private void ShowLogin(object o)
+        {
+            // TODO: implement
+
+            IsCacheFullyLoaded = true;
+        }
+
         private void UpdateCache()
         {
-
+            var key = typeof (GeocachingComLoginPageViewModel).Name;
+            if (((App) Application.Current).Resources.Contains(key))
+            {
+                var obj = ((App) Application.Current).Resources[key];
+                if (obj is GeocachingComLoginPageViewModel)
+                {
+                    var vm = obj as GeocachingComLoginPageViewModel;
+                    IsCacheFullyLoaded = false;
+                    if (null != CacheUpdating)
+                    {
+                        CacheUpdating(this, new EventArgs());
+                    }
+                    vm.Login(DoUpdateCache, ShowLogin);
+                }
+            }
         }
 
         public ICommand UpdateCacheCommand { get { return new ButtonCommand(o => UpdateCache()); } }
