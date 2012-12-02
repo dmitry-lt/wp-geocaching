@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using GeocachingPlus.Model.Navigation;
 using Microsoft.Phone.Controls;
 using System.Collections.ObjectModel;
 using GeocachingPlus.Model;
@@ -313,9 +314,8 @@ namespace GeocachingPlus.ViewModel
 
         private void ShowLogin(object o)
         {
-            // TODO: implement
-
             IsCacheFullyLoaded = true;
+            NavigationManager.Instance.NavigateToGeocachingComLogin();
         }
 
         private void UpdateCache()
