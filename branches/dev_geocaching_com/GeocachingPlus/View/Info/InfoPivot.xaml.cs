@@ -32,6 +32,7 @@ namespace GeocachingPlus.View.Info
 
         private void HideAppBar(object sender, EventArgs e)
         {
+            ApplicationBar.IsVisible = false;
             ApplicationBar.Buttons.Clear();
             _favoriteButtonIndex = -1;
             _autoSaveCache = true;
