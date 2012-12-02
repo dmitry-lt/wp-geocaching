@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Microsoft.Phone.Controls;
@@ -297,5 +298,13 @@ namespace GeocachingPlus.ViewModel
             }
             _confirmDeleteDialog.Show();
         }
+
+        private void UpdateCache()
+        {
+
+        }
+
+        public ICommand UpdateCacheCommand { get { return new ButtonCommand(o => UpdateCache()); } }
+
     }
 }
