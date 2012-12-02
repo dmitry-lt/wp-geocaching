@@ -448,7 +448,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                 gcCache.ReliableLocation = true;
                             }
 
-                            processDescription(cache.Name + "<br/><br/>" + totalDescription);
+                            processDescription(WebBrowserHelper.ConvertExtendedASCII(cache.Name) + "<br/><br/>" + totalDescription);
                         });
 
                 // TODO: implement logbook
