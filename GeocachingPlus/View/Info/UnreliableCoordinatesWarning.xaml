@@ -25,7 +25,7 @@
                 >
                 <Paragraph>
                     <Run Text="{Binding Path=LocalizedResources.CacheCoordinatesInaccurate, Source={StaticResource LocalizedStrings}}"/>
-                    <Hyperlink toolkit:TiltEffect.IsTiltEnabled="True">
+                    <Hyperlink toolkit:TiltEffect.IsTiltEnabled="True" Command="{Binding UpdateCacheCommand}">
                         <Run Text="{Binding Path=LocalizedResources.CacheCoordinatesUpdate, Source={StaticResource LocalizedStrings}}"/>
                     </Hyperlink>
                 </Paragraph>
