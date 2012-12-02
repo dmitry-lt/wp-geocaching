@@ -19,22 +19,25 @@ namespace GeocachingPlus.Model.Dialogs
             {
                 messageTitle = messageTitle.Substring(0, 255);
             }
-            Guide.BeginShowMessageBox(messageTitle, message, buttonKeys, 0, MessageBoxIcon.Error,
-                asyncResult =>
-                    {
-                        var result = Guide.EndShowMessageBox(asyncResult);
-                        if (!result.HasValue)
-                        {
-                            return;
-                        }
+            if (!Guide.IsVisible)
+            {
+                Guide.BeginShowMessageBox(messageTitle, message, buttonKeys, 0, MessageBoxIcon.Error,
+                                          asyncResult =>
+                                              {
+                                                  var result = Guide.EndShowMessageBox(asyncResult);
+                                                  if (!result.HasValue)
+                                                  {
+                                                      return;
+                                                  }
 
-                        Action action;
+                                                  Action action;
 
-                        CommandDistionary.TryGetValue(buttonKeys[result.Value], out action);
+                                                  CommandDistionary.TryGetValue(buttonKeys[result.Value], out action);
 
-                        action.Invoke();
+                                                  action.Invoke();
 
-                    }, null);     
+                                              }, null);
+            }
         }
 
         protected abstract void FillDictionary();
