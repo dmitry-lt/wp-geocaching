@@ -20,27 +20,7 @@
         </Grid.Resources>
         
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="{Binding Path=LocalizedResources.ShowCachesFrom, 
-                Source={StaticResource LocalizedStrings}}"
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
-            <StackPanel Orientation="Horizontal">
-            <CheckBox Content="geocaching.com" 
-                      FontSize="22" 
-                      HorizontalAlignment="Left"
-                      IsChecked="{Binding IsGeocachingComEnabled, Mode=TwoWay}"
-                      toolkit:TiltEffect.IsTiltEnabled="True"/>
-                <settings:GeocachingComLoginIndicator/>
-            </StackPanel>
-            <CheckBox Content="opencaching.com" 
-                      FontSize="22" 
-                      HorizontalAlignment="Left"
-                      IsChecked="{Binding IsOpenCachingComEnabled, Mode=TwoWay}"
-                      toolkit:TiltEffect.IsTiltEnabled="True"/>
-            <CheckBox Content="geocaching.su" 
-                      FontSize="22" 
-                      HorizontalAlignment="Left"
-                      IsChecked="{Binding IsGeocachingSuEnabled, Mode=TwoWay}"
-                      toolkit:TiltEffect.IsTiltEnabled="True"/>
+            <settings:Services/>
 
             <TextBlock Text="{Binding Path=LocalizedResources.MapSettings, 
                 Source={StaticResource LocalizedStrings}}"
