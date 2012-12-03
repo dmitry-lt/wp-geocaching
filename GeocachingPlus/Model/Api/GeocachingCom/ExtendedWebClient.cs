@@ -91,7 +91,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 //                        httpWebRequest.Headers["X-Requested-With"] = "XMLHttpRequest";
                 httpWebRequest.ContentType = "application/x-www-form-urlencoded";
 //                        httpWebRequest.Headers["User-Agent"] = "Mozilla/5.0 (X11; Linux x86_64; rv:9.0.1) Gecko/20100101 Firefox/9.0.1";
-//                        httpWebRequest.Headers["Accept-Encoding"] = "gzip";
+                        httpWebRequest.Headers["Accept-Encoding"] = "gzip";
 
                 // TODO: ???
 //                        httpWebRequest.Headers["Host"] = "www.geocaching.com";
@@ -127,25 +127,32 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 var httpWebRequest = (HttpWebRequest)ar.AsyncState;
                 if (httpWebRequest != null)
                 {
-                    using (var response = (HttpWebResponse)httpWebRequest.EndGetResponse(ar))
+                    try
                     {
-                        Stream streamResponse;
-                        if ("gzip".Equals(response.Headers["Content-Encoding"]))
+                        using (var response = (HttpWebResponse)httpWebRequest.EndGetResponse(ar))
                         {
-                            streamResponse = new GZipInputStream(response.GetResponseStream());
-                        }
-                        else
-                        {
-                            streamResponse = response.GetResponseStream();
-                        }
-                        using (streamResponse)
-                        {
-                            using (var streamRead = new StreamReader(streamResponse, Encoding.UTF8))
+                            Stream streamResponse;
+                            if ("gzip".Equals(response.Headers["Content-Encoding"]))
                             {
-                                var responseString = streamRead.ReadToEnd();
-                                onResponseGot(responseString);
+                                streamResponse = new GZipInputStream(response.GetResponseStream());
+                            }
+                            else
+                            {
+                                streamResponse = response.GetResponseStream();
+                            }
+                            using (streamResponse)
+                            {
+                                using (var streamRead = new StreamReader(streamResponse, Encoding.UTF8))
+                                {
+                                    var responseString = streamRead.ReadToEnd();
+                                    onResponseGot(responseString);
+                                }
                             }
                         }
+                    }
+                    catch (WebException e)
+                    {
+                        onResponseGot(null);
                     }
                 }
             }), request);
