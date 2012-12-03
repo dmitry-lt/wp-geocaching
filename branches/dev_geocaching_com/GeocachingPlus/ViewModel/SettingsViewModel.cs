@@ -7,7 +7,7 @@ using GeocachingPlus.Resources.Localization;
 
 namespace GeocachingPlus.ViewModel
 {
-    public class SettingsViewModel : BaseMapViewModel
+    public class SettingsViewModel : BaseViewModel
     {
         private Settings settings;
         private bool isLocationEnabled;
@@ -18,7 +18,6 @@ namespace GeocachingPlus.ViewModel
         public ICommand ChooseRoadModeCommand { get; private set; }
         public ICommand ChooseAerialModeCommand { get; private set; }
         public ICommand ShowPrivacyStatementDialogCommand { get; private set; }
-        public ICommand ShowGeocachingComLoginCommand { get; private set; }
         public bool IsAerialChecked { get; private set; }
         public bool IsRoadChecked { get; private set; }
 
@@ -36,67 +35,6 @@ namespace GeocachingPlus.ViewModel
             }
         }
 
-        private bool CanAssignCacheProviderValue(bool value)
-        {
-            if (value)
-            {
-                return true;
-            }
-
-            var count = 0;
-            if (IsOpenCachingComEnabled)
-            {
-                count++;
-            }
-            if (IsGeocachingSuEnabled)
-            {
-                count++;
-            }
-            if (IsGeocachingComEnabled)
-            {
-                count++;
-            }
-            return count > 1;
-        }
-
-        public bool IsOpenCachingComEnabled
-        {
-            get { return settings.IsOpenCachingComEnabled; }
-            set
-            {
-                if (CanAssignCacheProviderValue(value))
-                {
-                    settings.IsOpenCachingComEnabled = value;
-                }
-                RaisePropertyChanged(() => IsOpenCachingComEnabled);
-            }
-        }
-        public bool IsGeocachingSuEnabled
-        {
-            get { return settings.IsGeocachingSuEnabled; }
-            set
-            {
-                if (CanAssignCacheProviderValue(value))
-                {
-                    settings.IsGeocachingSuEnabled = value;
-                }
-                RaisePropertyChanged(() => IsGeocachingSuEnabled);
-            }
-        }
-
-        public bool IsGeocachingComEnabled
-        {
-            get { return settings.IsGeocachingComEnabled; }
-            set
-            {
-                if (CanAssignCacheProviderValue(value))
-                {
-                    settings.IsGeocachingComEnabled = value;
-                }
-                RaisePropertyChanged(() => IsGeocachingComEnabled);
-            }
-        }
-
         public SettingsViewModel()
         {
             settings = new Settings();
@@ -105,7 +43,6 @@ namespace GeocachingPlus.ViewModel
             ChooseRoadModeCommand = new ButtonCommand(ChooseRoadMode);
             ChooseAerialModeCommand = new ButtonCommand(ChooseAerialMode);
             ShowPrivacyStatementDialogCommand = new ButtonCommand(ShowPrivacyStatementDialog);
-            ShowGeocachingComLoginCommand = new ButtonCommand(ShowGeocachingComLogin);
 
             if (settings.MapMode == MapMode.Road)
             {
@@ -145,10 +82,5 @@ namespace GeocachingPlus.ViewModel
             PrivacyStatementDialog.Show();
         }
 
-        private void ShowGeocachingComLogin(object p)
-        {
-            NavigationManager.Instance.NavigateToGeocachingComLogin();
-        }
-        
     }
 }

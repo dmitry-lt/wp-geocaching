@@ -148,6 +148,7 @@
       <DependentUpon>GeocachingComLogin.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\GeocachingComLoginPageViewModel.cs" />
+    <Compile Include="ViewModel\ServicesViewModel.cs" />
     <Compile Include="View\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="View\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="View\Converters\CacheTypeConverter.cs" />
