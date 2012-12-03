@@ -13,6 +13,7 @@
         <Converters:NegateConverter x:Key="NegateConverter" x:Name="NegateConverter"/>
         <Converters:GeocachingComToVisibilityConverter x:Key="GeocachingComToVisibilityConverter"/>
         <viewModel:GeocachingComLoginPageViewModel x:Key="GeocachingComLoginPageViewModel"/>
+        <viewModel:ServicesViewModel x:Key="ServicesViewModel"/>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>
