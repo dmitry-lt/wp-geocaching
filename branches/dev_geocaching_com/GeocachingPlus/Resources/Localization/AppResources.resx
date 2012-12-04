@@ -349,6 +349,6 @@
     <value>Update cache info</value>
   </data>
   <data name="ChooseCacheServices" xml:space="preserve">
-    <value>Please choose what caches to display on the live map. You can change it at any time in the settings page</value>
+    <value>Please choose what caches to display on the live map. You can change your choice at any time in the settings page</value>
   </data>
 </root>
