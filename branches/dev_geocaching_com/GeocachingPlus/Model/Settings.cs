@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO.IsolatedStorage;
 using System.Device.Location;
 using GeocachingPlus.Model.Api;
@@ -45,6 +46,9 @@ namespace GeocachingPlus.Model
 
         public Settings()
         {
+            // don't initialize settings if in design view
+            if (DesignerProperties.IsInDesignTool) return;
+
             _settings = IsolatedStorageSettings.ApplicationSettings;
         }
 

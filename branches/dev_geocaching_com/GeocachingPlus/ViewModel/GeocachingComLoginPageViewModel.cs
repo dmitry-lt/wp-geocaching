@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using GeocachingPlus.Model;
@@ -122,9 +123,12 @@ namespace GeocachingPlus.ViewModel
 
         public GeocachingComLoginPageViewModel()
         {
-             Username = _settings.GeocachingComLogin;
-             Password = _settings.GeocachingComPassword;
-             _loggedIn = _settings.GeocachingComLoggedIn;
+            // don't initialize settings if in design view
+            if (DesignerProperties.IsInDesignTool) return;
+
+            Username = _settings.GeocachingComLogin;
+            Password = _settings.GeocachingComPassword;
+            _loggedIn = _settings.GeocachingComLoggedIn;
         }
     }
 }
