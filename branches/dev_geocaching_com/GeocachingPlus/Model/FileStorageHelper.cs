@@ -82,6 +82,11 @@ namespace GeocachingPlus.Model
 
         public void SavePhoto(Cache cache, string photoUrl, WriteableBitmap bitmap)
         {
+            if (null == bitmap)
+            {
+                return;
+            }
+
             CreateCacheDirectories(cache);
             var newFilePath = GetFilePath(cache, photoUrl);
 
