@@ -38,7 +38,14 @@ namespace GeocachingPlus.Model.Navigation
                 return;
             }
 
-            frame.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+            try
+            {
+                frame.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+            }
+            catch (InvalidOperationException ioe)
+            {
+                //TODO: log
+            }
         }
 
         public void NavigateToInfoPivot(Cache cache, bool isAppBarEnabled)
