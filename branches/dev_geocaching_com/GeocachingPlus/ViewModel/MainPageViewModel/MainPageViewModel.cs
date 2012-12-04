@@ -71,13 +71,6 @@ namespace GeocachingPlus.ViewModel.MainPageViewModel
 
         public MainPageViewModel()
         {
-            var settings = new Settings();
-            if (settings.IsFirstLaunching)
-            {
-                PrivacyStatementDialog.Show();
-                settings.IsFirstLaunching = false;
-            }
-
             Source = new ObservableCollection<TileSource>
                          {
                              GetChooseCacheTile(),

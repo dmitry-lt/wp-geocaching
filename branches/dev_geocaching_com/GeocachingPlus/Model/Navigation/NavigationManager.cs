@@ -108,6 +108,11 @@ namespace GeocachingPlus.Model.Navigation
         {
             Navigate("/View/Settings/GeocachingComLoginPage.xaml");
         }
+
+        public void NavigateToServices()
+        {
+            Navigate("/View/Settings/ServicesPage.xaml");
+        }
         
     }
 }
