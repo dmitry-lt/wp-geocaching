@@ -20,6 +20,8 @@
         </Grid.Resources>
         
         <StackPanel Orientation="Vertical">
+            <TextBlock Text="{Binding Path=LocalizedResources.ShowCachesFrom, Source={StaticResource LocalizedStrings}}"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
             <settings:Services/>
 
             <TextBlock Text="{Binding Path=LocalizedResources.MapSettings, 
