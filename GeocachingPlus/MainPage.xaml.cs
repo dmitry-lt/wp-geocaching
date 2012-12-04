@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using GeocachingPlus.Model;
+using GeocachingPlus.Model.Dialogs;
 using Microsoft.Phone.Controls;
 using GeocachingPlus.ViewModel.MainPageViewModel;
 
@@ -6,20 +8,31 @@ namespace GeocachingPlus
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private MainPageViewModel viewModel;
+        private readonly MainPageViewModel _viewModel;
 
         public MainPage()
         {
             InitializeComponent();
 
-            viewModel = new MainPageViewModel();
-            DataContext = viewModel;
+            _viewModel = new MainPageViewModel();
+            DataContext = _viewModel;
         }
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
-            viewModel.NoSouhgtCacheMessageVisibility = Visibility.Collapsed;
-            viewModel.NoFavoriteCachesMessageVisibility = Visibility.Collapsed;
+            _viewModel.NoSouhgtCacheMessageVisibility = Visibility.Collapsed;
+            _viewModel.NoFavoriteCachesMessageVisibility = Visibility.Collapsed;
         }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            var settings = new Settings();
+            if (settings.IsFirstLaunching)
+            {
+                PrivacyStatementDialog.Show();
+                settings.IsFirstLaunching = false;
+            }
+        }
+
     }
 }
