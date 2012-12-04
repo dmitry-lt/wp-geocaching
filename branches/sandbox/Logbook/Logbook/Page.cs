@@ -8,19 +8,25 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Runtime.Serialization;
 
 namespace Logbook
 {
+    [DataContract]
     public class Page
     {
-        public int idx {get {return _idx;}}
-        public int size {get {return _size;}}
-        public int totalRows {get {return _totalRows;}}
-        public int rows {get {return _rows;}}
+        [DataMember]
+        public int idx { get; set; }
+        [DataMember]
+        public int size { get; set; }
+        [DataMember]
+        public int totalRows { get; set; }
+        [DataMember]
+        public int rows { get; set; }
 
-        private int _idx;
-        private int _size;
-        private int _totalRows;
-        private int _rows;
+        public string outPut()
+        {
+            return "idx" + ":" + this.idx + "   " + "size" + ":" + this.size + "   " + "totalRows" + ":" + this.totalRows + "   " + "rows" + ":" + this.rows + "   ";
+        }
     }
 }

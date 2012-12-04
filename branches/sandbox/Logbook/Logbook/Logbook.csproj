@@ -64,7 +64,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="CreatorInfo.cs" />
-    <Compile Include="GetLogbok.cs" />
+    <Compile Include="GetLogbook.cs" />
     <Compile Include="LogbookInfo.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

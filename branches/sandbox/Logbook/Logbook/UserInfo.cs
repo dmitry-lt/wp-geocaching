@@ -8,59 +8,63 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-
-
+using System.Runtime.Serialization;
+//resharper
 namespace Logbook
 {
+    [DataContract]
     public class UserInfo
     {
-        public int LogID {get {return logID;}}
-        public int CacheID { get { return cacheID;}}
-        public string LogGuid { get { return logGuid;}}
-        public string Latitude { get { return latitude;}}
-        public string Longitude { get { return longitude; }}
-        public string LatLonString { get { return latLonString;}}
-        public string LogType { get { return logType;}}
-        public string LogTypeImage { get { return logTypeImage;}}
-        public string LogText { get { return logText;}}
-        public DateTime Created { get { return created;}}
-        public DateTime Visited { get { return visited;}}
-        public string UserName { get { return userName;}}
-        public int MembershipLevel { get { return membershipLevel;}}
-        public int AccountID { get { return accountID;}}
-        public string AccountGuid { get { return accountGuid;}}
-        public string Email { get { return email;}}
-        public string AvatarImage { get { return avatarImage;}}
-        public int GeocacheFindCount { get { return geocacheFindCount;}}
-        public int GeocacheHideCount { get { return geocacheHideCount;}}
-        public int ChallengesCompleted { get { return challengesCompleted;}}
-        public bool IsEncoded { get { return isEncoded;}}
-        public CreatorInfo creator { get { return _creator;}}
-        public string Images { get { return images;}}
+        [DataMember]
+        public int LogID { get; set; }
+        [DataMember]
+        public int CacheID { get; set; }
+        [DataMember]
+        public string LogGuid { get; set; }
+        [DataMember]
+        public string Latitude { get; set; }
+        [DataMember]
+        public string Longitude { get; set; }
+        [DataMember]
+        public string LatLonString { get; set; }
+        [DataMember]
+        public string LogType { get; set; }
+        [DataMember]
+        public string LogTypeImage { get; set; }
+        [DataMember]
+        public string LogText { get; set; }
+        [DataMember]
+        public DateTime Created { get; set; }
+        [DataMember]
+        public DateTime Visited { get; set; }
+        [DataMember]
+        public string UserName { get; set; }
+        [DataMember]
+        public int MembershipLevel { get; set; }
+        [DataMember]
+        public int AccountID { get; set; }
+        [DataMember]
+        public string AccountGuid { get; set; }
+        [DataMember]
+        public string Email { get; set; }
+        [DataMember]
+        public string AvatarImage { get; set; }
+        [DataMember]
+        public int GeocacheFindCount { get; set; }
+        [DataMember]
+        public int GeocacheHideCount { get; set; }
+        [DataMember]
+        public int ChallengesCompleted { get; set; }
+        [DataMember]
+        public bool IsEncoded { get; set; }
+        [DataMember]
+        public CreatorInfo creator { get; set; }
+        [DataMember]
+        public string Images { get; set; }
 
-        private int logID;
-        private int cacheID;
-        private string logGuid;
-        private string latitude;
-        private string longitude;
-        private string latLonString;
-        private string logType; //found it
-        private string logTypeImage;
-        private string logText;
-        private DateTime created;
-        private DateTime visited;
-        private string userName;
-        private int membershipLevel;
-        private int accountID;
-        private string accountGuid;
-        private string email;
-        private string avatarImage;
-        private int geocacheFindCount;
-        private int geocacheHideCount;
-        private int challengesCompleted;
-        private bool isEncoded;
-        private CreatorInfo _creator;
-        private string images;
-
+        public string outPut()
+        {
+            return "LogID" + ":" + this.LogID + "   " + "CacheID" + ":" + this.CacheID + "   " + "LogGuid" + ":" + this.LogGuid + "   " + "Latitude" + ":" + this.Latitude + "   " + "Longitude" + ":" + this.Longitude + "   " + "LatLonString" + ":" + this.LatLonString + "   " + "LogType" + ":" + this.LogType + "   " + "LogTypeImage" + ":" + this.LogTypeImage + "   " + "LogText" + ":" + this.LogText + "   " + "Created" + ":" + this.Created + "   " + "Visited" + ":" + this.Visited + "   " + "UserName" + ":" + this.UserName + "   " + "MembershipLevel" + ":" + this.MembershipLevel + "   " + "AccountID" + ":" + this.AccountID + "   " + "AccountGuid" + ":" + this.AccountGuid + "   " + "Email" + ":" + this.Email + "   " + "AvatarImage" + ":" + this.AvatarImage + "   " + "GeocacheFindCount" + ":" + this.GeocacheFindCount + "   " + "GeocacheHideCount" + ":" + this.GeocacheHideCount + "   " + "ChallengesCompleted" + ":" + this.ChallengesCompleted + "   " + "IsEncoded" + ":" + this.IsEncoded + "   " + "creator" + ":" + this.creator.outPut() + "   " + "Images" + ":" + this.Images + "   ";
+        }
     }
 }

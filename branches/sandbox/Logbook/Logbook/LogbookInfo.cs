@@ -8,17 +8,33 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Runtime.Serialization;
 
 namespace Logbook
 {
+    [DataContract]
     public class LogbookInfo
     {
-        public string  status { get{return _status;}}
-        public UserInfo[] data { get{return _data;}}
-        public Page pageInfo { get { return _pageInfo;}}
+         [DataMember]
+        public string status { get; set; }
+        [DataMember]
+        public UserInfo[] data { get; set; }
+        [DataMember]
+        public Page pageInfo { get; set; }
 
-        private string _status;
-        private UserInfo[] _data;
-        private Page _pageInfo;
+        public string outPutArray(UserInfo[] array)
+        {
+            string result = "";
+            for (int i = 0; i < array.Length; i++)
+            {
+                result += array[i].outPut();
+            }
+            return result;
+        }
+
+        public string outPut()
+        {
+            return "status" + ":" + this.status + "   " + "data" + ":" + outPutArray(this.data) + "   " + "pageInfo" + ":" + this.pageInfo.outPut() + "   ";
+        }
     }
 }

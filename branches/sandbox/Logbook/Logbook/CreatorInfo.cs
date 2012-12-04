@@ -8,16 +8,21 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Runtime.Serialization;
 
 namespace Logbook
 {
+    [DataContract]
     public class CreatorInfo
     {
-        public string GroupTitle {get {return groupTitle;}}
-        public string GroupImageUrl { get { return groupImageUrl;}}
+        [DataMember]
+        public string GroupTitle { get; set; }
+        [DataMember]
+        public string GroupImageUrl { get; set; }
 
-        private string groupTitle;
-        private string groupImageUrl;
-
+        public string outPut()
+        {
+            return "GroupTitle" + ":" + this.GroupTitle + "   " + "GroupImageUrl" + ":" + this.GroupImageUrl + "   "; 
+        }
     }
 }
