@@ -348,4 +348,7 @@
   <data name="CacheCoordinatesUpdate" xml:space="preserve">
     <value>Обновить информацию о тайнике</value>
   </data>
+  <data name="ChooseCacheServices" xml:space="preserve">
+    <value>Пожалуйста, выберите, какие тайники отображать на карте. В любой момент вы можете изменить свой выбор на странице настроек</value>
+  </data>
 </root>
