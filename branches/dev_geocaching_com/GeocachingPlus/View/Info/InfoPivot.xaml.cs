@@ -64,6 +64,7 @@ namespace GeocachingPlus.View.Info
             {
                 _autoSaveCache = false;
                 SaveCache();
+                UpdateFavoriteButton();
             }
         }
 
