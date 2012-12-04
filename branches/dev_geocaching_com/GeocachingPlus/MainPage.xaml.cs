@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using GeocachingPlus.Model;
 using GeocachingPlus.Model.Dialogs;
+using GeocachingPlus.Model.Navigation;
 using Microsoft.Phone.Controls;
 using GeocachingPlus.ViewModel.MainPageViewModel;
 
@@ -31,6 +32,7 @@ namespace GeocachingPlus
             {
                 PrivacyStatementDialog.Show();
                 settings.IsFirstLaunching = false;
+                NavigationManager.Instance.NavigateToServices();
             }
         }
 
