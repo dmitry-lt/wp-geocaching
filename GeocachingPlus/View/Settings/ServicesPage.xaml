@@ -34,7 +34,12 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
-            <items:Services/>
+            <StackPanel Orientation="Vertical">
+                <TextBlock 
+                    TextWrapping="Wrap" Margin="12" FontSize="22" 
+                    Text="{Binding Path=LocalizedResources.ChooseCacheServices, Source={StaticResource LocalizedStrings}}"/>
+                <items:Services/>
+            </StackPanel>
         </Grid>
     </Grid>
 
