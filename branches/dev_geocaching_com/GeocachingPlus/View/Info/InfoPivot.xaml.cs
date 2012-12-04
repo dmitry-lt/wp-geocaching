@@ -124,13 +124,17 @@ namespace GeocachingPlus.View.Info
 
         private void UpdateFavoriteButton()
         {
-            if (_db.GetCache(_infoPivotViewModel.Cache.Id, _infoPivotViewModel.Cache.CacheProvider) == null)
+            var cache = _infoPivotViewModel.Cache;
+            if (cache != null)
             {
-                GetAddButton();
-            }
-            else
-            {
-                GetDeleteButton();
+                if (_db.GetCache(cache.Id, cache.CacheProvider) == null)
+                {
+                    GetAddButton();
+                }
+                else
+                {
+                    GetDeleteButton();
+                }
             }
         }
 
