@@ -54,16 +54,22 @@
                 <TextBlock Padding="12" Text="{Binding Path=LocalizedResources.LoginFailed, Source={StaticResource LocalizedStrings}}" 
                            Visibility="{Binding LoginFailed, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <toolkit:PerformanceProgressBar IsIndeterminate="{Binding Loading}"/>
-                <Button 
-                    Command="{Binding LoginCommand}"
-                    Content="{Binding Path=LocalizedResources.GeocachingComLogin, Source={StaticResource LocalizedStrings}}" 
-                    IsEnabled="{Binding Loading, Converter={StaticResource NegateConverter}}"
-                    >
-                </Button>
-                <HyperlinkButton 
-                    HorizontalAlignment="Left"
-                    NavigateUri="https://www.geocaching.com/membership/register.aspx" TargetName="_blank" 
-                    Content="{Binding Path=GeocachingComLogin.SignUp, Source={StaticResource LocalizedStrings}}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button 
+                        Command="{Binding LoginCommand}"
+                        Content="{Binding Path=LocalizedResources.GeocachingComLogin, Source={StaticResource LocalizedStrings}}" 
+                        IsEnabled="{Binding Loading, Converter={StaticResource NegateConverter}}"
+                        />
+                    <HyperlinkButton 
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        NavigateUri="https://www.geocaching.com/membership/register.aspx" TargetName="_blank" 
+                        Content="{Binding Path=GeocachingComLogin.SignUp, Source={StaticResource LocalizedStrings}}"/>
+                </Grid>
             </StackPanel>
         </Grid>
     </Grid>
