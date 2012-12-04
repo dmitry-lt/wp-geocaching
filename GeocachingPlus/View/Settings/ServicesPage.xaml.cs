@@ -10,7 +10,7 @@ namespace GeocachingPlus.View.Settings
             InitializeComponent();
         }
 
-        private void OK_OnClick(object sender, RoutedEventArgs e)
+        private void Ok_OnClick(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }
