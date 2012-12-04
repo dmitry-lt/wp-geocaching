@@ -187,7 +187,7 @@ namespace GeocachingPlus.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please choose what caches to display on the live map. You can change it at any time in the settings page.
+        ///   Looks up a localized string similar to Please choose what caches to display on the live map. You can change your choice at any time in the settings page.
         /// </summary>
         public static string ChooseCacheServices {
             get {
