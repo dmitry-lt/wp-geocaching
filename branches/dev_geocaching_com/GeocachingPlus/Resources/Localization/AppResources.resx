@@ -315,8 +315,8 @@
   <data name="Services" xml:space="preserve">
     <value>Services</value>
   </data>
-  <data name="Ok" xml:space="preserve">
-    <value>OK</value>
+  <data name="OkButton" xml:space="preserve">
+    <value>ok</value>
   </data>
   <data name="PrivacyPolicyTitle" xml:space="preserve">
     <value>Privacy</value>
