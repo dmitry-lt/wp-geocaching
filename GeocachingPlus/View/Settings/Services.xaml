@@ -13,16 +13,7 @@
     d:DesignHeight="480" d:DesignWidth="480">
 
     <Grid x:Name="LayoutRoot">
-        <Grid.Resources>
-            <Style x:Name="HeaderTextBlockStyle" TargetType="TextBlock">
-                <Setter Property="FontSize" Value="35"></Setter>
-                <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-            </Style>
-        </Grid.Resources>
-
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="{Binding Path=LocalizedResources.ShowCachesFrom, Source={StaticResource LocalizedStrings}}"
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
             <StackPanel Orientation="Horizontal">
                 <CheckBox Content="geocaching.com" 
                       FontSize="22" 
