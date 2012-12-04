@@ -556,11 +556,11 @@ namespace GeocachingPlus.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OK.
+        ///   Looks up a localized string similar to ok.
         /// </summary>
-        public static string Ok {
+        public static string OkButton {
             get {
-                return ResourceManager.GetString("Ok", resourceCulture);
+                return ResourceManager.GetString("OkButton", resourceCulture);
             }
         }
         
