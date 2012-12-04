@@ -39,7 +39,13 @@
                     TextWrapping="Wrap" Margin="12" FontSize="22" 
                     Text="{Binding Path=LocalizedResources.ChooseCacheServices, Source={StaticResource LocalizedStrings}}"/>
                 <items:Services/>
-                <Button Name="OK" Click="OK_OnClick" Content="{Binding Path=LocalizedResources.OkButton, Source={StaticResource LocalizedStrings}}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="Ok" Click="Ok_OnClick" Content="{Binding Path=LocalizedResources.OkButton, Source={StaticResource LocalizedStrings}}"/>
+                </Grid>
             </StackPanel>
         </Grid>
     </Grid>
