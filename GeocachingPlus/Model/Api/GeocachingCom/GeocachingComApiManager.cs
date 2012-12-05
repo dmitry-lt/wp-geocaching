@@ -414,7 +414,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     var cacheId = cache.Id;
                 }
 
-                var totalDescription = shortDescription + "<br/><br/>" + description;
+                var totalDescription = String.Format("{0} <br/><br/> {1}", shortDescription, description);
 
                 // cache type
                 var cacheType = GeocachingComCache.Types.UNKNOWN;
@@ -453,7 +453,13 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                 gcCache.ReliableLocation = true;
                             }
 
-                            processDescription(WebBrowserHelper.ConvertExtendedASCII(cache.Name) + "<br/><br/>" + totalDescription);
+                            var finalDesc = String.Format(
+                                "{0} ({1}) <br/><br/> {2}", 
+                                WebBrowserHelper.ConvertExtendedASCII(cache.Name), 
+                                cache.Id,
+                                totalDescription);
+
+                            processDescription(finalDesc);
                         });
 
                 // TODO: implement logbook
