@@ -214,7 +214,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         {
             var urlString = UrlHelper.FormUrl(GCConstants.URL_MAP_TILE, parameters);
 
-            new PhotoDownloader().DownloadPng(processImage, urlString);
+            new PhotoDownloader().DownloadPhoto(processImage, urlString);
         }
 
         /** Request JSON informations for a tile */
