@@ -19,7 +19,7 @@ namespace JsonParserPerformance
             return ts.TotalMilliseconds;
         }
 
-        private const int Count = 100;
+        private const int Count = 50;
 
         private double Measure(Action action)
         {
