@@ -50,18 +50,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZLib.Phone">
-      <HintPath>Libs\ImageTools\ICSharpCode.SharpZLib.Phone.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageTools">
-      <HintPath>Libs\ImageTools\ImageTools.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageTools.IO.Png">
-      <HintPath>Libs\ImageTools\ImageTools.IO.Png.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageTools.Utils">
-      <HintPath>Libs\ImageTools\ImageTools.Utils.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Devices.Sensors" />
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
@@ -72,9 +60,6 @@
     <Reference Include="Microsoft.Xna.Framework.GamerServices" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>Libs\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="PhoneCodeContractsAssemblies">
-      <HintPath>Libs\ImageTools\PhoneCodeContractsAssemblies.dll</HintPath>
     </Reference>
     <Reference Include="SharpZipLib.WindowsPhone7">
       <HintPath>Libs\SharpZipLib.WindowsPhone7.dll</HintPath>
@@ -403,6 +388,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="GeocachingPlus_2012_12_05_19_06_19.sap" />
+    <None Include="GeocachingPlus_2012_12_06_00_28_58.sap" />
+    <None Include="GeocachingPlus_2012_12_06_00_40_24.sap" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
