@@ -24,10 +24,11 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         public static UTFGridPosition FromString(string key) {
             try
             {
-                var match = Regex.Match(key, PATTERN_JSON_KEY);
+                key = key.Substring(1, key.Length - 2);
+                var xy = key.Split(',');
 
-                var x = Convert.ToInt32(match.Groups[1].Value);
-                var y = Convert.ToInt32(match.Groups[2].Value);
+                var x = Convert.ToInt32(xy[0]);
+                var y = Convert.ToInt32(xy[1]);
 
                 return new UTFGridPosition(x, y);
             } 
