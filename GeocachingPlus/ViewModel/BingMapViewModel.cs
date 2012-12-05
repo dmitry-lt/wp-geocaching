@@ -99,22 +99,35 @@ namespace GeocachingPlus.ViewModel
         private readonly Dictionary<Cache, CachePushpin> _currentPushpins = new Dictionary<Cache, CachePushpin>();
         private readonly object _lock = new object();
 
+        private Dictionary<string, GeocachingComLookupInstance> _geocachingComLookupDictionary;
+
+        private void InitGeocachingComLookupDictionary()
+        {
+            if (null == _geocachingComLookupDictionary)
+            {
+                _geocachingComLookupDictionary = new CacheDataBase().GetGeocachingComLookupDictionary();
+            }
+        }
+
         private void CheckForMoreCacheDetailsInDb(Cache cache)
         {
             if (cache is GeocachingComCache)
             {
+                InitGeocachingComLookupDictionary();
                 var gcCache = cache as GeocachingComCache;
                 
                 // check for type and reliable location
-                if (gcCache.Type == GeocachingComCache.Types.UNKNOWN || !gcCache.ReliableLocation)
+                if (_geocachingComLookupDictionary.ContainsKey(gcCache.Id))
                 {
-                    var cacheDataBase = new CacheDataBase();
-                    var dbCache = cacheDataBase.GetCache(cache.Id, CacheProvider.GeocachingCom);
-                    if (null != dbCache)
+                    var lookup = _geocachingComLookupDictionary[gcCache.Id];
+                    if (gcCache.Type == GeocachingComCache.Types.UNKNOWN)
                     {
-                        gcCache.Type = (GeocachingComCache.Types)dbCache.Type;
-                        gcCache.Location = new GeoCoordinate(dbCache.Latitude, dbCache.Longitude);
-                        gcCache.ReliableLocation = dbCache.ReliableLocation.HasValue && dbCache.ReliableLocation.Value;
+                        gcCache.Type = lookup.Type;
+                    }
+                    if (!gcCache.ReliableLocation && lookup.ReliableLocation)
+                    {
+                        gcCache.Location = lookup.Location;
+                        gcCache.ReliableLocation = lookup.ReliableLocation;
                     }
                 }
             }
