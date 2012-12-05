@@ -87,6 +87,11 @@ namespace GeocachingPlus.View.Map
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             LocationManager.Instance.RemoveSubscriber(bingMapViewModel);
+
+            var settings = new Model.Settings();
+            settings.LatestChooseLocation = bingMapViewModel.MapCenter;
+            settings.LatestChooseZoom = bingMapViewModel.Zoom;
+
             base.OnNavigatedFrom(e);
         }
 

@@ -55,28 +55,30 @@ namespace GeocachingPlus.ViewModel
             currentLocation = location;
         }
 
+        private GeoCoordinate _mapCenter;
         public override GeoCoordinate MapCenter
         {
             get
             {
-                return settings.LatestChooseLocation;
+                return _mapCenter;
             }
             set
             {
-                settings.LatestChooseLocation = value;
+                _mapCenter = value;
                 RaisePropertyChanged(() => MapCenter);
             }
         }
 
+        private int _zoom;
         public override int Zoom 
         {
             get
             {
-                return settings.LatestChooseZoom;
+                return _zoom;
             }
             set
             {
-                settings.LatestChooseZoom = value;
+                _zoom = value;
                 RaisePropertyChanged(() => Zoom);
             }
         }
@@ -85,7 +87,10 @@ namespace GeocachingPlus.ViewModel
 
         public BingMapViewModel(IApiManager apiManager)
         {
+            var settings = new Settings();
             MapMode = settings.MapMode;
+            MapCenter = settings.LatestChooseLocation;
+            Zoom = settings.LatestChooseZoom;
             this.apiManager = apiManager;
             CachePushpins = new ObservableCollection<CachePushpin>();
         }
