@@ -136,6 +136,7 @@
     <Compile Include="Model\Api\PhotoDownloader.cs" />
     <Compile Include="Model\Api\RequestCounter.cs" />
     <Compile Include="Model\Api\WebBrowserHelper.cs" />
+    <Compile Include="Model\DataBase\GeocachingComLookupInstance.cs" />
     <Compile Include="Model\Support.cs" />
     <Compile Include="Resources\Localization\GeocachingComCacheType.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -401,6 +402,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="GeocachingPlus_2012_12_05_19_06_19.sap" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>

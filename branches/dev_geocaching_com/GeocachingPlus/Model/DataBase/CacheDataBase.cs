@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Data.Linq;
+using System.Device.Location;
 using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
+using GeocachingPlus.Model.Api.GeocachingCom;
 using Microsoft.Phone.Data.Linq;
 using GeocachingPlus.Model.Api;
 using GeocachingPlus.Model.Api.GeocachingSu;
@@ -258,6 +260,25 @@ namespace GeocachingPlus.Model.DataBase
                 var query = GetCheckpointsQueryByCache(db.Checkpoints, cache);
                 db.Checkpoints.DeleteAllOnSubmit(query);
                 db.SubmitChanges();
+            }
+        }
+
+        public Dictionary<string, GeocachingComLookupInstance> GetGeocachingComLookupDictionary()
+        {
+            using (var db = new CacheDataContext(ConnectionString))
+            {
+                var lookup = db.Caches
+                    .Where(c => c.CacheProvider == CacheProvider.GeocachingCom)
+                    .ToDictionary(c => c.Id,
+                        c =>
+                            new GeocachingComLookupInstance
+                                {
+                                    Id = c.Id,
+                                    Type = (GeocachingComCache.Types) c.Type,
+                                    Location = new GeoCoordinate(c.Latitude, c.Longitude),
+                                    ReliableLocation = c.ReliableLocation.HasValue && c.ReliableLocation.Value,
+                                });
+                return lookup;
             }
         }
 
