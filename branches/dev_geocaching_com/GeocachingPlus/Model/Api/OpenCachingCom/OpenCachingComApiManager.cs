@@ -148,7 +148,7 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
                     // description
                     if (null != processDescription)
                     {
-                        var description = parsedCache.name + "<br/><br/>" + parsedCache.description;
+                        var description = String.Format("{0} ({1}) <br/><br/> {2}", parsedCache.name, cache.Id, parsedCache.description);
                         processDescription(String.Format(CacheDescriptionTemplate, WebBrowserHelper.ConvertExtendedASCII(description)));
                     }
 
