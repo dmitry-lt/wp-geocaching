@@ -19,12 +19,12 @@ namespace JsonParserPerformance
             return ts.TotalMilliseconds;
         }
 
-        private const int Count = 50;
-
         private double Measure(Action action)
         {
+            var count = Convert.ToInt32(textBox1.Text);
+
             var from = DateTime.Now;
-            for (var i = 0; i <= Count; i++)
+            for (var i = 0; i <= count; i++)
             {
                 var parsedData = (GeocachingComApiCaches)JsonConvert.DeserializeObject(Data.Json, typeof(GeocachingComApiCaches));
             }
