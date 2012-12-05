@@ -509,7 +509,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 Deployment.Current.Dispatcher.BeginInvoke(() => processPhotoUrls(photoUrls));
 
                 var hint = "";
-                var hintUrls = Regex.Matches(html, PatternHint, RegexOptions.Singleline);
+                var hintUrls = Regex.Matches(initialHtml, PatternHint, RegexOptions.Singleline);
                 for (var i = 0; i < hintUrls.Count; i++)
                 {
                     hint += hintUrls[i].Groups[1].Value;
