@@ -239,6 +239,11 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                             FetchTile(fetchCachesCallNumber, tiles, tileIndex + 1, processCaches, lngmax, lngmin, latmax, latmin);
                         };
 
+                    if (fetchCachesCallNumber != GetFetchCachesCallNumber())
+                    {
+                        return;
+                    }
+
                     RequestCounter.LiveMap.RequestSent();
 
                     currentTile.RequestMapInfo(downloadCachesCompleted, GCConstants.URL_MAP_INFO, parameters, GCConstants.URL_LIVE_MAP);
