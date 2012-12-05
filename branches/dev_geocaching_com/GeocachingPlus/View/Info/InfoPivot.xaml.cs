@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -70,7 +71,7 @@ namespace GeocachingPlus.View.Info
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.NavigationMode == NavigationMode.New)
+            if (e.NavigationMode == NavigationMode.New || _favoriteButtonIndex == -1)
             {
                 // show appbar after cache info has been loaded
                 ApplicationBar.IsVisible = false;
@@ -141,6 +142,10 @@ namespace GeocachingPlus.View.Info
 
         private void SetHintButton()
         {
+            if (ApplicationBar.Buttons.Cast<ApplicationBarIconButton>().Any(b => b.Text == AppResources.HintButton))
+            {
+                return;
+            }
             var hintButton = new ApplicationBarIconButton
             {
                 IconUri = new Uri("Resources/Images/appbar.questionmark.rest.png", UriKind.Relative),
