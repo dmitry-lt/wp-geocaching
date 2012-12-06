@@ -351,4 +351,10 @@
   <data name="ChooseCacheServices" xml:space="preserve">
     <value>Please choose what caches to display on the live map. You can change your choice at any time in the settings page</value>
   </data>
+  <data name="ReviewTitle" xml:space="preserve">
+    <value>Review</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Rate and review</value>
+  </data>
 </root>

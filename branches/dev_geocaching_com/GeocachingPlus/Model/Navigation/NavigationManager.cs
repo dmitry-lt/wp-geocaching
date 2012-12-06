@@ -42,7 +42,7 @@ namespace GeocachingPlus.Model.Navigation
             {
                 frame.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
             }
-            catch (InvalidOperationException ioe)
+            catch (Exception ex)
             {
                 //TODO: log
             }
