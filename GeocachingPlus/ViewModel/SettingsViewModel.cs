@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using GeocachingPlus.Model.Navigation;
 using Microsoft.Phone.Tasks;
 using GeocachingPlus.Model;
 using GeocachingPlus.Model.Dialogs;
@@ -21,13 +20,15 @@ namespace GeocachingPlus.ViewModel
         public bool IsAerialChecked { get; private set; }
         public bool IsRoadChecked { get; private set; }
 
+        public ICommand ReviewCommand { get { return new ButtonCommand(o => new MarketplaceReviewTask().Show()); } }
+
         public bool IsLocationEnabled
         {
-            get 
+            get
             {
                 return isLocationEnabled;
- }
-            set 
+            }
+            set
             {
                 isLocationEnabled = value;
                 settings.IsLocationEnabled = value;
