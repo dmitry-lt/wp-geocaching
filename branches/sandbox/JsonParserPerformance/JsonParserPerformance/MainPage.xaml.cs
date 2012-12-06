@@ -26,7 +26,7 @@ namespace JsonParserPerformance
             var from = DateTime.Now;
             for (var i = 0; i <= count; i++)
             {
-                var parsedData = (GeocachingComApiCaches)JsonConvert.DeserializeObject(Data.Json, typeof(GeocachingComApiCaches));
+                action();
             }
             return DiffMillis(from, DateTime.Now);
         }
