@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -475,8 +476,22 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                 var matchesLogbook = Regex.Matches(html, PatternLogbook, RegexOptions.Multiline);
                 if (matchesLogbook.Count == 1)
                 {
-                    logbook = matchesLogbook[0].Groups[1].Value;
-                    // TODO: implement logbook
+                    var logbookJson = matchesLogbook[0].Groups[1].Value;
+
+                    var parsedLogbook = new JsonObject(logbookJson);
+
+                    if ("success".Equals(parsedLogbook["status"]))
+                    {
+                        var data = parsedLogbook["data"] as JsonArray;
+                        if (null != data)
+                        {
+                            foreach (JsonObject log in data)
+                            {
+                                logbook += log["UserName"] + ":<br/>";
+                                logbook += log["LogText"] + "<br/><br/>";
+                            }
+                        }
+                    }
                 }
 
                 Deployment.Current.Dispatcher.BeginInvoke(() => processLogbook(logbook));
