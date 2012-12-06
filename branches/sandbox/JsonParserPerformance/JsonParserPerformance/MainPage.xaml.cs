@@ -36,9 +36,19 @@ namespace JsonParserPerformance
             var parsedData = (GeocachingComApiCaches)JsonConvert.DeserializeObject(Data.Json, typeof(GeocachingComApiCaches));
         }
 
+        private void JsonToolkit()
+        {
+            var parsedData = ComputerBeacon.Json.Parser.Parse(Data.Json);
+        }
+
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             textBlock1.Text = "" + Measure(NewtonsoftJson);
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            textBlock2.Text = "" + Measure(JsonToolkit);
         }
     }
 }
