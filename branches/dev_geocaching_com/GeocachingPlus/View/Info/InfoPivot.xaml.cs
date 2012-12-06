@@ -101,6 +101,10 @@ namespace GeocachingPlus.View.Info
 
         private void SetSearchButton()
         {
+            if (ApplicationBar.Buttons.Cast<ApplicationBarIconButton>().Any(b => b.Text == AppResources.SearchButton))
+            {
+                return;
+            }
             var searchButton = new ApplicationBarIconButton
                                    {
                                        IconUri =
