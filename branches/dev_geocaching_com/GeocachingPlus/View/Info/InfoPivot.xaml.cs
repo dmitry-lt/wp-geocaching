@@ -151,7 +151,18 @@ namespace GeocachingPlus.View.Info
                 IconUri = new Uri("Resources/Images/appbar.questionmark.rest.png", UriKind.Relative),
                 Text = AppResources.HintButton
             };
-            hintButton.Click += (s, e) => MessageBox.Show(_infoPivotViewModel.Hint, AppResources.HintButton, MessageBoxButton.OK);
+            hintButton.Click +=
+                (s, e) =>
+                    {
+                        try
+                        {
+                            MessageBox.Show(_infoPivotViewModel.Hint, AppResources.HintButton, MessageBoxButton.OK);
+                        }
+                        catch (Exception ex)
+                        {
+                            // TODO: log
+                        }
+                    };
             ApplicationBar.Buttons.Add(hintButton);
         }
 
