@@ -50,6 +50,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JSON Toolkit %28Portable%29">
+      <HintPath>Libs\JSON Toolkit (Portable).dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Devices.Sensors" />
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
@@ -387,6 +390,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="GeocachingPlus_2012_12_06_00_56_46.sap" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>

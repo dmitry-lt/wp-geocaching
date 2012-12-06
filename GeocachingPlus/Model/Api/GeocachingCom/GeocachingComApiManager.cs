@@ -6,6 +6,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using ComputerBeacon.Json;
 using GeocachingPlus.ViewModel;
 using Newtonsoft.Json;
 
@@ -158,39 +159,47 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                 {
                                     var nameCache = new Dictionary<string, string>(); // JSON id, cache name
 
-                                    var parsedData =
-                                        (GeocachingComApiCaches)
-                                        JsonConvert.DeserializeObject(jsonResult, typeof(GeocachingComApiCaches));
+                                    var parsedData = new JsonObject(jsonResult);
 
-                                    var keys = parsedData.keys;
+                                    const string keysId = "keys";
+                                    const string dataId = "data";
+
+                                    var keys = (parsedData.ContainsKey(keysId) ? parsedData[keysId] : null) as JsonArray;
+                                    var data = (parsedData.ContainsKey(dataId) ? parsedData[dataId] : null) as JsonObject;
 
                                     var positions = new Dictionary<string, List<UTFGridPosition>>();
                                     // JSON id as key
-                                    for (var i = 1; i < keys.Length; i++)
+                                    if (null != keys && null != data)
                                     {
-                                        // index 0 is empty
-                                        var key = keys[i];
-                                        if (!String.IsNullOrWhiteSpace(key))
+                                        for (var i = 1; i < keys.Count; i++)
                                         {
-                                            var pos = UTFGridPosition.FromString(key);
-
-                                            var dataForKey = parsedData.data[key];
-                                            foreach (var c in dataForKey)
+                                            // index 0 is empty
+                                            var keyObject = keys[i];
+                                            var key = keyObject == null ? null : keyObject.ToString();
+                                            if (!String.IsNullOrWhiteSpace(key))
                                             {
-                                                var id = c.i;
-                                                if (!nameCache.ContainsKey(id))
-                                                {
-                                                    nameCache.Add(id, c.n);
-                                                }
+                                                var pos = UTFGridPosition.FromString(key);
 
-                                                if (!positions.ContainsKey(id))
+                                                var dataForKey = data[key] as JsonArray;
+                                                if (null != dataForKey)
                                                 {
-                                                    positions.Add(id, new List<UTFGridPosition>());
-                                                }
+                                                    foreach (JsonObject c in dataForKey)
+                                                    {
+                                                        var id = c["i"].ToString();
+                                                        if (!nameCache.ContainsKey(id))
+                                                        {
+                                                            nameCache.Add(id, c["n"].ToString());
+                                                        }
 
-                                                positions[id].Add(pos);
+                                                        if (!positions.ContainsKey(id))
+                                                        {
+                                                            positions.Add(id, new List<UTFGridPosition>());
+                                                        }
+
+                                                        positions[id].Add(pos);
+                                                    }
+                                                }
                                             }
-
                                         }
                                     }
 
