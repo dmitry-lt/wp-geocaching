@@ -352,7 +352,7 @@
     <value>Please choose what caches to display on the live map. You can change your choice at any time in the settings page</value>
   </data>
   <data name="ReviewTitle" xml:space="preserve">
-    <value>Review</value>
+    <value>Reviews</value>
   </data>
   <data name="Review" xml:space="preserve">
     <value>Rate and review</value>

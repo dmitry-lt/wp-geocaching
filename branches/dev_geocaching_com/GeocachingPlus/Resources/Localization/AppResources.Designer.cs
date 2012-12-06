@@ -619,7 +619,7 @@ namespace GeocachingPlus.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Review.
+        ///   Looks up a localized string similar to Reviews.
         /// </summary>
         public static string ReviewTitle {
             get {
