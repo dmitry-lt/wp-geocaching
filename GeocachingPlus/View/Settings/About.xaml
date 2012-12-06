@@ -23,16 +23,16 @@
                 <Converters:VersionConverter x:Key="VersionConverter" />
             </StackPanel.Resources>
             <TextBlock 
-                Margin="12"
+                Margin="12 0 12 12"
                 Text="{Binding Path=LocalizedResources.InfoAbout, 
                 Source={StaticResource LocalizedStrings}}"
                 Style="{StaticResource HeaderTextBlockStyle}"/>
             <TextBlock 
-                Margin="12"
+                Margin="12 0 12 0"
                 Text="{Binding Path=LocalizedResources.AppNameAbout, 
                 Source={StaticResource LocalizedStrings}}" FontSize="22" HorizontalAlignment="Left"/>
             <TextBlock 
-                Margin="12"
+                Margin="12 12 12 0"
                 Text="{Binding Path=LocalizedResources.VersionAbout, Source={StaticResource LocalizedStrings}, Converter={StaticResource VersionConverter}}" 
                 FontSize="22" HorizontalAlignment="Left"/>
             <TextBlock 
@@ -52,6 +52,14 @@
             <HyperlinkButton Content="{Binding Path=LocalizedResources.PrivacyStatementTitle, Source={StaticResource LocalizedStrings}}" FontSize="22" 
                 HorizontalAlignment="Left"
                 Command="{Binding ShowPrivacyStatementDialogCommand}" Height="30"
+                toolkit:TiltEffect.IsTiltEnabled="True"/>
+            <TextBlock 
+                Margin="12"
+                Text="{Binding Path=LocalizedResources.ReviewTitle, Source={StaticResource LocalizedStrings}}"
+                Style="{StaticResource HeaderTextBlockStyle}"/>
+            <HyperlinkButton Content="{Binding Path=LocalizedResources.Review, Source={StaticResource LocalizedStrings}}" FontSize="22" 
+                HorizontalAlignment="Left"
+                Command="{Binding ReviewCommand}" Height="30"
                 toolkit:TiltEffect.IsTiltEnabled="True"/>
         </StackPanel>
     </Grid>

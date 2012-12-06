@@ -351,4 +351,10 @@
   <data name="ChooseCacheServices" xml:space="preserve">
     <value>Пожалуйста, выберите, какие тайники отображать на карте. В любой момент вы можете изменить свой выбор на странице настроек</value>
   </data>
+  <data name="Review" xml:space="preserve">
+    <value>Оставить отзыв</value>
+  </data>
+  <data name="ReviewTitle" xml:space="preserve">
+    <value>Отзыв</value>
+  </data>
 </root>
