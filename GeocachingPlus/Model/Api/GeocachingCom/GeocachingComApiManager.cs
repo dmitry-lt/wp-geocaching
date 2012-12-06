@@ -338,6 +338,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         private const string PatternLatLon = "<span id=\"uxLatLon\" style=\"font-weight:bold;\"[^>]*>(.*?)</span>";
         private const string PatternHint = "<div id=\"div_hint\"[^>]*>(.*?)</div>";
         private const string PatternLinebreak = "<(br|p)[^>]*>";
+        private const string PatternLogbook = "initalLogs = (\\{.+\\});";
 
         private GeocachingComCache.Types GetType(string altText)
         {
@@ -470,8 +471,15 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                             processDescription(finalDesc);
                         });
 
-                // TODO: implement logbook
-                Deployment.Current.Dispatcher.BeginInvoke(() => processLogbook(""));
+                var logbook = "";
+                var matchesLogbook = Regex.Matches(html, PatternLogbook, RegexOptions.Multiline);
+                if (matchesLogbook.Count == 1)
+                {
+                    logbook = matchesLogbook[0].Groups[1].Value;
+                    // TODO: implement logbook
+                }
+
+                Deployment.Current.Dispatcher.BeginInvoke(() => processLogbook(logbook));
 
 
                 // searching for images in description
