@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using ComputerBeacon.Json;
 using GeocachingPlus.ViewModel;
-using Newtonsoft.Json;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
 {

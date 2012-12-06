@@ -10,7 +10,6 @@ using System.Text;
 using System.Windows.Media.Imaging;
 using GeocachingPlus.Model.Api.OpenCachingCom;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
 {
