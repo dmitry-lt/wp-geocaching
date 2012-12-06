@@ -387,7 +387,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="GeocachingPlus_2012_12_06_00_56_46.sap" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
