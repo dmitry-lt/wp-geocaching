@@ -34,6 +34,7 @@
             </Grid.ColumnDefinitions>
             <phone:WebBrowser x:Name="InfoBrowser" Margin="6,69,0,0"  Grid.ColumnSpan="2"/>
             <Button Content="Show description" Grid.ColumnSpan="2" Height="74" HorizontalAlignment="Left" Margin="25,6,0,0" Name="button1" VerticalAlignment="Top" Width="408" Click="button1_Click" />
+            <TextBlock Grid.ColumnSpan="2" Height="532" HorizontalAlignment="Left" Margin="25,69,0,0" Name="textBlock1" Text="TextBlock" VerticalAlignment="Top" Width="408" />
         </Grid>
     </Grid>
  

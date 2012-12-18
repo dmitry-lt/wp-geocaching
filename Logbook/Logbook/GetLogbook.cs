@@ -29,9 +29,9 @@ namespace Logbook
                 String pattern1 = "initalLogs = (\\{.+?\\});";
                 String pattern2 = "(\\{.+\\});";
                 var str1 = Regex.Matches(e.Result, pattern1, RegexOptions.Singleline)[0].Value;
-                var str2 = Regex.Matches(str1, pattern2, RegexOptions.Singleline)[0].Value;
-                var str3 = Regex.Replace(str2, "null", "\"null\"", RegexOptions.Singleline);
-                var str4 = Regex.Replace(str3, "\\[\\]", "\"[]\"", RegexOptions.Singleline).ToString();
+                var str4 = Regex.Matches(str1, pattern2, RegexOptions.Singleline)[0].Value;
+                //var str3 = Regex.Replace(str2, "null", "\"null\"", RegexOptions.Singleline);
+                //var str4 = Regex.Replace(str3, "\\[\\]", "\"[]\"", RegexOptions.Singleline).ToString();
                 var str5 = str4.Substring(0, str4.Length - 1);
 
                 LogbookInfo logbook = Activator.CreateInstance<LogbookInfo>();
@@ -40,10 +40,11 @@ namespace Logbook
                 logbook = (LogbookInfo)serializer.ReadObject(ms);
                 ms.Close();
                 ms.Dispose();
+                var htmlString = HttpUtility.HtmlEncode(logbook.outPut());
                 
                 if (null != processLogbook)
                 {
-                    processLogbook(logbook.outPut());      
+                    processLogbook(htmlString);      
                 }
             };
             client.DownloadStringAsync(new Uri(sUrl));
