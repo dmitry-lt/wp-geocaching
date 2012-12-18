@@ -30,6 +30,7 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <phone:WebBrowser HorizontalAlignment="Left" Margin="12,124,0,0" Name="webBrowser1" VerticalAlignment="Top" Height="441" Width="438" />
             <Button Content="Get logbook" Height="95" HorizontalAlignment="Left" Margin="105,23,0,0" Name="button1" VerticalAlignment="Top" Width="226" Click="button1_Click" />
+            <TextBlock Height="239" HorizontalAlignment="Left" Margin="55,272,0,0" Name="textBlock1" Text="TextBlock" VerticalAlignment="Top" Width="383" />
         </Grid>
     </Grid>
  

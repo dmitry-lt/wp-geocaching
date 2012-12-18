@@ -21,10 +21,15 @@ namespace Logbook
             InitializeComponent();
         }
 
+        //private void showText(String text)
+        //{
+        //    webBrowser1.NavigateToString(text);
+        //}
         private void showText(String text)
         {
-            webBrowser1.NavigateToString(text);
+            textBlock1.Text = text;
         }
+
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {

@@ -60,11 +60,22 @@ namespace Logbook
         [DataMember]
         public CreatorInfo creator { get; set; }
         [DataMember]
-        public string Images { get; set; }
+        public string[] Images { get; set; }
+
 
         public string outPut()
         {
-            return "LogID" + ":" + this.LogID + "   " + "CacheID" + ":" + this.CacheID + "   " + "LogGuid" + ":" + this.LogGuid + "   " + "Latitude" + ":" + this.Latitude + "   " + "Longitude" + ":" + this.Longitude + "   " + "LatLonString" + ":" + this.LatLonString + "   " + "LogType" + ":" + this.LogType + "   " + "LogTypeImage" + ":" + this.LogTypeImage + "   " + "LogText" + ":" + this.LogText + "   " + "Created" + ":" + this.Created + "   " + "Visited" + ":" + this.Visited + "   " + "UserName" + ":" + this.UserName + "   " + "MembershipLevel" + ":" + this.MembershipLevel + "   " + "AccountID" + ":" + this.AccountID + "   " + "AccountGuid" + ":" + this.AccountGuid + "   " + "Email" + ":" + this.Email + "   " + "AvatarImage" + ":" + this.AvatarImage + "   " + "GeocacheFindCount" + ":" + this.GeocacheFindCount + "   " + "GeocacheHideCount" + ":" + this.GeocacheHideCount + "   " + "ChallengesCompleted" + ":" + this.ChallengesCompleted + "   " + "IsEncoded" + ":" + this.IsEncoded + "   " + "creator" + ":" + this.creator.outPut() + "   " + "Images" + ":" + this.Images + "   ";
+            return "LogID" + ":" + this.LogID + "   " + "CacheID" + ":" + this.CacheID + "   " + "LogGuid" + ":" + this.LogGuid + "   " + "Latitude" + ":" + this.Latitude + "   " + "Longitude" + ":" + this.Longitude + "   " + "LatLonString" + ":" + this.LatLonString + "   " + "LogType" + ":" + this.LogType + "   " + "LogTypeImage" + ":" + this.LogTypeImage + "   " + "LogText" + ":" + this.LogText + "   " + "Created" + ":" + this.Created + "   " + "Visited" + ":" + this.Visited + "   " + "UserName" + ":" + this.UserName + "   " + "MembershipLevel" + ":" + this.MembershipLevel + "   " + "AccountID" + ":" + this.AccountID + "   " + "AccountGuid" + ":" + this.AccountGuid + "   " + "Email" + ":" + this.Email + "   " + "AvatarImage" + ":" + this.AvatarImage + "   " + "GeocacheFindCount" + ":" + this.GeocacheFindCount + "   " + "GeocacheHideCount" + ":" + this.GeocacheHideCount + "   " + "ChallengesCompleted" + ":" + this.ChallengesCompleted + "   " + "IsEncoded" + ":" + this.IsEncoded + "   " + "creator" + ":" + this.creator.outPut() + "   " + "Images" + ":" + outPutImages() + "   ";
+        }
+   
+        private string outPutImages()
+        {
+            string result = "";
+            for (int i = 0; i < this.Images.Length; i++)
+            {
+                result = result + this.Images[i];
+            }
+            return result;
         }
     }
 }

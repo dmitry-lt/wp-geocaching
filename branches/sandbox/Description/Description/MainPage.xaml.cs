@@ -22,7 +22,8 @@ namespace Description
 
         private void showText(String text)
         {
-            InfoBrowser.NavigateToString(text);
+            //InfoBrowser.NavigateToString(text);
+            textBlock1.Text = text;
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
