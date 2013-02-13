@@ -9,7 +9,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
+    d:DesignHeight="600" d:DesignWidth="480">
 
     <Grid x:Name="LayoutRoot">
         <Grid.Resources>
@@ -20,34 +20,21 @@
         </Grid.Resources>
         
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="{Binding Path=LocalizedResources.ShowCachesFrom, 
-                Source={StaticResource LocalizedStrings}}"
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
-            <StackPanel Orientation="Horizontal">
-            <CheckBox Content="geocaching.com" 
-                      FontSize="22" 
-                      HorizontalAlignment="Left"
-                      IsChecked="{Binding IsGeocachingComEnabled, Mode=TwoWay}"
-                      toolkit:TiltEffect.IsTiltEnabled="True"/>
-                <settings:GeocachingComLogin/>
-            </StackPanel>
-            <CheckBox Content="opencaching.com" 
-                      FontSize="22" 
-                      HorizontalAlignment="Left"
-                      IsChecked="{Binding IsOpenCachingComEnabled, Mode=TwoWay}"
-                      toolkit:TiltEffect.IsTiltEnabled="True"/>
-            <CheckBox Content="geocaching.su" 
-                      FontSize="22" 
-                      HorizontalAlignment="Left"
-                      IsChecked="{Binding IsGeocachingSuEnabled, Mode=TwoWay}"
-                      toolkit:TiltEffect.IsTiltEnabled="True"/>
+            <TextBlock 
+                Margin="12 0 12 12"
+                Text="{Binding Path=LocalizedResources.ShowCachesFrom, Source={StaticResource LocalizedStrings}}"
+                Style="{StaticResource HeaderTextBlockStyle}"/>
+            <settings:Services/>
 
-            <TextBlock Text="{Binding Path=LocalizedResources.MapSettings, 
-                Source={StaticResource LocalizedStrings}}"
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <TextBlock 
+                Margin="12"
+                Text="{Binding Path=LocalizedResources.MapSettings, Source={StaticResource LocalizedStrings}}"
+                Style="{StaticResource HeaderTextBlockStyle}"/>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Path=LocalizedResources.MapModeSettings, 
-                Source={StaticResource LocalizedStrings}}" Width="120" FontSize="22" VerticalAlignment="Center"/>
+                <TextBlock 
+                    Margin="12"
+                    Text="{Binding Path=LocalizedResources.MapModeSettings, Source={StaticResource LocalizedStrings}}" 
+                    FontSize="22" VerticalAlignment="Center"/>
                 <RadioButton Content="{Binding Path=LocalizedResources.AerialModeSettings, 
                              Source={StaticResource LocalizedStrings}}" GroupName="MapMode"  FontSize="22"
                              Command="{Binding ChooseAerialModeCommand}"
@@ -60,11 +47,11 @@
                              toolkit:TiltEffect.IsTiltEnabled="True"/>
             </StackPanel>
 
-            <TextBlock Text="{Binding Path=LocalizedResources.Services, 
-                Source={StaticResource LocalizedStrings}}"
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
-            <CheckBox Content="{Binding Path=LocalizedResources.Location, 
-                Source={StaticResource LocalizedStrings}}" 
+            <TextBlock 
+                Margin="12"
+                Text="{Binding Path=LocalizedResources.Services, Source={StaticResource LocalizedStrings}}"
+                Style="{StaticResource HeaderTextBlockStyle}"/>
+            <CheckBox Content="{Binding Path=LocalizedResources.Location, Source={StaticResource LocalizedStrings}}" 
                       FontSize="22" 
                       HorizontalAlignment="Left"
                       IsChecked="{Binding IsLocationEnabled, Mode=TwoWay}"

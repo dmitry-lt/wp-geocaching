@@ -133,7 +133,7 @@
     <value>Choose</value>
   </data>
   <data name="ChooseCache" xml:space="preserve">
-    <value>Choose a cache</value>
+    <value>Choose cache</value>
   </data>
   <data name="CompassSearchButton" xml:space="preserve">
     <value>compass</value>
@@ -180,6 +180,9 @@
   <data name="SearchButton" xml:space="preserve">
     <value>search</value>
   </data>
+  <data name="HintButton" xml:space="preserve">
+    <value>hint</value>
+  </data>
   <data name="ShowAllMenuItem" xml:space="preserve">
     <value>show all</value>
   </data>
@@ -187,7 +190,7 @@
     <value>Subtype</value>
   </data>
   <data name="SearchCache" xml:space="preserve">
-    <value>Search a cache</value>
+    <value>Search cache</value>
   </data>
   <data name="NoSouhgtCacheMessage" xml:space="preserve">
     <value>Please choose a cache to search first</value>
@@ -279,9 +282,6 @@
   <data name="SupportAbout" xml:space="preserve">
     <value>Support</value>
   </data>
-  <data name="SupportEmail" xml:space="preserve">
-    <value>wp-geocaching-support@googlegroups.com</value>
-  </data>
   <data name="VersionAbout" xml:space="preserve">
     <value>Version {0}</value>
   </data>
@@ -315,8 +315,8 @@
   <data name="Services" xml:space="preserve">
     <value>Services</value>
   </data>
-  <data name="Ok" xml:space="preserve">
-    <value>OK</value>
+  <data name="OkButton" xml:space="preserve">
+    <value>ok</value>
   </data>
   <data name="PrivacyPolicyTitle" xml:space="preserve">
     <value>Privacy</value>
@@ -338,5 +338,23 @@
   </data>
   <data name="Edit" xml:space="preserve">
     <value>edit</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Login failed</value>
+  </data>
+  <data name="CacheCoordinatesInaccurate" xml:space="preserve">
+    <value>We don't have accurate coordinates for this cache yet.</value>
+  </data>
+  <data name="CacheCoordinatesUpdate" xml:space="preserve">
+    <value>Update cache info</value>
+  </data>
+  <data name="ChooseCacheServices" xml:space="preserve">
+    <value>Please choose what caches to display on the live map. You can change your choice at any time in the settings page</value>
+  </data>
+  <data name="ReviewTitle" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Rate and review</value>
   </data>
 </root>

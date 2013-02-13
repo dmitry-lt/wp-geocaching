@@ -37,9 +37,9 @@ namespace GeocachingPlus.Model.Api
             }
         }
 
-        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Action<string> processHint, Cache cache)
         {
-            _managers[cache.CacheProvider].FetchCacheDetails(processDescription, processLogbook, processPhotoUrls, cache);
+            _managers[cache.CacheProvider].FetchCacheDetails(processDescription, processLogbook, processPhotoUrls, processHint, cache);
         }
 
         #endregion

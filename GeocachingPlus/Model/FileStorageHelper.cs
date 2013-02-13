@@ -20,6 +20,10 @@ namespace GeocachingPlus.Model
 
         private string GetFilePath(Cache cache, string photoUrl)
         {
+            while (photoUrl.EndsWith("/"))
+            {
+                photoUrl = photoUrl.Substring(0, photoUrl.Length - 1);
+            }
             var fileName = photoUrl.Substring(1 + photoUrl.LastIndexOf("/", StringComparison.Ordinal));
             fileName = fileName.Replace("?", "");
             return String.Format(FilePath, cache.CacheProvider, cache.Id, fileName);
@@ -82,8 +86,18 @@ namespace GeocachingPlus.Model
 
         public void SavePhoto(Cache cache, string photoUrl, WriteableBitmap bitmap)
         {
+            if (null == bitmap)
+            {
+                return;
+            }
+
             CreateCacheDirectories(cache);
             var newFilePath = GetFilePath(cache, photoUrl);
+
+            if (String.IsNullOrWhiteSpace(newFilePath))
+            {
+                return;
+            }
 
             using (var fileStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
@@ -107,8 +121,11 @@ namespace GeocachingPlus.Model
                 CreateCacheDirectories(cache);
                 foreach (var p in photos.Where(p => !p.IsPlaceholder))
                 {
-                    var writeableBitmap = (p.PhotoSource as WriteableBitmap) ?? new WriteableBitmap(p.PhotoSource as BitmapSource);
-                    SavePhoto(cache, p.PhotoName, writeableBitmap);
+                    if (null != p.PhotoSource)
+                    {
+                        var writeableBitmap = (p.PhotoSource as WriteableBitmap) ?? new WriteableBitmap(p.PhotoSource as BitmapSource);
+                        SavePhoto(cache, p.PhotoName, writeableBitmap);
+                    }
                 }
             }
         }

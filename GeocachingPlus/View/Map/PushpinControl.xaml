@@ -13,7 +13,6 @@
         <Grid.Resources>
             <c:IconConverter x:Key="IconConverter"/>
             <c:GeocachingComIconConverter x:Key="GeocachingComIconConverter"/>
-            <c:GeocachingComToVisibilityConverter x:Key="GeocachingComToVisibilityConverter"/>
         </Grid.Resources>
 
         <!-- geocaching.com caches -->

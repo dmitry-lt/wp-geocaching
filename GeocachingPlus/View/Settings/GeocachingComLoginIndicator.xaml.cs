@@ -12,9 +12,9 @@ using System.Windows.Shapes;
 
 namespace GeocachingPlus.View.Settings
 {
-    public partial class GeocachingComLogin : UserControl
+    public partial class GeocachingComLoginIndicator : UserControl
     {
-        public GeocachingComLogin()
+        public GeocachingComLoginIndicator()
         {
             InitializeComponent();
         }

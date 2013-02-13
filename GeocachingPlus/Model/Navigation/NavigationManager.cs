@@ -38,7 +38,14 @@ namespace GeocachingPlus.Model.Navigation
                 return;
             }
 
-            frame.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+            try
+            {
+                frame.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+            }
+            catch (Exception ex)
+            {
+                //TODO: log
+            }
         }
 
         public void NavigateToInfoPivot(Cache cache, bool isAppBarEnabled)
@@ -89,11 +96,6 @@ namespace GeocachingPlus.Model.Navigation
                 Params.Index, index));
         }
 
-        public void  NavigateToSettings()
-        {
-            Navigate("//View/Settings/Settings.xaml");
-        }
-
         public void NavigateToFavorites()
         {
             Navigate("/View/Favorites/FavoritesPage.xaml");
@@ -103,5 +105,21 @@ namespace GeocachingPlus.Model.Navigation
         {
             Navigate("/View/Map/BingMap.xaml");
         }
+
+        public void NavigateToSettings()
+        {
+            Navigate("//View/Settings/Settings.xaml");
+        }
+
+        public void NavigateToGeocachingComLogin()
+        {
+            Navigate("/View/Settings/GeocachingComLoginPage.xaml");
+        }
+
+        public void NavigateToServices()
+        {
+            Navigate("/View/Settings/ServicesPage.xaml");
+        }
+        
     }
 }

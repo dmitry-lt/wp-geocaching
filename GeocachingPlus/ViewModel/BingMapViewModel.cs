@@ -55,35 +55,42 @@ namespace GeocachingPlus.ViewModel
             currentLocation = location;
         }
 
+        private GeoCoordinate _mapCenter;
         public override GeoCoordinate MapCenter
         {
             get
             {
-                return settings.LatestChooseLocation;
+                return _mapCenter;
             }
             set
             {
-                settings.LatestChooseLocation = value;
+                _mapCenter = value;
                 RaisePropertyChanged(() => MapCenter);
             }
         }
 
+        private int _zoom;
         public override int Zoom 
         {
             get
             {
-                return settings.LatestChooseZoom;
+                return _zoom;
             }
             set
             {
-                settings.LatestChooseZoom = value;
+                _zoom = value;
                 RaisePropertyChanged(() => Zoom);
             }
         }
 
+        public RequestCounter RequestCounter { get { return RequestCounter.LiveMap; } }
+
         public BingMapViewModel(IApiManager apiManager)
         {
+            var settings = new Settings();
             MapMode = settings.MapMode;
+            MapCenter = settings.LatestChooseLocation;
+            Zoom = settings.LatestChooseZoom;
             this.apiManager = apiManager;
             CachePushpins = new ObservableCollection<CachePushpin>();
         }
@@ -97,24 +104,37 @@ namespace GeocachingPlus.ViewModel
         private readonly Dictionary<Cache, CachePushpin> _currentPushpins = new Dictionary<Cache, CachePushpin>();
         private readonly object _lock = new object();
 
+        private Dictionary<string, GeocachingComLookupInstance> _geocachingComLookupDictionary;
+
+        private void InitGeocachingComLookupDictionary()
+        {
+            if (null == _geocachingComLookupDictionary)
+            {
+                _geocachingComLookupDictionary = new CacheDataBase().GetGeocachingComLookupDictionary();
+            }
+        }
+
         private void CheckForMoreCacheDetailsInDb(Cache cache)
         {
             if (cache is GeocachingComCache)
             {
+                InitGeocachingComLookupDictionary();
                 var gcCache = cache as GeocachingComCache;
                 
-                // check for type
-                if (gcCache.Type == GeocachingComCache.Types.UNKNOWN)
+                // check for type and reliable location
+                if (_geocachingComLookupDictionary.ContainsKey(gcCache.Id))
                 {
-                    var cacheDataBase = new CacheDataBase();
-                    var dbCache = cacheDataBase.GetCache(cache.Id, CacheProvider.GeocachingCom);
-                    if (null != dbCache)
+                    var lookup = _geocachingComLookupDictionary[gcCache.Id];
+                    if (gcCache.Type == GeocachingComCache.Types.UNKNOWN)
                     {
-                        gcCache.Type = (GeocachingComCache.Types)dbCache.Type;
+                        gcCache.Type = lookup.Type;
+                    }
+                    if (!gcCache.ReliableLocation && lookup.ReliableLocation)
+                    {
+                        gcCache.Location = lookup.Location;
+                        gcCache.ReliableLocation = lookup.ReliableLocation;
                     }
                 }
-
-                // TODO: check for precise coordinates
             }
         }
 
@@ -149,6 +169,8 @@ namespace GeocachingPlus.ViewModel
 
         private bool _tooManyCachesOnScreen;
 
+        public int AllCachesCount { get { return _allCaches.Count; } }
+
         private void ProcessCaches(List<Cache> caches)
         {
             lock (_lock)
@@ -162,6 +184,7 @@ namespace GeocachingPlus.ViewModel
                             _allCaches.Add(c);
                         }
                     }
+                    RaisePropertyChanged(() => AllCachesCount);
                 }
 
                 var cachesOnScreen = new HashSet<Cache>();
@@ -218,11 +241,23 @@ namespace GeocachingPlus.ViewModel
             }
         }
 
+        private int _fetchCachesCalls;
+        public int FetchCachesCalls
+        {
+            get { return _fetchCachesCalls; }
+            private set
+            {
+                _fetchCachesCalls = value;
+                RaisePropertyChanged(() => FetchCachesCalls);
+            }
+        }
+
         private void SetPushpinsOnMap()
         {
             ProcessCaches(null);
             if (!_tooManyCachesOnScreen)
             {
+                FetchCachesCalls++;
                 apiManager.FetchCaches(ProcessCaches, BoundingRectangle.East, BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
             }
         }

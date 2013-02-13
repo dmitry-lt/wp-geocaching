@@ -10,7 +10,6 @@ using System.Text;
 using System.Windows.Media.Imaging;
 using GeocachingPlus.Model.Api.OpenCachingCom;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
 {
@@ -209,36 +208,17 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             return ToString().GetHashCode();
         }
 
-        private static string FormUrl(string baseUrl, Dictionary<string, string> parameters)
-        {
-            var urlString = baseUrl;
-            var firstParameter = true;
-            foreach (var k in parameters.Keys)
-            {
-                if (firstParameter)
-                {
-                    urlString += "?" + k + "=" + parameters[k];
-                    firstParameter = false;
-                }
-                else
-                {
-                    urlString += "&" + k + "=" + parameters[k];
-                }
-            }
-            return urlString;
-        }
-
         /** Request .png image for a tile. */
         public static void RequestMapTile(Action<WriteableBitmap> processImage, Dictionary<string, string> parameters)
         {
-            var urlString = FormUrl(GCConstants.URL_MAP_TILE, parameters);
+            var urlString = UrlHelper.FormUrl(GCConstants.URL_MAP_TILE, parameters);
 
-            new PhotoDownloader().DownloadPng(processImage, urlString);
+            new PhotoDownloader().DownloadPhoto(processImage, urlString);
         }
 
         /** Request JSON informations for a tile */
         public void RequestMapInfo(Action<DownloadStringCompletedEventArgs> callback, string url, Dictionary<string, string> parameters, string referer) {
-            var urlString = FormUrl(url, parameters);
+            var urlString = UrlHelper.FormUrl(url, parameters);
 
             var client = new WebClient();
             client.Headers["Referer"] = referer;

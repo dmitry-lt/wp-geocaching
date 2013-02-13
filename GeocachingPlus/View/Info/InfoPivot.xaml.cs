@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -18,6 +19,7 @@ namespace GeocachingPlus.View.Info
         private readonly InfoPivotViewModel _infoPivotViewModel;
         private readonly CacheDataBase _db;
         private int _favoriteButtonIndex = -1;
+        private bool _autoSaveCache;
 
         public InfoPivot()
         {
@@ -29,29 +31,56 @@ namespace GeocachingPlus.View.Info
             _infoPivotViewModel.HidePhotos += (s, e) => Info.Items.Remove(PhotosPivotItem);
         }
 
-        private bool _isAppBarEnabled;
-        private void ShowAppBar(object sender, EventArgs e)
+        private void HideAppBar(object sender, EventArgs e)
         {
-            if (_isAppBarEnabled)
+            ApplicationBar.IsVisible = false;
+            ApplicationBar.Buttons.Clear();
+            _favoriteButtonIndex = -1;
+            _autoSaveCache = true;
+        }
+
+        private bool _isAppBarEnabled;
+        private void ShowAppBar()
+        {
+            var hintAvailable = !String.IsNullOrWhiteSpace(_infoPivotViewModel.Hint);
+            if (_isAppBarEnabled || hintAvailable)
             {
                 ApplicationBar.IsVisible = true;
-                if (ApplicationBar.IsVisible)
-                {
-                    SetApplicationBarItems();
-                    UpdateFavoriteButton();
-                }
+            }
+            if (_isAppBarEnabled)
+            {
+                SetApplicationBarItems();
+                UpdateFavoriteButton();
+            }
+            if (hintAvailable)
+            {
+                SetHintButton();
+            }
+        }
+
+        private void HandleCacheLoaded(object sender, EventArgs e)
+        {
+            ShowAppBar();
+            if (_autoSaveCache)
+            {
+                _autoSaveCache = false;
+                SaveCache();
+                UpdateFavoriteButton();
             }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.NavigationMode == NavigationMode.New)
+            if (e.NavigationMode == NavigationMode.New || _favoriteButtonIndex == -1)
             {
                 // show appbar after cache info has been loaded
                 ApplicationBar.IsVisible = false;
                 _isAppBarEnabled = Convert.ToBoolean(NavigationContext.QueryString[NavigationManager.Params.IsAppBarEnabled.ToString()]);
-                _infoPivotViewModel.CacheFullyLoaded -= ShowAppBar;
-                _infoPivotViewModel.CacheFullyLoaded += ShowAppBar;
+                _infoPivotViewModel.CacheFullyLoaded -= HandleCacheLoaded;
+                _infoPivotViewModel.CacheFullyLoaded += HandleCacheLoaded;
+
+                _infoPivotViewModel.CacheUpdating -= HideAppBar;
+                _infoPivotViewModel.CacheUpdating += HideAppBar;
 
                 _infoPivotViewModel.Cache = Repository.CurrentCache;
             }
@@ -72,6 +101,10 @@ namespace GeocachingPlus.View.Info
 
         private void SetSearchButton()
         {
+            if (ApplicationBar.Buttons.Cast<ApplicationBarIconButton>().Any(b => b.Text == AppResources.SearchButton))
+            {
+                return;
+            }
             var searchButton = new ApplicationBarIconButton
                                    {
                                        IconUri =
@@ -97,14 +130,44 @@ namespace GeocachingPlus.View.Info
 
         private void UpdateFavoriteButton()
         {
-            if (_db.GetCache(_infoPivotViewModel.Cache.Id, _infoPivotViewModel.Cache.CacheProvider) == null)
+            var cache = _infoPivotViewModel.Cache;
+            if (cache != null)
             {
-                GetAddButton();
+                if (_db.GetCache(cache.Id, cache.CacheProvider) == null)
+                {
+                    GetAddButton();
+                }
+                else
+                {
+                    GetDeleteButton();
+                }
             }
-            else
+        }
+
+        private void SetHintButton()
+        {
+            if (ApplicationBar.Buttons.Cast<ApplicationBarIconButton>().Any(b => b.Text == AppResources.HintButton))
             {
-                GetDeleteButton();
+                return;
             }
+            var hintButton = new ApplicationBarIconButton
+            {
+                IconUri = new Uri("Resources/Images/appbar.questionmark.rest.png", UriKind.Relative),
+                Text = AppResources.HintButton
+            };
+            hintButton.Click +=
+                (s, e) =>
+                    {
+                        try
+                        {
+                            MessageBox.Show(_infoPivotViewModel.Hint, AppResources.HintButton, MessageBoxButton.OK);
+                        }
+                        catch (Exception ex)
+                        {
+                            // TODO: log
+                        }
+                    };
+            ApplicationBar.Buttons.Add(hintButton);
         }
 
         private void GetAddButton()
@@ -125,9 +188,9 @@ namespace GeocachingPlus.View.Info
             (ApplicationBar.Buttons[_favoriteButtonIndex] as ApplicationBarIconButton).Text = AppResources.DeleteFavoritesButton;
         }
 
-        private void AddCache()
+        private void SaveCache()
         {
-            _db.AddCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook);
+            _db.SaveCache(_infoPivotViewModel.Cache, _infoPivotViewModel.Info, _infoPivotViewModel.Logbook, _infoPivotViewModel.Hint);
 
             var helper = new FileStorageHelper();
             helper.SavePhotos(_infoPivotViewModel.Cache, _infoPivotViewModel.Previews);
@@ -135,7 +198,7 @@ namespace GeocachingPlus.View.Info
 
         private void AddButtonClick(object sender, EventArgs e)
         {
-            AddCache();
+            SaveCache();
 
             GetDeleteButton();
         }
@@ -144,7 +207,7 @@ namespace GeocachingPlus.View.Info
         {
             if (_db.GetCache(_infoPivotViewModel.Cache.Id, _infoPivotViewModel.Cache.CacheProvider) == null)
             {
-                AddCache();
+                SaveCache();
             }
 
             if (new Model.Settings().IsLocationEnabled)

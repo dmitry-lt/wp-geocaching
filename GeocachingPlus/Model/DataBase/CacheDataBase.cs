@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Data.Linq;
+using System.Device.Location;
 using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
+using GeocachingPlus.Model.Api.GeocachingCom;
 using Microsoft.Phone.Data.Linq;
 using GeocachingPlus.Model.Api;
 using GeocachingPlus.Model.Api.GeocachingSu;
@@ -13,7 +15,7 @@ namespace GeocachingPlus.Model.DataBase
     {
         private const string ConnectionString = "Data Source=isostore:/DataBase.sdf";
 
-        private const int CurrentDbVersion = 2;
+        private const int CurrentDbVersion = 3;
 
         public static void UpdateSchema()
         {
@@ -32,26 +34,25 @@ namespace GeocachingPlus.Model.DataBase
                     // Perform the database update in a single transaction.
                     dbUpdater.Execute();
                 }
-                /*
                 else
                 {
- 
                     var dbUpdater = db.CreateDatabaseSchemaUpdater();
                     if (dbUpdater.DatabaseSchemaVersion < 3)
                     {
                         // Add the new database version.
                         dbUpdater.DatabaseSchemaVersion = 3;
 
+                        dbUpdater.AddColumn<DbCache>("ReliableLocation");
+                        dbUpdater.AddColumn<DbCache>("Hint");
+
                         // Perform the database update in a single transaction.
                         dbUpdater.Execute();
                     }
-
                 }
-                */
             }
         }
 
-        public void AddCache(Cache cache, string details, string logbook)
+        public void SaveCache(Cache cache, string details, string logbook, string hint)
         {
             if (cache == null)
             {
@@ -59,12 +60,31 @@ namespace GeocachingPlus.Model.DataBase
             }
             using (var db = new CacheDataContext(ConnectionString))
             {
-                if (GetCache(cache.Id, cache.CacheProvider) != null) return;
+                var dbCache = DbConvert.ToDbCacheItem(cache, details, logbook, hint);
 
-                var newItem = DbConvert.ToDbCacheItem(cache, details, logbook);
+                var query = GetCacheQuery(db.Caches, cache);
+                var existingDbCache = query.FirstOrDefault();
 
-                db.Caches.InsertOnSubmit(newItem);
-                db.SubmitChanges();
+                if (existingDbCache == null)
+                {
+                    // insert
+                    db.Caches.InsertOnSubmit(dbCache);
+                }
+                else
+                {
+                    // update
+                    existingDbCache.Name = dbCache.Name;
+                    existingDbCache.Latitude = dbCache.Latitude;
+                    existingDbCache.Longitude = dbCache.Longitude;
+                    existingDbCache.Type = dbCache.Type;
+                    existingDbCache.Subtype = dbCache.Subtype;
+                    existingDbCache.UpdateTime = DateTime.Now;
+                    existingDbCache.HtmlDescription = dbCache.HtmlDescription;
+                    existingDbCache.HtmlLogbook = dbCache.HtmlLogbook;
+                    existingDbCache.ReliableLocation = dbCache.ReliableLocation;
+                    existingDbCache.Hint = dbCache.Hint;
+                }
+                db.SubmitChanges(ConflictMode.ContinueOnConflict);
             }
         }
 
@@ -240,6 +260,25 @@ namespace GeocachingPlus.Model.DataBase
                 var query = GetCheckpointsQueryByCache(db.Checkpoints, cache);
                 db.Checkpoints.DeleteAllOnSubmit(query);
                 db.SubmitChanges();
+            }
+        }
+
+        public Dictionary<string, GeocachingComLookupInstance> GetGeocachingComLookupDictionary()
+        {
+            using (var db = new CacheDataContext(ConnectionString))
+            {
+                var lookup = db.Caches
+                    .Where(c => c.CacheProvider == CacheProvider.GeocachingCom)
+                    .ToDictionary(c => c.Id,
+                        c =>
+                            new GeocachingComLookupInstance
+                                {
+                                    Id = c.Id,
+                                    Type = (GeocachingComCache.Types) c.Type,
+                                    Location = new GeoCoordinate(c.Latitude, c.Longitude),
+                                    ReliableLocation = c.ReliableLocation.HasValue && c.ReliableLocation.Value,
+                                });
+                return lookup;
             }
         }
 
