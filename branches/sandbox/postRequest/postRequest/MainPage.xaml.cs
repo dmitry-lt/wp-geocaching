@@ -23,7 +23,20 @@ namespace postRequest
 
         private void showText(string str)
         {
-           this.webBrowser1.NavigateToString(str);
+            if (this.webBrowser1.CheckAccess())
+
+                this.webBrowser1.NavigateToString(str);
+
+            else
+            {
+
+                this.webBrowser1.Dispatcher.BeginInvoke(() =>
+                {
+
+                    this.webBrowser1.NavigateToString(str);
+
+                });
+            }
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
