@@ -43,8 +43,15 @@ namespace postRequest
         {
             Request request = new Request();
             Action<string> onResponseGot;
-             onResponseGot = delegate(string s) { showText(s); };
-            request.Post("http://www.opencaching.de/map2.php", "", onResponseGot);
+            onResponseGot = delegate(string s) { showText(s); };
+            Dictionary<string, string> parametrs = new Dictionary<string, string>();
+            parametrs.Add("mode", "searchresult");
+            parametrs.Add("resultid", "195206");
+            parametrs.Add("lat1", "51.736065181251796");
+            parametrs.Add("lat2", "51.79980455725786");
+            parametrs.Add("lon1", "10.227241516113281");
+            parametrs.Add("lon2", "10.359420776367188");
+            request.Post("http://www.opencaching.de/map2.php", parametrs, onResponseGot);
         }
         
 
