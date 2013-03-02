@@ -84,7 +84,7 @@ namespace postRequest
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(address);
                 httpWebRequest.Method = "POST";
                 httpWebRequest.ContentType = "application/x-www-form-urlencoded";
-                httpWebRequest.Headers["Accept-Encoding"] = "gzip";
+                //httpWebRequest.Headers["Accept-Encoding"] = "gzip";
 
                  // start the asynchronous operation
                 httpWebRequest.BeginGetRequestStream(new AsyncCallback(getRequestStreamCallback), httpWebRequest);
