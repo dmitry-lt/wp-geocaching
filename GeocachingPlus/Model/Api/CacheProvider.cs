@@ -2,6 +2,6 @@
 {
     public enum CacheProvider
     {
-        GeocachingSu, OpenCachingCom, GeocachingCom
+        GeocachingSu, OpenCachingCom, GeocachingCom, OpencachingDe
     }
 }
