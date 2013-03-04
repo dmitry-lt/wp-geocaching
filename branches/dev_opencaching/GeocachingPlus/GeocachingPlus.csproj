@@ -118,6 +118,9 @@
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComCache.cs" />
+    <Compile Include="Model\Api\OpencachingDe\OpencachingDeApiCache.cs" />
+    <Compile Include="Model\Api\OpencachingDe\OpencachingDeApiManager.cs" />
+    <Compile Include="Model\Api\OpencachingDe\OpencachingDeCache.cs" />
     <Compile Include="Model\Api\PhotoDownloader.cs" />
     <Compile Include="Model\Api\RequestCounter.cs" />
     <Compile Include="Model\Api\WebBrowserHelper.cs" />
