@@ -39,21 +39,44 @@ namespace postRequest
             }
         }
 
+        private void takeResultId(string str)
+        {
+            
+
+        }
+
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             Request request = new Request();
             Action<string> onResponseGot;
             onResponseGot = delegate(string s) { showText(s); };
-            Dictionary<string, string> parametrs = new Dictionary<string, string>();
-            parametrs.Add("mode", "searchresult");
-            parametrs.Add("resultid", "195206");
-            parametrs.Add("lat1", "51.736065181251796");
-            parametrs.Add("lat2", "51.79980455725786");
-            parametrs.Add("lon1", "10.227241516113281");
-            parametrs.Add("lon2", "10.359420776367188");
-            request.Post("http://www.opencaching.de/map2.php", parametrs, onResponseGot);
-        }
-        
+            Action<string> onResponseGot1;
+            Dictionary<string, string> parametrs1 = new Dictionary<string, string>();
+            parametrs1.Add("showresult", "1");
+            parametrs1.Add("expert", "0");
+            parametrs1.Add("output", "map2");
+            parametrs1.Add("utf8", "1");
+            parametrs1.Add("skipqueryid", "1");
+            parametrs1.Add("searchto", "searchbynofilter");
+            parametrs1.Add("cachetype", "1;2;3;4;5;6;7;8;9;10");
+            parametrs1.Add("cachesize", "1;2;3;4;5;6;7;8");
+            parametrs1.Add("f_inactive", "1");
+            parametrs1.Add("cache_attribs", "");
+            parametrs1.Add("cache_attribs_not", "");
+            onResponseGot1 = delegate(string str)
+           {
+               Dictionary<string, string> parametrs = new Dictionary<string, string>();
+               parametrs.Add("mode", "searchresult");
+               parametrs.Add("resultid", str);
+               parametrs.Add("lat1", "51.736065181251796");
+               parametrs.Add("lat2", "51.79980455725786");
+               parametrs.Add("lon1", "10.227241516113281");
+               parametrs.Add("lon2", "10.359420776367188");
 
+               request.Post("http://www.opencaching.de/map2.php", parametrs, onResponseGot);
+           };
+ 
+            request.Post("http://www.opencaching.de/search.php", parametrs1, onResponseGot1);
+        }
     }
 }
