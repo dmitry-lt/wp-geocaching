@@ -49,12 +49,12 @@ namespace postRequest
                                     var rcode = response.StatusCode;
                                     Stream streamResponse;
                                     //if ("gzip".Equals(response.Headers["Content-Encoding"]))
-                                   //{
-                                      //  streamResponse = new GZipInputStream(response.GetResponseStream());
-                                  //  }
-                                   // else
-                                   // {
-                                        streamResponse = response.GetResponseStream();
+                                    //{
+                                    //  streamResponse = new GZipInputStream(response.GetResponseStream());
+                                    //  }
+                                    // else
+                                    // {
+                                    streamResponse = response.GetResponseStream();
                                     //}
                                     using (streamResponse)
                                     {
@@ -84,9 +84,8 @@ namespace postRequest
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(address);
                 httpWebRequest.Method = "POST";
                 httpWebRequest.ContentType = "application/x-www-form-urlencoded";
-                //httpWebRequest.Headers["Accept-Encoding"] = "gzip";
 
-                 // start the asynchronous operation
+                // start the asynchronous operation
                 httpWebRequest.BeginGetRequestStream(new AsyncCallback(getRequestStreamCallback), httpWebRequest);
             }
             catch (Exception ex)
