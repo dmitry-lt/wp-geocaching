@@ -35,6 +35,4 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
         public Types Type { get; set; }
 
     }
-
-    }
 }

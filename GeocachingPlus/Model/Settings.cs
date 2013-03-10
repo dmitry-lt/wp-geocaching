@@ -30,6 +30,7 @@ namespace GeocachingPlus.Model
         private const string IsOpenCachingComEnabledKeyName = "IsOpenCachingComEnabled";
         private const string IsGeocachingSuEnabledKeyName = "IsGeocachingSuEnabled";
         private const string IsGeocachingComEnabledKeyName = "IsGeocachingComEnabled";
+        private const string IsOpencachingDeEnabledKeyName = "IsOpencachingDeEnabled";
         private const string GeocachingComLoggedInKeyName = "GeocachingComLoggedInKey";
         private const string GeocachingComLoginKeyName = "GeocachingComLoginKey";
         private const string GeocachingComPasswordKeyName = "GeocachingComPassword";
@@ -328,6 +329,21 @@ namespace GeocachingPlus.Model
             }
         }
 
+        public bool IsOpencachingDeEnabled
+        {
+            get
+            {
+                return GetValueOrDefault(IsOpencachingDeEnabledKeyName, true);
+            }
+            set
+            {
+                if (AddOrUpdateValue(IsOpencachingDeEnabledKeyName, value))
+                {
+                    Save();
+                }
+            }
+        }
+
         public bool IsCacheProviderEnabled(CacheProvider cacheProvider)
         {
             switch (cacheProvider)
@@ -340,6 +356,9 @@ namespace GeocachingPlus.Model
 
                 case CacheProvider.GeocachingCom:
                     return IsGeocachingComEnabled;
+
+                case CacheProvider.OpencachingDe:
+                    return IsOpencachingDeEnabled;
 
                 default:
                     throw new ArgumentException();
