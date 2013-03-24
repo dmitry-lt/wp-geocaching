@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Device.Location;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Json;
+using System.Device.Location;
+using System.Globalization;
 using System.Text;
 
 namespace GeocachingPlus.Model.Api.OpenCachingCom

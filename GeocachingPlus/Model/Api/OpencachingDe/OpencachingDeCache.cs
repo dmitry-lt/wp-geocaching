@@ -22,9 +22,18 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
             Quiz = 305,
             Math = 306,
             Moving = 307,
-            Drive_in = 308,
+            DriveIn = 308,
             Virtual = 309,
             Unknown = 310
+        }
+
+        public enum Sizes
+        {
+            Normal = 1,
+            Small = 2,
+            No_container = 3,
+            Micro = 4,
+            Large = 5
         }
 
         public OpencachingDeCache()
@@ -33,6 +42,7 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
         }
 
         public Types Type { get; set; }
+        public Sizes Size { get; set; }
 
     }
 }

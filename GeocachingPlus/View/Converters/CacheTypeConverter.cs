@@ -3,6 +3,7 @@ using System.Windows.Data;
 using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.Api.GeocachingSu;
 using GeocachingPlus.Model.Api.OpenCachingCom;
+using GeocachingPlus.Model.Api.OpencachingDe;
 using GeocachingPlus.Resources.Localization;
 
 namespace GeocachingPlus.View.Converters
@@ -116,6 +117,21 @@ namespace GeocachingPlus.View.Converters
                         return null;
                 }
             }
+
+           /* if (value is OpencachingDeCache)
+            {
+                switch ((value as OpencachingDeCache).Type)
+                {
+                    case OpencachingDeCache.Types.Multi:
+                        return OpencachingDeCacheType.Multi;
+                    case OpencachingDeCache.Types.Virtual:
+                        return OpencachingDeCacheType.Virtual;
+                    case OpencachingDeCache.Types.Puzzle:
+                        return OpencachingDeCacheType.Puzzle;
+                    default:
+                        return null;
+                }
+            } */
 
             return null;
         }

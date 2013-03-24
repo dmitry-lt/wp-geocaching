@@ -4,6 +4,7 @@ using GeocachingPlus.Model.Api;
 using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.Api.GeocachingSu;
 using GeocachingPlus.Model.Api.OpenCachingCom;
+using GeocachingPlus.Model.Api.OpencachingDe;
 
 namespace GeocachingPlus.Model.DataBase
 {
@@ -50,6 +51,19 @@ namespace GeocachingPlus.Model.DataBase
             return result;
         }
 
+        private static OpencachingDeCache ToOpencachingDeCache(DbCache item)
+        {
+            var result =
+                new OpencachingDeCache()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Location = new GeoCoordinate(item.Latitude, item.Longitude),
+                    Type = (OpencachingDeCache.Types)item.Type,
+                };
+            return result;
+        }
+
         public static Cache ToCache(DbCache item)
         {
             switch (item.CacheProvider)
@@ -59,6 +73,9 @@ namespace GeocachingPlus.Model.DataBase
 
                 case CacheProvider.GeocachingCom:
                     return ToGeocachingComCache(item);
+
+                case CacheProvider.OpencachingDe:
+                    return ToOpencachingDeCache(item);
 
                 default:
                     return ToGeocachingSuCache(item);
@@ -82,6 +99,11 @@ namespace GeocachingPlus.Model.DataBase
             result.ReliableLocation = cache.ReliableLocation;
         }
 
+        private static void InitOpencachingDeSpecificFields(DbCache result, OpencachingDeCache cache)
+        {
+            result.Type = (int)cache.Type;
+        }
+
         public static DbCache ToDbCacheItem(Cache cache, string details, string logbook, string hint)
         {
             var result =
@@ -103,6 +125,10 @@ namespace GeocachingPlus.Model.DataBase
 
                 case CacheProvider.GeocachingCom:
                     InitGeocachingComSpecificFields(result, (GeocachingComCache)cache);
+                    break;
+
+                case CacheProvider.OpencachingDe:
+                    InitOpencachingDeSpecificFields(result, (OpencachingDeCache)cache);
                     break;
 
                 default:
