@@ -35,6 +35,10 @@ namespace GeocachingPlus.ViewModel
             {
                 count++;
             }
+            if (IsOpencachingDeEnabled)
+            {
+                count++;
+            }
             return count > 1;
         }
 
@@ -73,6 +77,19 @@ namespace GeocachingPlus.ViewModel
                     settings.IsGeocachingComEnabled = value;
                 }
                 RaisePropertyChanged(() => IsGeocachingComEnabled);
+            }
+        }
+
+        public bool IsOpencachingDeEnabled
+        {
+            get { return settings.IsOpencachingDeEnabled; }
+            set
+            {
+                if (CanAssignCacheProviderValue(value))
+                {
+                    settings.IsOpencachingDeEnabled = value;
+                }
+                RaisePropertyChanged(() => IsOpencachingDeEnabled);
             }
         }
 

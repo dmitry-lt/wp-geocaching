@@ -32,6 +32,11 @@
                       HorizontalAlignment="Left"
                       IsChecked="{Binding IsGeocachingSuEnabled, Mode=TwoWay}"
                       toolkit:TiltEffect.IsTiltEnabled="True"/>
+            <CheckBox Content="opencaching.de" 
+                      FontSize="22" 
+                      HorizontalAlignment="Left"
+                      IsChecked="{Binding IsOpencachingDeEnabled, Mode=TwoWay}"
+                      toolkit:TiltEffect.IsTiltEnabled="True"/>
         </StackPanel>
     </Grid>
 </UserControl>

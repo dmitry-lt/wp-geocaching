@@ -25,6 +25,9 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
         public string type { get; set; }
 
         [DataMember]
+        public string size { get; set; }
+
+        [DataMember]
         public OpencachingDeApiLocation location { get; set; }
 
         [DataMember]
