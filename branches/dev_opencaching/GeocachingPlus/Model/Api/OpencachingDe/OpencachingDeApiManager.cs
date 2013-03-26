@@ -214,7 +214,46 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
 
         public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Action<string> processHint, Cache cache)
         {
+            var sUrl = String.Format(CultureInfo.InvariantCulture, CacheDescriptionUrl, cache.Id);
 
+            var client = new WebClient();
+
+            client.DownloadStringCompleted += (sender, e) =>
+            {
+                if (e.Error != null) return;
+
+                var jsonResult = e.Result;
+
+               // var serializer = new DataContractJsonSerializer(typeof(OpencachingDeApiCache));
+
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonResult)))
+                {
+                   // var parsedCache = (OpencachingDeApiCache)serializer.ReadObject(ms);
+
+                    // description
+                    if (null != processDescription)
+                    {
+                        var description = Regex.Matches(e.Result, PatternCacheDescription, RegexOptions.Singleline)[0].Value;
+                        processDescription(description);
+                        //var description = String.Format("{0} ({1}) <br/><br/> {2}", parsedCache.name, cache.Id, parsedCache.description);
+                       // processDescription(String.Format(PatternCacheDescription, WebBrowserHelper.ConvertExtendedASCII(description)));
+                    }
+
+                    // logs
+                    if (null != processLogbook)
+                    {
+                        
+                    }
+
+                    // photos
+                    if (null != processPhotoUrls)
+                    {
+                        
+                    }
+                }
+            };
+
+            client.DownloadStringAsync(new Uri(sUrl));
         }
 
         private OpencachingDeCache.Types GetType(string text)
@@ -251,6 +290,7 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
         }
 
         private const string CacheDescriptionUrl = "http://www.opencaching.de/viewcache.php?wp=";
+        private const string PatternCacheDescription = "<span style=\"font-family: Verdana, sans-serif; font-size: 13px; color: #424242; line-height: 16px; -webkit-border-horizontal-spacing: 5px; -webkit-border-vertical-spacing: 5px\" class=\"Apple-style-span\">(.*?)</span>";
         //private const string CachesUrl = "http://www.opencaching.de/map2.php?mode=searchresult&compact=1&resultid={0}&lat1={1}&lat2={2}&lon1={3}&lon2={4}";
 
     }
