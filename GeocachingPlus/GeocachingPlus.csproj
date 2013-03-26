@@ -138,6 +138,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GeocachingComLogin.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Localization\OpencachingDeCacheType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OpencachingDeCacheType.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\GeocachingComLoginPageViewModel.cs" />
     <Compile Include="ViewModel\ServicesViewModel.cs" />
     <Compile Include="View\Converters\BooleanToVisibilityConverter.cs" />
@@ -522,6 +527,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localization\OpenCachingComCacheType.ru-Ru.resx" />
+    <EmbeddedResource Include="Resources\Localization\OpencachingDeCacheType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OpencachingDeCacheType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
