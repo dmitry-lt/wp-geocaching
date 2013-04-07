@@ -66,7 +66,9 @@
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
     <Reference Include="Microsoft.Phone.Controls.Maps" />
-    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>..\..\Geocaching1\GeocachingPlus\Libs\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Microsoft.Xna.Framework.GamerServices" />
@@ -120,6 +122,7 @@
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComCache.cs" />
     <Compile Include="Model\Api\PhotoDownloader.cs" />
+    <Compile Include="Model\k-means.cs" />
     <Compile Include="Resources\Localization\GeocachingComCacheType.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

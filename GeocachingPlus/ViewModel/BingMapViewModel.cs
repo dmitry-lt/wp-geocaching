@@ -164,7 +164,7 @@ namespace GeocachingPlus.ViewModel
                     }
                 }
 
-                var cachesOnScreen = new HashSet<Cache>();
+                var cachesOnScreen = new    HashSet<Cache>();
                 foreach (Cache c in _allCaches)
                 {
                     if ((c.Location.Latitude <= BoundingRectangle.North) &&
@@ -180,13 +180,27 @@ namespace GeocachingPlus.ViewModel
 
                 if (_tooManyCachesOnScreen)
                 {
-                    if (surpassedCacheCountMessageVisibility.Equals(Visibility.Collapsed))
+                    List<GeoCoordinate> Caches = new List<GeoCoordinate>();
+                    foreach (Cache c in cachesOnScreen)
+                    {
+                        Caches.Add(c.Location);
+                    }
+                    int NumClusters = 50;
+                    k_means obj = new k_means(Caches, NumClusters);
+                    cachesOnScreen.Clear();
+                    foreach (GeoCoordinate cluster in obj.Clusters)
+                    {
+                        Cache c = new Cache();
+                        c.Location = cluster;
+                        cachesOnScreen.Add(c);
+                    }
+                   /* if (surpassedCacheCountMessageVisibility.Equals(Visibility.Collapsed))
                     {
                         SurpassedCacheCountMessageVisibility = Visibility.Visible;
                     }
-                    RemoveAllPushpins();
+                    RemoveAllPushpins();*/
                 }
-                else
+   //             else
                 {
                     if (surpassedCacheCountMessageVisibility.Equals(Visibility.Visible))
                     {
