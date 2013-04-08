@@ -186,7 +186,7 @@ namespace GeocachingPlus.ViewModel
                         Caches.Add(c.Location);
                     }
                     int NumClusters = 50;
-                    k_means obj = new k_means(Caches, NumClusters);
+                    KMeans obj = new KMeans(Caches, NumClusters);
                     cachesOnScreen.Clear();
                     foreach (GeoCoordinate cluster in obj.Clusters)
                     {
