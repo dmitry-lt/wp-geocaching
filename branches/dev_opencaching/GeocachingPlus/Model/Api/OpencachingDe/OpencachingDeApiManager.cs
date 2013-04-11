@@ -16,6 +16,8 @@ using System.Text;
 using System.Device.Location;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace GeocachingPlus.Model.Api.OpencachingDe
 {
@@ -142,40 +144,9 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
             {
                 using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(result)))
                 {
-                    var downloadedCaches = new List<Cache>();
-                    string patternCount = "count=\"(.*?)\"";
-                    var strCount = Regex.Matches(result, patternCount, RegexOptions.Singleline)[0].Value;
-                    var count = Convert.ToInt32(strCount.Substring(7, strCount.Length - 1 - 7));
-                    string patternCache = "<c(.*?)/>";
-                    for (int i = 0; i < count; i++)
-                    {
-                        var cacheInfo = Regex.Matches(result, patternCache, RegexOptions.Singleline)[i].Value;
-                        string patternCacheId = "wp=\"(.*?)\""; 
-                        string strCacheId = Regex.Matches(result, patternCacheId, RegexOptions.Singleline)[0].Value;
-                        string cacheId = strCacheId.Substring(4, strCacheId.Length  -1 - 4);
-                        string patternCacheLongitude = "lon=\"(.*?)\"";
-                        string strCacheLongitude = Regex.Matches(result, patternCacheLongitude, RegexOptions.Singleline)[0].Value;
-                        string cacheLongitude = strCacheLongitude.Substring(5, strCacheLongitude.Length - 1 - 5);
-                        string patternCacheLatitude = "lat=\"(.*?)\"";
-                        string strCacheLatitude = Regex.Matches(result, patternCacheLatitude, RegexOptions.Singleline)[0].Value;
-                        string cacheLatitude = strCacheLatitude.Substring(5, strCacheLatitude.Length - 1 - 5);
-                        string patternType = "type=\"(.*?)\"";
-                        string strCacheType = Regex.Matches(result, patternType, RegexOptions.Singleline)[0].Value;
-                        string cacheType = strCacheType.Substring(6, strCacheType.Length - 1 - 6);
-                        downloadedCaches.Add(
-                            new OpencachingDeCache()
-                            {
-                                Id = cacheId,
-                                //Name = ,
-                                Location = new
-                                    GeoCoordinate()
-                                {
-                                    Latitude = Convert.ToDouble(cacheLatitude, CultureInfo.InvariantCulture),
-                                    Longitude = Convert.ToDouble(cacheLongitude, CultureInfo.InvariantCulture),
-                                },
-                                Type = GetType(cacheType)
-                            });
-                    }
+                    XDocument xmlResult = XDocument.Parse(result); 
+                    OpencachingDeCacheParser parser = new OpencachingDeCacheParser();
+                    var downloadedCaches = parser.Parse(xmlResult);
                     foreach (var p in downloadedCaches)
                     {
                         if (!Caches.Contains(p))
@@ -191,9 +162,16 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
                                        (cache.Location.Longitude <= lngmax) &&
                                        (cache.Location.Longitude >= lngmin))
                                 select cache).ToList<Cache>();
-                    processCaches(list);
+    
+                    Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        processCaches(list);
+                    });
                 }
-                RequestCounter.LiveMap.RequestSucceeded();
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    RequestCounter.LiveMap.RequestSucceeded();
+                });
 
             };
             Action<string> mapRequest = delegate(string resultId)
@@ -235,8 +213,6 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
                     {
                         var description = Regex.Matches(e.Result, PatternCacheDescription, RegexOptions.Singleline)[0].Value;
                         processDescription(description);
-                        //var description = String.Format("{0} ({1}) <br/><br/> {2}", parsedCache.name, cache.Id, parsedCache.description);
-                       // processDescription(String.Format(PatternCacheDescription, WebBrowserHelper.ConvertExtendedASCII(description)));
                     }
 
                     // logs
@@ -253,45 +229,40 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
                 }
             };
 
-            client.DownloadStringAsync(new Uri(sUrl));
+            client.DownloadStringAsync(new Uri(sUrl)); 
         }
 
-        private OpencachingDeCache.Types GetType(string text)
+        /*public void FetchCacheLog(Action<string> processLogbook, Cache cache)
         {
-            if (text == null)
+            var sUrl = String.Format(CultureInfo.InvariantCulture, CacheLogUrl, cache.Id);
+
+            var client = new WebClient();
+
+            client.DownloadStringCompleted += (sender, e) =>
             {
-                return OpencachingDeCache.Types.Unknown;
-            }
-            switch (text.ToLower())
-            {
-                case "2":
-                    return OpencachingDeCache.Types.Traditional;
-                case "3":
-                    return OpencachingDeCache.Types.Multi;
-                case "5":
-                    return OpencachingDeCache.Types.Webcam;
-                case "7":
-                    return OpencachingDeCache.Types.Quiz;
-                case "6":
-                    return OpencachingDeCache.Types.Event;
-                case "8": // don't know exactly
-                    return OpencachingDeCache.Types.Math;
-                case "9": // don't know exactly
-                    return OpencachingDeCache.Types.Moving;
-                case "10":
-                    return OpencachingDeCache.Types.DriveIn;
-                case "4":
-                    return OpencachingDeCache.Types.Virtual;
-                case "1":
-                    return OpencachingDeCache.Types.Unknown;
-                default:
-                    return OpencachingDeCache.Types.Unknown;
-            }
-        }
+                if (e.Error != null) return;
+
+                var jsonResult = e.Result;
+
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonResult)))
+                {
+                    // logs
+                    if (null != processLogbook)
+                    {
+
+                    }
+                }
+            };
+
+            client.DownloadStringAsync(new Uri(sUrl)); 
+
+        }*/
 
         private const string CacheDescriptionUrl = "http://www.opencaching.de/viewcache.php?wp=";
+        private const string CacheLogUrl = "http://www.opencaching.de/viewlogs.php?cacheid=";
         private const string PatternCacheDescription = "<span style=\"font-family: Verdana, sans-serif; font-size: 13px; color: #424242; line-height: 16px; -webkit-border-horizontal-spacing: 5px; -webkit-border-vertical-spacing: 5px\" class=\"Apple-style-span\">(.*?)</span>";
-        //private const string CachesUrl = "http://www.opencaching.de/map2.php?mode=searchresult&compact=1&resultid={0}&lat1={1}&lat2={2}&lon1={3}&lon2={4}";
-
+        
+        private const string PatternCacheLog = "<div class=\"content-txtbox-noshade\"><div class=\"logs\" id=\"log874219\"><p class=\"content-title-noshade-size1\" style=\"display:inline;\"><img src=\"resource2/ocstyle/images/log/16x16-found.png\" alt=\"Found\" />(.*?)<a href=\"viewprofile.php?userid=120056\">(.*?)</a>(.*?)</p><div class=\"viewcache_log-content\" style=\"margin-top: 15px;\"><p><p>(.*?)<br /><br />(.*?)</p></p></div></div></div>";
+       
     }
 }

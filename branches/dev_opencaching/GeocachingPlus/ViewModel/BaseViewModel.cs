@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 using GeocachingPlus.Model.Utils;
+using System.Windows.Threading;
 
 namespace GeocachingPlus.ViewModel
 {

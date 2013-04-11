@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Device.Location;
 
 namespace GeocachingPlus.Model.Api.OpencachingDe
 {
@@ -27,22 +28,21 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
             Unknown = 310
         }
 
-        public enum Sizes
+      /*  public enum Sizes
         {
             Normal = 1,
             Small = 2,
             No_container = 3,
             Micro = 4,
             Large = 5
-        }
+        } */
 
         public OpencachingDeCache()
         {
-            CacheProvider = CacheProvider.OpenCachingCom;
+            CacheProvider = CacheProvider.OpencachingDe;
         }
 
         public Types Type { get; set; }
-        public Sizes Size { get; set; }
 
     }
 }

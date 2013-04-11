@@ -120,6 +120,7 @@
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComCache.cs" />
+    <Compile Include="Model\Api\OpencachingDe\OpencachingDeCacheParser.cs" />
     <Compile Include="Model\Api\OpencachingDe\OpencachingDeApiCache.cs" />
     <Compile Include="Model\Api\OpencachingDe\OpencachingDeApiManager.cs" />
     <Compile Include="Model\Api\OpencachingDe\OpencachingDeCache.cs" />
@@ -429,6 +430,15 @@
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_puzzle_valid.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_traditional_valid.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_virtual_valid.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_drive-in.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_event.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_math.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_multi.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_quiz.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_traditional.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_unknown.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_virtual.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_webcam.png" />
     <Content Include="Resources\Images\appbar.back.rest.png" />
     <Content Include="Resources\Images\appbar.delete.rest.png" />
     <Content Include="Resources\Images\appbar.next.rest.png" />
