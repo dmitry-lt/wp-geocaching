@@ -192,7 +192,7 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
 
         public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Action<string> processHint, Cache cache)
         {
-            var sUrl = String.Format(CultureInfo.InvariantCulture, CacheDescriptionUrl, cache.Id);
+            var sUrl = String.Format(CacheDescriptionUrl, cache.Id);
 
             var client = new WebClient();
 
@@ -258,10 +258,9 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
 
         }*/
 
-        private const string CacheDescriptionUrl = "http://www.opencaching.de/viewcache.php?wp=";
+        private const string CacheDescriptionUrl = "http://www.opencaching.de/viewcache.php?wp={0}";
         private const string CacheLogUrl = "http://www.opencaching.de/viewlogs.php?cacheid=";
-        private const string PatternCacheDescription = "<span style=\"font-family: Verdana, sans-serif; font-size: 13px; color: #424242; line-height: 16px; -webkit-border-horizontal-spacing: 5px; -webkit-border-vertical-spacing: 5px\" class=\"Apple-style-span\">(.*?)</span>";
-        
+        private const string PatternCacheDescription = "<div class=\"content2-container cachedesc\">(.*?)</div>";
         private const string PatternCacheLog = "<div class=\"content-txtbox-noshade\"><div class=\"logs\" id=\"log874219\"><p class=\"content-title-noshade-size1\" style=\"display:inline;\"><img src=\"resource2/ocstyle/images/log/16x16-found.png\" alt=\"Found\" />(.*?)<a href=\"viewprofile.php?userid=120056\">(.*?)</a>(.*?)</p><div class=\"viewcache_log-content\" style=\"margin-top: 15px;\"><p><p>(.*?)<br /><br />(.*?)</p></p></div></div></div>";
        
     }
