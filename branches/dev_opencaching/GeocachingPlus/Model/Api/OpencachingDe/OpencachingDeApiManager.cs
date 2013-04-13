@@ -200,11 +200,11 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
             {
                 if (e.Error != null) return;
 
-                var jsonResult = e.Result;
+                var result = e.Result;
 
                // var serializer = new DataContractJsonSerializer(typeof(OpencachingDeApiCache));
 
-                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonResult)))
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(result)))
                 {
                    // var parsedCache = (OpencachingDeApiCache)serializer.ReadObject(ms);
 
@@ -218,6 +218,8 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
                     // logs
                     if (null != processLogbook)
                     {
+                        var cacheId = Regex.Matches(e.Result, PatternCacheId, RegexOptions.Singleline)[0].Value.Substring(8, 6);
+                        
                         
                     }
 
@@ -232,9 +234,9 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
             client.DownloadStringAsync(new Uri(sUrl)); 
         }
 
-        /*public void FetchCacheLog(Action<string> processLogbook, Cache cache)
+        public void FetchCacheLog(Action<string> processLogbook, int cacheId)
         {
-            var sUrl = String.Format(CultureInfo.InvariantCulture, CacheLogUrl, cache.Id);
+            var sUrl = String.Format(CultureInfo.InvariantCulture, CacheLogUrl, cacheId);
 
             var client = new WebClient();
 
@@ -242,9 +244,9 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
             {
                 if (e.Error != null) return;
 
-                var jsonResult = e.Result;
+                var result = e.Result;
 
-                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonResult)))
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(result)))
                 {
                     // logs
                     if (null != processLogbook)
@@ -256,11 +258,12 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
 
             client.DownloadStringAsync(new Uri(sUrl)); 
 
-        }*/
+        }
 
         private const string CacheDescriptionUrl = "http://www.opencaching.de/viewcache.php?wp={0}";
         private const string CacheLogUrl = "http://www.opencaching.de/viewlogs.php?cacheid=";
         private const string PatternCacheDescription = "<div class=\"content2-container cachedesc\">(.*?)</div>";
+        private const string PatternCacheId = "cacheid=(.*?)&";
         private const string PatternCacheLog = "<div class=\"content-txtbox-noshade\"><div class=\"logs\" id=\"log874219\"><p class=\"content-title-noshade-size1\" style=\"display:inline;\"><img src=\"resource2/ocstyle/images/log/16x16-found.png\" alt=\"Found\" />(.*?)<a href=\"viewprofile.php?userid=120056\">(.*?)</a>(.*?)</p><div class=\"viewcache_log-content\" style=\"margin-top: 15px;\"><p><p>(.*?)<br /><br />(.*?)</p></p></div></div></div>";
        
     }
