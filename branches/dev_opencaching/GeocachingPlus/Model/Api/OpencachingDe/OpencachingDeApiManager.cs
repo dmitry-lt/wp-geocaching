@@ -202,24 +202,21 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
 
                 var result = e.Result;
 
-               // var serializer = new DataContractJsonSerializer(typeof(OpencachingDeApiCache));
-
                 using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(result)))
                 {
-                   // var parsedCache = (OpencachingDeApiCache)serializer.ReadObject(ms);
 
                     // description
                     if (null != processDescription)
                     {
-                        var description = Regex.Matches(e.Result, PatternCacheDescription, RegexOptions.Singleline)[0].Value;
+                        var description = Regex.Matches(result, PatternCacheDescription, RegexOptions.Singleline)[0].Value;
                         processDescription(description);
                     }
 
                     // logs
                     if (null != processLogbook)
                     {
-                        var cacheId = Regex.Matches(e.Result, PatternCacheId, RegexOptions.Singleline)[0].Value.Substring(8, 6);
-                        
+                        var cacheId = Regex.Matches(result, PatternCacheId, RegexOptions.Singleline)[0].Value.Substring(8, 6);
+                        FetchCacheLog(processLogbook, cacheId);
                         
                     }
 
@@ -234,9 +231,9 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
             client.DownloadStringAsync(new Uri(sUrl)); 
         }
 
-        public void FetchCacheLog(Action<string> processLogbook, int cacheId)
+        public void FetchCacheLog(Action<string> processLogbook, string cacheId)
         {
-            var sUrl = String.Format(CultureInfo.InvariantCulture, CacheLogUrl, cacheId);
+            var sUrl = CacheLogUrl + cacheId;
 
             var client = new WebClient();
 
@@ -246,12 +243,20 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
 
                 var result = e.Result;
 
+                if (e.Result != null)
+
                 using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(result)))
                 {
                     // logs
                     if (null != processLogbook)
                     {
-
+                        var logbook = "";
+                        for (int i = 0; i < CountLogs(result); i++)
+                        {
+                            logbook += Regex.Matches(result, PatternCacheLogUser, RegexOptions.Singleline)[i].Value + ":<br/>";
+                            logbook += Regex.Matches(result, PatternCacheLogComment, RegexOptions.Singleline)[i].Value + "<br/><br/>";
+                        }
+                        processLogbook(logbook);
                     }
                 }
             };
@@ -260,11 +265,23 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
 
         }
 
+        private int CountLogs(string str)
+        {
+            var found = Regex.Matches(str, PatternCacheFound, RegexOptions.Singleline)[0].Value;
+            var notFound = Regex.Matches(str, PatternCacheNotFound, RegexOptions.Singleline)[0].Value;
+            var note = Regex.Matches(str, PatternCacheNote, RegexOptions.Singleline)[0].Value;
+            var result = Convert.ToInt32(found.Substring(150, found.Length - 151)) + Convert.ToInt32(notFound.Substring(151, notFound.Length - 152)) + Convert.ToInt32(note.Substring(149, note.Length - 150));
+            return result;
+        }
+
         private const string CacheDescriptionUrl = "http://www.opencaching.de/viewcache.php?wp={0}";
         private const string CacheLogUrl = "http://www.opencaching.de/viewlogs.php?cacheid=";
         private const string PatternCacheDescription = "<div class=\"content2-container cachedesc\">(.*?)</div>";
         private const string PatternCacheId = "cacheid=(.*?)&";
-        private const string PatternCacheLog = "<div class=\"content-txtbox-noshade\"><div class=\"logs\" id=\"log874219\"><p class=\"content-title-noshade-size1\" style=\"display:inline;\"><img src=\"resource2/ocstyle/images/log/16x16-found.png\" alt=\"Found\" />(.*?)<a href=\"viewprofile.php?userid=120056\">(.*?)</a>(.*?)</p><div class=\"viewcache_log-content\" style=\"margin-top: 15px;\"><p><p>(.*?)<br /><br />(.*?)</p></p></div></div></div>";
-       
+        private const string PatternCacheLogUser = "<a href=\"viewprofile.php?(.*?)</a>";
+        private const string PatternCacheLogComment = "<div class=\"viewcache_log-content\" style=\"margin-top: 15px;\">(.*?)</div>";
+        private const string PatternCacheFound = "<img src=\"resource2/ocstyle/images/log/16x16-found.png\" width=\"16\" height=\"16\" align=\"middle\" border=\"0\" align=\"left\" alt=\"gefunden\" title=\"gefunden\"> (.*?)x";
+        private const string PatternCacheNotFound = "<img src=\"resource2/ocstyle/images/log/16x16-dnf.png\" width=\"16\" height=\"16\" align=\"middle\" border=\"0\" align=\"left\" alt=\"Not Found\" title=\"Not Found\"> (.*?)x";
+        private const string PatternCacheNote = "<img src=\"resource2/ocstyle/images/log/16x16-note.png\" width=\"16\" height=\"16\" align=\"middle\" border=\"0\" align=\"left\" align=\"Hinweis\" title=\"Hinweis\"> (.*?)x";
     }
 }
