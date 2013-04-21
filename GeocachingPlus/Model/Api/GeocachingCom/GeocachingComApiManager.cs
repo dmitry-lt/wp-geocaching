@@ -82,7 +82,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             }
         }
 
-        private void FetchTile(int fetchCachesCallNumber, ICollection<Tile> tiles, int tileIndex, Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        private void FetchTile(int fetchCachesCallNumber, ICollection<Tile> tiles, int tileIndex, Action<FetchCaches> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             if (tileIndex >= tiles.Count() || fetchCachesCallNumber != GetFetchCachesCallNumber())
             {
@@ -239,7 +239,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                                        (cache.Location.Longitude <= lngmax) &&
                                                        (cache.Location.Longitude >= lngmin))
                                                 select cache).ToList<Cache>();
-                                    processCaches(list);
+                                    processCaches(new FetchCaches(list, false));
                                 }
                                 
                                 RequestCounter.LiveMap.RequestSucceeded();
@@ -307,7 +307,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             }
         }
 
-        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        public void FetchCaches(Action<FetchCaches> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             TryToLogin();
             if (processCaches == null) return;
@@ -318,7 +318,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                (cache.Location.Longitude <= lngmax) &&
                                (cache.Location.Longitude >= lngmin))
                         select cache).ToList<Cache>();
-            processCaches(cacheList);
+            processCaches(new FetchCaches(cacheList, false));
 
             var viewport = new Viewport(lngmax, lngmin, latmax, latmin);
 
