@@ -125,7 +125,7 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
             return result;
         }
 
-        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        public void FetchCaches(Action<FetchCaches> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             Dictionary<string, string> parametrs1 = new Dictionary<string, string>();
             parametrs1.Add("showresult", "1");
@@ -162,10 +162,11 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
                                        (cache.Location.Longitude <= lngmax) &&
                                        (cache.Location.Longitude >= lngmin))
                                 select cache).ToList<Cache>();
+                    var tooManyCaches = parser.MaxRecord(xmlResult);
     
                     Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {
-                        processCaches(list);
+                        processCaches(new FetchCaches(list, tooManyCaches));
                     });
                 }
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -217,13 +218,42 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
                     {
                         var cacheId = Regex.Matches(result, PatternCacheId, RegexOptions.Singleline)[0].Value.Substring(8, 6);
                         FetchCacheLog(processLogbook, cacheId);
-                        
                     }
 
                     // photos
                     if (null != processPhotoUrls)
                     {
-                        
+                        var photosUrls = new List<string>();
+                        OpencachingDeCacheParser parser = new OpencachingDeCacheParser();
+                        var photos = Regex.Matches(result, PatternCachePhotos, RegexOptions.Singleline);
+                        for (int i = 0; i < photos.Count; i++)
+                        {
+                            var photoXml = XDocument.Parse(photos[i].Value);
+                            var photoUrl = parser.FetchPhotoUrl(photoXml);
+                            photosUrls.Add(photoUrl);
+                        }
+                        processPhotoUrls(photosUrls);
+                    }
+
+                    // hints
+                    if (null != processHint)
+                    {
+                        var hint = "";
+                        var firstHintStr = "";
+                        var secondHintStr = "";
+                        if (Regex.Matches(result, PatternCacheHintDesc, RegexOptions.Singleline).Count != 0)
+                        {
+                            var firstHint = Regex.Matches(result, PatternCacheHintDesc, RegexOptions.Singleline)[0].Value;
+                            firstHintStr = firstHint.Substring(22, firstHint.Length - 27).Replace("<br />", "\r\n");
+                        }
+                        if (Regex.Matches(result, PatternCacheHintAlphabet, RegexOptions.Singleline).Count != 0)
+                        {
+                            var secondHint_1 = Regex.Matches(result, PatternCacheHintAlphabet, RegexOptions.Singleline)[0].Value;
+                            var secondHint_2 = Regex.Matches(result, PatternCacheHintAlphabet, RegexOptions.Singleline)[1].Value;
+                            secondHintStr = secondHint_1.Substring(85, secondHint_1.Length - 92) + "\r\n" + secondHint_2.Substring(85, secondHint_2.Length - 92);
+                        }
+                        hint = firstHintStr + "\r\n" + secondHintStr;
+                        processHint(hint);
                     }
                 }
             };
@@ -276,12 +306,18 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
 
         private const string CacheDescriptionUrl = "http://www.opencaching.de/viewcache.php?wp={0}";
         private const string CacheLogUrl = "http://www.opencaching.de/viewlogs.php?cacheid=";
-        private const string PatternCacheDescription = "<div class=\"content2-container cachedesc\">(.*?)</div>";
+        private const string PatternCacheDescription = "<div class=\"content2-container cachedesc\">(.*?)\r\n</div>";
         private const string PatternCacheId = "cacheid=(.*?)&";
         private const string PatternCacheLogUser = "<a href=\"viewprofile.php?(.*?)</a>";
         private const string PatternCacheLogComment = "<div class=\"viewcache_log-content\" style=\"margin-top: 15px;\">(.*?)</div>";
         private const string PatternCacheFound = "<img src=\"resource2/ocstyle/images/log/16x16-found.png\" width=\"16\" height=\"16\" align=\"middle\" border=\"0\" align=\"left\" alt=\"gefunden\" title=\"gefunden\"> (.*?)x";
         private const string PatternCacheNotFound = "<img src=\"resource2/ocstyle/images/log/16x16-dnf.png\" width=\"16\" height=\"16\" align=\"middle\" border=\"0\" align=\"left\" alt=\"Not Found\" title=\"Not Found\"> (.*?)x";
         private const string PatternCacheNote = "<img src=\"resource2/ocstyle/images/log/16x16-note.png\" width=\"16\" height=\"16\" align=\"middle\" border=\"0\" align=\"left\" align=\"Hinweis\" title=\"Hinweis\"> (.*?)x";
+        private const string PatternCachePhotos = "<div class=\"img-shadow\">(.*?)</div>";
+        //private const string PatternCacheHint = "<p id=\"decrypt-hints\">(.*?)</p>";
+        //private const string PatternCacheAllHint = "<img src=\"resource2/ocstyle/images/description/22x22-encrypted.png\" style=\"align: left; margin-right: 10px;\" width=\"22\" height=\"22\" alt=\"Verschlüsselter Hinweis\" />(.*?)</div>(.*?)<div class=\"content2-container\">(.*?)</div>(.*?)</div>";
+        //private const string PatternCacheHintDesc = "<div class=\"content2-container\">(.*?)</div>(.*?)</div>";
+        private const string PatternCacheHintDesc = "<p id=\"decrypt-hints\">(.*?)</p>";
+        private const string PatternCacheHintAlphabet = "<font style=\"font-family: 'Courier New',FreeMono,Monospace;\" face=\"Courier\" size=\"2\">(.*?)</font>";
     }
 }

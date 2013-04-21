@@ -31,7 +31,7 @@ namespace GeocachingPlus.Model.Api
             _managers.Add(CacheProvider.OpencachingDe, new OpencachingDeApiManager());
         }
 
-        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
+        public void FetchCaches(Action<FetchCaches> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
         {
             foreach (var cp in _managers.Keys.Where(cp => _settings.IsCacheProviderEnabled(cp)))
             {

@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using System.Linq;
 using System.Device.Location;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace GeocachingPlus.Model.Api.OpencachingDe
 {
@@ -68,13 +69,20 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
         public SearchResult ParseForException(XDocument doc)
         {
             var searchRes = new SearchResult();
-            XElement generalElement = doc
-                   .Element("searchresult");
-            searchRes.Count = Convert.ToInt32(generalElement.Element("count").Value);
-            searchRes.Available = Convert.ToInt32(generalElement.Element("available").Value);
-            searchRes.MaxRecord = Convert.ToInt32(generalElement.Element("maxrecordreached").Value);
+            XElement generalElement = doc.Element("searchresult");
+            searchRes.Count = Convert.ToInt32(generalElement.FirstAttribute.Value);
+            searchRes.Available = Convert.ToInt32(generalElement.FirstAttribute.NextAttribute.Value);
+            searchRes.MaxRecord = Convert.ToInt32(generalElement.LastAttribute.Value);
            
             return searchRes;
+        }
+
+        public bool MaxRecord(XDocument doc)
+        {
+            SearchResult result = ParseForException(doc);
+            if (result.MaxRecord == 0)
+                return false;
+            else return true;
         }
 
         public class SearchResult
@@ -82,6 +90,14 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
             public int Count { get; set; }
             public int Available { get; set; }
             public int MaxRecord { get; set; }
+        }
+
+        public string FetchPhotoUrl(XDocument doc)
+        {
+            var strImg = Regex.Matches(doc.ToString(), "<img(.*?)/>", RegexOptions.Singleline)[0].Value;
+            var img = XDocument.Parse(strImg); 
+            XElement generalElement = img.Element("img");
+            return generalElement.Attribute("longdesc").Value;
         }
 
     }

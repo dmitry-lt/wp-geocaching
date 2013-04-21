@@ -128,6 +128,7 @@
     <Compile Include="Model\Api\RequestCounter.cs" />
     <Compile Include="Model\Api\WebBrowserHelper.cs" />
     <Compile Include="Model\DataBase\GeocachingComLookupInstance.cs" />
+    <Compile Include="Model\FetchCaches.cs" />
     <Compile Include="Model\Support.cs" />
     <Compile Include="Resources\Localization\GeocachingComCacheType.Designer.cs">
       <AutoGen>True</AutoGen>

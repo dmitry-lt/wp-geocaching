@@ -171,13 +171,13 @@ namespace GeocachingPlus.ViewModel
 
         public int AllCachesCount { get { return _allCaches.Count; } }
 
-        private void ProcessCaches(List<Cache> caches)
+        private void ProcessCaches(FetchCaches caches)
         {
             lock (_lock)
             {
                 if (null != caches)
                 {
-                    foreach (var c in caches)
+                    foreach (var c in caches.Caches)
                     {
                         if (!_allCaches.Contains(c))
                         {

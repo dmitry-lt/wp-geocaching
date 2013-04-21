@@ -60,7 +60,7 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
             }
         }
 
-        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        public void FetchCaches(Action<FetchCaches> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, CachesUrl, latmin, lngmin, latmax, lngmax);
 
@@ -116,7 +116,7 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
                                        (cache.Location.Longitude <= lngmax) &&
                                        (cache.Location.Longitude >= lngmin))
                                 select cache).ToList<Cache>();
-                    processCaches(list);
+                    processCaches(new FetchCaches(list, false));
                 }
 
                 RequestCounter.LiveMap.RequestSucceeded();
