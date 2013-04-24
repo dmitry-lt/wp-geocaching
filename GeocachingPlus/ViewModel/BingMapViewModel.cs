@@ -175,6 +175,7 @@ namespace GeocachingPlus.ViewModel
         {
             lock (_lock)
             {
+                var tooManyCaches = false;
                 if (null != caches)
                 {
                     foreach (var c in caches.Caches)
@@ -185,6 +186,7 @@ namespace GeocachingPlus.ViewModel
                         }
                     }
                     RaisePropertyChanged(() => AllCachesCount);
+                    tooManyCaches = caches.TooManyCaches;
                 }
 
                 var cachesOnScreen = new HashSet<Cache>();
@@ -199,7 +201,7 @@ namespace GeocachingPlus.ViewModel
                     }
                 }
 
-                _tooManyCachesOnScreen = cachesOnScreen.Count >= maxCacheCount;
+                _tooManyCachesOnScreen = cachesOnScreen.Count >= maxCacheCount || tooManyCaches;
 
                 if (_tooManyCachesOnScreen)
                 {
@@ -234,7 +236,7 @@ namespace GeocachingPlus.ViewModel
                     {
                         if (!_currentPushpins.ContainsKey(c))
                         {
-                            AddPushpin((Cache) c);
+                            AddPushpin((Cache)c);
                         }
                     }
                 }
