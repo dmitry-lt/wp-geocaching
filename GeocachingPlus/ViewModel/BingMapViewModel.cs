@@ -7,6 +7,7 @@ using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.DataBase;
 using Microsoft.Phone.Controls.Maps;
 using GeocachingPlus.Model.Api;
+using System;
 
 namespace GeocachingPlus.ViewModel
 {
@@ -15,7 +16,7 @@ namespace GeocachingPlus.ViewModel
         private const int maxCacheCount = 50;
         private LocationRect boundingRectangle;
         private Visibility surpassedCacheCountMessageVisibility = Visibility.Collapsed;
-
+        
         public Visibility SurpassedCacheCountMessageVisibility
         {
             get
@@ -176,6 +177,7 @@ namespace GeocachingPlus.ViewModel
                     }
                 }
 
+
                 _tooManyCachesOnScreen = cachesOnScreen.Count >= maxCacheCount;
 
                 if (_tooManyCachesOnScreen)
@@ -185,22 +187,22 @@ namespace GeocachingPlus.ViewModel
                     {
                         Caches.Add(c.Location);
                     }
-                    int NumClusters = 50;
+                    int NumClusters = 10;
                     KMeans obj = new KMeans(Caches, NumClusters);
                     cachesOnScreen.Clear();
-                    foreach (GeoCoordinate cluster in obj.Clusters)
+                    for (int i = 0; i < obj.NumClusters; i++)
                     {
-                        Cache c = new Cache();
-                        c.Location = cluster;
-                        cachesOnScreen.Add(c);
+                        Cluster c = new Cluster()
+                            {
+                                Location = obj.Clusters[i],
+                                Id = "Cluster" + i,
+                                Name = "Cluster" + i,
+                                CacheProvider = CacheProvider.Cluster,
+                            };
+                        cachesOnScreen.Add((Cache)c);
                     }
-                   /* if (surpassedCacheCountMessageVisibility.Equals(Visibility.Collapsed))
-                    {
-                        SurpassedCacheCountMessageVisibility = Visibility.Visible;
-                    }
-                    RemoveAllPushpins();*/
+                    
                 }
-   //             else
                 {
                     if (surpassedCacheCountMessageVisibility.Equals(Visibility.Visible))
                     {
@@ -210,7 +212,7 @@ namespace GeocachingPlus.ViewModel
                     var cachesToRemove = new HashSet<Cache>();
                     foreach (var c in _currentPushpins.Keys)
                     {
-                        if (!cachesOnScreen.Contains(c))
+                       if (!cachesOnScreen.Contains(c) || c.CacheProvider == CacheProvider.Cluster)
                         {
                             cachesToRemove.Add(c);
                         }
@@ -218,7 +220,8 @@ namespace GeocachingPlus.ViewModel
 
                     foreach (Cache c in cachesToRemove)
                     {
-                        RemovePushpin(c);
+                        if (_currentPushpins.ContainsKey(c)) 
+                            RemovePushpin(c);
                     }
 
                     foreach (Cache c in cachesOnScreen)
@@ -228,6 +231,7 @@ namespace GeocachingPlus.ViewModel
                             AddPushpin((Cache) c);
                         }
                     }
+
                 }
             }
         }
@@ -235,10 +239,8 @@ namespace GeocachingPlus.ViewModel
         private void SetPushpinsOnMap()
         {
             ProcessCaches(null);
-            if (!_tooManyCachesOnScreen)
-            {
-                apiManager.FetchCaches(ProcessCaches, BoundingRectangle.East, BoundingRectangle.West, BoundingRectangle.North, BoundingRectangle.South);
-            }
+            apiManager.FetchCaches(ProcessCaches, BoundingRectangle.East, BoundingRectangle.West,
+                                       BoundingRectangle.North, BoundingRectangle.South);
         }
         
     }
