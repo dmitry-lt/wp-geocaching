@@ -4,6 +4,7 @@ using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.Api.GeocachingSu;
 using GeocachingPlus.Model.Api.OpenCachingCom;
 using GeocachingPlus.ViewModel;
+using GeocachingPlus.Model;
 
 namespace GeocachingPlus.View.Converters
 {
@@ -13,7 +14,7 @@ namespace GeocachingPlus.View.Converters
         private const string CheckpointUri = "/Resources/Icons/ic_checkpoint_{0}.png";
 
         private const string OpenCachingComIconUri = "/Resources/Icons/OpenCachingCom/ic_cache_custom_{0}_valid.png";
-
+        
         private object ConvertGeocachingSu(GeocachingSuCache.Types type, GeocachingSuCache.Subtypes subtype)
         {
             switch (type)
@@ -180,6 +181,12 @@ namespace GeocachingPlus.View.Converters
             {
                 // TODO: implement
                 return new Uri(String.Format(CheckpointUri, "not_active"), UriKind.Relative);
+            }
+
+            if (value is Cluster)
+            {
+//                return new Uri(String.Format(CheckpointUri, "not_active"), UriKind.Relative);
+                return new Uri("/Resources/Icons/cluster.png", UriKind.Relative);
             }
 
             return null;

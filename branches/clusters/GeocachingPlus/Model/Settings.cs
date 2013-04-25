@@ -286,6 +286,9 @@ namespace GeocachingPlus.Model
                 case CacheProvider.GeocachingCom:
                     return IsGeocachingComEnabled;
 
+                case CacheProvider.Cluster:
+                    return true;
+
                 default:
                     throw new ArgumentException();
 

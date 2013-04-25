@@ -104,24 +104,25 @@
     </Compile>
     <Compile Include="Model\Api\ApiManager.cs" />
     <Compile Include="Model\Api\CacheProvider.cs" />
-    <Compile Include="Model\Api\GeocachingCom\ColorExtensions.cs" />
-    <Compile Include="Model\Api\GeocachingCom\GCConstants.cs" />
-    <Compile Include="Model\Api\GeocachingCom\GeocachingComApiCaches.cs" />
-    <Compile Include="Model\Api\GeocachingCom\GeocachingComApiManager.cs" />
-    <Compile Include="Model\Api\GeocachingCom\GeocachingComCache.cs" />
-    <Compile Include="Model\Api\GeocachingCom\GeoCoordinateExtensions.cs" />
-    <Compile Include="Model\Api\GeocachingCom\IconDecoder.cs" />
-    <Compile Include="Model\Api\GeocachingCom\ICoordinates.cs" />
-    <Compile Include="Model\Api\GeocachingCom\LruCache.cs" />
-    <Compile Include="Model\Api\GeocachingCom\Tile.cs" />
-    <Compile Include="Model\Api\GeocachingCom\UTFGrid.cs" />
-    <Compile Include="Model\Api\GeocachingCom\UTFGridPosition.cs" />
-    <Compile Include="Model\Api\GeocachingCom\Viewport.cs" />
+    <Compile Include="Model\GeocachingCom\ColorExtensions.cs" />
+    <Compile Include="Model\GeocachingCom\GCConstants.cs" />
+    <Compile Include="Model\GeocachingCom\GeocachingComApiCaches.cs" />
+    <Compile Include="Model\GeocachingCom\GeocachingComApiManager.cs" />
+    <Compile Include="Model\GeocachingCom\GeocachingComCache.cs" />
+    <Compile Include="Model\GeocachingCom\GeoCoordinateExtensions.cs" />
+    <Compile Include="Model\GeocachingCom\IconDecoder.cs" />
+    <Compile Include="Model\GeocachingCom\ICoordinates.cs" />
+    <Compile Include="Model\GeocachingCom\LruCache.cs" />
+    <Compile Include="Model\GeocachingCom\Tile.cs" />
+    <Compile Include="Model\GeocachingCom\UTFGrid.cs" />
+    <Compile Include="Model\GeocachingCom\UTFGridPosition.cs" />
+    <Compile Include="Model\GeocachingCom\Viewport.cs" />
     <Compile Include="Model\Api\GeocachingSu\GeocachingSuCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComCache.cs" />
     <Compile Include="Model\Api\PhotoDownloader.cs" />
+    <Compile Include="Model\Cluster.cs" />
     <Compile Include="Model\KMeans.cs" />
     <Compile Include="Resources\Localization\GeocachingComCacheType.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -351,7 +352,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\AppManifest.xml" />
+    <None Include="Properties\AppManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
@@ -364,6 +367,7 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\cluster.png" />
     <Content Include="Resources\Icons\GeocachingCom\marker.png" />
     <Content Include="Resources\Icons\GeocachingCom\type_ape.png" />
     <Content Include="Resources\Icons\GeocachingCom\type_cito.png" />
