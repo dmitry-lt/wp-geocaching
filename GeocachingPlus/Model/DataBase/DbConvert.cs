@@ -4,6 +4,7 @@ using GeocachingPlus.Model.Api;
 using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.Api.GeocachingSu;
 using GeocachingPlus.Model.Api.OpenCachingCom;
+using GeocachingPlus.Model.Api.OpencachingDe;
 
 namespace GeocachingPlus.Model.DataBase
 {
@@ -45,6 +46,20 @@ namespace GeocachingPlus.Model.DataBase
                     Name = item.Name,
                     Location = new GeoCoordinate(item.Latitude, item.Longitude),
                     Type = (GeocachingComCache.Types)item.Type,
+                    ReliableLocation = item.ReliableLocation.HasValue && item.ReliableLocation.Value,
+                };
+            return result;
+        }
+
+        private static OpencachingDeCache ToOpencachingDeCache(DbCache item)
+        {
+            var result =
+                new OpencachingDeCache()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Location = new GeoCoordinate(item.Latitude, item.Longitude),
+                    Type = (OpencachingDeCache.Types)item.Type,
                 };
             return result;
         }
@@ -58,6 +73,9 @@ namespace GeocachingPlus.Model.DataBase
 
                 case CacheProvider.GeocachingCom:
                     return ToGeocachingComCache(item);
+
+                case CacheProvider.OpencachingDe:
+                    return ToOpencachingDeCache(item);
 
                 default:
                     return ToGeocachingSuCache(item);
@@ -78,9 +96,15 @@ namespace GeocachingPlus.Model.DataBase
         private static void InitGeocachingComSpecificFields(DbCache result, GeocachingComCache cache)
         {
             result.Type = (int)cache.Type;
+            result.ReliableLocation = cache.ReliableLocation;
         }
 
-        public static DbCache ToDbCacheItem(Cache cache, string details, string logbook)
+        private static void InitOpencachingDeSpecificFields(DbCache result, OpencachingDeCache cache)
+        {
+            result.Type = (int)cache.Type;
+        }
+
+        public static DbCache ToDbCacheItem(Cache cache, string details, string logbook, string hint)
         {
             var result =
                 new DbCache()
@@ -103,6 +127,10 @@ namespace GeocachingPlus.Model.DataBase
                     InitGeocachingComSpecificFields(result, (GeocachingComCache)cache);
                     break;
 
+                case CacheProvider.OpencachingDe:
+                    InitOpencachingDeSpecificFields(result, (OpencachingDeCache)cache);
+                    break;
+
                 default:
                     InitGeocachingSuSpecificFields(result, (GeocachingSuCache)cache);
                     break;
@@ -110,13 +138,15 @@ namespace GeocachingPlus.Model.DataBase
 
             result.HtmlDescription = details;
             result.HtmlLogbook = logbook;
+            result.Hint = hint;
 
             return result;
         }
 
+        [Obsolete]
         public static DbCache ToDbCacheItem(Cache cache)
         {
-            return ToDbCacheItem(cache, null, null);
+            return ToDbCacheItem(cache, null, null, null);
         }
 
     }

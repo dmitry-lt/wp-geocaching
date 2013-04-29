@@ -66,6 +66,7 @@ namespace GeocachingPlus.ViewModel
                     MapManager.Instance.Cache = value;
                     ConnectingLine.Add(soughtCache.Location);
                     UpdateMapProperties();
+                    var settings = new Settings();
                     settings.LatestSoughtCacheId = value.Id;
                     settings.LatestSoughtCacheProvider = value.CacheProvider;
                 }
@@ -109,6 +110,7 @@ namespace GeocachingPlus.ViewModel
                 UpdateCurrentLocationInConnectingLine(value);
                 UpdateConnectingLineLength();
                 currentLocation = value;
+                var settings = new Settings();
                 settings.LatestSearchLocation = value;
                 RaisePropertyChanged(() => CurrentLocation);
             }
@@ -144,7 +146,7 @@ namespace GeocachingPlus.ViewModel
             Zoom = MapManager.Instance.DefaultZoom;
             CachePushpins = new ObservableCollection<CachePushpin>();
             ConnectingLine = new LocationCollection();
-            settings = new Settings();
+            var settings = new Settings();
             MapMode = settings.MapMode;
             currentLocation = settings.LatestSearchLocation;
             ShowAll();

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Device.Location;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Json;
+using System.Device.Location;
+using System.Globalization;
 using System.Text;
 
 namespace GeocachingPlus.Model.Api.OpenCachingCom
@@ -60,27 +60,7 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
             }
         }
 
-        // International UTF-8 Characters in Windows Phone 7 WebBrowser Control
-        // See http://matthiasshapiro.com/2010/10/25/international-utf-8-characters-in-windows-phone-7-webbrowser-control/
-        private static string ConvertExtendedASCII(string html)
-        {
-            var s = html.ToCharArray();
-
-            var sb = new StringBuilder();
-
-            foreach (var c in s)
-            {
-                var intValue = Convert.ToInt32(c);
-                if (intValue > 127)
-                    sb.AppendFormat("&#{0};", intValue);
-                else
-                    sb.Append(c);
-            }
-
-            return sb.ToString();
-        }
-
-        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        public void FetchCaches(Action<FetchCaches> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, CachesUrl, latmin, lngmin, latmax, lngmax);
 
@@ -88,7 +68,11 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
 
             client.DownloadStringCompleted += (sender, e) =>
             {
-                if (e.Error != null) return;
+                if (e.Error != null)
+                {
+                    RequestCounter.LiveMap.RequestFailed();
+                    return;
+                }
 
                 var jsonResult = e.Result;
 
@@ -132,14 +116,18 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
                                        (cache.Location.Longitude <= lngmax) &&
                                        (cache.Location.Longitude >= lngmin))
                                 select cache).ToList<Cache>();
-                    processCaches(list);
+                    processCaches(new FetchCaches(list, false));
                 }
+
+                RequestCounter.LiveMap.RequestSucceeded();
             };
+
+            RequestCounter.LiveMap.RequestSent();
 
             client.DownloadStringAsync(new Uri(sUrl));
         }
 
-        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Action<string> processHint, Cache cache)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, CacheDescriptionUrl, cache.Id);
 
@@ -160,8 +148,8 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
                     // description
                     if (null != processDescription)
                     {
-                        var description = parsedCache.name + "<br/><br/>" + parsedCache.description;
-                        processDescription(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(description)));
+                        var description = String.Format("{0} ({1}) <br/><br/> {2}", parsedCache.name, cache.Id, parsedCache.description);
+                        processDescription(String.Format(CacheDescriptionTemplate, WebBrowserHelper.ConvertExtendedASCII(description)));
                     }
 
                     // logs
@@ -177,7 +165,7 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
                                 logbook += log.comment + "<br/><br/>";
                             }
                         }
-                        processLogbook(String.Format(CacheDescriptionTemplate, ConvertExtendedASCII(logbook)));
+                        processLogbook(String.Format(CacheDescriptionTemplate, WebBrowserHelper.ConvertExtendedASCII(logbook)));
                     }
 
                     // photos
@@ -191,6 +179,14 @@ namespace GeocachingPlus.Model.Api.OpenCachingCom
                         }
                         processPhotoUrls(photoUrls);
                     }
+
+                    // hint
+                    if (null != processHint)
+                    {
+                        var hint = parsedCache.hint ?? "";
+                        processHint(hint);
+                    }
+
                 }
             };
 

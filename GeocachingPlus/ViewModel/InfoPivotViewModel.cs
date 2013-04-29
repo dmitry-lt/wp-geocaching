@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using GeocachingPlus.Model.Navigation;
 using Microsoft.Phone.Controls;
 using System.Collections.ObjectModel;
 using GeocachingPlus.Model;
@@ -50,6 +52,16 @@ namespace GeocachingPlus.ViewModel
             }
         }
 
+        private string _hint;
+        public string Hint
+        {
+            get { return _hint; }
+            set
+            {
+                _hint = value;
+            }
+        }
+
         private bool _infoLoaded;
         private void ProcessInfo(string info)
         {
@@ -63,6 +75,14 @@ namespace GeocachingPlus.ViewModel
         {
             Logbook = logbook;
             _logbookLoaded = true;
+            CheckFullyLoaded();
+        }
+
+        private bool _hintLoaded;
+        private void ProcessHint(string hint)
+        {
+            Hint = hint;
+            _hintLoaded = true;
             CheckFullyLoaded();
         }
 
@@ -141,7 +161,7 @@ namespace GeocachingPlus.ViewModel
         {
             lock (_lock)
             {
-                if (_infoLoaded && _logbookLoaded && _photoUrlLoaded && _photoInfos.All(p => p.Loaded))
+                if (_infoLoaded && _logbookLoaded && _photoUrlLoaded && _photoInfos.All(p => p.Loaded) && _hintLoaded)
                 {
                     CacheFullyLoaded(this, new EventArgs());
                 }
@@ -160,12 +180,13 @@ namespace GeocachingPlus.ViewModel
                 var dbCache = db.GetCache(Cache.Id, Cache.CacheProvider);
                 if (null == dbCache || null == dbCache.HtmlDescription || null == dbCache.HtmlLogbook)
                 {
-                    ApiManager.Instance.FetchCacheDetails(ProcessInfo, ProcessLogbook, ProcessPhotoUrls, Cache);
+                    ApiManager.Instance.FetchCacheDetails(ProcessInfo, ProcessLogbook, ProcessPhotoUrls, ProcessHint, Cache);
                 }
                 else
                 {
                     Info = dbCache.HtmlDescription;
                     Logbook = dbCache.HtmlLogbook;
+                    Hint = dbCache.Hint;
                     var helper = new FileStorageHelper();
                     foreach (var source in helper.GetPhotos(_cache))
                     {
@@ -182,6 +203,7 @@ namespace GeocachingPlus.ViewModel
         // invoke this event to hide photos tab
         public event EventHandler HidePhotos;
         public event EventHandler CacheFullyLoaded;
+        public event EventHandler CacheUpdating;
 
         public ObservableCollection<Photo> Previews 
         { 
@@ -236,6 +258,29 @@ namespace GeocachingPlus.ViewModel
             }
         }
 
+        private bool _isCacheFullyLoaded;
+        public bool IsCacheFullyLoaded
+        {
+            get
+            {
+                return _isCacheFullyLoaded;
+            }
+            set
+            {
+                _isCacheFullyLoaded = value;
+                RaisePropertyChanged(() => IsCacheFullyLoaded);
+                RaisePropertyChanged(() => IsCacheLoading);
+            }
+        }
+
+        public bool IsCacheLoading
+        {
+            get
+            {
+                return !_isCacheFullyLoaded;
+            }
+        }
+
         public InfoPivotViewModel(Action closeAction, WebBrowser infoBrowser, WebBrowser logbookBrowser)
         {
             _closeAction = closeAction;
@@ -243,6 +288,8 @@ namespace GeocachingPlus.ViewModel
             _infoBrowser = infoBrowser;
 
             Previews = new ObservableCollection<Photo>();
+
+            CacheFullyLoaded += (s,e) => IsCacheFullyLoaded = true;
         }
 
         public void ShowConfirmDeleteDialog(Dispatcher dispatcher)
@@ -253,5 +300,44 @@ namespace GeocachingPlus.ViewModel
             }
             _confirmDeleteDialog.Show();
         }
+
+        private void DoUpdateCache(object o)
+        {
+            _infoLoaded = false;
+            _logbookLoaded = false;
+            _photoUrlLoaded = false;
+            _photoInfos.Clear();
+            _hintLoaded = false;
+
+            ApiManager.Instance.FetchCacheDetails(ProcessInfo, ProcessLogbook, ProcessPhotoUrls, ProcessHint, Cache);            
+        }
+
+        private void ShowLogin(object o)
+        {
+            IsCacheFullyLoaded = true;
+            NavigationManager.Instance.NavigateToGeocachingComLogin();
+        }
+
+        private void UpdateCache()
+        {
+            var key = typeof (GeocachingComLoginPageViewModel).Name;
+            if (((App) Application.Current).Resources.Contains(key))
+            {
+                var obj = ((App) Application.Current).Resources[key];
+                if (obj is GeocachingComLoginPageViewModel)
+                {
+                    var vm = obj as GeocachingComLoginPageViewModel;
+                    IsCacheFullyLoaded = false;
+                    if (null != CacheUpdating)
+                    {
+                        CacheUpdating(this, new EventArgs());
+                    }
+                    vm.Login(DoUpdateCache, ShowLogin);
+                }
+            }
+        }
+
+        public ICommand UpdateCacheCommand { get { return new ButtonCommand(o => UpdateCache()); } }
+
     }
 }

@@ -15,7 +15,6 @@ namespace GeocachingPlus.ViewModel
         protected Visibility undetectedLocationMessageVisibility = Visibility.Collapsed;
         protected double direction;
         protected MapMode mapMode;
-        protected Settings settings = new Settings();
 
         public virtual int Zoom { get; set; }
         public virtual ObservableCollection<CachePushpin> CachePushpins { get; set; }
@@ -84,6 +83,7 @@ namespace GeocachingPlus.ViewModel
 
         protected void UpdateMapMode()
         {
+            var settings = new Settings();
             MapMode = settings.MapMode;
         }
 

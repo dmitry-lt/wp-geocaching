@@ -3,6 +3,7 @@ using System.Windows.Data;
 using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.Api.GeocachingSu;
 using GeocachingPlus.Model.Api.OpenCachingCom;
+using GeocachingPlus.Model.Api.OpencachingDe;
 using GeocachingPlus.ViewModel;
 
 namespace GeocachingPlus.View.Converters
@@ -13,6 +14,8 @@ namespace GeocachingPlus.View.Converters
         private const string CheckpointUri = "/Resources/Icons/ic_checkpoint_{0}.png";
 
         private const string OpenCachingComIconUri = "/Resources/Icons/OpenCachingCom/ic_cache_custom_{0}_valid.png";
+
+        private const string OpencachingDeIconUri = "/Resources/Icons/OpencachingDe/ic_cache_{0}.png";
 
         private object ConvertGeocachingSu(GeocachingSuCache.Types type, GeocachingSuCache.Subtypes subtype)
         {
@@ -164,6 +167,43 @@ namespace GeocachingPlus.View.Converters
             return null;
         }
 
+        private object ConvertOpencachingDe(OpencachingDeCache cache)
+        {
+            switch (cache.Type)
+            {
+                case OpencachingDeCache.Types.Traditional:
+                    return new Uri(String.Format(OpencachingDeIconUri, "traditional"), UriKind.Relative);
+
+                case OpencachingDeCache.Types.Multi:
+                    return new Uri(String.Format(OpencachingDeIconUri, "multi"), UriKind.Relative);
+
+                case OpencachingDeCache.Types.DriveIn:
+                    return new Uri(String.Format(OpencachingDeIconUri, "drive-in"), UriKind.Relative);
+
+                case OpencachingDeCache.Types.Event:
+                    return new Uri(String.Format(OpencachingDeIconUri, "event"), UriKind.Relative);
+                
+                case OpencachingDeCache.Types.Math:
+                    return new Uri(String.Format(OpencachingDeIconUri, "math"), UriKind.Relative);
+                
+                case OpencachingDeCache.Types.Moving:
+                    return new Uri(String.Format(OpencachingDeIconUri, "traditional"), UriKind.Relative); // another icon
+                
+                case OpencachingDeCache.Types.Quiz:
+                    return new Uri(String.Format(OpencachingDeIconUri, "quiz"), UriKind.Relative);
+
+                case OpencachingDeCache.Types.Virtual:
+                    return new Uri(String.Format(OpencachingDeIconUri, "virtual"), UriKind.Relative);
+
+                case OpencachingDeCache.Types.Webcam:
+                    return new Uri(String.Format(OpencachingDeIconUri, "webcam"), UriKind.Relative);
+
+                case OpencachingDeCache.Types.Unknown:
+                    return new Uri(String.Format(OpencachingDeIconUri, "unknown"), UriKind.Relative);
+            }
+            return null;
+        }
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value is OpenCachingComCache)
@@ -180,6 +220,11 @@ namespace GeocachingPlus.View.Converters
             {
                 // TODO: implement
                 return new Uri(String.Format(CheckpointUri, "not_active"), UriKind.Relative);
+            }
+
+            if (value is OpencachingDeCache)
+            {
+                return ConvertOpencachingDe(value as OpencachingDeCache);
             }
 
             return null;

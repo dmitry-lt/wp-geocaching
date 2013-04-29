@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Json;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Media.Imaging;
-using Newtonsoft.Json;
+using ComputerBeacon.Json;
+using GeocachingPlus.ViewModel;
 
 namespace GeocachingPlus.Model.Api.GeocachingCom
 {
     public class GeocachingComApiManager : IApiManager
     {
-        private TileCache _tileCache = new TileCache();
+        private readonly TileCache _tileCache = new TileCache();
 
         internal GeocachingComApiManager()
         {
@@ -21,32 +25,75 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
         private double MilliTimeStamp()
         {
-            DateTime d1 = new DateTime(1970, 1, 1);
-            DateTime d2 = DateTime.UtcNow;
-            TimeSpan ts = new TimeSpan(d2.Ticks - d1.Ticks);
+            var d1 = new DateTime(1970, 1, 1);
+            var d2 = DateTime.UtcNow;
+            var ts = new TimeSpan(d2.Ticks - d1.Ticks);
             return ts.TotalMilliseconds;
         }
 
-        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+/*
+        #region tiles to process queue
+
+        private readonly object _lock = new object();
+
+        private readonly List<Tile> _tilesToProcess = new List<Tile>();
+
+        private void SetTilesToProcess(IEnumerable<Tile> tiles)
         {
-            if (processCaches == null) return;
-            var cacheList = (from cache in Caches
-                        where ((cache.Location.Latitude <= latmax) &&
-                               (cache.Location.Latitude >= latmin) &&
-                               (cache.Location.Longitude <= lngmax) &&
-                               (cache.Location.Longitude >= lngmin))
-                        select cache).ToList<Cache>();
-            processCaches(cacheList);
-
-            var viewport = new Viewport(lngmax, lngmin, latmax, latmin);
-
-            var tiles = Tile.GetTilesForViewport(viewport);
-
-            foreach (Tile tile in tiles)
+            lock (_lock)
             {
-                if (!_tileCache.Contains(tile))
+                _tilesToProcess.Clear();
+                _tilesToProcess.AddRange(tiles);
+            }
+        }
+
+        private Tile GetTileToProcess()
+        {
+            lock (_lock)
+            {
+                Tile tile = null;
+                if (_tilesToProcess.Any())
                 {
-                    var parameters = new Dictionary<string, string>()
+                    tile = _tilesToProcess.First();
+                    _tilesToProcess.Remove(tile);
+                }
+                return tile;
+            }
+        }
+
+        #endregion
+*/
+
+        private readonly object _lock = new object();
+        private int _fetchCachesCallNumber;
+        private int InitNextFetchCachesCallNumber()
+        {
+            lock (_lock)
+            {
+                return ++_fetchCachesCallNumber;
+            }
+        }
+
+        private int GetFetchCachesCallNumber()
+        {
+            lock (_lock)
+            {
+                return _fetchCachesCallNumber;
+            }
+        }
+
+        private void FetchTile(int fetchCachesCallNumber, ICollection<Tile> tiles, int tileIndex, Action<FetchCaches> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        {
+            if (tileIndex >= tiles.Count() || fetchCachesCallNumber != GetFetchCachesCallNumber())
+            {
+                return;
+            }
+
+            var tile = tiles.ElementAt(tileIndex);
+
+            if (!_tileCache.Contains(tile))
+            {
+                var parameters = new Dictionary<string, string>()
                     {
                             {"x", tile.TileX + ""},
                             {"y", tile.TileY + ""},
@@ -54,84 +101,105 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                             {"ep", "1"},
                     };
 
-                    /*
-                    if (tokens != null) {
-                        params.put("k", tokens[0], "st", tokens[1]);
-                    }
-                    if (Settings.isExcludeMyCaches()) { // works only for PM
-                        params.put("hf", "1", "hh", "1"); // hide found, hide hidden
-                    }
-                    if (Settings.getCacheType() == CacheType.TRADITIONAL) {
-                        params.put("ect", "9,5,3,6,453,13,1304,137,11,4,8,1858"); // 2 = tradi 3 = multi 8 = mystery
-                    } else if (Settings.getCacheType() == CacheType.MULTI) {
-                        params.put("ect", "9,5,2,6,453,13,1304,137,11,4,8,1858");
-                    } else if (Settings.getCacheType() == CacheType.MYSTERY) {
-                        params.put("ect", "9,5,3,6,453,13,1304,137,11,4,2,1858");
-                    }
-                    */
+                /*
+                if (tokens != null) {
+                    params.put("k", tokens[0], "st", tokens[1]);
+                }
+                if (Settings.isExcludeMyCaches()) { // works only for PM
+                    params.put("hf", "1", "hh", "1"); // hide found, hide hidden
+                }
+                if (Settings.getCacheType() == CacheType.TRADITIONAL) {
+                    params.put("ect", "9,5,3,6,453,13,1304,137,11,4,8,1858"); // 2 = tradi 3 = multi 8 = mystery
+                } else if (Settings.getCacheType() == CacheType.MULTI) {
+                    params.put("ect", "9,5,2,6,453,13,1304,137,11,4,8,1858");
+                } else if (Settings.getCacheType() == CacheType.MYSTERY) {
+                    params.put("ect", "9,5,3,6,453,13,1304,137,11,4,2,1858");
+                }
+                */
 
-                    if (tile.Zoomlevel != 14)
+                if (tile.Zoomlevel != 14)
+                {
+                    parameters.Add("_", MilliTimeStamp() + "");
+                }
+
+                // TODO: other types t.b.d
+
+                var currentTile = tile;
+
+                // The PNG must be requested first, otherwise the following request would always return with 204 - No Content
+                Action<WriteableBitmap> processBitmap = bitmap =>
+                {
+                    if (null == bitmap)
                     {
-                        parameters.Add("_", MilliTimeStamp() + "");
+                        RequestCounter.LiveMap.RequestFailed();
+                    }
+                    else
+                    {
+                        RequestCounter.LiveMap.RequestSucceeded();
                     }
 
-                    // TODO: other types t.b.d
-
-                    var currentTile = tile;
-
-                    // The PNG must be requested first, otherwise the following request would always return with 204 - No Content
-                    Action<WriteableBitmap> processBitmap = bitmap =>
+                    // Check bitmap size
+                    if (bitmap != null && (bitmap.PixelWidth != Tile.TILE_SIZE || bitmap.PixelHeight != Tile.TILE_SIZE))
                     {
-                        // Check bitmap size
-                        if (bitmap != null && (bitmap.PixelWidth != Tile.TILE_SIZE || bitmap.PixelHeight != Tile.TILE_SIZE))
+                        bitmap = null;
+                    }
+
+                    Action<DownloadStringCompletedEventArgs> downloadCachesCompleted =
+                        (e) =>
                         {
-                            bitmap = null;
-                        }
-
-                        Action<DownloadStringCompletedEventArgs> downloadCachesCompleted =
-                            (e) =>
+                            if (e.Error != null)
                             {
-                                if (e.Error != null) return;
-
+                                RequestCounter.LiveMap.RequestFailed();
+                            }
+                            else
+                            {
                                 var jsonResult = e.Result;
 
                                 if (!String.IsNullOrWhiteSpace(jsonResult))
                                 {
                                     var nameCache = new Dictionary<string, string>(); // JSON id, cache name
 
-                                    var parsedData =
-                                        (GeocachingComApiCaches)
-                                        JsonConvert.DeserializeObject(jsonResult, typeof(GeocachingComApiCaches));
+                                    var parsedData = new JsonObject(jsonResult);
 
-                                    var keys = parsedData.keys;
+                                    const string keysId = "keys";
+                                    const string dataId = "data";
+
+                                    var keys = (parsedData.ContainsKey(keysId) ? parsedData[keysId] : null) as JsonArray;
+                                    var data = (parsedData.ContainsKey(dataId) ? parsedData[dataId] : null) as JsonObject;
 
                                     var positions = new Dictionary<string, List<UTFGridPosition>>();
                                     // JSON id as key
-                                    for (var i = 1; i < keys.Length; i++)
+                                    if (null != keys && null != data)
                                     {
-                                        // index 0 is empty
-                                        var key = keys[i];
-                                        if (!String.IsNullOrWhiteSpace(key))
+                                        for (var i = 1; i < keys.Count; i++)
                                         {
-                                            var pos = UTFGridPosition.FromString(key);
-
-                                            var dataForKey = parsedData.data[key];
-                                            foreach (var c in dataForKey)
+                                            // index 0 is empty
+                                            var keyObject = keys[i];
+                                            var key = keyObject == null ? null : keyObject.ToString();
+                                            if (!String.IsNullOrWhiteSpace(key))
                                             {
-                                                var id = c.i;
-                                                if (!nameCache.ContainsKey(id))
-                                                {
-                                                    nameCache.Add(id, c.n);
-                                                }
+                                                var pos = UTFGridPosition.FromString(key);
 
-                                                if (!positions.ContainsKey(id))
+                                                var dataForKey = data[key] as JsonArray;
+                                                if (null != dataForKey)
                                                 {
-                                                    positions.Add(id, new List<UTFGridPosition>());
-                                                }
+                                                    foreach (JsonObject c in dataForKey)
+                                                    {
+                                                        var id = c["i"].ToString();
+                                                        if (!nameCache.ContainsKey(id))
+                                                        {
+                                                            nameCache.Add(id, c["n"].ToString());
+                                                        }
 
-                                                positions[id].Add(pos);
+                                                        if (!positions.ContainsKey(id))
+                                                        {
+                                                            positions.Add(id, new List<UTFGridPosition>());
+                                                        }
+
+                                                        positions[id].Add(pos);
+                                                    }
+                                                }
                                             }
-
                                         }
                                     }
 
@@ -171,44 +239,92 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                                        (cache.Location.Longitude <= lngmax) &&
                                                        (cache.Location.Longitude >= lngmin))
                                                 select cache).ToList<Cache>();
-                                    processCaches(list);
+                                    processCaches(new FetchCaches(list, false));
                                 }
-                            };
-
-                        currentTile.RequestMapInfo(downloadCachesCompleted, GCConstants.URL_MAP_INFO, parameters, GCConstants.URL_LIVE_MAP);
-
-                        /*
-                        String data = Tile.requestMapInfo(GCConstants.URL_MAP_INFO, params, GCConstants.URL_LIVE_MAP);
-                        if (StringUtils.isEmpty(data)) {
-                            Log.e("GCBase.searchByViewport: No data from server for tile (" + tile.getX() + "/" + tile.getY() + ")");
-                        } else {
-                            final SearchResult search = GCMap.parseMapJSON(data, tile, bitmap, strategy);
-                            if (search == null || CollectionUtils.isEmpty(search.getGeocodes())) {
-                                Log.e("GCBase.searchByViewport: No cache parsed for viewport " + viewport);
+                                
+                                RequestCounter.LiveMap.RequestSucceeded();
                             }
-                            else {
-                                searchResult.addGeocodes(search.getGeocodes());
-                            }
-                            Tile.Cache.add(tile);
+
+                            FetchTile(fetchCachesCallNumber, tiles, tileIndex + 1, processCaches, lngmax, lngmin, latmax, latmin);
+                        };
+
+                    if (fetchCachesCallNumber != GetFetchCachesCallNumber())
+                    {
+                        return;
+                    }
+
+                    RequestCounter.LiveMap.RequestSent();
+
+                    currentTile.RequestMapInfo(downloadCachesCompleted, GCConstants.URL_MAP_INFO, parameters, GCConstants.URL_LIVE_MAP);
+
+                    /*
+                    String data = Tile.requestMapInfo(GCConstants.URL_MAP_INFO, params, GCConstants.URL_LIVE_MAP);
+                    if (StringUtils.isEmpty(data)) {
+                        Log.e("GCBase.searchByViewport: No data from server for tile (" + tile.getX() + "/" + tile.getY() + ")");
+                    } else {
+                         SearchResult search = GCMap.parseMapJSON(data, tile, bitmap, strategy);
+                        if (search == null || CollectionUtils.isEmpty(search.getGeocodes())) {
+                            Log.e("GCBase.searchByViewport: No cache parsed for viewport " + viewport);
                         }
-                        */
-
-                        // release native bitmap memory
-                        /*
-                        if (bitmap != null) {
-                            bitmap.recycle();
+                        else {
+                            searchResult.addGeocodes(search.getGeocodes());
                         }
-                        */
+                        Tile.Cache.add(tile);
+                    }
+                    */
 
-                    };
+                    // release native bitmap memory
+                    /*
+                    if (bitmap != null) {
+                        bitmap.recycle();
+                    }
+                    */
 
+                };
 
-                    Tile.RequestMapTile(processBitmap, parameters);
+                RequestCounter.LiveMap.RequestSent();
 
-                }
-
+                Tile.RequestMapTile(processBitmap, parameters);
             }
+        }
 
+        private bool _triedToLogin;
+        private void TryToLogin()
+        {
+            if (!_triedToLogin)
+            {
+                _triedToLogin = true;
+                var key = typeof (GeocachingComLoginPageViewModel).Name;
+                if (((App) Application.Current).Resources.Contains(key))
+                {
+                    var obj = ((App) Application.Current).Resources[key];
+                    if (obj is GeocachingComLoginPageViewModel)
+                    {
+                        var vm = obj as GeocachingComLoginPageViewModel;
+                        vm.Login();
+                    }
+                }
+            }
+        }
+
+        public void FetchCaches(Action<FetchCaches> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        {
+            TryToLogin();
+            if (processCaches == null) return;
+            var cacheList = (from cache in Caches
+                        where ((cache.Location != null) &&
+                               (cache.Location.Latitude <= latmax) &&
+                               (cache.Location.Latitude >= latmin) &&
+                               (cache.Location.Longitude <= lngmax) &&
+                               (cache.Location.Longitude >= lngmin))
+                        select cache).ToList<Cache>();
+            processCaches(new FetchCaches(cacheList, false));
+
+            var viewport = new Viewport(lngmax, lngmin, latmax, latmin);
+
+            var tiles = Tile.GetTilesForViewport(viewport);
+
+            FetchTile(InitNextFetchCachesCallNumber(), tiles, 0, processCaches, lngmax, lngmin, latmax, latmin);
         }
 
 
@@ -219,6 +335,11 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
         private const string PatternDesc = "<span id=\"ctl00_ContentBody_LongDescription\">(.*?)</span>\\s*</div>\\s*<p>\\s*</p>\\s*<p id=\"ctl00_ContentBody_hints\">";
         private const string PatternImg = "<img.*?src=\"(.*?)\".*?/>";
         private const string PatternType = "<img src=\"[^\"]*/WptTypes/\\d+\\.gif\" alt=\"([^\"]+?)\"[^>]*>";
+        private const string PatternSpoilerImage = "<a href=\"(http://img\\.geocaching\\.com/cache/[^.]+\\.jpe?g)\"[^>]+><img[^>]+><span>([^<]+)</span></a>(?:<br />([^<]+)<br /><br />)?";
+        private const string PatternLatLon = "<span id=\"uxLatLon\" style=\"font-weight:bold;\"[^>]*>(.*?)</span>";
+        private const string PatternHint = "<div id=\"div_hint\"[^>]*>(.*?)</div>";
+        private const string PatternLinebreak = "<(br|p)[^>]*>";
+        private const string PatternLogbook = "initalLogs = (\\{.+\\});";
 
         private GeocachingComCache.Types GetType(string altText)
         {
@@ -263,21 +384,21 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             }
         }
 
-        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Action<string> processHint, Cache cache)
         {
-            if (null == processDescription || null == processLogbook || null == processPhotoUrls)
+            if (null == processDescription || null == processLogbook || null == processPhotoUrls || null == processHint)
             {
                 return;
             }
 
             var sUrl = InfoUrl + cache.Id;
-            var client = new WebClient();
+            var client = new ExtendedWebClient();
 
-            client.DownloadStringCompleted += (sender, e) =>
+            Action<string> downloadStringCompleted = initialHtml =>
             {
-                if (e.Error != null) return;
+                if (initialHtml == null) return;
 
-                var html = e.Result;
+                var html = WebBrowserHelper.ConvertExtendedASCII(initialHtml);
 
                 var shortDescription = "";
                 var matchesShortdesc = Regex.Matches(html, PatternShortdesc, RegexOptions.Singleline);
@@ -303,19 +424,15 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     var cacheId = cache.Id;
                 }
 
-                var totalDescription = shortDescription + "<br/><br/>" + description;
+                var totalDescription = String.Format("{0} <br/><br/> {1}", shortDescription, description);
 
-                processDescription(cache.Name + "<br/><br/>" + totalDescription);
-
-                var typeMatches = Regex.Matches(html, PatternType, RegexOptions.Singleline);
+                // cache type
+                var cacheType = GeocachingComCache.Types.UNKNOWN;
+                var typeMatches = Regex.Matches(initialHtml, PatternType, RegexOptions.Singleline);
                 if (typeMatches.Count == 1)
                 {
                     var typeString = typeMatches[0].Groups[1].Value;
-                    var cacheType = GetType(typeString);
-                    if (GeocachingComCache.Types.UNKNOWN != cacheType)
-                    {
-                        ((GeocachingComCache) cache).Type = cacheType;
-                    }
+                    cacheType = GetType(typeString);
                 }
                 else
                 {
@@ -323,8 +440,61 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     var cacheId = cache.Id;
                 }
 
-                // TODO: implement logbook
-                processLogbook("");
+                // cache location
+                GeoCoordinate cacheLocation = null;
+                var locationMatches = Regex.Matches(initialHtml, PatternLatLon, RegexOptions.Singleline);
+                if (locationMatches.Count > 0)
+                {
+                    var locationString = locationMatches[0].Groups[1].Value;
+                    cacheLocation = GeopointParser.Parse(locationString);
+                }
+
+                Deployment.Current.Dispatcher.BeginInvoke(
+                    () =>
+                        {
+                            var gcCache = ((GeocachingComCache)cache);
+                            if (GeocachingComCache.Types.UNKNOWN != cacheType)
+                            {
+                                gcCache.Type = cacheType;
+                            }
+                            if (null != cacheLocation)
+                            {
+                                gcCache.Location = cacheLocation;
+                                gcCache.ReliableLocation = true;
+                            }
+
+                            var finalDesc = String.Format(
+                                "{0} ({1}) <br/><br/> {2}", 
+                                WebBrowserHelper.ConvertExtendedASCII(cache.Name), 
+                                cache.Id,
+                                totalDescription);
+
+                            processDescription(finalDesc);
+                        });
+
+                var logbook = "";
+                var matchesLogbook = Regex.Matches(html, PatternLogbook, RegexOptions.Multiline);
+                if (matchesLogbook.Count == 1)
+                {
+                    var logbookJson = matchesLogbook[0].Groups[1].Value;
+
+                    var parsedLogbook = new JsonObject(logbookJson);
+
+                    if ("success".Equals(parsedLogbook["status"]))
+                    {
+                        var data = parsedLogbook["data"] as JsonArray;
+                        if (null != data)
+                        {
+                            foreach (JsonObject log in data)
+                            {
+                                logbook += log["UserName"] + ":<br/>";
+                                logbook += log["LogText"] + "<br/><br/>";
+                            }
+                        }
+                    }
+                }
+
+                Deployment.Current.Dispatcher.BeginInvoke(() => processLogbook(logbook));
 
 
                 // searching for images in description
@@ -347,10 +517,50 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                     }
                     photoUrls.Add(photoUrl);
                 }
-                processPhotoUrls(photoUrls);
+
+                // spoiler images
+                var spoilerImageUrls = Regex.Matches(html, PatternSpoilerImage);
+                for (var i = 0; i < spoilerImageUrls.Count; i++)
+                {
+                    var photoUrl = spoilerImageUrls[i].Groups[1].Value;
+                    if (!photoUrl.StartsWith("http://") && !photoUrl.StartsWith("https://"))
+                    {
+                        if (photoUrl.StartsWith("/"))
+                        {
+                            photoUrl = GeocachingComUrl + photoUrl;
+                        }
+                        else
+                        {
+                            photoUrl = GeocachingComSeekUrl + photoUrl;
+                        }
+                    }
+                    photoUrls.Add(photoUrl);
+                }
+
+                Deployment.Current.Dispatcher.BeginInvoke(() => processPhotoUrls(photoUrls));
+
+                var hint = "";
+                var hintUrls = Regex.Matches(initialHtml, PatternHint, RegexOptions.Singleline);
+                for (var i = 0; i < hintUrls.Count; i++)
+                {
+                    hint += hintUrls[i].Groups[1].Value;
+                }
+
+                // replace linebreak and paragraph tags
+                var breaks = Regex.Matches(hint, PatternLinebreak, RegexOptions.Singleline);
+                for (var i = 0; i < breaks.Count; i++)
+                {
+                    var lineBreak = breaks[i].Groups[0].Value;
+                    hint = hint.Replace(lineBreak, "\n");
+                }
+                hint = hint.Trim();
+
+                hint = CryptUtils.Rot13(hint);
+
+                Deployment.Current.Dispatcher.BeginInvoke(() => processHint(hint));
 
             };
-            client.DownloadStringAsync(new Uri(sUrl));
+            client.Get(sUrl, downloadStringCompleted);
         }
 
         private class TileCache

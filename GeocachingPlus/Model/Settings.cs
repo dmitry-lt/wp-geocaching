@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO.IsolatedStorage;
 using System.Device.Location;
 using GeocachingPlus.Model.Api;
@@ -29,6 +30,10 @@ namespace GeocachingPlus.Model
         private const string IsOpenCachingComEnabledKeyName = "IsOpenCachingComEnabled";
         private const string IsGeocachingSuEnabledKeyName = "IsGeocachingSuEnabled";
         private const string IsGeocachingComEnabledKeyName = "IsGeocachingComEnabled";
+        private const string IsOpencachingDeEnabledKeyName = "IsOpencachingDeEnabled";
+        private const string GeocachingComLoggedInKeyName = "GeocachingComLoggedInKey";
+        private const string GeocachingComLoginKeyName = "GeocachingComLoginKey";
+        private const string GeocachingComPasswordKeyName = "GeocachingComPassword";
 
         // The default value of our settings
         private const string LatestSoughtCacheIdDefault = "";
@@ -42,6 +47,9 @@ namespace GeocachingPlus.Model
 
         public Settings()
         {
+            // don't initialize settings if in design view
+            if (DesignerProperties.IsInDesignTool) return;
+
             _settings = IsolatedStorageSettings.ApplicationSettings;
         }
 
@@ -228,6 +236,54 @@ namespace GeocachingPlus.Model
             }
         }
 
+        public bool GeocachingComLoggedIn
+        {
+            get
+            {
+
+                return GetValueOrDefault(GeocachingComLoggedInKeyName, false);
+            }
+            set
+            {
+                if (AddOrUpdateValue(GeocachingComLoggedInKeyName, value))
+                {
+                    Save();
+                }
+            }
+        }
+
+        public string GeocachingComLogin
+        {
+            get
+            {
+
+                return GetValueOrDefault(GeocachingComLoginKeyName, "");
+            }
+            set
+            {
+                if (AddOrUpdateValue(GeocachingComLoginKeyName, value))
+                {
+                    Save();
+                }
+            }
+        }
+
+        public string GeocachingComPassword
+        {
+            get
+            {
+
+                return GetValueOrDefault(GeocachingComPasswordKeyName, "");
+            }
+            set
+            {
+                if (AddOrUpdateValue(GeocachingComPasswordKeyName, value))
+                {
+                    Save();
+                }
+            }
+        }
+
         public bool IsOpenCachingComEnabled
         {
             get
@@ -273,6 +329,21 @@ namespace GeocachingPlus.Model
             }
         }
 
+        public bool IsOpencachingDeEnabled
+        {
+            get
+            {
+                return GetValueOrDefault(IsOpencachingDeEnabledKeyName, true);
+            }
+            set
+            {
+                if (AddOrUpdateValue(IsOpencachingDeEnabledKeyName, value))
+                {
+                    Save();
+                }
+            }
+        }
+
         public bool IsCacheProviderEnabled(CacheProvider cacheProvider)
         {
             switch (cacheProvider)
@@ -285,6 +356,9 @@ namespace GeocachingPlus.Model
 
                 case CacheProvider.GeocachingCom:
                     return IsGeocachingComEnabled;
+
+                case CacheProvider.OpencachingDe:
+                    return IsOpencachingDeEnabled;
 
                 default:
                     throw new ArgumentException();

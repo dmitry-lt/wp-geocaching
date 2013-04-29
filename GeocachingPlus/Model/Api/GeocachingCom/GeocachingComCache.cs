@@ -36,7 +36,16 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             }
         }
 
-        public bool ReliableLocation { get; set; }
+        private bool _reliableLocation;
+        public bool ReliableLocation
+        {
+            get { return _reliableLocation; }
+            set 
+            { 
+                _reliableLocation = value;
+                PropertyChanged.Raise(() => ReliableLocation);
+            }
+        }
 
         public GeocachingComCache()
         {

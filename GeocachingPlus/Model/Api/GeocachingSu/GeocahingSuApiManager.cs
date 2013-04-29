@@ -33,7 +33,7 @@ namespace GeocachingPlus.Model.Api.GeocachingSu
             Caches = new HashSet<Cache>();
         }
 
-        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lngmin, double latmax, double latmin)
+        public void FetchCaches(Action<FetchCaches> processCaches, double lngmax, double lngmin, double latmax, double latmin)
         {
             var sUrl = String.Format(CultureInfo.InvariantCulture, DownloadUrl, lngmax, lngmin, latmax, latmin, _id);
             var client = new WebClient
@@ -42,7 +42,11 @@ namespace GeocachingPlus.Model.Api.GeocachingSu
                              };
             client.DownloadStringCompleted += (sender, e) =>
             {
-                if (e.Error != null) return;
+                if (e.Error != null)
+                {
+                    RequestCounter.LiveMap.RequestFailed();
+                    return;
+                }
                 var caches = XElement.Parse(e.Result);
                 var parser = new GeocachingSuCacheParser();
                 var downloadedCaches = parser.Parse(caches);
@@ -62,12 +66,17 @@ namespace GeocachingPlus.Model.Api.GeocachingSu
                                    (cache.Location.Longitude <= lngmax) &&
                                    (cache.Location.Longitude >= lngmin))
                             select cache).ToList<Cache>();
-                processCaches(list);
+                processCaches(new FetchCaches(list, false));
+
+                RequestCounter.LiveMap.RequestSucceeded();
             };
+            
+            RequestCounter.LiveMap.RequestSent();
+
             client.DownloadStringAsync(new Uri(sUrl));
         }
 
-        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Action<string> processHint, Cache cache)
         {
             if (null != processDescription)
             {
@@ -82,6 +91,11 @@ namespace GeocachingPlus.Model.Api.GeocachingSu
             if (null != processPhotoUrls)
             {
                 DownloadAndProcessPhotoUrls(processPhotoUrls, cache);
+            }
+
+            if (null != processHint)
+            {
+                processHint("");
             }
         }
 

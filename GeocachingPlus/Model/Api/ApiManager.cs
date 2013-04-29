@@ -4,6 +4,7 @@ using System.Linq;
 using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.Api.GeocachingSu;
 using GeocachingPlus.Model.Api.OpenCachingCom;
+using GeocachingPlus.Model.Api.OpencachingDe;
 
 namespace GeocachingPlus.Model.Api
 {
@@ -27,9 +28,10 @@ namespace GeocachingPlus.Model.Api
             _managers.Add(CacheProvider.GeocachingSu, new GeocahingSuApiManager());
             _managers.Add(CacheProvider.OpenCachingCom, new OpenCachingComApiManager());
             _managers.Add(CacheProvider.GeocachingCom, new GeocachingComApiManager());
+            _managers.Add(CacheProvider.OpencachingDe, new OpencachingDeApiManager());
         }
 
-        public void FetchCaches(Action<List<Cache>> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
+        public void FetchCaches(Action<FetchCaches> processCaches, double lngmax, double lgnmin, double latmax, double latmin)
         {
             foreach (var cp in _managers.Keys.Where(cp => _settings.IsCacheProviderEnabled(cp)))
             {
@@ -37,9 +39,9 @@ namespace GeocachingPlus.Model.Api
             }
         }
 
-        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Cache cache)
+        public void FetchCacheDetails(Action<string> processDescription, Action<string> processLogbook, Action<List<string>> processPhotoUrls, Action<string> processHint, Cache cache)
         {
-            _managers[cache.CacheProvider].FetchCacheDetails(processDescription, processLogbook, processPhotoUrls, cache);
+            _managers[cache.CacheProvider].FetchCacheDetails(processDescription, processLogbook, processPhotoUrls, processHint, cache);
         }
 
         #endregion

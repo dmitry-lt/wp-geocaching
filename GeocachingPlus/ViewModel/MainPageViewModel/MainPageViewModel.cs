@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
@@ -70,13 +71,6 @@ namespace GeocachingPlus.ViewModel.MainPageViewModel
 
         public MainPageViewModel()
         {
-            var settings = new Settings();
-            if (settings.IsFirstLaunching)
-            {
-                PrivacyStatementDialog.Show();
-                settings.IsFirstLaunching = false;
-            }
-
             Source = new ObservableCollection<TileSource>
                          {
                              GetChooseCacheTile(),
@@ -140,7 +134,23 @@ namespace GeocachingPlus.ViewModel.MainPageViewModel
         private void SearchCache()
         {
             var settings = new Settings();
-            if (String.IsNullOrEmpty(settings.LatestSoughtCacheId))
+            var db = new CacheDataBase();
+
+            var cacheId = settings.LatestSoughtCacheId;
+            var cacheProvider = settings.LatestSoughtCacheProvider;
+
+            if (String.IsNullOrEmpty(cacheId))
+            {
+                var caches = db.GetCacheList();
+                if (caches.Any())
+                {
+                    var cache = caches.First();
+                    cacheId = cache.Id;
+                    cacheProvider = cache.CacheProvider;
+                }
+            }
+
+            if (String.IsNullOrEmpty(cacheId))
             {
                 NoSouhgtCacheMessageVisibility = Visibility.Visible;
                 var timer = new DispatcherTimer
@@ -152,8 +162,7 @@ namespace GeocachingPlus.ViewModel.MainPageViewModel
             }
             else if (settings.IsLocationEnabled)
             {
-                var db = new CacheDataBase();
-                var dbCache = db.GetCache(settings.LatestSoughtCacheId, settings.LatestSoughtCacheProvider);
+                var dbCache = db.GetCache(cacheId, cacheProvider);
                 var cache = DbConvert.ToCache(dbCache);
                 NavigationManager.Instance.NavigateToSearchBingMap(cache);
             }

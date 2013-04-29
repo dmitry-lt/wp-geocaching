@@ -31,10 +31,16 @@ namespace GeocachingPlus.Model.DataBase
         [Column()]
         public DateTime UpdateTime { get; set; }
 
-        [Column(DbType = "NTEXT", UpdateCheck = UpdateCheck.WhenChanged)]
+        [Column(DbType = "NTEXT", UpdateCheck = UpdateCheck.Never)]
         public string HtmlDescription { get; set; }
 
-        [Column(DbType = "NTEXT", UpdateCheck = UpdateCheck.WhenChanged)]
+        [Column(DbType = "NTEXT", UpdateCheck = UpdateCheck.Never)]
         public string HtmlLogbook { get; set; }
+
+        [Column(CanBeNull = true)]
+        public bool? ReliableLocation { get; set; }
+
+        [Column(CanBeNull = true)]
+        public string Hint { get; set; }
     }
 }

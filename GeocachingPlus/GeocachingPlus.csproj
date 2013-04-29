@@ -50,31 +50,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZLib.Phone">
-      <HintPath>Libs\ImageTools\ICSharpCode.SharpZLib.Phone.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageTools">
-      <HintPath>Libs\ImageTools\ImageTools.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageTools.IO.Png">
-      <HintPath>Libs\ImageTools\ImageTools.IO.Png.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageTools.Utils">
-      <HintPath>Libs\ImageTools\ImageTools.Utils.dll</HintPath>
+    <Reference Include="JSON Toolkit %28Portable%29">
+      <HintPath>Libs\JSON Toolkit (Portable).dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Devices.Sensors" />
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
     <Reference Include="Microsoft.Phone.Controls.Maps" />
-    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>Libs\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Microsoft.Xna.Framework.GamerServices" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Libs\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="PhoneCodeContractsAssemblies">
-      <HintPath>Libs\ImageTools\PhoneCodeContractsAssemblies.dll</HintPath>
+    <Reference Include="SharpZipLib.WindowsPhone7">
+      <HintPath>Libs\SharpZipLib.WindowsPhone7.dll</HintPath>
     </Reference>
     <Reference Include="system.data.linq" />
     <Reference Include="System.Device" />
@@ -102,16 +92,27 @@
     </Compile>
     <Compile Include="Model\Api\ApiManager.cs" />
     <Compile Include="Model\Api\CacheProvider.cs" />
+    <Compile Include="Model\Api\GeocachingCom\AsciiEncoding.cs" />
+    <Compile Include="Model\Api\GeocachingCom\BaseUtils.cs" />
     <Compile Include="Model\Api\GeocachingCom\ColorExtensions.cs" />
+    <Compile Include="Model\Api\GeocachingCom\CryptUtils.cs" />
+    <Compile Include="Model\Api\GeocachingCom\ExtendedWebClient.cs" />
     <Compile Include="Model\Api\GeocachingCom\GCConstants.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComApiCaches.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComApiManager.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeocachingComCache.cs" />
+    <Compile Include="Model\Api\GeocachingCom\GeocachingComCookies.cs" />
     <Compile Include="Model\Api\GeocachingCom\GeoCoordinateExtensions.cs" />
+    <Compile Include="Model\Api\GeocachingCom\GeopointParser.cs" />
+    <Compile Include="Model\Api\GeocachingCom\HttpUtilityEx.cs" />
     <Compile Include="Model\Api\GeocachingCom\IconDecoder.cs" />
     <Compile Include="Model\Api\GeocachingCom\ICoordinates.cs" />
+    <Compile Include="Model\Api\GeocachingCom\ImmutablePair.cs" />
+    <Compile Include="Model\Api\GeocachingCom\LoginManager.cs" />
     <Compile Include="Model\Api\GeocachingCom\LruCache.cs" />
+    <Compile Include="Model\Api\GeocachingCom\StatusCode.cs" />
     <Compile Include="Model\Api\GeocachingCom\Tile.cs" />
+    <Compile Include="Model\Api\GeocachingCom\UrlHelper.cs" />
     <Compile Include="Model\Api\GeocachingCom\UTFGrid.cs" />
     <Compile Include="Model\Api\GeocachingCom\UTFGridPosition.cs" />
     <Compile Include="Model\Api\GeocachingCom\Viewport.cs" />
@@ -119,12 +120,33 @@
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComCache.cs" />
+    <Compile Include="Model\Api\OpencachingDe\OpencachingDeCacheParser.cs" />
+    <Compile Include="Model\Api\OpencachingDe\OpencachingDeApiCache.cs" />
+    <Compile Include="Model\Api\OpencachingDe\OpencachingDeApiManager.cs" />
+    <Compile Include="Model\Api\OpencachingDe\OpencachingDeCache.cs" />
     <Compile Include="Model\Api\PhotoDownloader.cs" />
+    <Compile Include="Model\Api\RequestCounter.cs" />
+    <Compile Include="Model\Api\WebBrowserHelper.cs" />
+    <Compile Include="Model\DataBase\GeocachingComLookupInstance.cs" />
+    <Compile Include="Model\FetchCaches.cs" />
+    <Compile Include="Model\Support.cs" />
     <Compile Include="Resources\Localization\GeocachingComCacheType.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GeocachingComCacheType.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Localization\GeocachingComLogin.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeocachingComLogin.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Localization\OpencachingDeCacheType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OpencachingDeCacheType.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\GeocachingComLoginPageViewModel.cs" />
+    <Compile Include="ViewModel\ServicesViewModel.cs" />
     <Compile Include="View\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="View\Converters\CacheSubtypeConverter.cs" />
     <Compile Include="View\Converters\CacheTypeConverter.cs" />
@@ -135,6 +157,7 @@
     <Compile Include="View\Converters\LatitudeConverter.cs" />
     <Compile Include="View\Converters\DistanceToPointConverter.cs" />
     <Compile Include="View\Converters\MapModeConverter.cs" />
+    <Compile Include="View\Converters\NegateConverter.cs" />
     <Compile Include="View\Converters\ValidConverter.cs" />
     <Compile Include="View\Converters\VersionConverter.cs" />
     <Compile Include="Model\DataBase\DbCache.cs" />
@@ -241,6 +264,9 @@
     <Compile Include="View\Favorites\FavoritesPage.xaml.cs">
       <DependentUpon>FavoritesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Info\UnreliableCoordinatesWarning.xaml.cs">
+      <DependentUpon>UnreliableCoordinatesWarning.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Info\InfoPivot.xaml.cs">
       <DependentUpon>InfoPivot.xaml</DependentUpon>
     </Compile>
@@ -262,8 +288,17 @@
     <Compile Include="View\Settings\Application.xaml.cs">
       <DependentUpon>Application.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Settings\GeocachingComLogin.xaml.cs">
-      <DependentUpon>GeocachingComLogin.xaml</DependentUpon>
+    <Compile Include="View\Settings\GeocachingComLoginPage.xaml.cs">
+      <DependentUpon>GeocachingComLoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Settings\GeocachingComLoginIndicator.xaml.cs">
+      <DependentUpon>GeocachingComLoginIndicator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Settings\Services.xaml.cs">
+      <DependentUpon>Services.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Settings\ServicesPage.xaml.cs">
+      <DependentUpon>ServicesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -310,6 +345,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Info\UnreliableCoordinatesWarning.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Info\InfoPivot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -338,7 +377,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Settings\GeocachingComLogin.xaml">
+    <Page Include="View\Settings\GeocachingComLoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Settings\GeocachingComLoginIndicator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Settings\Services.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Settings\ServicesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -380,6 +431,15 @@
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_puzzle_valid.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_traditional_valid.png" />
     <Content Include="Resources\Icons\OpenCachingCom\ic_cache_custom_virtual_valid.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_drive-in.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_event.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_math.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_multi.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_quiz.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_traditional.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_unknown.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_virtual.png" />
+    <Content Include="Resources\Icons\OpencachingDe\ic_cache_webcam.png" />
     <Content Include="Resources\Images\appbar.back.rest.png" />
     <Content Include="Resources\Images\appbar.delete.rest.png" />
     <Content Include="Resources\Images\appbar.next.rest.png" />
@@ -412,6 +472,7 @@
     <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_virtual_not_valid.png" />
     <Content Include="Resources\Icons\GeocachingSu\ic_cache_custom_virtual_valid.png" />
     <Content Include="Resources\Images\appbar.favs.deletefrom.rest.png" />
+    <Content Include="Resources\Images\appbar.questionmark.rest.png" />
     <Content Include="Resources\Images\appbar.refresh.rest.png" />
     <Content Include="Resources\Images\appbar.save.rest.png" />
     <Content Include="Resources\Images\choose_cache_menu_icon.png" />
@@ -466,12 +527,21 @@
       <LastGenOutput>GeocachingComCacheType.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localization\GeocachingComCacheType.ru-RU.resx" />
+    <EmbeddedResource Include="Resources\Localization\GeocachingComLogin.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeocachingComLogin.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\GeocachingComLogin.ru-RU.resx" />
     <EmbeddedResource Include="Resources\Localization\OpenCachingComCacheType.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>OpenCachingComCacheType.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Localization\OpenCachingComCacheType.ru-Ru.resx" />
+    <EmbeddedResource Include="Resources\Localization\OpencachingDeCacheType.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OpencachingDeCacheType.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />

@@ -3,6 +3,7 @@ using System.Windows.Data;
 using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.Api.GeocachingSu;
 using GeocachingPlus.Model.Api.OpenCachingCom;
+using GeocachingPlus.Model.Api.OpencachingDe;
 using GeocachingPlus.Resources.Localization;
 
 namespace GeocachingPlus.View.Converters
@@ -116,6 +117,35 @@ namespace GeocachingPlus.View.Converters
                         return null;
                 }
             }
+
+            if (value is OpencachingDeCache)
+            {
+                switch ((value as OpencachingDeCache).Type)
+                {
+                    case OpencachingDeCache.Types.Traditional:
+                        return OpencachingDeCacheType.Traditional;
+                    case OpencachingDeCache.Types.Multi:
+                        return OpencachingDeCacheType.Multi;
+                    case OpencachingDeCache.Types.Webcam:
+                        return OpencachingDeCacheType.Webcam;
+                    case OpencachingDeCache.Types.Event:
+                        return OpencachingDeCacheType.Event;
+                    case OpencachingDeCache.Types.Quiz:
+                        return OpencachingDeCacheType.Quiz;
+                    case OpencachingDeCache.Types.Math:
+                        return OpencachingDeCacheType.Math;
+                    case OpencachingDeCache.Types.Moving:
+                        return OpencachingDeCacheType.Moving;
+                    case OpencachingDeCache.Types.DriveIn:
+                        return OpencachingDeCacheType.DriveIn;
+                    case OpencachingDeCache.Types.Virtual:
+                        return OpencachingDeCacheType.Virtual;
+                    case OpencachingDeCache.Types.Unknown:
+                        return OpencachingDeCacheType.Unknown;
+                    default:
+                        return null;
+                }
+            } 
 
             return null;
         }
