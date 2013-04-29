@@ -24,12 +24,6 @@ namespace GeocachingPlus.Model
         public int NumClusters;
         public List<int> IndexCluster;
         
-        double Dist(GeoCoordinate a, GeoCoordinate b)
-        {  
-            return Math.Sqrt((a.Latitude - b.Latitude) * (a.Latitude - b.Latitude) 
-                           + (a.Longitude - b.Longitude) * (a.Longitude - b.Longitude));
-        }
-
         GeoCoordinate Average(GeoCoordinate a, GeoCoordinate b)
         {
             return new GeoCoordinate((a.Latitude + b.Latitude) / 2, (a.Longitude + b.Longitude) / 2);
@@ -54,8 +48,6 @@ namespace GeocachingPlus.Model
             }
             return res;
         }
-
-        
         
         void InitCoordClusters()
         {
@@ -84,6 +76,20 @@ namespace GeocachingPlus.Model
             }
      //       Caches.Sort(Less);
         }
+
+        void InitCoordClustersNotRandom()
+        {
+            Clusters = new List<GeoCoordinate>();
+            for (int i = 0; i < NumClusters; i++)
+            {
+                Clusters.Add(Caches[i]);
+            }
+            IndexCluster = new List<int>();
+            for (int i = 0; i < NumCaches; i++)
+            {
+                IndexCluster.Add(0);
+            }
+        }
         
         int RecountClusters()
         {
@@ -95,10 +101,10 @@ namespace GeocachingPlus.Model
             int ok = 0;
             for (int i = 0; i < NumCaches; i++)
             {
-                double MinDist = Dist(Caches[i], Clusters[IndexCluster[i]]);
+                double MinDist = Caches[i].GetDistanceTo(Clusters[IndexCluster[i]]);
                 for (int j = 0; j < NumClusters; j++)
                 {
-                    double d = Dist(Caches[i], Clusters[j]);
+                    double d = Caches[i].GetDistanceTo(Clusters[j]);
                     if (d < MinDist)
                     {
                         MinDist = d;
@@ -128,7 +134,8 @@ namespace GeocachingPlus.Model
                 NumClusters = NumCaches;
             Caches = new List<GeoCoordinate>();
             Caches = _Caches.GetRange(0, NumCaches);
-            InitCoordClusters();
+        //    InitCoordClusters();
+            InitCoordClustersNotRandom();
             while (RecountClusters() == 1) { }
         }
 

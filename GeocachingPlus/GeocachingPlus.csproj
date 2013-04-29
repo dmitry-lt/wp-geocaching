@@ -67,7 +67,7 @@
     <Reference Include="Microsoft.Phone.Controls" />
     <Reference Include="Microsoft.Phone.Controls.Maps" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
-      <HintPath>..\..\Geocaching1\GeocachingPlus\Libs\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+      <HintPath>..\..\..\Geocaching1\GeocachingPlus\Libs\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />

@@ -16,7 +16,8 @@ namespace GeocachingPlus.ViewModel
         private const int maxCacheCount = 50;
         private LocationRect boundingRectangle;
         private Visibility surpassedCacheCountMessageVisibility = Visibility.Collapsed;
-        
+        private static int ClusterId;
+
         public Visibility SurpassedCacheCountMessageVisibility
         {
             get
@@ -195,10 +196,11 @@ namespace GeocachingPlus.ViewModel
                         Cluster c = new Cluster()
                             {
                                 Location = obj.Clusters[i],
-                                Id = "Cluster" + i,
-                                Name = "Cluster" + i,
+                                Id = "Cluster" + ClusterId,
+                                Name = "Cluster" + ClusterId,
                                 CacheProvider = CacheProvider.Cluster,
                             };
+                        ClusterId++;
                         cachesOnScreen.Add((Cache)c);
                     }
                     
