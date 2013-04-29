@@ -1,0 +1,146 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="GeocachingPlus.View.Info.InfoPivot"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:Info="clr-namespace:GeocachingPlus.View.Info" mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="{Binding IsCacheLoading}" IsVisible="{Binding IsCacheLoading}"/>
+    </shell:SystemTray.ProgressIndicator>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,12,12" Orientation="Horizontal">
+            <StackPanel Background="{StaticResource PhoneAccentBrush}">
+                <Image Source="/GeocachingPlus;component/Resources/Images/application_logo_small_white.png"/>
+            </StackPanel>
+            <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=LocalizedResources.ApplicationTitle, 
+                Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}"
+                FontSize="28" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!--Pivot Control-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.Resources>
+                <Style x:Name="TextMessageStyle" TargetType="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="FontSize" Value="30"/>
+                </Style>
+                <Style x:Name="GridMessageStyle" TargetType="Grid">
+                    <Setter Property="Background" Value="{StaticResource PhoneChromeBrush}"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </Grid.Resources>
+
+            <Info:UnreliableCoordinatesWarning DataContext="{Binding .}"/>
+
+            <controls:Pivot x:Name="Info" Grid.Row="1">
+                <controls:PivotItem x:Name="DetailsPivotItem">
+                    <controls:PivotItem.Header>
+                        <Grid>
+                            <TextBlock FontSize="50" Text="{Binding Path=LocalizedResources.DetailsTitle, 
+                Source={StaticResource LocalizedStrings}}"/>
+                        </Grid>
+                    </controls:PivotItem.Header>
+                    <Grid Grid.Row="1" Margin="12,0,12,0">
+                        <phone:WebBrowser x:Name="InfoBrowser" Margin="0,0,0,0" Grid.Row="1"/>
+                        <Grid x:Name="NoInfoCacheMessage"
+                              Visibility="{Binding NoInfoMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              Style="{StaticResource GridMessageStyle}">
+                            <TextBlock Text="{Binding Path=LocalizedResources.NoInfoMessage, 
+                                       Source={StaticResource LocalizedStrings}}" 
+                                       Style="{StaticResource TextMessageStyle}"/>
+                        </Grid>
+                    </Grid>
+                </controls:PivotItem>
+
+                <controls:PivotItem x:Name="LogbookPivotItem">
+                    <controls:PivotItem.Header>
+                        <Grid>
+                            <TextBlock FontSize="50" Text="{Binding Path=LocalizedResources.LogbookTitle, 
+                Source={StaticResource LocalizedStrings}}"/>
+                        </Grid>
+                    </controls:PivotItem.Header>
+                    <Grid Grid.Row="1" Margin="12,0,12,0">
+                        <phone:WebBrowser x:Name="LogbookBrowser" Margin="0,0,0,0" Grid.Row="1"/>
+                        <Grid x:Name="NoLogbookCacheMessage"
+                              Visibility="{Binding NoLogbookMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              Style="{StaticResource GridMessageStyle}">
+                            <TextBlock Text="{Binding Path=LocalizedResources.NoLogbookMessage, 
+                                       Source={StaticResource LocalizedStrings}}" 
+                                       Style="{StaticResource TextMessageStyle}"/>
+                        </Grid>
+                    </Grid>
+                </controls:PivotItem>
+
+                <controls:PivotItem x:Name="PhotosPivotItem">
+                    <controls:PivotItem.Header>
+                        <Grid>
+                            <TextBlock FontSize="50" Text="{Binding Path=LocalizedResources.PhotosTitle, 
+                Source={StaticResource LocalizedStrings}}"/>
+                        </Grid>
+                    </controls:PivotItem.Header>
+                    <Grid x:Name="PhotoGrid" Grid.Row="1" Margin="0,0,0,0">
+                        <ListBox Margin="0,0,0,0" 
+                                 x:Name="List"
+                                 ItemsSource="{Binding Previews, Mode=TwoWay}"
+                                 toolkit:TiltEffect.IsTiltEnabled="True"
+                                 >
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <toolkit:WrapPanel ItemWidth="152" ItemHeight="152"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:Name="ItemTemplate">
+                                    <Image Source="{Binding PhotoSource}" 
+                                           HorizontalAlignment="Center" 
+                                           Grid.Column="0" 
+                                           Tap="ImageGotFocus"
+                                           Height="120" 
+                                           Width="120"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Grid x:Name="NoSouhgtCacheMessage"
+                              Visibility="{Binding NoPhotosMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              Style="{StaticResource GridMessageStyle}">
+                            <TextBlock Text="{Binding Path=LocalizedResources.NoPhotosMessage, 
+                                       Source={StaticResource LocalizedStrings}}" 
+                                       Style="{StaticResource TextMessageStyle}"/>
+                        </Grid>
+                    </Grid>
+                </controls:PivotItem>
+            </controls:Pivot>
+        </Grid>
+
+    </Grid>
+
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" />
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>

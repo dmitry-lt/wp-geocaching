@@ -1,0 +1,12 @@
+﻿<Deployment xmlns="http://schemas.microsoft.com/client/2007/deployment" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" EntryPointAssembly="GeocachingPlus" EntryPointType="GeocachingPlus.App" RuntimeVersion="4.7.50308.0">
+  <Deployment.Parts>
+    <AssemblyPart x:Name="GeocachingPlus" Source="GeocachingPlus.dll" />
+    <AssemblyPart x:Name="JSON Toolkit (Portable)" Source="JSON Toolkit (Portable).dll" />
+    <AssemblyPart x:Name="Microsoft.Phone.Controls" Source="Microsoft.Phone.Controls.dll" />
+    <AssemblyPart x:Name="Microsoft.Phone.Controls.Maps" Source="Microsoft.Phone.Controls.Maps.dll" />
+    <AssemblyPart x:Name="Microsoft.Phone.Controls.Toolkit" Source="Microsoft.Phone.Controls.Toolkit.dll" />
+    <AssemblyPart x:Name="SharpZipLib.WindowsPhone7" Source="SharpZipLib.WindowsPhone7.dll" />
+    <AssemblyPart x:Name="WriteableBitmapExWinPhone" Source="WriteableBitmapExWinPhone.dll" />
+    <AssemblyPart Source="ru-RU/GeocachingPlus.resources.dll" />
+  </Deployment.Parts>
+</Deployment>
