@@ -124,9 +124,11 @@
     <Compile Include="Model\Api\OpencachingDe\OpencachingDeApiCache.cs" />
     <Compile Include="Model\Api\OpencachingDe\OpencachingDeApiManager.cs" />
     <Compile Include="Model\Api\OpencachingDe\OpencachingDeCache.cs" />
+    <Compile Include="Model\Api\OpencachingDe\WebBrowserHelper.cs" />
     <Compile Include="Model\Api\PhotoDownloader.cs" />
     <Compile Include="Model\Api\RequestCounter.cs" />
-    <Compile Include="Model\Api\WebBrowserHelper.cs" />
+    <Compile Include="Model\Cluster.cs" />
+    <Compile Include="Model\KMeans.cs" />
     <Compile Include="Model\DataBase\GeocachingComLookupInstance.cs" />
     <Compile Include="Model\FetchCaches.cs" />
     <Compile Include="Model\Support.cs" />
@@ -399,7 +401,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\AppManifest.xml" />
+    <None Include="Properties\AppManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
@@ -412,6 +416,7 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\cluster.png" />
     <Content Include="Resources\Icons\GeocachingCom\marker.png" />
     <Content Include="Resources\Icons\GeocachingCom\type_ape.png" />
     <Content Include="Resources\Icons\GeocachingCom\type_cito.png" />

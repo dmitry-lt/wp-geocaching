@@ -28,6 +28,7 @@ namespace GeocachingPlus.View.Map
             SetBinding(MapModeProperty, b);
             SetMyLocationButton();
             SetSettingsMenuItem();
+            Map.ZoomBarVisibility = Visibility.Visible;
         }
 
         private void MapViewChangeEnd(object sender, MapEventArgs e)
