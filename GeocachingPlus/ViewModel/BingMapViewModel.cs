@@ -7,6 +7,7 @@ using GeocachingPlus.Model.Api.GeocachingCom;
 using GeocachingPlus.Model.DataBase;
 using Microsoft.Phone.Controls.Maps;
 using GeocachingPlus.Model.Api;
+using System;
 
 namespace GeocachingPlus.ViewModel
 {
@@ -15,6 +16,7 @@ namespace GeocachingPlus.ViewModel
         private const int maxCacheCount = 50;
         private LocationRect boundingRectangle;
         private Visibility surpassedCacheCountMessageVisibility = Visibility.Collapsed;
+        private static int ClusterId;
 
         public Visibility SurpassedCacheCountMessageVisibility
         {
@@ -189,7 +191,7 @@ namespace GeocachingPlus.ViewModel
                     tooManyCaches = caches.TooManyCaches;
                 }
 
-                var cachesOnScreen = new HashSet<Cache>();
+                var cachesOnScreen = new    HashSet<Cache>();
                 foreach (Cache c in _allCaches)
                 {
                     if ((c.Location.Latitude <= BoundingRectangle.North) &&
@@ -205,13 +207,28 @@ namespace GeocachingPlus.ViewModel
 
                 if (_tooManyCachesOnScreen)
                 {
-                    if (surpassedCacheCountMessageVisibility.Equals(Visibility.Collapsed))
+                    List<GeoCoordinate> Caches = new List<GeoCoordinate>();
+                    foreach (Cache c in cachesOnScreen)
                     {
-                        SurpassedCacheCountMessageVisibility = Visibility.Visible;
+                        Caches.Add(c.Location);
                     }
-                    RemoveAllPushpins();
+                    int NumClusters = 10;
+                    KMeans obj = new KMeans(Caches, NumClusters);
+                    cachesOnScreen.Clear();
+                    for (int i = 0; i < obj.NumClusters; i++)
+                    {
+                        Cluster c = new Cluster()
+                            {
+                                Location = obj.Clusters[i],
+                                Id = "Cluster" + ClusterId,
+                                Name = "Cluster" + ClusterId,
+                                CacheProvider = CacheProvider.Cluster,
+                            };
+                        ClusterId++;
+                        cachesOnScreen.Add((Cache)c);
+                    }
+                    
                 }
-                else
                 {
                     if (surpassedCacheCountMessageVisibility.Equals(Visibility.Visible))
                     {
@@ -221,7 +238,7 @@ namespace GeocachingPlus.ViewModel
                     var cachesToRemove = new HashSet<Cache>();
                     foreach (var c in _currentPushpins.Keys)
                     {
-                        if (!cachesOnScreen.Contains(c))
+                       if (!cachesOnScreen.Contains(c) || c.CacheProvider == CacheProvider.Cluster)
                         {
                             cachesToRemove.Add(c);
                         }
@@ -229,7 +246,8 @@ namespace GeocachingPlus.ViewModel
 
                     foreach (Cache c in cachesToRemove)
                     {
-                        RemovePushpin(c);
+                        if (_currentPushpins.ContainsKey(c)) 
+                            RemovePushpin(c);
                     }
 
                     foreach (Cache c in cachesOnScreen)
@@ -239,6 +257,7 @@ namespace GeocachingPlus.ViewModel
                             AddPushpin((Cache)c);
                         }
                     }
+
                 }
             }
         }

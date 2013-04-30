@@ -31,7 +31,7 @@ namespace GeocachingPlus.Model
 
         public override int GetHashCode()
         {
-            return (CacheProvider.GetHashCode() * 17) ^ Id.GetHashCode();
+             return (CacheProvider.GetHashCode() * 17) ^ Id.GetHashCode();
         }
 
         public override string ToString()

@@ -31,38 +31,38 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             return ts.TotalMilliseconds;
         }
 
-/*
-        #region tiles to process queue
+        /*
+                #region tiles to process queue
 
-        private readonly object _lock = new object();
+                private readonly object _lock = new object();
 
-        private readonly List<Tile> _tilesToProcess = new List<Tile>();
+                private readonly List<Tile> _tilesToProcess = new List<Tile>();
 
-        private void SetTilesToProcess(IEnumerable<Tile> tiles)
-        {
-            lock (_lock)
-            {
-                _tilesToProcess.Clear();
-                _tilesToProcess.AddRange(tiles);
-            }
-        }
-
-        private Tile GetTileToProcess()
-        {
-            lock (_lock)
-            {
-                Tile tile = null;
-                if (_tilesToProcess.Any())
+                private void SetTilesToProcess(IEnumerable<Tile> tiles)
                 {
-                    tile = _tilesToProcess.First();
-                    _tilesToProcess.Remove(tile);
+                    lock (_lock)
+                    {
+                        _tilesToProcess.Clear();
+                        _tilesToProcess.AddRange(tiles);
+                    }
                 }
-                return tile;
-            }
-        }
 
-        #endregion
-*/
+                private Tile GetTileToProcess()
+                {
+                    lock (_lock)
+                    {
+                        Tile tile = null;
+                        if (_tilesToProcess.Any())
+                        {
+                            tile = _tilesToProcess.First();
+                            _tilesToProcess.Remove(tile);
+                        }
+                        return tile;
+                    }
+                }
+
+                #endregion
+        */
 
         private readonly object _lock = new object();
         private int _fetchCachesCallNumber;
@@ -241,7 +241,7 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
                                                 select cache).ToList<Cache>();
                                     processCaches(new FetchCaches(list, false));
                                 }
-                                
+
                                 RequestCounter.LiveMap.RequestSucceeded();
                             }
 
@@ -294,10 +294,10 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             if (!_triedToLogin)
             {
                 _triedToLogin = true;
-                var key = typeof (GeocachingComLoginPageViewModel).Name;
-                if (((App) Application.Current).Resources.Contains(key))
+                var key = typeof(GeocachingComLoginPageViewModel).Name;
+                if (((App)Application.Current).Resources.Contains(key))
                 {
-                    var obj = ((App) Application.Current).Resources[key];
+                    var obj = ((App)Application.Current).Resources[key];
                     if (obj is GeocachingComLoginPageViewModel)
                     {
                         var vm = obj as GeocachingComLoginPageViewModel;
@@ -312,12 +312,12 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
             TryToLogin();
             if (processCaches == null) return;
             var cacheList = (from cache in Caches
-                        where ((cache.Location != null) &&
-                               (cache.Location.Latitude <= latmax) &&
-                               (cache.Location.Latitude >= latmin) &&
-                               (cache.Location.Longitude <= lngmax) &&
-                               (cache.Location.Longitude >= lngmin))
-                        select cache).ToList<Cache>();
+                             where ((cache.Location != null) &&
+                                    (cache.Location.Latitude <= latmax) &&
+                                    (cache.Location.Latitude >= latmin) &&
+                                    (cache.Location.Longitude <= lngmax) &&
+                                    (cache.Location.Longitude >= lngmin))
+                             select cache).ToList<Cache>();
             processCaches(new FetchCaches(cacheList, false));
 
             var viewport = new Viewport(lngmax, lngmin, latmax, latmin);
@@ -451,26 +451,26 @@ namespace GeocachingPlus.Model.Api.GeocachingCom
 
                 Deployment.Current.Dispatcher.BeginInvoke(
                     () =>
+                    {
+                        var gcCache = ((GeocachingComCache)cache);
+                        if (GeocachingComCache.Types.UNKNOWN != cacheType)
                         {
-                            var gcCache = ((GeocachingComCache)cache);
-                            if (GeocachingComCache.Types.UNKNOWN != cacheType)
-                            {
-                                gcCache.Type = cacheType;
-                            }
-                            if (null != cacheLocation)
-                            {
-                                gcCache.Location = cacheLocation;
-                                gcCache.ReliableLocation = true;
-                            }
+                            gcCache.Type = cacheType;
+                        }
+                        if (null != cacheLocation)
+                        {
+                            gcCache.Location = cacheLocation;
+                            gcCache.ReliableLocation = true;
+                        }
 
-                            var finalDesc = String.Format(
-                                "{0} ({1}) <br/><br/> {2}", 
-                                WebBrowserHelper.ConvertExtendedASCII(cache.Name), 
-                                cache.Id,
-                                totalDescription);
+                        var finalDesc = String.Format(
+                            "{0} ({1}) <br/><br/> {2}",
+                            WebBrowserHelper.ConvertExtendedASCII(cache.Name),
+                            cache.Id,
+                            totalDescription);
 
-                            processDescription(finalDesc);
-                        });
+                        processDescription(finalDesc);
+                    });
 
                 var logbook = "";
                 var matchesLogbook = Regex.Matches(html, PatternLogbook, RegexOptions.Multiline);

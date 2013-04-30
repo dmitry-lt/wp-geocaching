@@ -360,6 +360,9 @@ namespace GeocachingPlus.Model
                 case CacheProvider.OpencachingDe:
                     return IsOpencachingDeEnabled;
 
+                case CacheProvider.Cluster:
+                    return true;
+
                 default:
                     throw new ArgumentException();
 

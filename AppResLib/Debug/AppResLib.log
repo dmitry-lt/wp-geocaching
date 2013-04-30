@@ -1,23 +1,15 @@
-﻿Build started 30.04.2013 3:30:44.
+﻿Build started 30.04.2013 3:57:11.
      1>Project "C:\Users\Internet\Documents\Новая папка\branches\dev_opencaching_with_clusters\AppResLib\AppResLib.vcxproj" on node 2 (build target(s)).
-     1>PrepareForBuild:
-         Creating directory "C:\Users\Internet\Documents\Новая папка\branches\dev_opencaching_with_clusters\Debug\".
-       InitializeBuildStatus:
+     1>InitializeBuildStatus:
          Creating "Debug\AppResLib.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ResourceCompile:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Debug\AppResLib.res" AppResLib.rc 
+         All outputs are up-to-date.
        ManifestResourceCompile:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\AppResLib.dll.embed.manifest.res" Debug\AppResLib_manifest.rc 
+         All outputs are up-to-date.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Internet\Documents\Новая папка\branches\dev_opencaching_with_clusters\Debug\AppResLib.dll" /INCREMENTAL /NOLOGO /LIBPATH:\libs kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\AppResLib.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Internet\Documents\Новая папка\branches\dev_opencaching_with_clusters\Debug\AppResLib.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /NOENTRY /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Internet\Documents\Новая папка\branches\dev_opencaching_with_clusters\Debug\AppResLib.lib" /MACHINE:X86 /DLL Debug\AppResLib.res
-         Debug\AppResLib.dll.embed.manifest.res
+         All outputs are up-to-date.
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\AppResLib.dll.embed.manifest" /manifest Debug\AppResLib.dll.intermediate.manifest
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\AppResLib.dll.embed.manifest.res" Debug\AppResLib_manifest.rc 
-       LinkEmbedManifest:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Internet\Documents\Новая папка\branches\dev_opencaching_with_clusters\Debug\AppResLib.dll" /INCREMENTAL /NOLOGO /LIBPATH:\libs kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\AppResLib.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Internet\Documents\Новая папка\branches\dev_opencaching_with_clusters\Debug\AppResLib.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /NOENTRY /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Internet\Documents\Новая папка\branches\dev_opencaching_with_clusters\Debug\AppResLib.lib" /MACHINE:X86 /DLL Debug\AppResLib.res
-         Debug\AppResLib.dll.embed.manifest.res
-         AppResLib.vcxproj -> C:\Users\Internet\Documents\Новая папка\branches\dev_opencaching_with_clusters\Debug\AppResLib.dll
+         All outputs are up-to-date.
        FinalizeBuildStatus:
          Deleting file "Debug\AppResLib.unsuccessfulbuild".
          Touching "Debug\AppResLib.lastbuildstate".
@@ -25,4 +17,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.02
+Time Elapsed 00:00:00.31
