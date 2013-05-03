@@ -120,6 +120,7 @@
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiCache.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComApiManager.cs" />
     <Compile Include="Model\Api\OpenCachingCom\OpenCachingComCache.cs" />
+    <Compile Include="Model\Api\OpencachingDe\Decrypt.cs" />
     <Compile Include="Model\Api\OpencachingDe\OpencachingDeCacheParser.cs" />
     <Compile Include="Model\Api\OpencachingDe\OpencachingDeApiCache.cs" />
     <Compile Include="Model\Api\OpencachingDe\OpencachingDeApiManager.cs" />

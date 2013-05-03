@@ -12,7 +12,7 @@ using System.Runtime.Serialization;
 
 namespace GeocachingPlus.Model.Api.OpencachingDe
 {
-    [DataContract]
+   /* [DataContract]
     public class OpencachingDeApiCache
     {
         [DataMember]
@@ -68,5 +68,6 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
         [DataMember]
         public string caption { get; set; }
     }
+    */
 }
 

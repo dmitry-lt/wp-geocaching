@@ -61,16 +61,24 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
                             {
                                 using (var response = (HttpWebResponse)request.EndGetResponse(asynchResult))
                                 {
-                                    var rcode = response.StatusCode;
-                                    Stream streamResponse;
-                                    streamResponse = response.GetResponseStream();
-                                    using (streamResponse)
+                                    if (response != null)
                                     {
-                                        using (var streamRead = new StreamReader(streamResponse))
+                                        var rcode = response.StatusCode;
+                                        Stream streamResponse;
+                                        streamResponse = response.GetResponseStream();
+                                        using (streamResponse)
                                         {
-                                            var responseString = streamRead.ReadToEnd();
-                                            onResponseGot(responseString);
+                                            using (var streamRead = new StreamReader(streamResponse))
+                                            {
+                                                var responseString = streamRead.ReadToEnd();
+                                                onResponseGot(responseString);
+                                            }
                                         }
+                                    }
+                                    else
+                                    {
+                                        RequestCounter.LiveMap.RequestFailed();
+                                        return;
                                     }
                                 }
                             }
@@ -78,6 +86,11 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
                             {
                                 onResponseGot(null);
                             }
+                            Deployment.Current.Dispatcher.BeginInvoke(() =>
+                            {
+                                RequestCounter.LiveMap.RequestSucceeded();
+                            });
+                            //RequestCounter.LiveMap.RequestSucceeded();
                         };
 
                         // Start the asynchronous operation to get the response
@@ -169,10 +182,10 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
                         processCaches(new FetchCaches(list, tooManyCaches));
                     });
                 }
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    RequestCounter.LiveMap.RequestSucceeded();
-                });
+                //Deployment.Current.Dispatcher.BeginInvoke(() =>
+                //{
+                //     RequestCounter.LiveMap.RequestSucceeded();
+                //});
 
             };
             Action<string> mapRequest = delegate(string resultId)
@@ -239,20 +252,12 @@ namespace GeocachingPlus.Model.Api.OpencachingDe
                     if (null != processHint)
                     {
                         var hint = "";
-                        var firstHintStr = "";
-                        var secondHintStr = "";
                         if (Regex.Matches(result, PatternCacheHintDesc, RegexOptions.Singleline).Count != 0)
                         {
-                            var firstHint = Regex.Matches(result, PatternCacheHintDesc, RegexOptions.Singleline)[0].Value;
-                            firstHintStr = firstHint.Substring(22, firstHint.Length - 27).Replace("<br />", "\r\n");
+                            var crypt = Regex.Matches(result, PatternCacheHintDesc, RegexOptions.Singleline)[0].Value;
+                            var cryptStr = crypt.Substring(22, crypt.Length - 27).Replace("<br />", "\r\n");
+                            hint = Decrypt.HintDecrypt(cryptStr);
                         }
-                        if (Regex.Matches(result, PatternCacheHintAlphabet, RegexOptions.Singleline).Count != 0)
-                        {
-                            var secondHint_1 = Regex.Matches(result, PatternCacheHintAlphabet, RegexOptions.Singleline)[0].Value;
-                            var secondHint_2 = Regex.Matches(result, PatternCacheHintAlphabet, RegexOptions.Singleline)[1].Value;
-                            secondHintStr = secondHint_1.Substring(85, secondHint_1.Length - 92) + "\r\n" + secondHint_2.Substring(85, secondHint_2.Length - 92);
-                        }
-                        hint = firstHintStr + "\r\n" + secondHintStr;
                         processHint(hint);
                     }
                 }
